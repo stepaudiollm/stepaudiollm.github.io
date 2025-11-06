@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.88.1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+	<link rel="stylesheet" href="css/custom.css">
+	<link rel="stylesheet" href="css/normalize.css">
+
+	<title>Step-Audio-EditX</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+
+	<style>
+    .title-icon {
+        width: 36px; /* 图标宽度，根据需求调整 */
+        height: 36px; /* 图标高度，与宽度保持一致 */
+        margin-right: 8px; /* 图标与文字的间距 */
+        vertical-align: middle; /* 与文字垂直居中对齐 */
+    }
+    .image-container {
+        display: flex; /* 使用flex布局使内容并排 */
+        justify-content: center; /* 水平居中显示 */
+        align-items: center; /* 垂直居中显示 */
+        margin-bottom: 20px; /* 下边距 */
+    }
+    .image-container img {
+        margin-right: 20px; /* 图片之间的间隔 */
+        width: 1000px; /* 图片宽度 */
+    }
+    .image-container img:last-child {
+        margin-right: 0; /* 最后一张图片不需要右边距 */
+    }
+    .caption {
+        text-align: center; /* 标题居中 */
+        font-size: 16px; /* 字体大小 */
+    }
+</style>
+
+</head>
+
+
+<body data-new-gr-c-s-check-loaded="14.1091.0" data-gr-ext-installed="">
+
+<div class="container" >
+<header role="banner">
+</header>
+<main role="main">
+<article itemscope itemtype="https://schema.org/BlogPosting">
+
+
+<div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+	<div class="text-center">
+	<h2>
+        <img src="pics/title-logo.png" alt="图标描述" class="title-icon">
+        Step-Audio-EditX
+    </h2>
+
+      [<a href="pdf/Step-Audio-EditX_v1.pdf">Paper</a>]
+
+        <p class="fst-italic mb-0">
+			<br>
+			Chao Yan<sup>*</sup>, Boyong Wu<sup>*</sup>, Peng Yang, Pengfei Tan, Guoqiang Hu, Yuxin Zhang, 
+            <br>
+            Xiangyu (Tony)Zhang, Fei Tian, Xuerui Yang, Xiangyu Zhang, Daxin Jiang, Scot Zhou, Gang Yu
+            <br>
+        </p>
+        <p><b>Stepfun Audio Team</b></p>
+	</div>
+	<p><b>Abstract:</b>
+
+    We present Step-Audio-EditX, the first open-source LLM-based audio model excelling at expressive and iterative audio editing—encompassing emotion, speaking style, and paralinguistics—alongside robust zero-shot text-to-speech (TTS) capabilities. Our core innovation lies in leveraging only large-margin synthetic data, which circumvents the need for embedding-based priors or auxiliary modules. This large-margin learning approach enables both iterative control and high expressivity across voices, and represents a fundamental pivot from the conventional focus on representation-level disentanglement. Evaluation results demonstrate that Step-Audio-EditX surpasses both MiniMax-2.6-hd and Doubao-Seed-TTS-2.0 in emotion editing and other fine-grained control tasks. Our code and models are available at <a href="https://github.com/stepfun-audio/Step-Audio-EditX">https://github.com/stepfun-audio/Step-Audio-EditX</a>.
+    
+    <div class="image-container">
+        <div>
+            <img src="pics/step-audio-editx-arch.png" alt="Content Consistency" height="800" width="800">
+            <p class="caption">An overview of the architechture of Step-Audio-EditX</p>
+        </div>
+    </div>
+</div>
+
+
+
+<!------ Application -------------------------->
+<div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+	<h2 id="Zero-shot In-context Generation" style="text-align: center;">Emotion Control</h2>
+		<div class="table-responsive pt-3">
+			<table class="table table-hover pt-2">
+				<thead>
+				<tr>
+					<th style="vertical-align : middle;text-align: center">Emotion</th>
+					<th style="vertical-align : middle;text-align: center">Text</th>
+					<th style="vertical-align : middle;text-align: center">Edit Before</th>
+					<th style="vertical-align : middle;text-align: center">Iter1</th>
+					<th style="vertical-align : middle;text-align: center">Iter2</th>
+					<th style="vertical-align : middle;text-align: center">Iter3</th>
+				</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">Angry</td>
+                        <td style="vertical-align : middle;text-align:center;">我再说最后一次！立刻！马上！给我处理！</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;" rowspan="1">Happy</td>
+						<td style="vertical-align : middle;text-align:center;">xxx</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+</div>
+
+
+<div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+	<h2 id="Mixed-lingual In-context Generation" style="text-align: center;">Speaking Style Control</h2>
+		<div class="table-responsive pt-3">
+			<table class="table table-hover pt-2">
+				<thead>
+				<tr>
+					<th style="vertical-align : middle;text-align: center">Speaking Style</th>
+					<th style="vertical-align : middle;text-align: center">Text</th>
+					<th style="vertical-align : middle;text-align: center">Edit Before</th>
+					<th style="vertical-align : middle;text-align: center">Iter1</th>
+					<th style="vertical-align : middle;text-align: center">Iter2</th>
+					<th style="vertical-align : middle;text-align: center">Iter3</th>
+				</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">Angry</td>
+                        <td style="vertical-align : middle;text-align:center;">我再说最后一次！立刻！马上！给我处理！</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;" rowspan="1">Happy</td>
+						<td style="vertical-align : middle;text-align:center;">xxx</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+</div>
+
+
+
+
+
+<div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+	<h2 id="Emotionally Expressive Voice Generation" style="text-align: center;">Paralinguistics Control</h2>
+		<div class="table-responsive pt-3">
+			<table class="table table-hover pt-2">
+				<thead>
+				<tr>
+					<th style="vertical-align : middle;text-align: center">Text</th>
+					<th style="vertical-align : middle;text-align: center">Edit Before</th>
+					<th style="vertical-align : middle;text-align: center">Paralinguistic Text</th>
+					<th style="vertical-align : middle;text-align: center">Edit After</th>
+				</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">Angry</td>
+                        <td style="vertical-align : middle;text-align:center;">我再说最后一次！立刻！马上！给我处理！</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;" rowspan="1">Happy</td>
+						<td style="vertical-align : middle;text-align:center;">xxx</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/happy_prompt.mp3" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/happy_1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+</div>
+
+
+</article>
+</main>
+</div>
+
+</body>
+
+</html>
