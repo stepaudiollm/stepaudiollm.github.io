@@ -82,11 +82,11 @@
 
     <p>
         <b>Contents</b>
-          <ul><li><a href="#Zero-Shot Clone">Zero-Shot Clone</a></li>
+          <ul><li><a href="#Zero-Shot Cloning">Zero-Shot Cloning</a></li>
           <li><a href="#Emotion Editing">Emotion Editing</a></li>
           <li><a href="#Speaking Style Editing">Speaking Style Editing</a></li>
           <li><a href="#Paralinguistics Editing">Paralinguistics Editing</a></li>
-          <li><a href="#VAD Editing">VAD Editing</a></li>
+          <li><a href="#Extension">Extension</a></li>
     </p>
 
 </div>
@@ -95,7 +95,7 @@
 
 <!-- zero-shot-clone -->
 <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
-	<h2 id="Zero-Shot Clone" style="text-align: center;">Zero-Shot Clone</h2>
+	<h2 id="Zero-Shot Cloning" style="text-align: center;">Zero-Shot Cloning</h2>
 		<div class="table-responsive pt-3">
 			<table class="table table-hover pt-2">
 				<thead>
@@ -104,7 +104,7 @@
 					<th style="vertical-align : middle;text-align: center">Prompt Audio</th>
 					<th style="vertical-align : middle;text-align: center">Task</th>
 					<th style="vertical-align : middle;text-align: center">Clone Text</th>
-					<th style="vertical-align : middle;text-align: center">Clone Audio</th>
+					<th style="vertical-align : middle;text-align: center">Output Audio</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -116,7 +116,7 @@
 						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/zero_shot/Chinese_1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
 					</tr>
 					<tr>
-                        <td style="vertical-align : middle;text-align:center;">上次你说鞋子有点磨脚，我给你买了一双软软的鞋垫。</td>
+                        <td style="vertical-align : middle;text-align:center;">不必纠结过去的遗憾，你当下的选择就是最好的安排。</td>
 						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/zero_shot/English_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
 						<td style="vertical-align : middle;text-align:center;">Chinese-English</td>
                         <td style="vertical-align : middle;text-align:center;">You might not see it now, but all the late nights, the quiet efforts, and the moments you wanted to give up are planting seeds. They’ll bloom when the time is right.</td>
@@ -130,17 +130,17 @@
 
 <!-- emotion -->
 <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
-	<h2 id="Emotion Edit" style="text-align: center;">Emotion Edit</h2>
+	<h2 id="Emotion Editing" style="text-align: center;">Emotion Editing</h2>
 		<div class="table-responsive pt-3">
 			<table class="table table-hover pt-2">
 				<thead>
 				<tr>
 					<th style="vertical-align : middle;text-align: center">Emotion</th>
 					<th style="vertical-align : middle;text-align: center">Text</th>
-					<th style="vertical-align : middle;text-align: center">Edit Before</th>
-					<th style="vertical-align : middle;text-align: center">Iter1</th>
-					<th style="vertical-align : middle;text-align: center">Iter2</th>
-					<th style="vertical-align : middle;text-align: center">Iter3</th>
+					<th style="vertical-align : middle;text-align: center">Source</th>
+					<th style="vertical-align : middle;text-align: center">Edit 1st</th>
+					<th style="vertical-align : middle;text-align: center">Edit 2nd</th>
+					<th style="vertical-align : middle;text-align: center">Edit 3rd</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -198,25 +198,98 @@
 				<tr>
 					<th style="vertical-align : middle;text-align: center">Speaking Style</th>
 					<th style="vertical-align : middle;text-align: center">Text</th>
-					<th style="vertical-align : middle;text-align: center">Edit Before</th>
-					<th style="vertical-align : middle;text-align: center">Iter1</th>
-					<th style="vertical-align : middle;text-align: center">Iter2</th>
-					<th style="vertical-align : middle;text-align: center">Iter3</th>
+					<th style="vertical-align : middle;text-align: center">Source</th>
+					<th style="vertical-align : middle;text-align: center">Edit 1st</th>
+					<th style="vertical-align : middle;text-align: center">Edit 2nd</th>
+					<th style="vertical-align : middle;text-align: center">Edit 3rd</th>
 				</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td style="vertical-align : middle;text-align:center;">Angry</td>
-                        <td style="vertical-align : middle;text-align:center;">我再说最后一次！立刻！马上！给我处理！</td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;">whisper</td>
+						<td style="vertical-align : middle;text-align:center;">比如在工作间隙，做一些简单的伸展运动，放松一下身体，这样，会让你更有精力.</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/whisper_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/whisper_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/whisper_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/whisper_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">serious</td>
+						<td style="vertical-align : middle;text-align:center;">如果技术能前进一步，可以延长寿命哪怕多一年，就是天文数字的巨额创收。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/serious_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/serious_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/serious_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/serious_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">child</td>
+						<td style="vertical-align : middle;text-align:center;">我今天帮小猫咪找到家了，它还舔了我的手呢！</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/child_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/child_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/child_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/child_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">recite</td>
+						<td style="vertical-align : middle;text-align:center;">群山连绵起伏，像一条巨龙盘踞在大地之上。晨雾缭绕在山腰，如同轻纱般柔软，将那些棱角分明的山峰隐去了一半。阳光渐渐穿透云层，金色的光束洒在山巅，点亮了那些覆着白雪的峰顶，宛如给巨龙镶上了熠熠生辉的鳞片。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/recite_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/recite_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/recite_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/recite_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">exaggerated</td>
+						<td style="vertical-align : middle;text-align:center;">真可爱呢，这么努力想得到我的关注，就差把你的手都吞下去了</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/exaggerated_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/exaggerated_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/exaggerated_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/exaggerated_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">older</td>
+						<td style="vertical-align : middle;text-align:center;">今天真的是辛苦你们了，你们早点休息，明天我再来接你们。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/older_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/older_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/older_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/older_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">act_coy</td>
+						<td style="vertical-align : middle;text-align:center;">那等我们到海洋馆之后，给妈妈买个礼物，好不好呀？</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/act_coy_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/act_coy_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/act_coy_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/act_coy_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">generous</td>
+						<td style="vertical-align : middle;text-align:center;">我吃的盐比你吃的饭都多，听叔一句劝，这条路我走过，你别再摔同样的跟头。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/generous_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/generous_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/generous_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/generous_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">roar</td>
+						<td style="vertical-align : middle;text-align:center;">你到底想怎么着，上学的时候懒得学，工作的时候没时间学。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/roar_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/roar_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/roar_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/roar_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">arrogant</td>
+						<td style="vertical-align : middle;text-align:center;">哼，他那方案错误百出，我修改后无可挑剔，真不知道他怎么敢拿出来讨论，要是我早重做了。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/arrogant_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/arrogant_iter1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/arrogant_iter2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/style/arrogant_iter3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 </div>
+
 
 
 <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
@@ -226,17 +299,35 @@
 				<thead>
 				<tr>
 					<th style="vertical-align : middle;text-align: center">Text</th>
-					<th style="vertical-align : middle;text-align: center">Edit Before</th>
+					<th style="vertical-align : middle;text-align: center">Source</th>
 					<th style="vertical-align : middle;text-align: center">Paralinguistic Text</th>
-					<th style="vertical-align : middle;text-align: center">Edit After</th>
+					<th style="vertical-align : middle;text-align: center">Edit Output</th>
 				</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td style="vertical-align : middle;text-align:center;">Angry</td>
-                        <td style="vertical-align : middle;text-align:center;">我再说最后一次！立刻！马上！给我处理！</td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;">你说的这个计划听起来不错，我觉得可以试试，说不定真能成功呢。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/paralingustic/287.wav" />Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;">你说的这个计划听起来不错，我觉得可以试试 [Confirmation-en]，说不定真能成功呢。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/paralingustic/287_edit.wav" />Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">我觉得这个计划大概是可行的，不过还需要再仔细考虑一下。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/paralingustic/392.wav" />Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;">我觉得这个计划大概是可行的，[Uhm]，不过还需要再仔细考虑一下。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/paralingustic/392_edit.wav" />Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">唉，天气预报说这周末又要下雨，本来还计划去郊游呢。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/paralingustic/690.wav" />Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;">唉，天气预报说这周末又要下雨 [Sigh]，本来还计划去郊游呢。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/paralingustic/690_edit.wav" />Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;">你这次又忘记带钥匙了，真是拿你没办法。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/paralingustic/876.wav" />Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;">你这次又忘记带钥匙了 [Dissatisfaction-hnn]，真是拿你没办法。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/paralingustic/876_edit.wav" />Your browser does not support the audio element.</audio></td>
 					</tr>
 				</tbody>
 			</table>
@@ -244,24 +335,33 @@
 </div>
 
 
+
 <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
-	<h2 id="VAD Editing" style="text-align: center;">VAD Editing</h2>
+	<h2 id="Extension" style="text-align: center;">Extension</h2>
 		<div class="table-responsive pt-3">
 			<table class="table table-hover pt-2">
 				<thead>
 				<tr>
-					<th style="vertical-align : middle;text-align: center">Text</th>
-					<th style="vertical-align : middle;text-align: center">Edit Before</th>
-					<th style="vertical-align : middle;text-align: center">Paralinguistic Text</th>
-					<th style="vertical-align : middle;text-align: center">Edit After</th>
+					<th style="vertical-align : middle;text-align: center">Task</th>
+					<th style="vertical-align : middle;text-align: center">Source</th>
+					<th style="vertical-align : middle;text-align: center">Output</th>
 				</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td style="vertical-align : middle;text-align:center;">Angry</td>
-                        <td style="vertical-align : middle;text-align:center;">我再说最后一次！立刻！马上！给我处理！</td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_prompt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/emotion/angry_3.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+                        <td style="vertical-align : middle;text-align:center;">Denoising</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/denoising/denoising_before.wav" />Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/denoising/denoising_after.wav" />Your browser does not support the audio element.</audio></td>
+					</tr>
+					<tr>
+                        <td style="vertical-align : middle;text-align:center;">Silence Trimming</td>
+						<!-- <td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/denoising/denoising_before.wav" />Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/denoising/denoising_after.wav" />Your browser does not support the audio element.</audio></td> -->
+					</tr>
+					<tr>
+                        <td style="vertical-align : middle;text-align:center;">Speed Editing</td>
+						<!-- <td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/denoising/denoising_before.wav" />Your browser does not support the audio element.</audio></td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 190px;"><source src="audio/denoising/denoising_after.wav" />Your browser does not support the audio element.</audio></td> -->
 					</tr>
 				</tbody>
 			</table>
