@@ -244,7 +244,7 @@
     <!-- 英雄标题 -->
     <header class="hero" aria-labelledby="hero-title">
       <h1 id="hero-title">Step Audio R1</h1>
-      <div class="authors">Step-Audio Team</div>
+      <div class="authors">StepFun-Audio Team</div>
       <div class="notes"><em>StepFun</em></div>
     </header>
 
@@ -268,111 +268,37 @@
       </div>
     </section>
 
-    <!-- Leaderboard -->
-    <section id="leaderboard" class="section" aria-labelledby="h-leaderboard">
-      <div class="section__head"><h2 id="h-leaderboard">Leaderboard</h2></div>
-      <div class="section__body">
-        <div class="table-wrap">
-          <table>
-            <!-- 分组列带状底色 -->
-            <colgroup>
-              <col class="col-rank">
-              <col class="col-model">
-              <col span="4" class="col-text">
-              <col span="3" class="col-audio">
-            </colgroup>
-            <thead>
-              <tr>
-                <th rowspan="2">Rank</th>
-                <th rowspan="2">Model</th>
-                <th colspan="4" class="group-text">Text BMK (↑)</th>
-                <th colspan="3" class="group-audio">Audio BMK (↑)</th>
-              </tr>
-              <tr>
-                <!-- Text BMK 子列 -->
-                <th>Arena Hard</th>
-                <th>Arena Hard v2</th>
-                <th>Multi Challenge</th>
-                <th>AIME2025</th>
-                <!-- Audio BMK 子列 -->
-                <th class="split-left">MMSU</th>
-                <th>MMAU Mini</th>
-                <th>Big Bench Audio</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td><span class="medal gold" aria-hidden="true">★</span>Gemini 2.5 Pro</td>
-                <td>—</td><td>—</td><td>—</td><td>—</td>
-                <td>—</td><td>—</td><td>—</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td><span class="medal silver" aria-hidden="true">★</span>Step Audio R1</td>
-                <td>—</td><td>—</td><td>—</td><td>—</td>
-                <td>—</td><td>—</td><td>—</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td><span class="medal bronze" aria-hidden="true">★</span>GPT 4o realtime</td>
-                <td>—</td><td>—</td><td>—</td><td>—</td>
-                <td>—</td><td>—</td><td>—</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>GPT 4o Audio</td>
-                <td>—</td><td>—</td><td>—</td><td>—</td>
-                <td>—</td><td>—</td><td>—</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>Gemini 2.5 flash</td>
-                <td>—</td><td>—</td><td>—</td><td>—</td>
-                <td>—</td><td>—</td><td>—</td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>Kimi Audio</td>
-                <td>—</td><td>—</td><td>—</td><td>—</td>
-                <td>—</td><td>—</td><td>—</td>
-              </tr>
-              <tr>
-                <td>7</td>
-                <td>MiMO Audio</td>
-                <td>—</td><td>—</td><td>—</td><td>—</td>
-                <td>—</td><td>—</td><td>—</td>
-              </tr>
-              <tr>
-                <td>8</td>
-                <td>Step Audio 2</td>
-                <td>—</td><td>—</td><td>—</td><td>—</td>
-                <td>—</td><td>—</td><td>—</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="muted" style="margin-top:10px">注：表格中 Kimi Audio 和 MiMO Audio 的数值为原始论文中的数值。</p>
-      </div>
-    </section>
+        <!-- Leaderboard -->
+        <section id="leaderboard" class="section" aria-labelledby="h-leaderboard">
+          <div class="section__head"><h2 id="h-leaderboard">Leaderboard</h2></div>
+          <div class="section__body">
+            <figure>
+              <img src="assets/bmk.jpg" alt="Leaderboard Benchmark Results" />
+            </figure>
+          </div>
+        </section>
 
-    <!-- Samples Category Navigation -->
+        <!-- Samples Category Navigation -->
     <section id="samples-nav" class="samples-nav" aria-label="Samples Categories">
       <div class="container">
         <h2>Samples</h2>
         <div class="samples-nav-grid">
 
+          <a href="#samples-0" class="sample-category-card">
+            <h3>Application</h3>
+            <p>Song appreciation, film & TV analysis, interview analysis, and comedy analysis.</p>
+          </a>
           <a href="#samples-1" class="sample-category-card">
+            <h3>Affective & Social IQ Reasoning</h3>
+            <p>Speaker trait inference, philosophical value judgment, identity inference, and MBTI prediction.</p>
+          </a>
+          <a href="#samples-2" class="sample-category-card">
             <h3>Knowledge & Logic Reasoning</h3>
             <p>Coreference resolution, logical reasoning, and knowledge-grounded inference tasks.</p>
           </a>
-          <a href="#samples-2" class="sample-category-card">
+          <a href="#samples-3" class="sample-category-card">
             <h3>Paralinguistics & Perception Reasoning</h3>
             <p>Intonation interpretation, personality inference, environmental understanding, and emotion reasoning.</p>
-          </a>
-          <a href="#samples-3" class="sample-category-card">
-            <h3>Affective & Social IQ Reasoning</h3>
-            <p>Speaker trait inference, philosophical value judgment, identity inference, and MBTI prediction.</p>
           </a>
           <a href="#samples-4" class="sample-category-card">
             <h3>Real-Time Conversation</h3>
@@ -382,18 +308,865 @@
       </div>
     </section>
 
-    <!-- Samples 1：Knowledge & Logic Reasoning -->
-    <section id="samples-1" class="section samples" aria-labelledby="h-samples-1">
-      <div class="section__head"><h2 id="h-samples-1">Knowledge & Logic Reasoning</h2></div>
+    <!-- Samples 0：Application -->
+    <section id="samples-0" class="section samples" aria-labelledby="h-samples-0">
+      <div class="section__head"><h2 id="h-samples-0">Application</h2></div>
       <div class="section__body">
-        <div class="tabs" role="tablist" aria-label="Samples Tabs 1">
-          <button class="tab-btn" role="tab" aria-selected="true"  aria-controls="p-reason-1" id="t-reason-1">Coreference Resolution</button>
-          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-emotion-1" id="t-emotion-1">Coreference Resolution</button>
-          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-free-1"   id="t-free-1">Logical Reasoning</button>
-          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-perception-1" id="t-perception-1">Knowledge Grounded Reasoning</button>
+        <div class="tabs" role="tablist" aria-label="Samples Tabs 0">
+          <button class="tab-btn" role="tab" aria-selected="true"  aria-controls="p-song-0" id="t-song-0">Song Appreciation</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-film-0" id="t-film-0">Film & TV Analysis</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-interview-0" id="t-interview-0">Interview Analysis</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-teaching-0" id="t-teaching-0">Comedy Analysis</button>
         </div>
 
-        <div id="p-reason-1" class="tab-panel active" role="tabpanel" aria-labelledby="t-reason-1">
+        <div id="p-song-0" class="tab-panel active" role="tabpanel" aria-labelledby="t-song-0">
+          <div class="sample-case">
+            <h3>Song Appreciation</h3>
+            <div class="audio-center" style="margin-bottom:12px">
+              <audio src="assets/song.wav" controls preload="none"></audio>
+            </div>
+
+            <div class="qa-wrap">
+              <div class="qa-box">
+                <h4>Question</h4>
+                <p>鉴赏一下这段歌声。</p>
+              </div>
+              <div class="reasoning-box">
+                <h4>Model Thinking Process</h4>
+                
+                <div class="reasoning-section">
+                  <p>嗯，用户让我鉴赏一段歌声，但提供的音频里既有中文女声演唱的抒情部分，又有英文说唱部分。首先得理清楚这段音频的结构和特点。</p>
+                  <p>用户可能是个音乐爱好者，或者正在学习音乐分析，想了解这段音频的细节。也有可能是创作者，想参考别人的分析来提升自己的作品。需要判断用户的需求层次，是基础的鉴赏还是深入的技术分析。</p>
+                  <p>音频开头是女声演唱，听起来像是流行抒情歌曲，旋律优美，情感表达细腻。这部分可能属于华语流行音乐，制作比较精致，有弦乐和鼓点的配合，营造出浪漫或伤感的氛围。接着突然切换到英文说唱，节奏感强，flow流畅，可能属于R&amp;B或流行说唱风格。这种中英文混搭的形式在现代音乐中挺常见，比如有些歌手会用不同语言表达不同情绪，或者为了国际化市场。</p>
+                  <p>接下来要考虑用户可能没说出来的深层需求。比如，用户可能想知道这种风格转换的效果如何，或者为什么选择这样的结构。也有可能用户对某个部分特别感兴趣，比如女声的演唱技巧，或者说唱部分的节奏设计。</p>
+                  <p>需要分析两个部分的衔接是否自然，有没有突兀感。从抒情到说唱的转变可能带来情绪上的对比，增强歌曲的层次感。女声部分的旋律线条和说唱部分的节奏型有没有呼应？比如旋律的走向和说唱的flow是否协调。</p>
+                  <p>另外，制作方面，女声部分的混音可能比较注重人声的清晰度和情感，而说唱部分可能更强调节奏和律动，伴奏的鼓点和贝斯线是否突出。有没有使用效果器，比如混响、延迟，来增强空间感？</p>
+                  <p>还要注意演唱者的表现力。女声的音色是否温柔，有没有情感起伏？说唱部分的吐字是否清晰，flow有没有变化，比如节奏的快慢、停顿的运用。这些细节能体现歌手的专业程度。</p>
+                  <p>可能用户还想知道这段音频的风格定位，属于哪种音乐流派，或者有没有类似的作品推荐。不过用户没直接问，所以鉴赏时可能需要点到为止，重点放在分析现有内容。</p>
+                  <p>最后，要组织语言，用口语化的方式把技术点讲清楚，避免太专业的术语，但又要准确。比如“flow流畅”可以解释为说唱的节奏感和韵律自然，听起来不生硬。同时要指出两个部分的对比如何丰富了歌曲的表达，可能传达了更复杂的情感，比如从抒情到宣泄，或者不同角色的对话感。</p>
+                  <p>需要确认有没有遗漏的部分，比如音频中是否有其他元素，比如乐器的变化、编曲的层次递进。女声部分的伴奏是否简单，逐渐加入更多乐器，而说唱部分可能保持简洁的节奏？这些制作细节也会影响整体听感。</p>
+                  <p>总结下来，鉴赏应该涵盖结构分析、演唱技巧、制作特点、情感表达，以及这种中英文混搭的创意点。同时要给出客观评价，比如优点在哪里，有没有可以改进的地方，但保持中立，避免主观臆断。</p>
+                </div>
+                
+                <div class="reasoning-conclusion">
+                  <p>好的，这段音频是一段非常典型的现代流行音乐作品，融合了<strong>华语流行抒情（Mandopop Ballad）</strong>与<strong>英文流行说唱（Pop Rap）</strong>两种风格。以下是对这段歌声的详细鉴赏：</p>
+                  
+                  <h5>整体风格与结构分析</h5>
+                  <ol>
+                    <li><strong>鲜明的风格转换：</strong>
+                      <ul>
+                        <li><strong>前半段 (00:00 - 00:08)：</strong> 以一段<strong>温柔、抒情的华语女声演唱</strong>开场。旋律优美流畅，编曲以钢琴、弦乐和柔和的鼓点为主，营造出一种浪漫、略带伤感或深情的氛围。这部分是典型的华语流行抒情歌曲的“主歌”或“副歌”部分，注重情感的细腻表达。</li>
+                        <li><strong>后半段 (00:08 - 00:15)：</strong> 突然切换到<strong>英文说唱（Rap）</strong>。节奏感明显增强，鼓点变得更突出、更有力，贝斯线也更清晰。说唱部分的 Flow（节奏型）流畅且富有律动，吐字清晰，情绪从之前的抒情转为更自信、直接或带有叙事性的表达。</li>
+                        <li><strong>核心特点：</strong> 这种<strong>中英文混搭</strong>和<strong>演唱/说唱形式的无缝切换</strong>是这段音频最显著的特征，体现了当代音乐创作的国际化趋势和对多元表达方式的探索。</li>
+                      </ul>
+                    </li>
+                    <li><strong>情感层次的递进：</strong>
+                      <ul>
+                        <li>华语演唱部分奠定了<strong>情感基调</strong>——可能是关于爱情、思念或回忆的抒发，侧重于“感受”。</li>
+                        <li>英文说唱部分则像是<strong>情感的延伸或补充</strong>，可能是在讲述故事背景、表达更直接的态度，或是从另一个视角进行对话。这种转换让歌曲的情感表达更丰富、更有层次感，避免了单一形式的单调。</li>
+                      </ul>
+                    </li>
+                  </ol>
+                  
+                  <h5>华语演唱部分 (00:00 - 00:08) 鉴赏</h5>
+                  <ul>
+                    <li><strong>音色与情感：</strong> 女歌手的音色<strong>清澈、甜美且带有空气感</strong>，非常适合抒情歌曲。她的演唱充满了<strong>细腻的情感</strong>，气息运用稳定，尾音处理柔和，能很好地将听众带入歌曲营造的浪漫或伤感意境中。情感表达真挚，没有过度的炫技，重点在于叙事和氛围营造。</li>
+                    <li><strong>演唱技巧：</strong>
+                      <ul>
+                        <li><strong>咬字清晰：</strong> 华语部分的歌词发音标准，吐字清晰，保证了情感传递的准确性。</li>
+                        <li><strong>旋律线条流畅：</strong> 演唱很好地贴合了旋律的走向，起伏自然，没有生硬感。</li>
+                        <li><strong>动态控制：</strong> 音量控制得当，从弱到强的过渡平滑，符合抒情歌曲的表达需求。</li>
+                      </ul>
+                    </li>
+                    <li><strong>制作特点：</strong> 编曲<strong>精致、干净</strong>，乐器层次分明。人声被放置在混音的最前端，突出了演唱的主体地位。背景的弦乐和钢琴提供了丰富的和声支撑，营造出宽广而浪漫的空间感。</li>
+                  </ul>
+                  
+                  <h5>英文说唱部分 (00:08 - 00:15) 鉴赏</h5>
+                  <ul>
+                    <li><strong>Flow与节奏感：</strong> 说唱部分的<strong>Flow非常流畅自然</strong>，与伴奏的鼓点结合紧密，节奏感强。偏向<strong>旋律说唱（Melodic Rap）</strong>，注重律动和旋律性，听起来轻松悦耳。</li>
+                    <li><strong>吐字与态度：</strong> 说唱者的<strong>吐字清晰</strong>，英文发音标准。语气带有<strong>自信、松弛甚至略带一丝俏皮</strong>的感觉，与前面女声的深情形成有趣对比。</li>
+                    <li><strong>制作特点：</strong> 伴奏（Beat）的<strong>节奏型更突出、更有力</strong>，军鼓与踩镲律动更强。贝斯线清晰，为说唱提供坚实低频基础。人声在混音中更靠前，压缩更足，具备更好的“冲击力”和“颗粒感”。</li>
+                  </ul>
+                  
+                  <h5>综合评价与亮点</h5>
+                  <ol>
+                    <li><strong>创意与融合：</strong> 成功地将<strong>华语演唱</strong>与<strong>英文说唱</strong>融合，情绪与节奏的衔接自然，展现了现代流行音乐的国际化与多元化。</li>
+                    <li><strong>情感的丰富性：</strong> 从“唱”的细腻到“说”的直接，情感维度被拓宽，故事性增强，更具吸引力。</li>
+                    <li><strong>制作精良：</strong> 人声处理干净，编曲专业现代；整体听感时尚、国际化，达到商业流行的高标准。</li>
+                    <li><strong>目标受众明确：</strong> 面向追求<strong>国际化、年轻化、多元化</strong>的市场，同时兼顾抒情与潮流受众。</li>
+                  </ol>
+                  
+                  <h5>总结</h5>
+                  <p>这是一段制作精良、创意突出的现代流行音乐片段。它巧妙地利用<strong>华语抒情演唱</strong>奠定情感基础，再以<strong>英文流行说唱</strong>延展情绪与风格，形成强烈对比与丰富层次。女声温柔细腻、情感真挚；说唱流畅自信、节奏感强。整体风格时尚、国际化，制作水准高，是当代流行音乐融合与创新的优秀范例。这种“中英混搭 + 唱说结合”的模式，正是当前华语乐坛行之有效的创作手法。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="p-film-0" class="tab-panel" role="tabpanel" aria-labelledby="t-film-0">
+          <div class="sample-case">
+            <h3>Film & TV Analysis</h3>
+            <div class="audio-center" style="margin-bottom:12px">
+              <audio src="assets/疯狂动物城.m4a" controls preload="none"></audio>
+            </div>
+            <div class="video-center">
+              <video src="assets/疯狂动物城.mp4" controls preload="metadata"></video>
+            </div>
+            <div class="qa-wrap">
+              <div class="qa-box">
+                <h4>Question</h4>
+                <p>这是一个动画电影片段，请从人物音调、语气的变化中分析出三人各自的性格特质，同时推理人物情绪的转变，从哪些表达可以看出？</p>
+              </div>
+              <div class="reasoning-box">
+                <h4>Model Thinking Process</h4>
+                
+                <div class="reasoning-section">
+                  <p>首先，用户要求分析动画电影片段中的人物性格特质和情绪转变。片段来自《疯狂动物城》（Zootopia），具体是朱迪（Judy Hopps）、尼克（Nick Wilde）和树懒（Flash）的互动场景。</p>
+                  <p><strong>关键点：</strong></p>
+                  <ul>
+                    <li>分析人物：朱迪、尼克、树懒。</li>
+                    <li>从音调、语气的变化中分析性格特质。</li>
+                    <li>推理人物情绪的转变。</li>
+                    <li>指出从哪些表达可以看出。</li>
+                  </ul>
+                  <p>我需要回想这个场景：</p>
+                  <ul>
+                    <li>朱迪和尼克在 DMV（车管所）试图快速获取车牌信息，因为时间紧迫。</li>
+                    <li>树懒（Flash）是 DMV 的员工，动作极其缓慢，导致朱迪和尼克非常着急。</li>
+                    <li>场景中，朱迪从专业、冷静逐渐变得不耐烦，尼克则保持幽默和耐心，树懒则始终缓慢、单调。</li>
+                  </ul>
+                  <p><strong>现在，分解每个人：</strong></p>
+                  <p>1. <strong>朱迪（Judy Hopps）</strong>：</p>
+                  <ul>
+                    <li><strong>性格特质：</strong> 专业、认真、有责任心、高效。作为兔子警官，她注重规则和时间，容易因效率低下而焦虑。</li>
+                    <li><strong>情绪转变：</strong>
+                      <ul>
+                        <li><strong>开始：</strong> 专业、礼貌但紧迫。例如，她说 “Have to solve this case” 和 “So can you run the plate or not?”，语气坚定、直接。</li>
+                        <li><strong>中间：</strong> 随着树懒的缓慢，她变得不耐烦。例如，当尼克开玩笑时，她打断说 “No!” ，音调升高，显示出烦躁。</li>
+                        <li><strong>高潮：</strong> 当树懒输入车牌号时，她越来越急躁，最后大喊 “Pregnant! Okay, great, we got it! Please!” ，音调尖锐、语速加快，表明她极度焦虑。</li>
+                        <li><strong>结束：</strong> 拿到信息后，她立刻行动，说 “Go!” ，语气恢复紧迫但积极。</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <p>2. <strong>尼克（Nick Wilde）</strong>：</p>
+                  <ul>
+                    <li><strong>性格特质：</strong> 幽默、机智、适应性强、有点懒散但可靠。善于用幽默化解紧张，性格随和。</li>
+                    <li><strong>情绪转变：</strong>
+                      <ul>
+                        <li><strong>开始：</strong> 轻松、自信。他说 “I just remembered I have a pal at the DMV” ，语气愉快，显示他的乐观。</li>
+                        <li><strong>中间：</strong> 当朱迪着急时，他试图用笑话缓解气氛，比如讲 “three-humped camel” 的笑话，语气诙谐。</li>
+                        <li><strong>高潮：</strong> 即使朱迪不耐烦，他依然保持冷静，甚至在树懒慢动作时继续开玩笑，情绪稳定。</li>
+                        <li><strong>结束：</strong> 他理解朱迪的急迫，说 “Wait a hustle, bud. I love ya, I owe ya” ，语气温暖、支持，显示他的忠诚。</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <p>3. <strong>树懒（Flash）</strong>：</p>
+                  <ul>
+                    <li><strong>性格特质：</strong> 极其缓慢、单调、缺乏效率，但可能很认真（尽管表现不出来）。他的性格是喜剧元素，代表官僚主义的拖沓。</li>
+                    <li><strong>情绪转变：</strong>
+                      <ul>
+                        <li>整个场景中，他几乎没有情绪变化。他的音调低沉、缓慢、单调，每个词都说得很慢。</li>
+                        <li>例如，他说 “Nice to see you too” ，语速极慢，音调平直，没有情感波动。</li>
+                        <li>当朱迪催促时，他依然保持同样的节奏，显示出他不受外界影响的固执性格。</li>
+                        <li>没有明显的情绪转变，因为他的缓慢是常态。</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <p><strong>从表达中看出：</strong></p>
+                  <ul>
+                    <li><strong>朱迪：</strong> 通过语速加快、音调升高、打断对话（如 “No!” ）来显示不耐烦。</li>
+                    <li><strong>尼克：</strong> 通过轻松的语气、笑话、稳定的语速来显示幽默和耐心。</li>
+                    <li><strong>树懒：</strong> 通过极慢的语速、单调的音调来显示他的性格，没有情绪变化。</li>
+                  </ul>
+                  <p><strong>情绪转变的关键点：</strong></p>
+                  <ul>
+                    <li><strong>朱迪：</strong> 从专业冷静 → 焦躁 → 极度不耐烦 → 恢复行动力。</li>
+                    <li><strong>尼克：</strong> 从轻松幽默 → 试图缓解 → 保持幽默 → 支持和鼓励。</li>
+                    <li><strong>树懒：</strong> 无明显转变，始终如一。</li>
+                  </ul>
+                  <p><strong>结构化回答：</strong></p>
+                  <ol>
+                    <li>介绍场景。</li>
+                    <li>分析朱迪：性格和情绪转变。</li>
+                    <li>分析尼克：性格和情绪转变。</li>
+                    <li>分析树懒：性格和情绪转变。</li>
+                    <li>总结。</li>
+                  </ol>
+                </div>
+                
+                <div class="reasoning-conclusion">
+                  <h5>《疯狂动物城》DMV场景人物性格与情绪分析</h5>
+                  <p>以下基于动画电影《疯狂动物城》中“DMV车管所”片段，对朱迪（Judy Hopps）、尼克（Nick Wilde）和树懒（Flash）三位角色进行深度分析。该场景中，朱迪和尼克为调查案件急需查询车牌信息，却遭遇树懒员工极慢的办事效率，三人通过音调、语速、语气的变化，生动展现了各自的性格特质和情绪转变。分析将从<strong>性格特质</strong>和<strong>情绪转变</strong>两方面展开，并结合具体台词和声音表达进行推理。</p>
+                  
+                  <h5>1. 朱迪（Judy Hopps）</h5>
+                  <p><strong>性格特质：专业高效、责任心强，但易焦虑急躁</strong></p>
+                  <p>朱迪作为兔子警官，其性格核心是<strong>高度职业化和目标导向</strong>，追求效率和精准。这源于她从小被质疑却努力证明自己的成长背景。然而，她的优点也会转化为缺点：在压力下容易<strong>情绪化与缺乏耐心</strong>，面对低效系统时更容易焦虑。她的声音表达始终围绕“紧迫感”展开，语速快、音调偏高，体现“用行动弥补体型劣势”的执着。</p>
+                  <ul>
+                    <li><strong>初始状态（专业冷静）：</strong>“Have to solve this case. So can you run the plate or not?” —— 音调坚定、语速快但吐字清晰，语气带命令感，显示对任务的绝对专注。</li>
+                    <li><strong>情绪转折（不耐浮现）：</strong>在尼克讲笑话时打断“No!” —— 音调骤升、短促有力，显露烦躁；随后“I hope so... every minute counts”语速更快、气息急促，转向<strong>隐性焦躁</strong>。</li>
+                    <li><strong>情绪高潮（爆发）：</strong>树懒缓慢报出笑点“Pregnant!”后，她急喊“Pregnant! Okay, great, we got it! Please!” —— 音调飙升、语速混乱且带哭腔，“Please!”拖长音，混合恳求与绝望，暴露<strong>完美主义的脆弱</strong>。</li>
+                    <li><strong>收尾（恢复行动力）：</strong>拿到信息后立刻“Go!” —— 音调短促有力、气息回稳，焦虑转化为执行力。</li>
+                  </ul>
+                  <p><strong>情绪路径：</strong> 专业冷静 → 隐性焦躁 → 极度不耐烦爆发 → 任务驱动的紧迫感</p>
+                  
+                  <h5>2. 尼克（Nick Wilde）</h5>
+                  <p><strong>性格特质：幽默机智、适应性强，表面散漫下藏有责任感</strong></p>
+                  <p>尼克的幽默与松弛是一种<strong>主动的情绪管理</strong>策略：用玩笑化解紧张、维持团队稳态。他的语调富有弹性，节奏感强，传递“一切尽在掌握”。</p>
+                  <ul>
+                    <li><strong>初始状态（轻松自信）：</strong>“I just remembered I have a pal at the DMV...” —— 语调上扬、尾音带笑，乐观自信。</li>
+                    <li><strong>情绪转折（主动调节）：</strong>讲“three-humped camel”笑话时，特意压低音调、放慢语速营造悬念，体现敏锐的情绪洞察与调节意图。</li>
+                    <li><strong>情绪高潮（稳定支撑）：</strong>树懒慢动作时仍保持从容，以温暖语气安抚“Wait a hustle, bud. I love ya, I owe ya.” —— 语速放缓、音色温暖，显示<strong>外散漫内可靠</strong>。</li>
+                    <li><strong>收尾（默契协作）：</strong>最后响应行动“Go!” —— 短促但沉稳，顺畅切换至“行动者”。</li>
+                  </ul>
+                  <p><strong>情绪路径：</strong> 轻松自信 → 主动调节 → 稳定支撑 → 默契协作</p>
+                  
+                  <h5>3. 树懒（Flash）</h5>
+                  <p><strong>性格特质：单调迟缓、缺乏效率，但暗藏“慢哲学”的固执</strong></p>
+                  <p>树懒代表官僚体系的低效符号：行动慢、反应慢、声音单调。其“慢”更像一种<strong>与世无争的防御姿态</strong>，通过降低反应减少外界干扰。</p>
+                  <ul>
+                    <li><strong>初始状态（机械回应）：</strong>“Nice to see you too.” —— 单词间隔长、音调平直，无情感起伏，定义其“情绪绝缘体”式表达。</li>
+                    <li><strong>情绪转变（无转变）：</strong>面对朱迪催促与尼克笑话，音调与语速始终如一，显示对外界压力的“免疫”。</li>
+                    <li><strong>关键细节（隐藏坚持）：</strong>最终准确报出车牌信息，吐字清晰，说明“慢”是风格非能力，呈现<strong>按自己节奏办事的固执</strong>。</li>
+                  </ul>
+                  <p><strong>情绪路径：</strong> 无明显转变（始终单调）</p>
+                  
+                  <h5>总结：声音如何揭示人物关系与主题</h5>
+                  <ul>
+                    <li><strong>朱迪 vs. 尼克：</strong> 高频快节奏（理想主义的焦虑）对比中低频弹性节奏（现实智慧的从容）。两者互补：朱迪的坚持锚定方向，尼克的幽默缓冲情绪。</li>
+                    <li><strong>树懒的作用：</strong> 零变化的声音成为情绪放大器，放大了朱迪的崩溃与尼克的耐心，讽刺对“效率崇拜”的盲点。</li>
+                    <li><strong>情绪逻辑：</strong> 朱迪体现“专业主义的双刃剑”，尼克展现“街头智慧的适应性”，树懒以“不变”隐喻弱势群体的生存策略。三者互动指向主题：<strong>差异不是障碍，理解才是钥匙</strong>。</li>
+                  </ul>
+                  <blockquote>
+                    <em>注：如朱迪的 “Please!” 带明显声带紧张（vocal strain），尼克“love ya” 使用气泡音（vocal fry），树懒全程的 “s” 拖长（如 “see”）强化了迟缓感。细微声音线索共同塑造角色。</em>
+                  </blockquote>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="p-interview-0" class="tab-panel" role="tabpanel" aria-labelledby="t-interview-0">
+          <div class="sample-case">
+            <h3>Interview Analysis</h3>
+            <div class="audio-center" style="margin-bottom:12px">
+              <audio src="assets/面试.m4a" controls preload="none"></audio>
+            </div>
+            <div class="video-center">
+              <video src="assets/面试.mp4" controls preload="metadata"></video>
+            </div>
+            <div class="qa-wrap">
+              <div class="qa-box">
+                <h4>Question</h4>
+                <p>请帮我分析这个片段发生在什么场景下，不同人物的心理状态变化如何？</p>
+              </div>
+              <div class="reasoning-box">
+                <h4>Model Thinking Process</h4>
+                
+                <div class="reasoning-section">
+                  <p>首先，用户要求我分析一个音频片段的场景和人物心理状态变化。音频片段是来自一个喜剧表演，似乎是英国喜剧演员的表演，可能来自一个电视节目或舞台表演。从内容看，这似乎是关于一个荒谬的求职面试场景。</p>
+                  <p><strong>关键点：</strong></p>
+                  <ul>
+                    <li>用户提供了音频的转录文本，但文本中包含了很多笑声和表演元素，表明这是一个喜剧片段。</li>
+                    <li>任务：分析场景和不同人物的心理状态变化。</li>
+                  </ul>
+                  <p><strong>从转录文本中提取场景信息：</strong></p>
+                  <ul>
+                    <li>开头：面试官介绍自己（Darren, Head of Marketing; Sophia and Neil from HR）。</li>
+                    <li>面试者（女性）的回答非常荒谬和不合逻辑，例如：</li>
+                    <ul>
+                      <li>当被问及能为工作带来什么时，她说“带来一些茶和蛋糕”。</li>
+                      <li>当被问及如何激励团队时，她说“我会把桌子溅满激励”，然后大喊“从你们肥胖的屁股上起来做点事！”</li>
+                      <li>当被问及是否有孩子时，她说“我不知道，但我经常进入孩子的头脑”，然后唱了一首关于“最可爱、最可爱”的歌。</li>
+                      <li>最后，她问了一个无关的问题：“当闪电击中大海时，为什么鱼不全部死亡？”</li>
+                    </ul>
+                  </ul>
+                  <p>这显然是一个喜剧表演，模仿了糟糕的求职面试。场景是一个虚构的面试，但被夸大和荒谬化以达到喜剧效果。</p>
+                  <p><strong>现在，分析场景：</strong></p>
+                  <ul>
+                    <li><strong>场景：</strong>这是一个求职面试场景，但被喜剧化处理。面试发生在办公室环境中，有面试官（Darren, Sophia, Neil）和面试者（女性）。从上下文看，这可能是一个单口喜剧或小品表演，因为有观众笑声，表明是为娱乐目的。</li>
+                  </ul>
+                  <p><strong>不同人物的心理状态变化：</strong></p>
+                  <p><strong>面试官（Darren, Sophia, Neil）</strong>：</p>
+                  <ul>
+                    <li><strong>初始状态：</strong>专业、冷静、正式。他们开始时以标准面试方式提问。</li>
+                    <li><strong>心理变化：</strong>随着面试者给出荒谬的回答，他们的心理状态从专业转为困惑、尴尬、无奈，甚至可能有点恼怒，但因为是喜剧，他们表现出克制的幽默感。例如，Darren 说“嗯，这肯定能激励团队”，带有讽刺意味。</li>
+                    <li><strong>结尾：</strong>Darren 说“非常感谢你来，我们会联系你的”，礼貌结束但暗示面试已失败。</li>
+                  </ul>
+                  <p><strong>面试者（女性）</strong>：</p>
+                  <ul>
+                    <li><strong>初始状态：</strong>可能有点紧张，但很快进入荒谬模式。她说“谢谢你们见我”，听起来正常。</li>
+                    <li><strong>心理变化：</strong>心理状态非常不稳定和不可预测。她似乎在即兴发挥，给出完全不相关、搞笑的回答。行为从礼貌转为疯狂、夸张，甚至唱歌和喊叫，像一个喜剧角色，表现出极度不专业（为喜剧效果）。</li>
+                    <li><strong>结尾：</strong>她问了一个奇怪问题后自嘲“哦，不”，意识到不相关但为时已晚。</li>
+                  </ul>
+                  <p><strong>整体心理状态变化：</strong></p>
+                  <ul>
+                    <li>面试开始时，气氛正式专业。</li>
+                    <li>随着面试者荒谬回答，气氛变得越来越混乱和滑稽。</li>
+                    <li>面试官试图保持专业，但逐渐被逼到极限。</li>
+                    <li>面试者完全失控，导致面试崩溃；面试官礼貌收尾但已决定不录用。</li>
+                  </ul>
+                  <p>作为喜剧表演，心理状态变化是夸张的，目的是为了娱乐。观众的笑声提示（[Laughter]）表明这是一个成功的喜剧片段。</p>
+                  <p><strong>结构化回答：</strong></p>
+                  <ol>
+                    <li><strong>场景描述：</strong>虚构的求职面试喜剧片段。</li>
+                    <li><strong>人物分析：</strong>面试官的专业→困惑/无奈；面试者的礼貌→夸张失控。</li>
+                    <li><strong>整体动态：</strong>从专业到混乱，喜剧效果的形成机制。</li>
+                  </ol>
+                  <p>最后，用户用中文提问，因此采用中文作答。</p>
+                </div>
+                
+                <div class="reasoning-conclusion">
+                  <h5>场景分析：虚构求职面试喜剧表演</h5>
+                  <p>根据您提供的音频片段（转录文本），这是一个典型的<strong>喜剧表演场景</strong>，具体来说，它模仿并夸张化了一个荒谬的求职面试过程。场景设定在一个虚构的办公室环境中（如人力资源部或市场部的面试室），但被刻意设计成滑稽、不合逻辑的闹剧，旨在通过反差和意外来制造喜剧效果。这很可能出自英国喜剧演员的舞台表演或电视节目（例如，类似瑞奇·热维斯或大卫·威廉姆斯的风格），因为：</p>
+                  <ul>
+                    <li><strong>环境元素：</strong>面试官（Darren、Sophia、Neil）以正式口吻介绍自己（“我是 Darren，市场总监”“这是 HR 的 Sophia 和 Neil”），营造了真实的职场面试框架。</li>
+                    <li><strong>观众反应：</strong>音频中频繁出现 [Laughter]（观众笑声），表明这不是真实事件，而是一场为娱乐目的设计的表演。演员通过夸张的言行和时机控制，引导观众发笑。</li>
+                    <li><strong>核心冲突：</strong>“专业面试”与“完全失控的求职者”之间的巨大反差。面试官试图维持职业礼仪，而求职者则用荒诞、无厘头的回答不断打破常规，最终导致面试崩溃。</li>
+                  </ul>
+                  <p>这种场景常见于喜剧作品中，用以讽刺现实中的职场荒诞现象（如面试中的紧张、沟通障碍或企业文化问题），但在此片段中，它被极度放大，服务于纯粹的幽默目的。</p>
+                  <hr>
+                  <h5>不同人物的心理状态变化分析</h5>
+                  <p>在短短的音频片段中，人物的心理状态经历了戏剧性的转变，这种变化是喜剧的核心驱动力。以下是基于角色的详细分析（注：求职者为女性，面试官为 Darren、Sophia、Neil）。心理状态变化以“时间线”为轴，从面试开始到结束，突出转折点。</p>
+                  <h6>1. 求职者（女性）的心理状态变化：从礼貌到彻底失控</h6>
+                  <p>求职者是场景的“混乱制造者”，她的心理状态变化最为剧烈，呈现出一种<strong>“伪装正常 → 逐渐崩溃 → 完全放飞”</strong>的弧线，体现了喜剧中的“意外升级”手法。</p>
+                  <ul>
+                    <li><strong>初始阶段（0:00-0:10）：礼貌但紧张，试图表现专业</strong><br>表面镇定，实则内心焦虑。她以标准求职者姿态开场（“谢谢你们见我”），试图建立专业形象。但当被问及“能为工作带来什么”时，她犹豫后说出“带来一些茶和蛋糕”，暴露出她对职位理解的肤浅和不自信。这是用无害玩笑掩饰紧张的<strong>防御性心理</strong>。<br><em>关键转折：</em>Darren 礼貌回应后，她误以为对方接受了自己的荒谬逻辑，心理防线瓦解，开始更放肆发挥。</li>
+                    <li><strong>中期阶段（0:10-1:20）：情绪失控，进入“表演型疯狂”</strong><br>从紧张转为<strong>亢奋的荒诞感</strong>。被问“如何激励团队”时，她大喊“我会把桌子溅满激励！……从你们肥胖的屁股上起来做点事！”；随后唱起“最可爱、最可爱”的歌。她将面试当作个人秀场，逻辑断裂，进入<strong>自我陶醉的幻想状态</strong>。<br><em>关键转折：</em>唱完后说“我都没意识到我知道这么多歌词”，暴露出对自身行为失控的自我意识摇摆。</li>
+                    <li><strong>结尾阶段（1:20-1:40）：短暂清醒，但彻底失败</strong><br>她提问“闪电击中大海时鱼为什么不死”，随即自嘲“哦，不”，回到<strong>羞愧与尴尬</strong>。礼貌告别中带着无奈的绝望——明知搞砸却无力挽回。</li>
+                  </ul>
+                  <p><strong>小结：</strong>她的状态像过山车，礼貌→喊叫→唱歌→离题提问，笑点来自“正常人突然疯掉”的预期违背，属于喜剧的“天真破坏者”角色。</p>
+                  <h6>2. 面试官（Darren、Sophia、Neil）的心理状态变化：专业坚守到无奈妥协</h6>
+                  <p>面试官作为“理性代表”，心理变化更内敛：从专业到被动承受，体现<strong>“职业尊严被消解”</strong>的过程。</p>
+                  <ul>
+                    <li><strong>初始阶段（0:00-0:10）：冷静专业，掌控全场</strong><br>Darren 主导面试、语气沉稳，HR 保持职业化沉默。对“茶和蛋糕”的回答，他以“这肯定能激励团队”回应——表面礼貌，实为<strong>困惑与不耐</strong>的职业幽默。</li>
+                    <li><strong>中期阶段（0:10-1:20）：从克制到崩溃边缘</strong><br>随着对方喊叫与唱歌，面试官心理防线被击穿：Darren 从“这很鼓舞人心”的反话，转向“相关吗？”的直问，经历<strong>礼貌 → 隐忍恼怒 → 无奈疲惫</strong>；HR 的笑声与沉默则是<strong>尴尬与同情</strong>的暗示。</li>
+                    <li><strong>结尾阶段（1:20-1:40）：礼貌收场，内心放弃</strong><br>“非常感谢你来，我们会联系你”，语气平静，实质是<strong>礼貌性终止</strong>。职业习惯战胜真实情绪，维持公司形象。</li>
+                  </ul>
+                  <p><strong>小结：</strong>他们的变化是<strong>被动式滑落</strong>：专业冷静 → 隐忍恼怒 → 无奈妥协，笑点来自“憋屈感”。</p>
+                  <hr>
+                  <h5>整体心理动态与喜剧效果</h5>
+                  <ul>
+                    <li><strong>节奏结构：</strong>铺垫（专业）→ 升级（失控）→ 高潮（唱歌/离题）→ 收尾（礼貌失败），每次升级都击穿一次面试官防线。</li>
+                    <li><strong>心理反差：</strong>求职者的<strong>情绪化失控</strong> vs. 面试官的<strong>职业化克制</strong>；前者跳跃、后者渐进，形成高密度笑点。</li>
+                    <li><strong>现实隐喻：</strong>夸张讽刺真实职场沟通困境，但在此片段中更多服务于娱乐而非批判。</li>
+                  </ul>
+                  <p>总之，这是一个精心设计的喜剧片段，通过人物心理状态的剧烈变化（求职者从伪装到崩溃、面试官从专业到妥协）驱动笑点。如有具体表演者或节目信息，可进一步细化分析。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="p-teaching-0" class="tab-panel" role="tabpanel" aria-labelledby="t-teaching-0">
+          <div class="sample-case">
+            <h3>Comedy Analysis</h3>
+            <div class="audio-center" style="margin-bottom:12px">
+              <audio src="assets/我爱上班.m4a" controls preload="none"></audio>
+            </div>
+         
+            <div class="qa-wrap">
+              <div class="qa-box">
+                <h4>Question</h4>
+                <p>你觉得音频中的说话人喜欢上班吗？</p>
+              </div>
+              <div class="reasoning-box">
+                <h4>Model Thinking Process</h4>
+                
+                <div class="reasoning-section">
+                  <p>嗯，用户问的是音频里的说话人是否喜欢上班。首先，我需要仔细听一下音频内容。音频里有一个女性在说“我爱上班”，然后周围的人爆发出大笑。这里的关键点在于她的语气和周围人的反应。</p>
+                  <p>首先，说话人的语气。她说“我爱上班”时，听起来可能比较平淡，或者带有一种夸张的、不自然的感觉。通常，如果一个人真心喜欢上班，可能会用更积极、热情的语气，比如语调上扬，充满活力。但在这里，她的语气可能比较平淡，甚至有点机械，像是在念台词，这可能暗示她并不是真的喜欢，而是在反讽或者开玩笑。</p>
+                  <p>接下来是周围人的反应。在她说完之后，立刻有很多人大笑。这种笑声通常表示说话的内容和大家的预期相反，或者是一种幽默的表达。比如，当一个人说“我爱上班”时，如果语气很假，周围人可能会觉得好笑，因为大家普遍认为上班是枯燥的，所以这种反差会引发笑声。这说明周围的人可能认为她在说反话，或者是在开玩笑，而不是真心话。</p>
+                  <p>另外，结合社会常识，很多人对上班的态度其实是矛盾的，可能因为工作压力、通勤等原因而不太喜欢上班。所以当有人突然说“我爱上班”时，容易让人觉得是在反讽，尤其是用一种不太真诚的语气说出来的时候。</p>
+                  <p>再考虑音频的背景，可能是在一个轻松的场合，比如朋友聚会或者公司活动，大家在互相开玩笑。这种情况下，说“我爱上班”可能是一种幽默的表达方式，用来调侃工作或者生活的压力。</p>
+                  <p>总结一下，说话人的语气可能缺乏真诚，而周围人的笑声则强化了这种反讽的意味。因此，可以推断她并不是真的喜欢上班，而是在用幽默或反讽的方式表达，可能是在开玩笑或者吐槽工作。</p>
+                  <p>不过，也有可能存在其他情况，比如她可能真的非常热爱自己的工作，而周围的人因为不理解或者习惯了负面情绪，所以觉得她的表达很有趣。但这种情况相对较少，通常需要更多的上下文来确认。在缺乏更多信息的情况下，根据语气和反应来判断，更可能的情况是她在反讽。</p>
+                </div>
+                
+                <div class="reasoning-conclusion">
+                  <p>根据音频中的语气和背景反应，可以推断说话人<strong>可能并非真心喜欢上班</strong>，而是在用一种<strong>幽默或反讽的方式表达</strong>。以下是具体分析：</p>
+                  <ol>
+                    <li><strong>语气和表达方式：</strong><br>说话人说出“我爱上班”时，语气较为平淡，甚至略带夸张的机械感，缺乏真正热爱工作时应有的热情或真诚。这种表达方式更像是在开玩笑或故意说反话，以制造喜剧效果。</li>
+                    <li><strong>背景反应：</strong><br>在她说话后，周围立刻爆发出多人的笑声。这种笑声通常表明听众认为这句话是<strong>幽默的、不真实的</strong>，或者是在调侃普遍“讨厌上班”的社会情绪。如果她真的热爱工作，周围人的反应可能会是羡慕或好奇，而非集体大笑。</li>
+                    <li><strong>社会文化背景：</strong><br>在多数文化中，“上班”常被与压力、枯燥联系在一起，因此当有人突然说“我爱上班”时，容易被解读为反讽或自嘲。这种表达方式符合常见的职场幽默逻辑。</li>
+                  </ol>
+                  <p><strong>结论：</strong><br>综合来看，说话人很可能是在用反讽或玩笑的方式表达，而非真心喜欢上班。她的语气和周围人的笑声共同营造了一种“明知是假却乐在其中”的幽默氛围，这在朋友或同事间的互动中非常常见。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="muted" style="margin-top:12px">注：蓝色方块内为模型思考之后输出的回复。</p>
+      </div>
+    </section>
+
+    <!-- Samples 1：Affective & Social IQ Reasoning -->
+    <section id="samples-1" class="section samples" aria-labelledby="h-samples-1">
+      <div class="section__head"><h2 id="h-samples-1">Affective & Social IQ Reasoning</h2></div>
+      <div class="section__body">
+        <div class="tabs" role="tablist" aria-label="Samples Tabs 1">
+          <button class="tab-btn" role="tab" aria-selected="true"  aria-controls="p-perception-1" id="t-perception-1">Speaker Trait Inference</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-reason-1" id="t-reason-1">Philosophical & Affective Value Judgement</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-emotion-1" id="t-emotion-1">Identity Inference & Social Reasoning</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-mbti-1" id="t-mbti-1">Predict MBTI</button>
+
+          
+        </div>
+
+
+        <div id="p-perception-1" class="tab-panel active" role="tabpanel" aria-labelledby="t-perception-1">
+          <div class="sample-case">
+            <h3>Speaker Trait Inference</h3>
+            <div class="audio-center" style="margin-bottom:12px">
+              <audio src="assets/Speaker Trait Inference.m4a" controls preload="none"></audio>
+            </div>
+            <div class="video-center">
+              <video src="assets/huyifei.mov" controls preload="metadata"></video>
+            </div>
+            <div class="qa-wrap">
+              <div class="qa-box">
+                <h4>Question</h4>
+                <p>说话人的语气和音色如何反映他的性格和情绪特征？</p>
+              </div>
+              <div class="reasoning-box">
+                <h4>Model Thinking Process</h4>
+                
+                <div class="reasoning-section">
+                  <p>首先，问题是："说话人的语气和音色如何反映他的性格和情绪特征？" 但音频中说话的是一个女性，所以应该是"她的"而不是"他的"。我会在回答中使用正确的代词。</p>
+                  
+                  <p>我需要分析音频中说话人的语气和音色，以推断她的性格和情绪特征。音频内容是："就算没人听又怎么样？就算再深更半夜又怎么样？"</p>
+                  
+                  <p>关键点：</p>
+                  <ul>
+                    <li><strong>语气（Tone）</strong>：这是指说话的方式，包括音高、音量、语速、节奏等。</li>
+                    <li><strong>音色（Timbre）</strong>：这是指声音的质感，如清亮、沙哑、柔和等。</li>
+                  </ul>
+                  
+                  <p>从音频中：</p>
+                  <ul>
+                    <li><strong>语气</strong>：说话人的语气非常坚定、果断，带有一种挑战性和不屑一顾的态度。她在说"又怎么样？"时，语调上扬，但不是疑问，而是反问，表达一种"无所谓"或"不在乎"的情绪。语速适中，但每个字都很有力，显示出强烈的决心。</li>
+                    <li><strong>音色</strong>：声音清亮、有力，没有犹豫或颤抖。这表明她内心强大，自信。</li>
+                  </ul>
+                  
+                  <p>现在，推断性格和情绪特征：</p>
+                  
+                  <p><strong>情绪特征：</strong></p>
+                  <ul>
+                    <li><strong>自信</strong>：她对所说的话非常确定，没有丝毫怀疑。</li>
+                    <li><strong>坚定</strong>：语气中透露出一种不屈不挠的精神，即使面对困难（如没人听、深更半夜）也不退缩。</li>
+                    <li><strong>挑战性</strong>：通过反问，她在挑战潜在的批评者或质疑者，显示出一种对抗性。</li>
+                    <li><strong>独立</strong>：她似乎在强调自己的自主性，不在乎外界的看法。</li>
+                  </ul>
+                  
+                  <p><strong>性格特征：</strong></p>
+                  <ul>
+                    <li><strong>坚强、有韧性</strong>：她能够承受压力，并坚持自己的道路。</li>
+                    <li><strong>果断、有主见</strong>：不轻易被他人影响，有自己的原则。</li>
+                    <li><strong>可能有些固执或叛逆</strong>：这种语气可能源于一种反叛精神，拒绝随波逐流。</li>
+                    <li><strong>充满激情</strong>：声音中的能量表明她对自己的事业或信念充满热情。</li>
+                  </ul>
+                  
+                  <p>在上下文中，这句话可能来自一个故事或戏剧场景，比如一个艺术家或创作者在深夜工作，不在乎是否有人欣赏。这强化了她专注自我、追求内心价值的性格。</p>
+                  
+                  <p>总结：</p>
+                  <ul>
+                    <li><strong>语气</strong>：坚定、挑战性、果断。</li>
+                    <li><strong>音色</strong>：清亮、有力、自信。</li>
+                    <li><strong>反映的情绪</strong>：自信、坚定、不屑、充满决心。</li>
+                    <li><strong>反映的性格</strong>：坚强、独立、有韧性、有主见，可能略带叛逆。</li>
+                  </ul>
+                  
+                  <p>在回答中，我应该：</p>
+                  <ol>
+                    <li>描述语气和音色的具体表现。</li>
+                    <li>解释这些如何反映情绪和性格。</li>
+                    <li>保持客观，基于音频分析。</li>
+                    <li>使用中文，因为问题是中文的。</li>
+                  </ol>
+                  
+                  <p>最终回答结构：</p>
+                  <ul>
+                    <li>先概述整体印象。</li>
+                    <li>详细分析语气和音色。</li>
+                    <li>推断情绪和性格。</li>
+                    <li>简要总结。</li>
+                  </ul>
+                </div>
+                
+                <div class="reasoning-conclusion">
+                  <h5>说话人的语气和音色分析：性格与情绪特征</h5>
+                  
+                  <p>音频中说话人（女性）的台词是："就算没人听又怎么样？就算再深更半夜又怎么样？" 通过仔细聆听，我们可以从其<strong>语气</strong>（语调、语速、音量等）和<strong>音色</strong>（声音质感）中解读出丰富的性格与情绪特征。以下我将结合音频细节进行客观分析，避免主观臆断，仅基于声音表现进行推断。</p>
+                  
+                  <h5>1. 语气分析：坚定、挑战性与不屑一顾</h5>
+                  <ul>
+                    <li><strong>语调与节奏</strong>：说话人的语调明显上扬，尤其在"又怎么样？"部分，但并非疑问式上扬，而是<strong>反问式的挑战</strong>。这种语调传递出一种"无所谓"甚至"不屑"的态度，仿佛在直接回应潜在的质疑或批评。节奏紧凑有力，每个字都掷地有声，没有犹豫或拖沓，显示出极强的决断力。</li>
+                    <li><strong>音量与力度</strong>：音量适中偏高，但并非嘶吼，而是<strong>控制得当的力量感</strong>。声音充满穿透力，尤其在句末的"怎么样"三个字上加重了力度，这反映了说话人内心的能量和信念感。她不是在宣泄情绪，而是在宣告一种立场。</li>
+                    <li><strong>语速</strong>：语速中等，但富有顿挫感。第一句"就算没人听"稍缓，像是在陈述一个事实；第二句"就算再深更半夜"则略微加快，节奏感增强，暗示情绪的递进——从平静的坚持转向更强烈的抗争。这种变化体现了她情绪的层次：表面冷静，内里却充满不屈的斗志。</li>
+                  </ul>
+                  
+                  <p><strong>语气反映的情绪特征</strong>：</p>
+                  <ul>
+                    <li><strong>高度自信与坚定</strong>：她对自身行为的价值毫不怀疑，语气中没有一丝动摇，表明她处于一种"自我确信"的状态，不受外界评价影响。</li>
+                    <li><strong>挑战性与对抗性</strong>：反问句式和上扬语调，透露出一种主动挑战权威或常规的态度。她似乎在说："你们的质疑对我毫无意义"，这是一种积极的防御姿态，而非消极的抱怨。</li>
+                    <li><strong>隐含的孤独与决绝</strong>：虽然语气强势，但"没人听""深更半夜"等内容暗示了她可能身处孤立环境。然而，她并未流露悲伤或脆弱，反而将孤独转化为动力，表现出一种"愈挫愈勇"的决绝情绪。</li>
+                  </ul>
+                  
+                  <h5>2. 音色分析：清亮、坚实与内在力量</h5>
+                  <ul>
+                    <li><strong>音质</strong>：说话人的音色<strong>清亮而坚实</strong>，没有沙哑、气音或颤抖。这种声音质感通常与年轻、健康的生理状态相关，但更重要的是，它传递出一种精神上的"纯净"——即思想清晰、目标明确。声音中缺乏柔和的"气泡感"，反而带有一种金属般的硬度，强化了她刚毅的特质。</li>
+                    <li><strong>共鸣与气息</strong>：声音共鸣饱满，气息稳定深长，说明她说话时底气十足。这并非刻意提高嗓门，而是源于内在的力量感。即使在表达挑战性内容时，声音依然保持稳定，没有因激动而破音或发虚，这反映了她情绪管理能力强，不易被外界动摇。</li>
+                  </ul>
+                  
+                  <p><strong>音色反映的性格特征</strong>：</p>
+                  <ul>
+                    <li><strong>坚强独立</strong>：清亮坚实的音色往往与<strong>独立自主</strong>的性格相关。她似乎习惯于依靠自己，不依赖他人认可，甚至将外界的忽视视为一种"证明自己"的契机。这种声音特质常见于有主见、行动力强的人。</li>
+                    <li><strong>韧性与执着</strong>：音色中缺乏"柔弱"元素，暗示她性格中可能带有<strong>固执或叛逆</strong>的一面。她不易妥协，一旦认定目标就会坚持到底。这种"硬朗"的声音质感，也隐喻了她在逆境中（如深夜独处）依然能保持专注和热情的韧性。</li>
+                    <li><strong>内在激情</strong>：虽然表面语气冷静，但声音的亮度和力度暴露了她内心的<strong>热情与理想主义</strong>。她并非冷漠，而是将情感内化为行动力——例如，一个艺术家或创作者可能在无人欣赏时仍坚持创作，音色中的能量感正是这种激情的体现。</li>
+                  </ul>
+                  
+                  <h5>3. 综合推断：整体性格与情绪画像</h5>
+                  <ul>
+                    <li><strong>情绪状态</strong>：当前情绪是<strong>自信主导的抗争状态</strong>。她可能正面临质疑或孤独，但并未陷入负面情绪（如愤怒或沮丧），而是以一种积极、甚至略带傲气的姿态应对。这是一种"向内求证"的心理：外界如何无所谓，关键是自我价值的实现。</li>
+                    <li><strong>性格特征</strong>：
+                      <ul>
+                        <li><strong>核心是"坚韧的理想主义者"</strong>：她有强烈的自我认同感，行动驱动于内在信念而非外部奖励。性格外显为果断、有主见，但内里可能隐藏着对"被理解"的渴望（否则无需强调"没人听"）。</li>
+                        <li><strong>可能的弱点</strong>：过于独立可能导致社交疏离，挑战性语气也可能被解读为"不易合作"，暗示她性格中存在固执或叛逆倾向，尤其在集体环境中可能显得格格不入。</li>
+                        <li><strong>积极面</strong>：她展现出强大的心理韧性，是典型的"行动派"——不空谈，用实践回应质疑。这种性格在艺术、创新或高压领域中往往能取得突破。</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  
+                  <h5>总结</h5>
+                  <p>说话人的语气和音色共同塑造了一个<strong>独立、自信且充满内在力量的形象</strong>。她的声音不是在寻求同情，而是在宣告一种生存姿态：<strong>"我的价值不由他人定义，即使孤身一人，我亦无悔。"</strong> 这种表现常见于那些在逆境中坚守理想的个体，如深夜工作的创作者、挑战传统的改革者。最终，她的声音传递的不是情绪的宣泄，而是一种<strong>精神上的胜利感</strong>——孤独被转化为力量，质疑被化为动力。这提醒我们，声音的细节往往比言语内容更能揭示一个人的灵魂深度。</p>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="p-reason-1" class="tab-panel" role="tabpanel" aria-labelledby="t-reason-1">
+          <div class="sample-case">
+            <h3>Philosophical & Affective Value Judgement</h3>
+            <div class="audio-center" style="margin-bottom:12px">
+              <audio src="assets/Affective Value Judgement.m4a" controls preload="none"></audio>
+            </div>
+            <div class="qa-wrap">
+              <div class="qa-box">
+                <h4>Question</h4>
+                <p>想问问你，你觉得下面你更认同哪一个“赶路要紧，对的人会站在前途里”还是“究竟是怎样伟大的前程值得我们把四季都错过”</p>
+              </div>
+              <div class="reasoning-box">
+                <h4>Model Thinking Process</h4>
+                
+                <div class="reasoning-section">
+                  <p>嗯，用户分享了一段关于爱情与事业选择的深刻独白，还附上了两个对立的观点让选择认同。这段音频内容情感浓度很高，从校园早恋到异国求学，再到落叶飘零时的顿悟，把"为前程错过爱情"的遗憾刻画得特别真实。</p>
+                  
+                  <p>用户可能正处于人生抉择的十字路口，或者正在经历类似的内心挣扎。ta特意选了这段音频，说明对"事业与爱情的平衡"这个命题有强烈共鸣。最后抛出的两个观点对比很犀利——一个是功利主义的"前途优先"，另一个是浪漫主义的"及时行乐"，这其实是在问：我们到底该不该为未来牺牲当下？</p>
+                  
+                  <p>注意到音频里几个关键细节：女生说"修马桶和装家具"时的孤独感，被抢劫后"拼命想着怎么跟老板请假"的荒诞感，还有波士顿落叶飘零时突然意识到"为什么要在最好的年纪离开你"。这些具象化的场景比单纯说教更有力量，说明用户可能更倾向感性思考。</p>
+                  
+                  <p>不过用户没直接说自己的困境，所以不能武断判断ta的处境。但既然让选观点，或许ta内心已经倾向第二个选项？因为第一个观点"对的人会站在前途里"在音频里被彻底否定了——那个伴侣恰恰因为前途不同而分手了。但作为助手，我得保持中立。</p>
+                  
+                  <p>要小心别掉进非此即彼的陷阱。现实里很少有绝对的选择题，可能需要指出第三条路：比如如何让"前途"包含爱情？音频里女生的遗憾在于"永远等下去"，但或许问题不在等待本身，而在等待时没有经营关系。不过既然用户只给两个选项，还是得紧扣题目。</p>
+                  
+                  <p>最后决定用"动态平衡"来回应：既承认前途重要（否则音频里就不会有留学奋斗的细节），也强调爱情需要主动经营。特别要呼应那个"修马桶"的细节——孤独感恰恰说明，真正的前途不该是孤军奋战。结尾那句"四季错过"的诗意表达得保留，但要转化成行动建议：与其问"值不值得"，不如问"如何不让四季都错过"。</p>
+                </div>
+                
+                <div class="reasoning-conclusion">
+                  <p>这段音频里的故事和独白，像一把钝刀，缓慢而深刻地剖开了许多人在青春与前程之间挣扎的伤口。关于"赶路要紧，对的人会站在前途里"与"究竟是怎样伟大的前程值得我们把四季都错过"这两个观点，<strong>我更认同后者——"究竟是怎样伟大的前程值得我们把四季都错过"</strong>。但这并非否定奋斗的意义，而是对"牺牲"的本质提出质疑。</p>
+                  
+                  <h5>为什么更认同"四季错过"的诘问？</h5>
+                  
+                  <p><strong>1. "前途"常被神化，而"四季"是真实的生命</strong></p>
+                  <p>音频中女孩的遗憾并非源于"不够努力"，而是<strong>在"前途"的名义下，将爱情视为可无限推迟的"选项"</strong>。她以为"等到学业有成""等到工作稳定"，爱情就能自然回归。但现实是：<strong>人心会变，缘分会散，青春的热望会冷却</strong>。当她在异国修马桶、被抢劫后独自面对恐惧时，她失去的不仅是伴侣，更是生命中最本真的温暖与支撑。</p>
+                  <p><strong>"前途"是抽象的、可量化的（名校、高薪），而"四季"是具体的、不可逆的（心动的瞬间、相拥的温度、共同成长的岁月）</strong>。用不可再生的生命体验去兑换一个不确定的未来，代价是否太大？</p>
+                  
+                  <p><strong>2. "对的人会站在前途里"是危险的幻觉</strong></p>
+                  <p>这个观点隐含一个前提：<strong>真正的爱情能经受住无限期等待和物理距离的考验</strong>。但音频里女孩的伴侣"不愿意跟着去美国"，说明<strong>当现实选择出现分歧时，"对的人"也可能成为"错的时间"</strong>。</p>
+                  <p>真正的"对的人"，或许不是被动等待你抵达终点的人，而是<strong>愿意与你共同跋涉、在泥泞中互相搀扶的人</strong>。如果一段关系需要以"牺牲当下所有情感需求"为代价，它本身就可能脆弱得经不起考验。</p>
+                  
+                  <p><strong>3. "赶路"的本质，不该是孤军奋战</strong></p>
+                  <p>音频中女孩最痛的顿悟是："为什么要在最好的年纪离开你？"——<strong>她意识到，所谓"前途"，本可以包含"你"</strong>。</p>
+                  <p>人生真正的"前途"，不该是独自冲向山顶的孤影，而是<strong>有人与你并肩看四季流转</strong>。若为前途必须斩断情感联结，那抵达终点时，你是否已成为自己都不认识的陌生人？<strong>没有温度的"成功"，不过是精致的牢笼</strong>。</p>
+                  
+                  <h5>但"前途"与"四季"真的只能二选一吗？</h5>
+                  <p>音频的悲剧性正在于：<strong>它默认了"前途"与"爱情"的对立</strong>。然而现实并非如此：</p>
+                  <ul>
+                    <li><strong>真正的"前途"，应包含情感的滋养</strong>。一个能让你在修马桶时有人递扳手、被抢劫后能拥抱取暖的人，才是你对抗世界最坚固的铠甲。<strong>爱情不是前途的绊脚石，而是续航的燃料</strong>。</li>
+                    <li><strong>"等待"的陷阱，在于被动而非主动</strong>。若两人因现实所迫暂时分离，但<strong>持续经营关系、共同规划未来</strong>（而非"永远等下去"），距离未必会杀死爱情。音频中女孩的遗憾，恰恰在于把"等待"变成了单方面的搁置。</li>
+                    <li><strong>"四季错过"的警示，是提醒我们警惕"虚假的前途"</strong>。当你为一份工作放弃所有生活、为一个虚无的目标透支健康，或许该问：<strong>这个"前途"，真的值得你用整个人生去抵押吗？</strong></li>
+                  </ul>
+                  
+                  <h5>最后：给所有在赶路的人</h5>
+                  <p>音频中那句"这世界上到底有什么东西是我们放不下的？除了人，除了那个人，除了你"，道尽了生命最本真的答案。<strong>我们终其一生追求的"前途"，若不能让人活得有温度、有联结、有值得回味的"四季"，不过是徒劳的自我感动</strong>。</p>
+                  
+                  <p><strong>真正的智慧，是学会在赶路时，依然能看见路边的花，牵住身边人的手——因为前途不是孤岛，而是你与所爱之人共同抵达的大陆。</strong></p>
+                  
+                  <p>若有人告诉你"先立业再成家""前途比爱情重要"，请警惕：这或许只是社会规训的复读机。<strong>你的人生，值得在奋斗中依然保有心跳的温度。</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="p-emotion-1" class="tab-panel" role="tabpanel" aria-labelledby="t-emotion-1">
+          <div class="sample-case">
+            <h3>Identity Inference & Social Reasoning</h3>
+            <div class="audio-center" style="margin-bottom:12px">
+              <audio src="assets/Social Reasoning.m4a" controls preload="none"></audio>
+            </div>
+            <div class="video-center">
+              <video src="assets/Powell.mp4" controls preload="metadata"></video>
+            </div>
+            <div class="qa-wrap">
+              <div class="qa-box">
+                <h4>Question</h4>
+                <p>说话的人可能是谁，它性格如何？</p>
+              </div>
+              <div class="reasoning-box">
+                <h4>Model Thinking Process</h4>
+                
+                <div class="reasoning-section">
+                  <p>首先，用户提供了一个音频片段，内容是关于经济政策的陈述。说话者提到了"maximum employment and stable prices"（最大就业和稳定物价）、"unemployment rate"（失业率）、"inflation"（通货膨胀）等术语，并宣布了"Federal Open Market Committee"（联邦公开市场委员会）决定"lower our policy interest rate by a quarter percentage point"（将政策利率下调0.25个百分点）。</p>
+                  
+                  <p>基于这些内容，说话者很可能是一位高级政府官员或中央银行官员。具体来说，提到"Federal Open Market Committee"表明这是美国联邦储备系统（美联储）的会议。美联储主席通常会发表这样的声明。</p>
+                  
+                  <p>所以，说话者可能是美联储主席。当前的美联储主席是杰罗姆·鲍威尔（Jerome Powell）。音频中的声音听起来像是一位中年或老年男性，语气沉稳、专业。</p>
+                  
+                  <p>现在，用户的问题是："说话的人可能是谁，它性格如何"。这里的"它"可能是个打字错误，应该是"他"，因为说话者是男性。</p>
+                  
+                  <p>我需要分析说话者的性格。性格分析应该基于音频中的语气、语速、用词等。</p>
+                  
+                  <p>从音频中：</p>
+                  <ul>
+                    <li><strong>语气</strong>：冷静、严肃、权威。没有情绪波动，非常专业。</li>
+                    <li><strong>语速</strong>：适中，清晰，有条不紊。这表明说话者在传达重要信息，需要确保听众理解。</li>
+                    <li><strong>用词</strong>：正式、精确，使用经济术语，显示出专业知识和严谨性。</li>
+                    <li><strong>内容</strong>：在宣布降息时，他提到了经济风险（"downside risks to employment have risen"），但语气保持镇定，这表明他试图传达信心，同时承认挑战。</li>
+                  </ul>
+                  
+                  <p>因此，性格特点可能包括：</p>
+                  <ul>
+                    <li><strong>专业和知识渊博</strong>：对经济问题有深入理解。</li>
+                    <li><strong>沉着冷静</strong>：在讨论经济不确定性时保持镇定。</li>
+                    <li><strong>负责任</strong>：强调委员会的决定是为了"the benefit of the American people"（美国人民的利益）。</li>
+                    <li><strong>有条理</strong>：陈述逻辑清晰，从目标到现状再到决策。</li>
+                  </ul>
+                  
+                  <p>用户说"它性格如何"，但"它"通常用于物体，而这里应该指人。可能用户误用了代词。我应该假设是"他"。</p>
+                  
+                  <p>在中文中，"它"可以用于人，但通常不正式；更常见的是用"他"或"她"。既然音频中是男性声音，我应该用"他"。</p>
+                  
+                  <p>总结回答：</p>
+                  <ul>
+                    <li>说话者可能是美联储主席杰罗姆·鲍威尔。</li>
+                    <li>性格：专业、冷静、权威、负责任、有条理。</li>
+                  </ul>
+                  
+                  <p>为了更全面，我可以提到，作为中央银行行长，他需要表现出稳定性和可信度，因此性格往往被塑造成谨慎和稳重。</p>
+                  
+                  <p>最后，确保回答基于音频内容，而不是外部知识。音频中没有直接说名字，但上下文强烈暗示是美联储官员。</p>
+                </div>
+                
+                <div class="reasoning-conclusion">
+                  <p>根据您提供的音频片段（内容涉及经济政策声明，包括"maximum employment and stable prices"、"unemployment rate"、"inflation"以及"Federal Open Market Committee"决定降息），我将从音频内容和说话者的表达方式来分析。以下是我的回答，分为两部分：<strong>说话者可能的身份</strong>和<strong>性格分析</strong>。分析基于音频中的语言、语气、语速和上下文，避免过度依赖外部知识（如真实人物信息），但会结合经济领域的常见背景进行合理推断。</p>
+                  
+                  <h5>1. 说话者可能的身份</h5>
+                  <p>从音频内容来看，说话者极有可能是<strong>美国联邦储备系统（美联储）的高级官员</strong>，最具体地说是<strong>美联储主席（Chair of the Federal Reserve）</strong>。原因如下：</p>
+                  <ul>
+                    <li><strong>关键线索</strong>：音频中明确提到"Federal Open Market Committee"（联邦公开市场委员会，简称FOMC），这是美联储负责制定货币政策的核心机构。说话者以"my colleagues and I"（我和我的同事们）和"our policy interest rate"（我们的政策利率）的口吻发言，表明他是该委员会的领导者或核心成员。</li>
+                    <li><strong>内容专业性</strong>：他讨论了"maximum employment"（最大就业）、"stable prices"（稳定物价）、"unemployment rate"（失业率）和"inflation"（通货膨胀）等宏观经济目标，这些都是美联储的法定职责（根据《联邦储备法案》）。宣布"lower our policy interest rate by a quarter percentage point"（将政策利率下调0.25个百分点）是典型的美联储政策行动。</li>
+                    <li><strong>背景推断</strong>：在现实中，美联储主席通常是此类声明的发言人（当前主席是杰罗姆·鲍威尔，Jerome Powell）。但即使不考虑现实，音频中的角色设定也清晰指向一位<strong>中央银行行长或高级决策者</strong>，负责向公众和市场传达经济政策。</li>
+                  </ul>
+                  
+                  <p>因此，<strong>说话者最可能是美联储主席</strong>。他代表官方机构发言，而非个人身份。</p>
+                  
+                  <h5>2. 说话者的性格分析</h5>
+                  <p>音频虽短，但通过语气、语速、用词和逻辑结构，可以推断出说话者具有以下性格特点。分析基于音频中的<strong>听觉线索</strong>（例如声音的沉稳度、节奏感）和<strong>语言内容</strong>（例如措辞的严谨性），避免主观臆断。整体而言，他的性格展现出<strong>高度专业性和责任感</strong>，符合其作为经济决策者的角色。</p>
+                  
+                  <p><strong>主要性格特点：</strong></p>
+                  <ul>
+                    <li><strong>冷静沉着（Calm and Composed）</strong>：
+                      <ul>
+                        <li><strong>表现</strong>：在讨论经济风险（如"downside risks to employment have risen"和"inflation has risen recently"）时，他的语速平稳、语气镇定，没有情绪波动。声音保持中低音调，节奏不疾不徐，传递出一种"一切尽在掌握"的稳定感。</li>
+                        <li><strong>原因</strong>：作为央行行长，他需要在市场波动中安抚公众信心。这种冷静不是冷漠，而是专业素养的体现——承认问题但避免制造恐慌，显示其理性应对压力的能力。</li>
+                      </ul>
+                    </li>
+                    
+                    <li><strong>严谨权威（Rigorous and Authoritative）</strong>：
+                      <ul>
+                        <li><strong>表现</strong>：用词极其精确，例如使用"dual mandate goals"（双重使命目标）、"quarter percentage point"（0.25个百分点）等专业术语，避免模糊表述。句子结构清晰，逻辑性强（从目标→现状分析→决策宣布），体现了深思熟虑的决策过程。</li>
+                        <li><strong>原因</strong>：他的权威性建立在专业知识和数据之上。语气中带有一种不容置疑的自信（例如"remains squarely focused on achieving"），但并非傲慢，而是源于对政策框架的坚定信念。这表明他是一个<strong>注重细节、以事实为依据</strong>的人。</li>
+                      </ul>
+                    </li>
+                    
+                    <li><strong>负责任且有担当（Responsible and Pragmatic）</strong>：
+                      <ul>
+                        <li><strong>表现</strong>：开篇强调"for the benefit of the American people"（为了美国人民的利益），将政策与民生联系起来；在承认经济放缓（"job gains have slowed"）的同时，主动说明降息是"in light of the shift in the balance of risks"（鉴于风险平衡的变化），显示决策的透明度和责任感。</li>
+                        <li><strong>原因</strong>：他没有回避负面信息，而是坦诚分析挑战，这反映了<strong>务实主义</strong>——不粉饰太平，但聚焦解决方案。这种性格在危机中尤为重要，能建立公众信任。</li>
+                      </ul>
+                    </li>
+                    
+                    <li><strong>有条理且善于沟通（Methodical and Communicative）</strong>：
+                      <ul>
+                        <li><strong>表现</strong>：陈述逻辑层层递进：先重申目标（就业和物价稳定），再评估现状（失业率低但风险上升），最后宣布行动（降息）。停顿自然，重点词汇（如"lower"）有轻微强调，便于听众理解复杂信息。</li>
+                        <li><strong>原因</strong>：作为政策沟通者，他深知语言的力量。这种条理性表明他<strong>思维清晰、准备充分</strong>，习惯于将复杂问题简化为可执行的决策，体现了领导者的沟通智慧。</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  
+                  <h5>性格总结</h5>
+                  <p>综合来看，说话者展现出一种<strong>典型的"政策制定者"性格</strong>：<strong>外在冷静权威，内在严谨负责</strong>。他不是一个情绪化的人，而是以数据和逻辑驱动决策；同时，他有强烈的社会责任感，将政策与公共利益挂钩。这种性格在经济动荡时期至关重要——既能传递信心，又能体现决策的审慎性。</p>
+                  
+                  <p><strong>注意</strong>：性格分析基于音频片段的有限信息，可能受角色要求影响（例如，作为官方发言人，他需刻意保持专业形象）。在非正式场合，其真实性格可能更放松，但在此声明中，他完美地扮演了"稳定器"的角色。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="p-mbti-1" class="tab-panel" role="tabpanel" aria-labelledby="t-mbti-1">
+          <div class="sample-case">
+            <h3>Predict MBTI</h3>
+            <div class="audio-center" style="margin-bottom:12px">
+              <audio src="assets/MBTI_Curiosity_Cart.m4a" controls preload="none"></audio>
+            </div>
+            <div class="qa-wrap">
+              <div class="qa-box">
+                <h4>Question</h4>
+                <p>请分析并判断音频中说话人的MBTI</p>
+              </div>
+
+              <div class="reasoning-box">
+                <h4>Model Thinking Process</h4>
+
+                <div class="reasoning-section">
+                  <p>首先，用户要求我分析音频中说话人的MBTI（迈尔斯-布里格斯类型指标）。MBTI是一种性格分类系统，分为四个维度：外向（E） vs 向（I），感觉（S） vs 直觉（N），思考（T） vs 感（F），判断（J） vs 知（P）。每个维度有两个选项，组合成16种类型。</p>
+                  <p>我需要基于音频内容来推断说话人的MBTI。音频是文本形式的转录，所以我必须从对话中提取线索。</p>
+                  <p>音频内容：</p>
+                  <ul>
+                    <li>说话人1（女性）： "But not only that, I think be respectful of each other's boundaries and just know that it doesn't, what's okay for you is different than what's okay for me and everyone has their own things that they need."</li>
+                    <li>说话人2（男性）： "That's not all of that conversation."</li>
+                    <li>说话人1（女性）： "No, it's not, because we're not going to keep having it."</li>
+                  </ul>
+                  <p>关键点：</p>
+                  <ul>
+                    <li>说话人1在讨论尊重界限、个人差异和需求。她强调“what's okay for you is different than what's okay for me”，这表明她关注人际关系、同理心和个体差异。</li>
+                    <li>说话人2打断并说“That's not all of that conversation”，暗示对话不完整或有更多上下文。</li>
+                    <li>说话人1回应“No, it's not, because we're not going to keep having it”，显示她可能想结束对话或避免进一步争论。</li>
+                  </ul>
+                  <p>现在，分析说话人1的MBTI，因为她是主要说话者，提供了更多内容。</p>
+                  <p>从她的语言中推断：</p>
+                  <ol>
+                    <li><strong>外向（E） vs 向（I）</strong>：她似乎在表达个人观点（"I think"），但对话是互动的。她主动提出观点，可能偏向外向。然而，她谈论的是内在感受和界限，这可能更内向。需要更多线索。</li>
+                    <li><strong>感觉（S） vs 直觉（N）</strong>：感觉关注具体细节和现实，直觉关注抽象概念和可能性。她说“what's okay for you is different than what's okay for me”，这涉及抽象概念如个人界限和差异，可能偏向直觉。她没有提到具体事件，而是泛泛而谈。</li>
+                    <li><strong>思考（T） vs 感（F）</strong>：思考基于逻辑，情感基于价值观。她强调“respectful of each other's boundaries”和“everyone has their own things”，这显示对人际关系和情感的重视，可能偏向情感（F）。她使用“know that it doesn't”有点模糊，但整体语气是关怀的。</li>
+                    <li><strong>判断（J） vs 知（P）</strong>：判断偏好结构和计划，知觉偏好灵活性和开放性。她说“we're not going to keep having it”，表明她想结束对话，可能偏向判断（J），因为她在做决定。但对话本身是开放的，她可能更知觉。</li>
+                  </ol>
+                  <p>更深入分析：</p>
+                  <ul>
+                    <li>说话人1使用“I think”，表明她在表达个人信念。</li>
+                    <li>调尊重界限和个体差异：这常见于情感类型（F），因为他们重视和谐和同理心。</li>
+                    <li>说“what's okay for you is different than what's okay for me”：这显示她理解主观性，可能直觉（N），因为直觉类型更关注抽象和概念。</li>
+                    <li>应“No, it's not, because we're not going to keep having it”：这显示她果断，可能判断（J），但原因是为了避免重复争论，可能出于情感原因（不想继续争论）。</li>
+                  </ul>
+                  <p>可能的MBTI类型：</p>
+                  <ul>
+                    <li><strong>INFJ</strong>：内向、直觉、情感、判断。INFJ 以理想主义、同理心和对意义的追求著称。他们经常讨论人际关系和价值观。她谈论界限和差异，符合INFJ。</li>
+                    <li><strong>ENFJ</strong>：外向、直觉、情感、判断。ENFJ 是“倡导者”，关注他人福祉，善于沟通。她主动提出观点，可能外向。</li>
+                    <li><strong>INFP</strong>：内向、直觉、情感、知觉。INFP 重视个人价值观和和谐，但可能更知觉（P），避免冲突。</li>
+                    <li><strong>ENFP</strong>：外向、直觉、情感、知觉。ENFP 好奇、热情，但可能更灵活。</li>
+                  </ul>
+                  <p>从对话看：</p>
+                  <ul>
+                    <li>说话人1在解释一个概念，显示她有条理（可能J）。</li>
+                    <li>但她说“we're not going to keep having it”，表明她想结束，可能为了避免情感耗竭，这常见于情感类型。</li>
+                    <li>说话人2的打断可能让她感到压力，她迅速回应。</li>
+                  </ul>
+                  <p>另一个角度：MBTI 不能仅从少量对话确定，但基于常见模式。</p>
+                  <p>典型线索：</p>
+                  <ul>
+                    <li>感（F）：使用“尊重”、“界限”、“每个人的需求”，关注人际关系。</li>
+                    <li>直觉（N）：谈论抽象概念，如“what's okay for you”，而不是具体例子。</li>
+                    <li>向（I）：她分享个人想法，但对话是互动的；可能I，因为她深入思考。</li>
+                    <li>断（J）：她结束对话的意图，显示决策。</li>
+                  </ul>
+                  <p>说话人1说“everyone has their own things that they need”，这很模糊，但显示她考虑他人需求。</p>
+                  <p>在MBTI中，F类型更可能强调情感方面。</p>
+                  <p>比较INFJ和ENFJ：</p>
+                  <ul>
+                    <li>INFJ：更内省，可能更注重内在意义。</li>
+                    <li>ENFJ：更多外向，善于领导和激励。</li>
+                  </ul>
+                  <p>从音频，她似乎在对话中，但内容是反思性的，可能INFJ。</p>
+                  <p>说话人2说“That's not all of that conversation”，暗示对话有历史，说话人1可能想简化。</p>
+                  <p>最终，说话人1的回应“No, it's not, because we're not going to keep having it”显示她设置界限，这符合INFJ或INFP。</p>
+                  <p>但INFP可能更知觉（P），而她似乎在做决定（J）。</p>
+                  <p>常见MBTI误解：INFJ 有时被误认为INFP，但INFJ 更判断。</p>
+                  <p>分析说话人2：男性说“That's not all of that conversation”，可能表示他不同意或认为有更多内容。这可能显示他更关注事实或细节（S），但只有一句话，难判断。</p>
+                  <p>用户说“音频中说话人”，可能指主要说话者，即女性。</p>
+                  <p>在响应中，我应该提供推理。</p>
+                  <p>作为AI，我需要给出深思熟虑、条理清晰的回答，用自然语言。</p>
+                  <p>结构化响应：</p>
+                  <ol>
+                    <li>陈述主要情绪。</li>
+                    <li>解释语气。</li>
+                    <li>用音频内容支持。</li>
+                  </ol>
+                  <p>最终回答结构：</p>
+                  <ol>
+                    <li>介绍：解释MBTI和分析基础。</li>
+                    <li>分析说话人1的语言和行为。</li>
+                    <li>断可能类型，并解释原因。</li>
+                    <li>认局限性：仅基于短对话，不能确定。</li>
+                  </ol>
+                </div>
+
+                <div class="reasoning-conclusion">
+                  <p>基于你提供的音频片段，我来分析一下说话人的MBTI（迈尔斯-布里格斯类型指标）类型。MBTI是一种性格分类工具，通过四个维度（外向E vs 内向I、感觉S vs 直觉N、思考T vs 情感F、判断J vs 知觉P）将人分为16种类型。需要强调的是，仅凭这段简短的对话来确定MBTI类型存在局限性——真实性格需要更全面的观察，包括长期行为、价值观和更多互动场景。不过，我们可以从对话内容、语言风格和互动动态中提取线索，进行合理的推断。我会尽量保持客观，避免过度解读，同时用自然的方式解释我的思考过程。</p>
+                  <p>首先，聚焦主要说话人。音频中主要有两位说话人：一位女性（主导对话）和一位男性（简短插话）。由于女性说话人提供了更丰富的语言内容和情感线索，我的分析会以她为主。男性的角色较被动，只有一句插话，因此我主要关注女性说话人的表现。她的核心发言是：“But not only that, I think be respectful of each other's boundaries and just know that it doesn't, what's okay for you is different than what's okay for me and everyone has their own things that they need.” 以及后续回应：“No, it's not, because we're not going to keep having it.”</p>
+                  <p>分析关键线索，从对话中推断MBTI维度。MBTI的四个维度需要逐一拆解。我会结合她的用词、语气和行为逻辑来推理，避免主观臆断。记住，MBTI不是科学诊断，而是一种性格框架，重点在于“模式匹配”而非绝对正确。</p>
+                  <p>外向（E） vs 内向（I）：她主动提出观点（“I think...”），并试图解释一个抽象概念，这显示她乐于表达和分享想法，可能偏向外向（E）。但她的内容非常内省——聚焦于“界限”“个人需求”等内在感受，而不是外部事件或社交活动。她没有扩展话题或寻求更多互动，反而在结尾时果断结束对话（“we're not going to keep having it”），这更像是内向者（I）的典型行为：当能量耗尽时，会主动抽离以恢复精力。我的判断：更倾向内向（I）。理由是，她的表达虽主动，但核心是处理内在情感和原则，而非社交本身。</p>
+                  <p>感觉（S） vs 直觉（N）：她完全没提具体事件或细节，而是用高度抽象的语言讨论“what's okay for you is different than what's okay for me”。这指向直觉（N）——直觉型更关注模式、可能性和概念性意义，而不是现实细节。例如，“everyone has their own things that they need”这种泛化表述，是直觉型对“人类经验”的典型概括。我的判断：明显直觉（N）。</p>
+                  <p>思考（T） vs 情感（F）：她反复强调“尊重界限”“每个人的需求不同”，核心是维护人际关系和谐与同理心。用词如“respectful”“boundaries”“everyone has their own things”都透露出对他人感受的强烈关注，而非逻辑分析或客观评判。当男性插话时，她回应“No, it's not”时语气坚定但非攻击性，更像在保护情感边界。我的判断：明确情感（F）。</p>
+                  <p>判断（J） vs 知觉（P）：她试图给对话“下结论”（“know that it doesn't...”），并主动结束话题（“we're not going to keep having it”），显示她偏好结构和决策——判断型（J）喜欢 closure（了结感），避免悬而未决。我的判断：倾向判断（J）。理由是，她主动设定边界并推动对话结束，体现了J型的规划倾向——尤其当情感（F）和直觉（N）结合时，J型常表现为“用原则结束争论以维护关系”。</p>
+                  <p>综合推断：女性说话人的模式最符合INFJ（倡导者）类型。INFJ 的核心特征是理想主义、高度共情、重视深层意义和人际关系，但容易在社交中感到疲惫，因此会主动设置边界。他们常讨论抽象价值观，并用温和但坚定的方式结束消耗性对话——这和音频中她的表现高度一致。例如，她说“what's okay for you is different than what's okay for me”时，不是在指责，而是在表达一种普世信念，这正是INFJ的“倡导者”风格。</p>
+                  <p>为什么不是其他类型？ENFJ也符合情感（F）和直觉（N），但ENFJ更外向，会更热情地延续对话以“解决问题”，而不是像她这样果断结束。INFP同样情感（F）和直觉（N），但INFP更偏向知觉（P），会避免冲突或模糊表达，而她明确说“we're not going to keep having it”。INTJ则侧重逻辑（T），不会如此强调“尊重界限”。</p>
+                  <p>男性说话人只有一句插话（“That's not all of that conversation”），暗示他可能更关注事实或上下文，但样本太小，无法可靠判断。他的角色更像是“现实主义者”，与女性说话人的抽象风格形成对比——这也侧面强化了女性的直觉（N）特征。</p>
+                  <p>重要提醒：分析的局限性——这不是诊断，MBTI需要完整问卷和专业解读。这段对话太短，可能受情境影响。建议如果想更准确了解自己或他人，还是做正式测试，并结合长期观察。性格是光谱，不是标签。比如INFJ也可能有ENFJ的时刻。</p>
+                  <p>总之，基于这段音频，女性说话人展现出强烈的INFJ特质：一个温柔的理想主义者，用直觉和情感守护人际关系，同时在需要时果断设置边界。这让我想到，她可能在日常中是个很好的倾听者，但需要独处时间来“充电”。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        
+
+
+
+        
+        <p class="muted" style="margin-top:12px">注：蓝色方块内为模型思考之后输出的回复。</p>
+      </div>
+    </section>
+
+    <!-- Samples 2：Knowledge & Logic Reasoning -->
+    <section id="samples-2" class="section samples" aria-labelledby="h-samples-2">
+      <div class="section__head"><h2 id="h-samples-2">Knowledge & Logic Reasoning</h2></div>
+      <div class="section__body">
+        <div class="tabs" role="tablist" aria-label="Samples Tabs 2">
+          <button class="tab-btn" role="tab" aria-selected="true"  aria-controls="p-reason-2" id="t-reason-2">Coreference Resolution</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-emotion-2" id="t-emotion-2">Coreference Resolution</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-free-2"   id="t-free-2">Logical Reasoning</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-perception-2" id="t-perception-2">Knowledge Grounded Reasoning</button>
+        </div>
+
+        <div id="p-reason-2" class="tab-panel active" role="tabpanel" aria-labelledby="t-reason-2">
           <div class="sample-case">
             <h3>Coreference Resolution</h3>
             <div class="audio-center" style="margin-bottom:12px">
@@ -713,7 +1486,7 @@
           </div>
         </div>
 
-        <div id="p-emotion-1" class="tab-panel" role="tabpanel" aria-labelledby="t-emotion-1">
+        <div id="p-emotion-2" class="tab-panel" role="tabpanel" aria-labelledby="t-emotion-2">
           <div class="sample-case">
             <h3>Coreference Resolution</h3>
             <div class="audio-center" style="margin-bottom:12px">
@@ -859,7 +1632,7 @@
           </div>
         </div>
 
-        <div id="p-free-1" class="tab-panel" role="tabpanel" aria-labelledby="t-free-1">
+        <div id="p-free-2" class="tab-panel" role="tabpanel" aria-labelledby="t-free-2">
           <div class="sample-case">
             <h3>Logical Reasoning</h3>
             <div class="audio-center" style="margin-bottom:12px">
@@ -967,7 +1740,7 @@
           </div>
         </div>
 
-        <div id="p-perception-1" class="tab-panel" role="tabpanel" aria-labelledby="t-perception-1">
+        <div id="p-perception-2" class="tab-panel" role="tabpanel" aria-labelledby="t-perception-2">
           <div class="sample-case">
             <h3>Knowledge Grounded Reasoning</h3>
             <div class="audio-center" style="margin-bottom:12px">
@@ -1026,22 +1799,22 @@
           </div>
         </div>
 
-        <p class="muted" style="margin-top:12px">注：Model Thinking Process中蓝色方块内的内容为模型输出的回答。</p>
+        <p class="muted" style="margin-top:12px">注：蓝色方块内为模型思考之后输出的回复。</p>
       </div>
     </section>
 
-    <!-- Samples 2：Paralinguistics & Perception Reasoning -->
-    <section id="samples-2" class="section samples" aria-labelledby="h-samples-2">
-      <div class="section__head"><h2 id="h-samples-2">Paralinguistics & Perception Reasoning</h2></div>
+    <!-- Samples 3：Paralinguistics & Perception Reasoning -->
+    <section id="samples-3" class="section samples" aria-labelledby="h-samples-3">
+      <div class="section__head"><h2 id="h-samples-3">Paralinguistics & Perception Reasoning</h2></div>
       <div class="section__body">
-        <div class="tabs" role="tablist" aria-label="Samples Tabs 2">
-          <button class="tab-btn" role="tab" aria-selected="true"  aria-controls="p-reason-2" id="t-reason-2">Intonation Interpretation</button>
-          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-emotion-2" id="t-emotion-2">Personality Inference</button>
-          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-free-2"   id="t-free-2">Environmental Understanding</button>
-          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-perception-2" id="t-perception-2">Emotion Reasoning</button>
+        <div class="tabs" role="tablist" aria-label="Samples Tabs 3">
+          <button class="tab-btn" role="tab" aria-selected="true"  aria-controls="p-reason-3" id="t-reason-3">Intonation Interpretation</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-emotion-3" id="t-emotion-3">Personality Inference</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-free-3"   id="t-free-3">Environmental Understanding</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-perception-3" id="t-perception-3">Emotion Reasoning</button>
         </div>
 
-        <div id="p-reason-2" class="tab-panel active" role="tabpanel" aria-labelledby="t-reason-2">
+        <div id="p-reason-3" class="tab-panel active" role="tabpanel" aria-labelledby="t-reason-3">
           <div class="sample-case">
             <h3>Intonation Interpretation</h3>
             <div class="audio-center" style="margin-bottom:12px">
@@ -1125,7 +1898,7 @@
           </div>
         </div>
 
-        <div id="p-emotion-2" class="tab-panel" role="tabpanel" aria-labelledby="t-emotion-2">
+        <div id="p-emotion-3" class="tab-panel" role="tabpanel" aria-labelledby="t-emotion-3">
           <div class="sample-case">
             <h3>Personality Inference</h3>
             <div class="audio-center" style="margin-bottom:12px">
@@ -1199,7 +1972,7 @@
           </div>
         </div>
 
-        <div id="p-free-2" class="tab-panel" role="tabpanel" aria-labelledby="t-free-2">
+        <div id="p-free-3" class="tab-panel" role="tabpanel" aria-labelledby="t-free-3">
           <div class="sample-case">
             <h3>Environmental Understanding</h3>
             <div class="audio-center" style="margin-bottom:12px">
@@ -1303,7 +2076,7 @@
           </div>
         </div>
 
-        <div id="p-perception-2" class="tab-panel" role="tabpanel" aria-labelledby="t-perception-2">
+        <div id="p-perception-3" class="tab-panel" role="tabpanel" aria-labelledby="t-perception-3">
           <div class="sample-case">
             <h3>Emotion Reasoning</h3>
             <div class="audio-center" style="margin-bottom:12px">
@@ -1400,461 +2173,7 @@
           </div>
         </div>
 
-        <p class="muted" style="margin-top:12px">注：Model Thinking Process中蓝色方块内的内容为模型输出的回答。</p>
-      </div>
-    </section>
-
-    <!-- Samples 3：Affective & Social IQ Reasoning -->
-    <section id="samples-3" class="section samples" aria-labelledby="h-samples-3">
-      <div class="section__head"><h2 id="h-samples-3">Affective & Social IQ Reasoning</h2></div>
-      <div class="section__body">
-        <div class="tabs" role="tablist" aria-label="Samples Tabs 3">
-          <button class="tab-btn" role="tab" aria-selected="true"  aria-controls="p-perception-3" id="t-perception-3">Speaker Trait Inference</button>
-          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-reason-3" id="t-reason-3">Philosophical & Affective Value Judgement</button>
-          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-emotion-3" id="t-emotion-3">Identity Inference & Social Reasoning</button>
-          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="p-mbti-3" id="t-mbti-3">Predict MBTI</button>
-
-          
-        </div>
-
-
-        <div id="p-perception-3" class="tab-panel active" role="tabpanel" aria-labelledby="t-perception-3">
-          <div class="sample-case">
-            <h3>Speaker Trait Inference</h3>
-            <div class="audio-center" style="margin-bottom:12px">
-              <audio src="assets/Speaker Trait Inference.m4a" controls preload="none"></audio>
-            </div>
-            <div class="video-center">
-              <video src="assets/huyifei.mov" controls preload="none"></video>
-            </div>
-            <div class="qa-wrap">
-              <div class="qa-box">
-                <h4>Question</h4>
-                <p>说话人的语气和音色如何反映他的性格和情绪特征？</p>
-              </div>
-              <div class="reasoning-box">
-                <h4>Model Thinking Process</h4>
-                
-                <div class="reasoning-section">
-                  <p>首先，问题是："说话人的语气和音色如何反映他的性格和情绪特征？" 但音频中说话的是一个女性，所以应该是"她的"而不是"他的"。我会在回答中使用正确的代词。</p>
-                  
-                  <p>我需要分析音频中说话人的语气和音色，以推断她的性格和情绪特征。音频内容是："就算没人听又怎么样？就算再深更半夜又怎么样？"</p>
-                  
-                  <p>关键点：</p>
-                  <ul>
-                    <li><strong>语气（Tone）</strong>：这是指说话的方式，包括音高、音量、语速、节奏等。</li>
-                    <li><strong>音色（Timbre）</strong>：这是指声音的质感，如清亮、沙哑、柔和等。</li>
-                  </ul>
-                  
-                  <p>从音频中：</p>
-                  <ul>
-                    <li><strong>语气</strong>：说话人的语气非常坚定、果断，带有一种挑战性和不屑一顾的态度。她在说"又怎么样？"时，语调上扬，但不是疑问，而是反问，表达一种"无所谓"或"不在乎"的情绪。语速适中，但每个字都很有力，显示出强烈的决心。</li>
-                    <li><strong>音色</strong>：声音清亮、有力，没有犹豫或颤抖。这表明她内心强大，自信。</li>
-                  </ul>
-                  
-                  <p>现在，推断性格和情绪特征：</p>
-                  
-                  <p><strong>情绪特征：</strong></p>
-                  <ul>
-                    <li><strong>自信</strong>：她对所说的话非常确定，没有丝毫怀疑。</li>
-                    <li><strong>坚定</strong>：语气中透露出一种不屈不挠的精神，即使面对困难（如没人听、深更半夜）也不退缩。</li>
-                    <li><strong>挑战性</strong>：通过反问，她在挑战潜在的批评者或质疑者，显示出一种对抗性。</li>
-                    <li><strong>独立</strong>：她似乎在强调自己的自主性，不在乎外界的看法。</li>
-                  </ul>
-                  
-                  <p><strong>性格特征：</strong></p>
-                  <ul>
-                    <li><strong>坚强、有韧性</strong>：她能够承受压力，并坚持自己的道路。</li>
-                    <li><strong>果断、有主见</strong>：不轻易被他人影响，有自己的原则。</li>
-                    <li><strong>可能有些固执或叛逆</strong>：这种语气可能源于一种反叛精神，拒绝随波逐流。</li>
-                    <li><strong>充满激情</strong>：声音中的能量表明她对自己的事业或信念充满热情。</li>
-                  </ul>
-                  
-                  <p>在上下文中，这句话可能来自一个故事或戏剧场景，比如一个艺术家或创作者在深夜工作，不在乎是否有人欣赏。这强化了她专注自我、追求内心价值的性格。</p>
-                  
-                  <p>总结：</p>
-                  <ul>
-                    <li><strong>语气</strong>：坚定、挑战性、果断。</li>
-                    <li><strong>音色</strong>：清亮、有力、自信。</li>
-                    <li><strong>反映的情绪</strong>：自信、坚定、不屑、充满决心。</li>
-                    <li><strong>反映的性格</strong>：坚强、独立、有韧性、有主见，可能略带叛逆。</li>
-                  </ul>
-                  
-                  <p>在回答中，我应该：</p>
-                  <ol>
-                    <li>描述语气和音色的具体表现。</li>
-                    <li>解释这些如何反映情绪和性格。</li>
-                    <li>保持客观，基于音频分析。</li>
-                    <li>使用中文，因为问题是中文的。</li>
-                  </ol>
-                  
-                  <p>最终回答结构：</p>
-                  <ul>
-                    <li>先概述整体印象。</li>
-                    <li>详细分析语气和音色。</li>
-                    <li>推断情绪和性格。</li>
-                    <li>简要总结。</li>
-                  </ul>
-                </div>
-                
-                <div class="reasoning-conclusion">
-                  <h5>说话人的语气和音色分析：性格与情绪特征</h5>
-                  
-                  <p>音频中说话人（女性）的台词是："就算没人听又怎么样？就算再深更半夜又怎么样？" 通过仔细聆听，我们可以从其<strong>语气</strong>（语调、语速、音量等）和<strong>音色</strong>（声音质感）中解读出丰富的性格与情绪特征。以下我将结合音频细节进行客观分析，避免主观臆断，仅基于声音表现进行推断。</p>
-                  
-                  <h5>1. 语气分析：坚定、挑战性与不屑一顾</h5>
-                  <ul>
-                    <li><strong>语调与节奏</strong>：说话人的语调明显上扬，尤其在"又怎么样？"部分，但并非疑问式上扬，而是<strong>反问式的挑战</strong>。这种语调传递出一种"无所谓"甚至"不屑"的态度，仿佛在直接回应潜在的质疑或批评。节奏紧凑有力，每个字都掷地有声，没有犹豫或拖沓，显示出极强的决断力。</li>
-                    <li><strong>音量与力度</strong>：音量适中偏高，但并非嘶吼，而是<strong>控制得当的力量感</strong>。声音充满穿透力，尤其在句末的"怎么样"三个字上加重了力度，这反映了说话人内心的能量和信念感。她不是在宣泄情绪，而是在宣告一种立场。</li>
-                    <li><strong>语速</strong>：语速中等，但富有顿挫感。第一句"就算没人听"稍缓，像是在陈述一个事实；第二句"就算再深更半夜"则略微加快，节奏感增强，暗示情绪的递进——从平静的坚持转向更强烈的抗争。这种变化体现了她情绪的层次：表面冷静，内里却充满不屈的斗志。</li>
-                  </ul>
-                  
-                  <p><strong>语气反映的情绪特征</strong>：</p>
-                  <ul>
-                    <li><strong>高度自信与坚定</strong>：她对自身行为的价值毫不怀疑，语气中没有一丝动摇，表明她处于一种"自我确信"的状态，不受外界评价影响。</li>
-                    <li><strong>挑战性与对抗性</strong>：反问句式和上扬语调，透露出一种主动挑战权威或常规的态度。她似乎在说："你们的质疑对我毫无意义"，这是一种积极的防御姿态，而非消极的抱怨。</li>
-                    <li><strong>隐含的孤独与决绝</strong>：虽然语气强势，但"没人听""深更半夜"等内容暗示了她可能身处孤立环境。然而，她并未流露悲伤或脆弱，反而将孤独转化为动力，表现出一种"愈挫愈勇"的决绝情绪。</li>
-                  </ul>
-                  
-                  <h5>2. 音色分析：清亮、坚实与内在力量</h5>
-                  <ul>
-                    <li><strong>音质</strong>：说话人的音色<strong>清亮而坚实</strong>，没有沙哑、气音或颤抖。这种声音质感通常与年轻、健康的生理状态相关，但更重要的是，它传递出一种精神上的"纯净"——即思想清晰、目标明确。声音中缺乏柔和的"气泡感"，反而带有一种金属般的硬度，强化了她刚毅的特质。</li>
-                    <li><strong>共鸣与气息</strong>：声音共鸣饱满，气息稳定深长，说明她说话时底气十足。这并非刻意提高嗓门，而是源于内在的力量感。即使在表达挑战性内容时，声音依然保持稳定，没有因激动而破音或发虚，这反映了她情绪管理能力强，不易被外界动摇。</li>
-                  </ul>
-                  
-                  <p><strong>音色反映的性格特征</strong>：</p>
-                  <ul>
-                    <li><strong>坚强独立</strong>：清亮坚实的音色往往与<strong>独立自主</strong>的性格相关。她似乎习惯于依靠自己，不依赖他人认可，甚至将外界的忽视视为一种"证明自己"的契机。这种声音特质常见于有主见、行动力强的人。</li>
-                    <li><strong>韧性与执着</strong>：音色中缺乏"柔弱"元素，暗示她性格中可能带有<strong>固执或叛逆</strong>的一面。她不易妥协，一旦认定目标就会坚持到底。这种"硬朗"的声音质感，也隐喻了她在逆境中（如深夜独处）依然能保持专注和热情的韧性。</li>
-                    <li><strong>内在激情</strong>：虽然表面语气冷静，但声音的亮度和力度暴露了她内心的<strong>热情与理想主义</strong>。她并非冷漠，而是将情感内化为行动力——例如，一个艺术家或创作者可能在无人欣赏时仍坚持创作，音色中的能量感正是这种激情的体现。</li>
-                  </ul>
-                  
-                  <h5>3. 综合推断：整体性格与情绪画像</h5>
-                  <ul>
-                    <li><strong>情绪状态</strong>：当前情绪是<strong>自信主导的抗争状态</strong>。她可能正面临质疑或孤独，但并未陷入负面情绪（如愤怒或沮丧），而是以一种积极、甚至略带傲气的姿态应对。这是一种"向内求证"的心理：外界如何无所谓，关键是自我价值的实现。</li>
-                    <li><strong>性格特征</strong>：
-                      <ul>
-                        <li><strong>核心是"坚韧的理想主义者"</strong>：她有强烈的自我认同感，行动驱动于内在信念而非外部奖励。性格外显为果断、有主见，但内里可能隐藏着对"被理解"的渴望（否则无需强调"没人听"）。</li>
-                        <li><strong>可能的弱点</strong>：过于独立可能导致社交疏离，挑战性语气也可能被解读为"不易合作"，暗示她性格中存在固执或叛逆倾向，尤其在集体环境中可能显得格格不入。</li>
-                        <li><strong>积极面</strong>：她展现出强大的心理韧性，是典型的"行动派"——不空谈，用实践回应质疑。这种性格在艺术、创新或高压领域中往往能取得突破。</li>
-                      </ul>
-                    </li>
-                  </ul>
-                  
-                  <h5>总结</h5>
-                  <p>说话人的语气和音色共同塑造了一个<strong>独立、自信且充满内在力量的形象</strong>。她的声音不是在寻求同情，而是在宣告一种生存姿态：<strong>"我的价值不由他人定义，即使孤身一人，我亦无悔。"</strong> 这种表现常见于那些在逆境中坚守理想的个体，如深夜工作的创作者、挑战传统的改革者。最终，她的声音传递的不是情绪的宣泄，而是一种<strong>精神上的胜利感</strong>——孤独被转化为力量，质疑被化为动力。这提醒我们，声音的细节往往比言语内容更能揭示一个人的灵魂深度。</p>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="p-reason-3" class="tab-panel" role="tabpanel" aria-labelledby="t-reason-3">
-          <div class="sample-case">
-            <h3>Philosophical & Affective Value Judgement</h3>
-            <div class="audio-center" style="margin-bottom:12px">
-              <audio src="assets/Affective Value Judgement.m4a" controls preload="none"></audio>
-            </div>
-            <div class="qa-wrap">
-              <div class="qa-box">
-                <h4>Question</h4>
-                <p>想问问你，你觉得下面你更认同哪一个“赶路要紧，对的人会站在前途里”还是“究竟是怎样伟大的前程值得我们把四季都错过”</p>
-              </div>
-              <div class="reasoning-box">
-                <h4>Model Thinking Process</h4>
-                
-                <div class="reasoning-section">
-                  <p>嗯，用户分享了一段关于爱情与事业选择的深刻独白，还附上了两个对立的观点让选择认同。这段音频内容情感浓度很高，从校园早恋到异国求学，再到落叶飘零时的顿悟，把"为前程错过爱情"的遗憾刻画得特别真实。</p>
-                  
-                  <p>用户可能正处于人生抉择的十字路口，或者正在经历类似的内心挣扎。ta特意选了这段音频，说明对"事业与爱情的平衡"这个命题有强烈共鸣。最后抛出的两个观点对比很犀利——一个是功利主义的"前途优先"，另一个是浪漫主义的"及时行乐"，这其实是在问：我们到底该不该为未来牺牲当下？</p>
-                  
-                  <p>注意到音频里几个关键细节：女生说"修马桶和装家具"时的孤独感，被抢劫后"拼命想着怎么跟老板请假"的荒诞感，还有波士顿落叶飘零时突然意识到"为什么要在最好的年纪离开你"。这些具象化的场景比单纯说教更有力量，说明用户可能更倾向感性思考。</p>
-                  
-                  <p>不过用户没直接说自己的困境，所以不能武断判断ta的处境。但既然让选观点，或许ta内心已经倾向第二个选项？因为第一个观点"对的人会站在前途里"在音频里被彻底否定了——那个伴侣恰恰因为前途不同而分手了。但作为助手，我得保持中立。</p>
-                  
-                  <p>要小心别掉进非此即彼的陷阱。现实里很少有绝对的选择题，可能需要指出第三条路：比如如何让"前途"包含爱情？音频里女生的遗憾在于"永远等下去"，但或许问题不在等待本身，而在等待时没有经营关系。不过既然用户只给两个选项，还是得紧扣题目。</p>
-                  
-                  <p>最后决定用"动态平衡"来回应：既承认前途重要（否则音频里就不会有留学奋斗的细节），也强调爱情需要主动经营。特别要呼应那个"修马桶"的细节——孤独感恰恰说明，真正的前途不该是孤军奋战。结尾那句"四季错过"的诗意表达得保留，但要转化成行动建议：与其问"值不值得"，不如问"如何不让四季都错过"。</p>
-                </div>
-                
-                <div class="reasoning-conclusion">
-                  <p>这段音频里的故事和独白，像一把钝刀，缓慢而深刻地剖开了许多人在青春与前程之间挣扎的伤口。关于"赶路要紧，对的人会站在前途里"与"究竟是怎样伟大的前程值得我们把四季都错过"这两个观点，<strong>我更认同后者——"究竟是怎样伟大的前程值得我们把四季都错过"</strong>。但这并非否定奋斗的意义，而是对"牺牲"的本质提出质疑。</p>
-                  
-                  <h5>为什么更认同"四季错过"的诘问？</h5>
-                  
-                  <p><strong>1. "前途"常被神化，而"四季"是真实的生命</strong></p>
-                  <p>音频中女孩的遗憾并非源于"不够努力"，而是<strong>在"前途"的名义下，将爱情视为可无限推迟的"选项"</strong>。她以为"等到学业有成""等到工作稳定"，爱情就能自然回归。但现实是：<strong>人心会变，缘分会散，青春的热望会冷却</strong>。当她在异国修马桶、被抢劫后独自面对恐惧时，她失去的不仅是伴侣，更是生命中最本真的温暖与支撑。</p>
-                  <p><strong>"前途"是抽象的、可量化的（名校、高薪），而"四季"是具体的、不可逆的（心动的瞬间、相拥的温度、共同成长的岁月）</strong>。用不可再生的生命体验去兑换一个不确定的未来，代价是否太大？</p>
-                  
-                  <p><strong>2. "对的人会站在前途里"是危险的幻觉</strong></p>
-                  <p>这个观点隐含一个前提：<strong>真正的爱情能经受住无限期等待和物理距离的考验</strong>。但音频里女孩的伴侣"不愿意跟着去美国"，说明<strong>当现实选择出现分歧时，"对的人"也可能成为"错的时间"</strong>。</p>
-                  <p>真正的"对的人"，或许不是被动等待你抵达终点的人，而是<strong>愿意与你共同跋涉、在泥泞中互相搀扶的人</strong>。如果一段关系需要以"牺牲当下所有情感需求"为代价，它本身就可能脆弱得经不起考验。</p>
-                  
-                  <p><strong>3. "赶路"的本质，不该是孤军奋战</strong></p>
-                  <p>音频中女孩最痛的顿悟是："为什么要在最好的年纪离开你？"——<strong>她意识到，所谓"前途"，本可以包含"你"</strong>。</p>
-                  <p>人生真正的"前途"，不该是独自冲向山顶的孤影，而是<strong>有人与你并肩看四季流转</strong>。若为前途必须斩断情感联结，那抵达终点时，你是否已成为自己都不认识的陌生人？<strong>没有温度的"成功"，不过是精致的牢笼</strong>。</p>
-                  
-                  <h5>但"前途"与"四季"真的只能二选一吗？</h5>
-                  <p>音频的悲剧性正在于：<strong>它默认了"前途"与"爱情"的对立</strong>。然而现实并非如此：</p>
-                  <ul>
-                    <li><strong>真正的"前途"，应包含情感的滋养</strong>。一个能让你在修马桶时有人递扳手、被抢劫后能拥抱取暖的人，才是你对抗世界最坚固的铠甲。<strong>爱情不是前途的绊脚石，而是续航的燃料</strong>。</li>
-                    <li><strong>"等待"的陷阱，在于被动而非主动</strong>。若两人因现实所迫暂时分离，但<strong>持续经营关系、共同规划未来</strong>（而非"永远等下去"），距离未必会杀死爱情。音频中女孩的遗憾，恰恰在于把"等待"变成了单方面的搁置。</li>
-                    <li><strong>"四季错过"的警示，是提醒我们警惕"虚假的前途"</strong>。当你为一份工作放弃所有生活、为一个虚无的目标透支健康，或许该问：<strong>这个"前途"，真的值得你用整个人生去抵押吗？</strong></li>
-                  </ul>
-                  
-                  <h5>最后：给所有在赶路的人</h5>
-                  <p>音频中那句"这世界上到底有什么东西是我们放不下的？除了人，除了那个人，除了你"，道尽了生命最本真的答案。<strong>我们终其一生追求的"前途"，若不能让人活得有温度、有联结、有值得回味的"四季"，不过是徒劳的自我感动</strong>。</p>
-                  
-                  <p><strong>真正的智慧，是学会在赶路时，依然能看见路边的花，牵住身边人的手——因为前途不是孤岛，而是你与所爱之人共同抵达的大陆。</strong></p>
-                  
-                  <p>若有人告诉你"先立业再成家""前途比爱情重要"，请警惕：这或许只是社会规训的复读机。<strong>你的人生，值得在奋斗中依然保有心跳的温度。</strong></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="p-emotion-3" class="tab-panel" role="tabpanel" aria-labelledby="t-emotion-3">
-          <div class="sample-case">
-            <h3>Identity Inference & Social Reasoning</h3>
-            <div class="audio-center" style="margin-bottom:12px">
-              <audio src="assets/Social Reasoning.m4a" controls preload="none"></audio>
-            </div>
-            <div class="video-center">
-              <video src="assets/Powell.mov" controls preload="none"></video>
-            </div>
-            <div class="qa-wrap">
-              <div class="qa-box">
-                <h4>Question</h4>
-                <p>说话的人可能是谁，它性格如何？</p>
-              </div>
-              <div class="reasoning-box">
-                <h4>Model Thinking Process</h4>
-                
-                <div class="reasoning-section">
-                  <p>首先，用户提供了一个音频片段，内容是关于经济政策的陈述。说话者提到了"maximum employment and stable prices"（最大就业和稳定物价）、"unemployment rate"（失业率）、"inflation"（通货膨胀）等术语，并宣布了"Federal Open Market Committee"（联邦公开市场委员会）决定"lower our policy interest rate by a quarter percentage point"（将政策利率下调0.25个百分点）。</p>
-                  
-                  <p>基于这些内容，说话者很可能是一位高级政府官员或中央银行官员。具体来说，提到"Federal Open Market Committee"表明这是美国联邦储备系统（美联储）的会议。美联储主席通常会发表这样的声明。</p>
-                  
-                  <p>所以，说话者可能是美联储主席。当前的美联储主席是杰罗姆·鲍威尔（Jerome Powell）。音频中的声音听起来像是一位中年或老年男性，语气沉稳、专业。</p>
-                  
-                  <p>现在，用户的问题是："说话的人可能是谁，它性格如何"。这里的"它"可能是个打字错误，应该是"他"，因为说话者是男性。</p>
-                  
-                  <p>我需要分析说话者的性格。性格分析应该基于音频中的语气、语速、用词等。</p>
-                  
-                  <p>从音频中：</p>
-                  <ul>
-                    <li><strong>语气</strong>：冷静、严肃、权威。没有情绪波动，非常专业。</li>
-                    <li><strong>语速</strong>：适中，清晰，有条不紊。这表明说话者在传达重要信息，需要确保听众理解。</li>
-                    <li><strong>用词</strong>：正式、精确，使用经济术语，显示出专业知识和严谨性。</li>
-                    <li><strong>内容</strong>：在宣布降息时，他提到了经济风险（"downside risks to employment have risen"），但语气保持镇定，这表明他试图传达信心，同时承认挑战。</li>
-                  </ul>
-                  
-                  <p>因此，性格特点可能包括：</p>
-                  <ul>
-                    <li><strong>专业和知识渊博</strong>：对经济问题有深入理解。</li>
-                    <li><strong>沉着冷静</strong>：在讨论经济不确定性时保持镇定。</li>
-                    <li><strong>负责任</strong>：强调委员会的决定是为了"the benefit of the American people"（美国人民的利益）。</li>
-                    <li><strong>有条理</strong>：陈述逻辑清晰，从目标到现状再到决策。</li>
-                  </ul>
-                  
-                  <p>用户说"它性格如何"，但"它"通常用于物体，而这里应该指人。可能用户误用了代词。我应该假设是"他"。</p>
-                  
-                  <p>在中文中，"它"可以用于人，但通常不正式；更常见的是用"他"或"她"。既然音频中是男性声音，我应该用"他"。</p>
-                  
-                  <p>总结回答：</p>
-                  <ul>
-                    <li>说话者可能是美联储主席杰罗姆·鲍威尔。</li>
-                    <li>性格：专业、冷静、权威、负责任、有条理。</li>
-                  </ul>
-                  
-                  <p>为了更全面，我可以提到，作为中央银行行长，他需要表现出稳定性和可信度，因此性格往往被塑造成谨慎和稳重。</p>
-                  
-                  <p>最后，确保回答基于音频内容，而不是外部知识。音频中没有直接说名字，但上下文强烈暗示是美联储官员。</p>
-                </div>
-                
-                <div class="reasoning-conclusion">
-                  <p>根据您提供的音频片段（内容涉及经济政策声明，包括"maximum employment and stable prices"、"unemployment rate"、"inflation"以及"Federal Open Market Committee"决定降息），我将从音频内容和说话者的表达方式来分析。以下是我的回答，分为两部分：<strong>说话者可能的身份</strong>和<strong>性格分析</strong>。分析基于音频中的语言、语气、语速和上下文，避免过度依赖外部知识（如真实人物信息），但会结合经济领域的常见背景进行合理推断。</p>
-                  
-                  <h5>1. 说话者可能的身份</h5>
-                  <p>从音频内容来看，说话者极有可能是<strong>美国联邦储备系统（美联储）的高级官员</strong>，最具体地说是<strong>美联储主席（Chair of the Federal Reserve）</strong>。原因如下：</p>
-                  <ul>
-                    <li><strong>关键线索</strong>：音频中明确提到"Federal Open Market Committee"（联邦公开市场委员会，简称FOMC），这是美联储负责制定货币政策的核心机构。说话者以"my colleagues and I"（我和我的同事们）和"our policy interest rate"（我们的政策利率）的口吻发言，表明他是该委员会的领导者或核心成员。</li>
-                    <li><strong>内容专业性</strong>：他讨论了"maximum employment"（最大就业）、"stable prices"（稳定物价）、"unemployment rate"（失业率）和"inflation"（通货膨胀）等宏观经济目标，这些都是美联储的法定职责（根据《联邦储备法案》）。宣布"lower our policy interest rate by a quarter percentage point"（将政策利率下调0.25个百分点）是典型的美联储政策行动。</li>
-                    <li><strong>背景推断</strong>：在现实中，美联储主席通常是此类声明的发言人（当前主席是杰罗姆·鲍威尔，Jerome Powell）。但即使不考虑现实，音频中的角色设定也清晰指向一位<strong>中央银行行长或高级决策者</strong>，负责向公众和市场传达经济政策。</li>
-                  </ul>
-                  
-                  <p>因此，<strong>说话者最可能是美联储主席</strong>。他代表官方机构发言，而非个人身份。</p>
-                  
-                  <h5>2. 说话者的性格分析</h5>
-                  <p>音频虽短，但通过语气、语速、用词和逻辑结构，可以推断出说话者具有以下性格特点。分析基于音频中的<strong>听觉线索</strong>（例如声音的沉稳度、节奏感）和<strong>语言内容</strong>（例如措辞的严谨性），避免主观臆断。整体而言，他的性格展现出<strong>高度专业性和责任感</strong>，符合其作为经济决策者的角色。</p>
-                  
-                  <p><strong>主要性格特点：</strong></p>
-                  <ul>
-                    <li><strong>冷静沉着（Calm and Composed）</strong>：
-                      <ul>
-                        <li><strong>表现</strong>：在讨论经济风险（如"downside risks to employment have risen"和"inflation has risen recently"）时，他的语速平稳、语气镇定，没有情绪波动。声音保持中低音调，节奏不疾不徐，传递出一种"一切尽在掌握"的稳定感。</li>
-                        <li><strong>原因</strong>：作为央行行长，他需要在市场波动中安抚公众信心。这种冷静不是冷漠，而是专业素养的体现——承认问题但避免制造恐慌，显示其理性应对压力的能力。</li>
-                      </ul>
-                    </li>
-                    
-                    <li><strong>严谨权威（Rigorous and Authoritative）</strong>：
-                      <ul>
-                        <li><strong>表现</strong>：用词极其精确，例如使用"dual mandate goals"（双重使命目标）、"quarter percentage point"（0.25个百分点）等专业术语，避免模糊表述。句子结构清晰，逻辑性强（从目标→现状分析→决策宣布），体现了深思熟虑的决策过程。</li>
-                        <li><strong>原因</strong>：他的权威性建立在专业知识和数据之上。语气中带有一种不容置疑的自信（例如"remains squarely focused on achieving"），但并非傲慢，而是源于对政策框架的坚定信念。这表明他是一个<strong>注重细节、以事实为依据</strong>的人。</li>
-                      </ul>
-                    </li>
-                    
-                    <li><strong>负责任且有担当（Responsible and Pragmatic）</strong>：
-                      <ul>
-                        <li><strong>表现</strong>：开篇强调"for the benefit of the American people"（为了美国人民的利益），将政策与民生联系起来；在承认经济放缓（"job gains have slowed"）的同时，主动说明降息是"in light of the shift in the balance of risks"（鉴于风险平衡的变化），显示决策的透明度和责任感。</li>
-                        <li><strong>原因</strong>：他没有回避负面信息，而是坦诚分析挑战，这反映了<strong>务实主义</strong>——不粉饰太平，但聚焦解决方案。这种性格在危机中尤为重要，能建立公众信任。</li>
-                      </ul>
-                    </li>
-                    
-                    <li><strong>有条理且善于沟通（Methodical and Communicative）</strong>：
-                      <ul>
-                        <li><strong>表现</strong>：陈述逻辑层层递进：先重申目标（就业和物价稳定），再评估现状（失业率低但风险上升），最后宣布行动（降息）。停顿自然，重点词汇（如"lower"）有轻微强调，便于听众理解复杂信息。</li>
-                        <li><strong>原因</strong>：作为政策沟通者，他深知语言的力量。这种条理性表明他<strong>思维清晰、准备充分</strong>，习惯于将复杂问题简化为可执行的决策，体现了领导者的沟通智慧。</li>
-                      </ul>
-                    </li>
-                  </ul>
-                  
-                  <h5>性格总结</h5>
-                  <p>综合来看，说话者展现出一种<strong>典型的"政策制定者"性格</strong>：<strong>外在冷静权威，内在严谨负责</strong>。他不是一个情绪化的人，而是以数据和逻辑驱动决策；同时，他有强烈的社会责任感，将政策与公共利益挂钩。这种性格在经济动荡时期至关重要——既能传递信心，又能体现决策的审慎性。</p>
-                  
-                  <p><strong>注意</strong>：性格分析基于音频片段的有限信息，可能受角色要求影响（例如，作为官方发言人，他需刻意保持专业形象）。在非正式场合，其真实性格可能更放松，但在此声明中，他完美地扮演了"稳定器"的角色。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="p-mbti-3" class="tab-panel" role="tabpanel" aria-labelledby="t-mbti-3">
-          <div class="sample-case">
-            <h3>Predict MBTI</h3>
-            <div class="audio-center" style="margin-bottom:12px">
-              <audio src="assets/MBTI_Curiosity_Cart.m4a" controls preload="none"></audio>
-            </div>
-            <div class="qa-wrap">
-              <div class="qa-box">
-                <h4>Question</h4>
-                <p>请分析并判断音频中说话人的MBTI</p>
-              </div>
-
-              <div class="reasoning-box">
-                <h4>Model Thinking Process</h4>
-
-                <div class="reasoning-section">
-                  <p>首先，用户要求我分析音频中说话人的MBTI（迈尔斯-布里格斯类型指标）。MBTI是一种性格分类系统，分为四个维度：外向（E） vs 向（I），感觉（S） vs 直觉（N），思考（T） vs 感（F），判断（J） vs 知（P）。每个维度有两个选项，组合成16种类型。</p>
-                  <p>我需要基于音频内容来推断说话人的MBTI。音频是文本形式的转录，所以我必须从对话中提取线索。</p>
-                  <p>音频内容：</p>
-                  <ul>
-                    <li>说话人1（女性）： "But not only that, I think be respectful of each other's boundaries and just know that it doesn't, what's okay for you is different than what's okay for me and everyone has their own things that they need."</li>
-                    <li>说话人2（男性）： "That's not all of that conversation."</li>
-                    <li>说话人1（女性）： "No, it's not, because we're not going to keep having it."</li>
-                  </ul>
-                  <p>关键点：</p>
-                  <ul>
-                    <li>说话人1在讨论尊重界限、个人差异和需求。她强调“what's okay for you is different than what's okay for me”，这表明她关注人际关系、同理心和个体差异。</li>
-                    <li>说话人2打断并说“That's not all of that conversation”，暗示对话不完整或有更多上下文。</li>
-                    <li>说话人1回应“No, it's not, because we're not going to keep having it”，显示她可能想结束对话或避免进一步争论。</li>
-                  </ul>
-                  <p>现在，分析说话人1的MBTI，因为她是主要说话者，提供了更多内容。</p>
-                  <p>从她的语言中推断：</p>
-                  <ol>
-                    <li><strong>外向（E） vs 向（I）</strong>：她似乎在表达个人观点（"I think"），但对话是互动的。她主动提出观点，可能偏向外向。然而，她谈论的是内在感受和界限，这可能更内向。需要更多线索。</li>
-                    <li><strong>感觉（S） vs 直觉（N）</strong>：感觉关注具体细节和现实，直觉关注抽象概念和可能性。她说“what's okay for you is different than what's okay for me”，这涉及抽象概念如个人界限和差异，可能偏向直觉。她没有提到具体事件，而是泛泛而谈。</li>
-                    <li><strong>思考（T） vs 感（F）</strong>：思考基于逻辑，情感基于价值观。她强调“respectful of each other's boundaries”和“everyone has their own things”，这显示对人际关系和情感的重视，可能偏向情感（F）。她使用“know that it doesn't”有点模糊，但整体语气是关怀的。</li>
-                    <li><strong>判断（J） vs 知（P）</strong>：判断偏好结构和计划，知觉偏好灵活性和开放性。她说“we're not going to keep having it”，表明她想结束对话，可能偏向判断（J），因为她在做决定。但对话本身是开放的，她可能更知觉。</li>
-                  </ol>
-                  <p>更深入分析：</p>
-                  <ul>
-                    <li>说话人1使用“I think”，表明她在表达个人信念。</li>
-                    <li>调尊重界限和个体差异：这常见于情感类型（F），因为他们重视和谐和同理心。</li>
-                    <li>说“what's okay for you is different than what's okay for me”：这显示她理解主观性，可能直觉（N），因为直觉类型更关注抽象和概念。</li>
-                    <li>应“No, it's not, because we're not going to keep having it”：这显示她果断，可能判断（J），但原因是为了避免重复争论，可能出于情感原因（不想继续争论）。</li>
-                  </ul>
-                  <p>可能的MBTI类型：</p>
-                  <ul>
-                    <li><strong>INFJ</strong>：内向、直觉、情感、判断。INFJ 以理想主义、同理心和对意义的追求著称。他们经常讨论人际关系和价值观。她谈论界限和差异，符合INFJ。</li>
-                    <li><strong>ENFJ</strong>：外向、直觉、情感、判断。ENFJ 是“倡导者”，关注他人福祉，善于沟通。她主动提出观点，可能外向。</li>
-                    <li><strong>INFP</strong>：内向、直觉、情感、知觉。INFP 重视个人价值观和和谐，但可能更知觉（P），避免冲突。</li>
-                    <li><strong>ENFP</strong>：外向、直觉、情感、知觉。ENFP 好奇、热情，但可能更灵活。</li>
-                  </ul>
-                  <p>从对话看：</p>
-                  <ul>
-                    <li>说话人1在解释一个概念，显示她有条理（可能J）。</li>
-                    <li>但她说“we're not going to keep having it”，表明她想结束，可能为了避免情感耗竭，这常见于情感类型。</li>
-                    <li>说话人2的打断可能让她感到压力，她迅速回应。</li>
-                  </ul>
-                  <p>另一个角度：MBTI 不能仅从少量对话确定，但基于常见模式。</p>
-                  <p>典型线索：</p>
-                  <ul>
-                    <li>感（F）：使用“尊重”、“界限”、“每个人的需求”，关注人际关系。</li>
-                    <li>直觉（N）：谈论抽象概念，如“what's okay for you”，而不是具体例子。</li>
-                    <li>向（I）：她分享个人想法，但对话是互动的；可能I，因为她深入思考。</li>
-                    <li>断（J）：她结束对话的意图，显示决策。</li>
-                  </ul>
-                  <p>说话人1说“everyone has their own things that they need”，这很模糊，但显示她考虑他人需求。</p>
-                  <p>在MBTI中，F类型更可能强调情感方面。</p>
-                  <p>比较INFJ和ENFJ：</p>
-                  <ul>
-                    <li>INFJ：更内省，可能更注重内在意义。</li>
-                    <li>ENFJ：更多外向，善于领导和激励。</li>
-                  </ul>
-                  <p>从音频，她似乎在对话中，但内容是反思性的，可能INFJ。</p>
-                  <p>说话人2说“That's not all of that conversation”，暗示对话有历史，说话人1可能想简化。</p>
-                  <p>最终，说话人1的回应“No, it's not, because we're not going to keep having it”显示她设置界限，这符合INFJ或INFP。</p>
-                  <p>但INFP可能更知觉（P），而她似乎在做决定（J）。</p>
-                  <p>常见MBTI误解：INFJ 有时被误认为INFP，但INFJ 更判断。</p>
-                  <p>分析说话人2：男性说“That's not all of that conversation”，可能表示他不同意或认为有更多内容。这可能显示他更关注事实或细节（S），但只有一句话，难判断。</p>
-                  <p>用户说“音频中说话人”，可能指主要说话者，即女性。</p>
-                  <p>在响应中，我应该提供推理。</p>
-                  <p>作为AI，我需要给出深思熟虑、条理清晰的回答，用自然语言。</p>
-                  <p>结构化响应：</p>
-                  <ol>
-                    <li>陈述主要情绪。</li>
-                    <li>解释语气。</li>
-                    <li>用音频内容支持。</li>
-                  </ol>
-                  <p>最终回答结构：</p>
-                  <ol>
-                    <li>介绍：解释MBTI和分析基础。</li>
-                    <li>分析说话人1的语言和行为。</li>
-                    <li>断可能类型，并解释原因。</li>
-                    <li>认局限性：仅基于短对话，不能确定。</li>
-                  </ol>
-                </div>
-
-                <div class="reasoning-conclusion">
-                  <p>基于你提供的音频片段，我来分析一下说话人的MBTI（迈尔斯-布里格斯类型指标）类型。MBTI是一种性格分类工具，通过四个维度（外向E vs 内向I、感觉S vs 直觉N、思考T vs 情感F、判断J vs 知觉P）将人分为16种类型。需要强调的是，仅凭这段简短的对话来确定MBTI类型存在局限性——真实性格需要更全面的观察，包括长期行为、价值观和更多互动场景。不过，我们可以从对话内容、语言风格和互动动态中提取线索，进行合理的推断。我会尽量保持客观，避免过度解读，同时用自然的方式解释我的思考过程。</p>
-                  <p>首先，聚焦主要说话人。音频中主要有两位说话人：一位女性（主导对话）和一位男性（简短插话）。由于女性说话人提供了更丰富的语言内容和情感线索，我的分析会以她为主。男性的角色较被动，只有一句插话，因此我主要关注女性说话人的表现。她的核心发言是：“But not only that, I think be respectful of each other's boundaries and just know that it doesn't, what's okay for you is different than what's okay for me and everyone has their own things that they need.” 以及后续回应：“No, it's not, because we're not going to keep having it.”</p>
-                  <p>分析关键线索，从对话中推断MBTI维度。MBTI的四个维度需要逐一拆解。我会结合她的用词、语气和行为逻辑来推理，避免主观臆断。记住，MBTI不是科学诊断，而是一种性格框架，重点在于“模式匹配”而非绝对正确。</p>
-                  <p>外向（E） vs 内向（I）：她主动提出观点（“I think...”），并试图解释一个抽象概念，这显示她乐于表达和分享想法，可能偏向外向（E）。但她的内容非常内省——聚焦于“界限”“个人需求”等内在感受，而不是外部事件或社交活动。她没有扩展话题或寻求更多互动，反而在结尾时果断结束对话（“we're not going to keep having it”），这更像是内向者（I）的典型行为：当能量耗尽时，会主动抽离以恢复精力。我的判断：更倾向内向（I）。理由是，她的表达虽主动，但核心是处理内在情感和原则，而非社交本身。</p>
-                  <p>感觉（S） vs 直觉（N）：她完全没提具体事件或细节，而是用高度抽象的语言讨论“what's okay for you is different than what's okay for me”。这指向直觉（N）——直觉型更关注模式、可能性和概念性意义，而不是现实细节。例如，“everyone has their own things that they need”这种泛化表述，是直觉型对“人类经验”的典型概括。我的判断：明显直觉（N）。</p>
-                  <p>思考（T） vs 情感（F）：她反复强调“尊重界限”“每个人的需求不同”，核心是维护人际关系和谐与同理心。用词如“respectful”“boundaries”“everyone has their own things”都透露出对他人感受的强烈关注，而非逻辑分析或客观评判。当男性插话时，她回应“No, it's not”时语气坚定但非攻击性，更像在保护情感边界。我的判断：明确情感（F）。</p>
-                  <p>判断（J） vs 知觉（P）：她试图给对话“下结论”（“know that it doesn't...”），并主动结束话题（“we're not going to keep having it”），显示她偏好结构和决策——判断型（J）喜欢 closure（了结感），避免悬而未决。我的判断：倾向判断（J）。理由是，她主动设定边界并推动对话结束，体现了J型的规划倾向——尤其当情感（F）和直觉（N）结合时，J型常表现为“用原则结束争论以维护关系”。</p>
-                  <p>综合推断：女性说话人的模式最符合INFJ（倡导者）类型。INFJ 的核心特征是理想主义、高度共情、重视深层意义和人际关系，但容易在社交中感到疲惫，因此会主动设置边界。他们常讨论抽象价值观，并用温和但坚定的方式结束消耗性对话——这和音频中她的表现高度一致。例如，她说“what's okay for you is different than what's okay for me”时，不是在指责，而是在表达一种普世信念，这正是INFJ的“倡导者”风格。</p>
-                  <p>为什么不是其他类型？ENFJ也符合情感（F）和直觉（N），但ENFJ更外向，会更热情地延续对话以“解决问题”，而不是像她这样果断结束。INFP同样情感（F）和直觉（N），但INFP更偏向知觉（P），会避免冲突或模糊表达，而她明确说“we're not going to keep having it”。INTJ则侧重逻辑（T），不会如此强调“尊重界限”。</p>
-                  <p>男性说话人只有一句插话（“That's not all of that conversation”），暗示他可能更关注事实或上下文，但样本太小，无法可靠判断。他的角色更像是“现实主义者”，与女性说话人的抽象风格形成对比——这也侧面强化了女性的直觉（N）特征。</p>
-                  <p>重要提醒：分析的局限性——这不是诊断，MBTI需要完整问卷和专业解读。这段对话太短，可能受情境影响。建议如果想更准确了解自己或他人，还是做正式测试，并结合长期观察。性格是光谱，不是标签。比如INFJ也可能有ENFJ的时刻。</p>
-                  <p>总之，基于这段音频，女性说话人展现出强烈的INFJ特质：一个温柔的理想主义者，用直觉和情感守护人际关系，同时在需要时果断设置边界。这让我想到，她可能在日常中是个很好的倾听者，但需要独处时间来“充电”。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-        
-
-
-
-        
-        <p class="muted" style="margin-top:12px">注：Model Thinking Process中蓝色方块内的内容为模型输出的回答。</p>
+        <p class="muted" style="margin-top:12px">注：蓝色方块内为模型思考之后输出的回复。</p>
       </div>
     </section>
 
@@ -1875,7 +2194,7 @@
               <audio src="assets/realtime-conversation-placeholder.m4a" controls preload="none"></audio>
             </div>
             <div class="video-center">
-              <video src="assets/realtime-conversation-video-placeholder.mp4" controls preload="none" poster="assets/video-poster-placeholder.jpg"></video>
+              <video src="assets/realtime-conversation-video-placeholder.mp4" controls preload="metadata" poster="assets/video-poster-placeholder.jpg"></video>
             </div>
             <div class="qa-wrap">
               <div class="qa-box">
@@ -1902,7 +2221,7 @@
               <audio src="assets/context-continuity-placeholder.m4a" controls preload="none"></audio>
             </div>
             <div class="video-center">
-              <video src="assets/context-continuity-video-placeholder.mp4" controls preload="none" poster="assets/video-poster-placeholder.jpg"></video>
+              <video src="assets/context-continuity-video-placeholder.mp4" controls preload="metadata" poster="assets/video-poster-placeholder.jpg"></video>
             </div>
             <div class="qa-wrap">
               <div class="qa-box">
@@ -1929,7 +2248,7 @@
               <audio src="assets/interactive-response-placeholder.m4a" controls preload="none"></audio>
             </div>
             <div class="video-center">
-              <video src="assets/interactive-response-video-placeholder.mp4" controls preload="none" poster="assets/video-poster-placeholder.jpg"></video>
+              <video src="assets/interactive-response-video-placeholder.mp4" controls preload="metadata" poster="assets/video-poster-placeholder.jpg"></video>
             </div>
             <div class="qa-wrap">
               <div class="qa-box">
@@ -1949,14 +2268,14 @@
           </div>
         </div>
         
-        <p class="muted" style="margin-top:12px">注：Model Thinking Process中蓝色方块内的内容为模型输出的回答。</p>
+        <p class="muted" style="margin-top:12px">注：蓝色方块内为模型思考之后输出的回复</p>
       </div>
     </section>
 
   </main>
 
   <footer>
-    <div>© 2025 UNO-Bench (Demo). 本页为简洁淡蓝主题演示，非官方排名或结论。</div>
+    <div>© Step Audio R1</div>
   </footer>
 
   <a class="back-top" href="#overview" aria-label="回到顶部">↑</a>
