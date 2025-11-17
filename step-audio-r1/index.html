@@ -76,7 +76,7 @@
     a:focus-visible, button:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 
     /* ========== 顶部导航 ========== */
-    .nav { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.92); border-bottom: 1px solid var(--border); backdrop-filter: saturate(180%) blur(12px); box-shadow: 0 1px 3px rgba(15,23,42,.04), 0 4px 16px rgba(15,23,42,.06); }
+    .nav { position: sticky; top: 0; z-index: 1000; background: rgba(255,255,255,.92); border-bottom: 1px solid var(--border); backdrop-filter: saturate(180%) blur(12px); box-shadow: 0 1px 3px rgba(15,23,42,.04), 0 4px 16px rgba(15,23,42,.06); }
     .nav__inner { display: flex; align-items: center; gap: 16px; padding: 14px 24px; }
     .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; letter-spacing: .3px; color: var(--text); }
     .brand img { width: var(--logo-size); height: var(--logo-size); object-fit: contain; }
@@ -252,7 +252,7 @@
     <section id="overview" class="section" aria-labelledby="h-overview">
       <div class="section__head"><h2 id="h-overview">Overview</h2></div>
       <div class="section__body">
-        <p class="muted">Different from our previous Step-Audio [32], Step-Audio 2 further integrates the generation of audio tokens into language modeling, achieves end-to-end audio perception and generation. As shown in Figure 3, Step-Audio 2 consists of an audio encoder, an audio adaptor, an LLM decoder and an audio detokenizer. The audio encoder is pretrained on various speech and audio understanding tasks including ASR, speaker age and gender prediction, audio event detection, etc. The audio encoder has an output frame rate of 25 Hz and is frozen during the entire training process. An audio adaptor with a downsampling rate of 2 is employed to connect the audio encoder to LLM, thereby reducing the output frame rate of the audio encoder to 12.5 Hz.</p>
+        <p class="muted">StepAudio R1 builds on the architecture of StepAudio 2 and is designed specifically for audio-based reasoning. The model comprises an audio encoder, an audio adaptor, and an LLM decoder. It adopts the Qwen2 audio encoder, pretrained on diverse speech and audio understanding tasks, whose 25 Hz outputs are passed through a downsampling audio adaptor—identical to that of StepAudio 2—to produce 12.5 Hz latent features. These features are then consumed by a Qwen2.5 32B decoder, which generates reasoning chains followed by the final textual response. A central innovation is Modality-Grounded Reasoning Distillation (MGRD), which iteratively transforms initially semantic reasoning into "native audio think" by strengthening the model's grounding in acoustic cues, ensuring that reasoning is tied to the audio itself rather than its transcription alone. The model is pretrained using the same data and procedures as StepAudio 2, and subsequently refined through a dedicated Post-Training phase.</p>
         <figure>
           <img src="assets/overview.png" alt="Step-Audio R1 Overview" />
           
@@ -564,94 +564,75 @@
                 <h4>Model Thinking Process</h4>
                 
                 <div class="reasoning-section">
-                  <p>首先，用户要求我分析一个音频片段的场景和人物心理状态变化。音频片段是来自一个喜剧表演，似乎是英国喜剧演员的表演，可能来自一个电视节目或舞台表演。从内容看，这似乎是关于一个荒谬的求职面试场景。</p>
-                  <p><strong>关键点：</strong></p>
-                  <ul>
-                    <li>用户提供了音频的转录文本，但文本中包含了很多笑声和表演元素，表明这是一个喜剧片段。</li>
-                    <li>任务：分析场景和不同人物的心理状态变化。</li>
-                  </ul>
-                  <p><strong>从转录文本中提取场景信息：</strong></p>
-                  <ul>
-                    <li>开头：面试官介绍自己（Darren, Head of Marketing; Sophia and Neil from HR）。</li>
-                    <li>面试者（女性）的回答非常荒谬和不合逻辑，例如：</li>
-                    <ul>
-                      <li>当被问及能为工作带来什么时，她说“带来一些茶和蛋糕”。</li>
-                      <li>当被问及如何激励团队时，她说“我会把桌子溅满激励”，然后大喊“从你们肥胖的屁股上起来做点事！”</li>
-                      <li>当被问及是否有孩子时，她说“我不知道，但我经常进入孩子的头脑”，然后唱了一首关于“最可爱、最可爱”的歌。</li>
-                      <li>最后，她问了一个无关的问题：“当闪电击中大海时，为什么鱼不全部死亡？”</li>
-                    </ul>
-                  </ul>
-                  <p>这显然是一个喜剧表演，模仿了糟糕的求职面试。场景是一个虚构的面试，但被夸大和荒谬化以达到喜剧效果。</p>
-                  <p><strong>现在，分析场景：</strong></p>
-                  <ul>
-                    <li><strong>场景：</strong>这是一个求职面试场景，但被喜剧化处理。面试发生在办公室环境中，有面试官（Darren, Sophia, Neil）和面试者（女性）。从上下文看，这可能是一个单口喜剧或小品表演，因为有观众笑声，表明是为娱乐目的。</li>
-                  </ul>
-                  <p><strong>不同人物的心理状态变化：</strong></p>
-                  <p><strong>面试官（Darren, Sophia, Neil）</strong>：</p>
-                  <ul>
-                    <li><strong>初始状态：</strong>专业、冷静、正式。他们开始时以标准面试方式提问。</li>
-                    <li><strong>心理变化：</strong>随着面试者给出荒谬的回答，他们的心理状态从专业转为困惑、尴尬、无奈，甚至可能有点恼怒，但因为是喜剧，他们表现出克制的幽默感。例如，Darren 说“嗯，这肯定能激励团队”，带有讽刺意味。</li>
-                    <li><strong>结尾：</strong>Darren 说“非常感谢你来，我们会联系你的”，礼貌结束但暗示面试已失败。</li>
-                  </ul>
-                  <p><strong>面试者（女性）</strong>：</p>
-                  <ul>
-                    <li><strong>初始状态：</strong>可能有点紧张，但很快进入荒谬模式。她说“谢谢你们见我”，听起来正常。</li>
-                    <li><strong>心理变化：</strong>心理状态非常不稳定和不可预测。她似乎在即兴发挥，给出完全不相关、搞笑的回答。行为从礼貌转为疯狂、夸张，甚至唱歌和喊叫，像一个喜剧角色，表现出极度不专业（为喜剧效果）。</li>
-                    <li><strong>结尾：</strong>她问了一个奇怪问题后自嘲“哦，不”，意识到不相关但为时已晚。</li>
-                  </ul>
-                  <p><strong>整体心理状态变化：</strong></p>
-                  <ul>
-                    <li>面试开始时，气氛正式专业。</li>
-                    <li>随着面试者荒谬回答，气氛变得越来越混乱和滑稽。</li>
-                    <li>面试官试图保持专业，但逐渐被逼到极限。</li>
-                    <li>面试者完全失控，导致面试崩溃；面试官礼貌收尾但已决定不录用。</li>
-                  </ul>
-                  <p>作为喜剧表演，心理状态变化是夸张的，目的是为了娱乐。观众的笑声提示（[Laughter]）表明这是一个成功的喜剧片段。</p>
-                  <p><strong>结构化回答：</strong></p>
-                  <ol>
-                    <li><strong>场景描述：</strong>虚构的求职面试喜剧片段。</li>
-                    <li><strong>人物分析：</strong>面试官的专业→困惑/无奈；面试者的礼貌→夸张失控。</li>
-                    <li><strong>整体动态：</strong>从专业到混乱，喜剧效果的形成机制。</li>
-                  </ol>
-                  <p>最后，用户用中文提问，因此采用中文作答。</p>
+                  <p>嗯，用户让我分析一段音频的场景和人物心理变化。首先得仔细听一遍音频内容。这段音频听起来像是一场喜剧表演，可能来自某个脱口秀节目或者情景喜剧。里面有几个角色：面试官和应聘者。</p>
+                  
+                  <p>首先，场景应该是一个公司面试。面试官有三个人，分别是Darren（市场部主管）、Sophia和Neil（HR）。应聘者是一个女性，她的表现非常奇怪，导致整个面试充满喜剧效果。</p>
+                  
+                  <p>接下来分析人物心理。面试官一开始是专业的，Darren主动介绍同事，语气正式。但随着应聘者回答问题，他们的心理状态开始变化。比如应聘者说能带茶和蛋糕来，面试官们可能觉得奇怪但还保持礼貌，Darren甚至说"这能激励团队"，说明他试图保持专业，但内心可能已经觉得不对劲了。</p>
+                  
+                  <p>然后应聘者提到"用动机溅满这张桌子"，面试官们可能感到困惑，但Darren继续追问，说明他还在努力推进面试流程，但已经有点无奈了。当应聘者突然大喊"从你们肥屁股上起来做事"，面试官们肯定震惊了，但Darren的反应是"有点直接"，这显示他试图控制场面，但内心可能已经崩溃了。</p>
+                  
+                  <p>接下来的问题关于孩子，应聘者回答"我不知道有没有孩子，但我经常进入孩子的头脑"，这明显很诡异。面试官们可能开始怀疑她的精神状态，但Darren还在坚持提问，说明他作为面试官的责任感，但心理上已经非常疲惫和无奈。</p>
+                  
+                  <p>然后应聘者突然唱歌，而且唱的是《The Greatest Love of All》，这完全出乎意料。面试官们可能从震惊转为尴尬，但Darren的回应"这很鼓舞人心"说明他在尽力维持专业，但已经处于极限状态。他的心理变化是从专业到无奈，再到被迫接受荒诞。</p>
+                  
+                  <p>应聘者最后问了一个无关的问题"闪电击中大海为什么鱼不死"，面试官们可能彻底无语了。Darren的结束语"感谢你的到来，我们会联系你"其实是客套话，他想尽快结束面试。他的心理状态已经从专业转变为彻底的疲惫和解脱。</p>
+                  
+                  <p>应聘者全程表现得很亢奋，心理状态是极度不稳定，可能有表演型人格或者精神问题。她似乎完全不在意面试的常规流程，而是按照自己的逻辑行动，心理状态是混乱但自我感觉良好。</p>
+                  
+                  <p>需要确认音频中的关键点：应聘者的回答越来越离谱，面试官从专业到无奈再到崩溃的过程。还要注意喜剧效果的来源，比如应聘者的突兀行为和面试官的克制反应形成的反差。</p>
+                  
+                  <p>可能用户需要详细的人物心理变化分阶段描述，以及场景的喜剧设定。要确保分析覆盖所有互动环节，特别是转折点，比如唱歌和突然大喊的部分。同时要指出面试官的礼貌和应聘者的失控之间的对比，这是喜剧的核心。</p>
                 </div>
                 
                 <div class="reasoning-conclusion">
-                  <h5>场景分析：虚构求职面试喜剧表演</h5>
-                  <p>根据您提供的音频片段（转录文本），这是一个典型的<strong>喜剧表演场景</strong>，具体来说，它模仿并夸张化了一个荒谬的求职面试过程。场景设定在一个虚构的办公室环境中（如人力资源部或市场部的面试室），但被刻意设计成滑稽、不合逻辑的闹剧，旨在通过反差和意外来制造喜剧效果。这很可能出自英国喜剧演员的舞台表演或电视节目（例如，类似瑞奇·热维斯或大卫·威廉姆斯的风格），因为：</p>
+                  <p>根据提供的所有音频片段，可以综合分析出以下场景和人物心理状态变化：</p>
+                  
+                  <h5>场景设定</h5>
+                  <p>这是一场<strong>充满荒诞喜剧色彩的公司面试</strong>。场景发生在一间办公室，面试官包括：</p>
                   <ul>
-                    <li><strong>环境元素：</strong>面试官（Darren、Sophia、Neil）以正式口吻介绍自己（“我是 Darren，市场总监”“这是 HR 的 Sophia 和 Neil”），营造了真实的职场面试框架。</li>
-                    <li><strong>观众反应：</strong>音频中频繁出现 [Laughter]（观众笑声），表明这不是真实事件，而是一场为娱乐目的设计的表演。演员通过夸张的言行和时机控制，引导观众发笑。</li>
-                    <li><strong>核心冲突：</strong>“专业面试”与“完全失控的求职者”之间的巨大反差。面试官试图维持职业礼仪，而求职者则用荒诞、无厘头的回答不断打破常规，最终导致面试崩溃。</li>
+                    <li><strong>Darren（市场部主管）</strong>：主导面试，负责提问。</li>
+                    <li><strong>Sophia 和 Neil（HR 代表）</strong>：作为旁观者参与面试。</li>
+                    <li><strong>应聘者（女性）</strong>：行为举止极度怪异、逻辑混乱、情绪波动剧烈的求职者。</li>
                   </ul>
-                  <p>这种场景常见于喜剧作品中，用以讽刺现实中的职场荒诞现象（如面试中的紧张、沟通障碍或企业文化问题），但在此片段中，它被极度放大，服务于纯粹的幽默目的。</p>
-                  <hr>
-                  <h5>不同人物的心理状态变化分析</h5>
-                  <p>在短短的音频片段中，人物的心理状态经历了戏剧性的转变，这种变化是喜剧的核心驱动力。以下是基于角色的详细分析（注：求职者为女性，面试官为 Darren、Sophia、Neil）。心理状态变化以“时间线”为轴，从面试开始到结束，突出转折点。</p>
-                  <h6>1. 求职者（女性）的心理状态变化：从礼貌到彻底失控</h6>
-                  <p>求职者是场景的“混乱制造者”，她的心理状态变化最为剧烈，呈现出一种<strong>“伪装正常 → 逐渐崩溃 → 完全放飞”</strong>的弧线，体现了喜剧中的“意外升级”手法。</p>
+                  <p>整个场景的核心<strong>喜剧冲突</strong>在于：<strong>应聘者完全无视面试的常规逻辑和社交礼仪，以一种极度亢奋、混乱且自我中心的方式回应所有问题，而面试官们则被迫在专业素养和维持基本理智之间挣扎</strong>。这并非真实职场面试，而是一段精心设计的<strong>单口喜剧或情景喜剧片段</strong>，通过夸张的表演制造笑点。</p>
+                  
+                  <h5>人物心理状态变化分析</h5>
+                  
+                  <h6>1. 应聘者：从"热情过头"到"彻底失控"的精神亢奋状态</h6>
                   <ul>
-                    <li><strong>初始阶段（0:00-0:10）：礼貌但紧张，试图表现专业</strong><br>表面镇定，实则内心焦虑。她以标准求职者姿态开场（“谢谢你们见我”），试图建立专业形象。但当被问及“能为工作带来什么”时，她犹豫后说出“带来一些茶和蛋糕”，暴露出她对职位理解的肤浅和不自信。这是用无害玩笑掩饰紧张的<strong>防御性心理</strong>。<br><em>关键转折：</em>Darren 礼貌回应后，她误以为对方接受了自己的荒谬逻辑，心理防线瓦解，开始更放肆发挥。</li>
-                    <li><strong>中期阶段（0:10-1:20）：情绪失控，进入“表演型疯狂”</strong><br>从紧张转为<strong>亢奋的荒诞感</strong>。被问“如何激励团队”时，她大喊“我会把桌子溅满激励！……从你们肥胖的屁股上起来做点事！”；随后唱起“最可爱、最可爱”的歌。她将面试当作个人秀场，逻辑断裂，进入<strong>自我陶醉的幻想状态</strong>。<br><em>关键转折：</em>唱完后说“我都没意识到我知道这么多歌词”，暴露出对自身行为失控的自我意识摇摆。</li>
-                    <li><strong>结尾阶段（1:20-1:40）：短暂清醒，但彻底失败</strong><br>她提问“闪电击中大海时鱼为什么不死”，随即自嘲“哦，不”，回到<strong>羞愧与尴尬</strong>。礼貌告别中带着无奈的绝望——明知搞砸却无力挽回。</li>
+                    <li><strong>初始状态（热情但离谱）</strong>：<br>她以过度热情的姿态进入面试，但回答第一个问题"你能为这份工作带来什么？"时，竟说"带茶和蛋糕"（<em>some tea and cakes</em>），并反问"你们会喜欢吗？"。这显示出她<strong>完全脱离职场语境，将工作场所想象成社交聚会</strong>，心理状态是天真、自我中心且毫无职业认知。</li>
+                    <li><strong>升级状态（语言暴力与混乱联想）</strong>：<br>当被问及"激励团队"时，她用"把桌子溅满激励"（<em>splatter this table with motivation</em>）这种暴力化比喻回应，并突然大吼"从你们肥屁股上起来做事！"（<em>Get off your fat arses and do something!</em>）。此时她的心理状态已<strong>从天真转向攻击性亢奋</strong>，将"激励"理解为粗暴的命令，<strong>完全丧失对社交边界的认知</strong>。</li>
+                    <li><strong>巅峰状态（精神分裂式表演）</strong>：<br>被问及是否了解儿童时，她先是诡异宣称"我总能进入孩子的头脑"（<em>I get inside kids' heads</em>），随即无缝切换成高亢的歌剧式演唱《The Greatest Love of All》（经典励志歌曲）。这揭示她<strong>处于一种精神分裂般的亢奋状态</strong>：<br>
+                      <ul>
+                        <li><strong>逻辑断裂</strong>：回答问题时思维跳跃，毫无关联。</li>
+                        <li><strong>表演型人格</strong>：将面试现场当作个人舞台，用夸张的歌唱表达"对儿童的爱"。</li>
+                        <li><strong>自我感动</strong>：演唱结束后甚至说"我都没意识到自己会这么多段歌词"，<strong>沉浸在自我陶醉中，完全无视他人反应</strong>。</li>
+                      </ul>
+                    </li>
+                    <li><strong>收尾状态（荒诞提问）</strong>：<br>最后她问"闪电击中大海时，为什么鱼不会死？"，将话题彻底引向与工作无关的哲学谜题。这表明她的<strong>思维已完全脱离现实</strong>，心理状态是<strong>彻底的混乱与无逻辑</strong>。</li>
                   </ul>
-                  <p><strong>小结：</strong>她的状态像过山车，礼貌→喊叫→唱歌→离题提问，笑点来自“正常人突然疯掉”的预期违背，属于喜剧的“天真破坏者”角色。</p>
-                  <h6>2. 面试官（Darren、Sophia、Neil）的心理状态变化：专业坚守到无奈妥协</h6>
-                  <p>面试官作为“理性代表”，心理变化更内敛：从专业到被动承受，体现<strong>“职业尊严被消解”</strong>的过程。</p>
+                  <p><strong>总结</strong>：应聘者全程处于一种<strong>由药物、精神疾病或刻意表演导致的亢奋、混乱、自我中心的心理状态</strong>。她没有"变化"，而是从头到尾维持这种极端状态，其"不变"正是喜剧的核心。</p>
+                  
+                  <h6>2. 面试官（Darren 为主）：从"专业克制"到"精神崩溃边缘"的无奈历程</h6>
                   <ul>
-                    <li><strong>初始阶段（0:00-0:10）：冷静专业，掌控全场</strong><br>Darren 主导面试、语气沉稳，HR 保持职业化沉默。对“茶和蛋糕”的回答，他以“这肯定能激励团队”回应——表面礼貌，实为<strong>困惑与不耐</strong>的职业幽默。</li>
-                    <li><strong>中期阶段（0:10-1:20）：从克制到崩溃边缘</strong><br>随着对方喊叫与唱歌，面试官心理防线被击穿：Darren 从“这很鼓舞人心”的反话，转向“相关吗？”的直问，经历<strong>礼貌 → 隐忍恼怒 → 无奈疲惫</strong>；HR 的笑声与沉默则是<strong>尴尬与同情</strong>的暗示。</li>
-                    <li><strong>结尾阶段（1:20-1:40）：礼貌收场，内心放弃</strong><br>“非常感谢你来，我们会联系你”，语气平静，实质是<strong>礼貌性终止</strong>。职业习惯战胜真实情绪，维持公司形象。</li>
+                    <li><strong>初始状态（专业礼貌）</strong>：<br>面试开始时，Darren 以标准流程介绍同事，语气正式。当听到"带茶和蛋糕"的回答时，他礼貌回应"这能帮助激励团队"（<em>it could certainly help motivate the team</em>），<strong>试图用专业态度化解荒谬</strong>，心理状态是<strong>克制且带有职业性幽默</strong>。</li>
+                    <li><strong>承压状态（困惑与疲惫）</strong>：<br>面对"溅满激励"的暴力比喻，Darren 仍追问"这是你能带来的吗？"，表现出<strong>作为面试官的责任感</strong>。但此时他的心理已从专业转为<strong>困惑与隐忍</strong>，内心独白可能是"这人到底在说什么？"。当应聘者突然大吼时，他仅用"有点直接"（<em>A bit blatant</em>）轻描淡写带过，<strong>心理防线开始动摇</strong>，试图用最小反应控制场面。</li>
+                    <li><strong>崩溃边缘（礼貌性放弃）</strong>：<br>当应聘者开始唱歌时，Darren 的心理状态达到临界点。他强行称赞"这很鼓舞人心"（<em>That was very inspiring</em>），<strong>这是典型的"礼貌性崩溃"</strong>——大脑已无法处理荒谬信息，只能用客套话结束对话。他随后机械地问"你有什么问题要问我们？"，<strong>表明他已放弃评估候选人，只想尽快结束这场噩梦</strong>。</li>
+                    <li><strong>最终状态（解脱式赶客）</strong>：<br>在听到"闪电与鱼"的离谱问题后，Darren 立刻以标准客套话"感谢你的到来，我们会联系你"（<em>Well, thanks very much for coming in. We'll be in touch</em>）结束面试。这句台词在此场景中<strong>完全失去了真实面试的含义</strong>，而是<strong>面试官精神崩溃后的解脱宣言</strong>。他的心理状态是<strong>彻底的疲惫、无奈与庆幸</strong>。</li>
                   </ul>
-                  <p><strong>小结：</strong>他们的变化是<strong>被动式滑落</strong>：专业冷静 → 隐忍恼怒 → 无奈妥协，笑点来自“憋屈感”。</p>
-                  <hr>
-                  <h5>整体心理动态与喜剧效果</h5>
-                  <ul>
-                    <li><strong>节奏结构：</strong>铺垫（专业）→ 升级（失控）→ 高潮（唱歌/离题）→ 收尾（礼貌失败），每次升级都击穿一次面试官防线。</li>
-                    <li><strong>心理反差：</strong>求职者的<strong>情绪化失控</strong> vs. 面试官的<strong>职业化克制</strong>；前者跳跃、后者渐进，形成高密度笑点。</li>
-                    <li><strong>现实隐喻：</strong>夸张讽刺真实职场沟通困境，但在此片段中更多服务于娱乐而非批判。</li>
-                  </ul>
-                  <p>总之，这是一个精心设计的喜剧片段，通过人物心理状态的剧烈变化（求职者从伪装到崩溃、面试官从专业到妥协）驱动笑点。如有具体表演者或节目信息，可进一步细化分析。</p>
+                  <p><strong>总结</strong>：面试官的心理变化是<strong>一条清晰的"专业性崩坏"曲线</strong>：<br><strong>专业 → 困惑 → 隐忍 → 精神疲惫 → 礼貌性放弃 → 解脱式赶客</strong>。<br>他的克制与应聘者的失控形成强烈反差，构成了主要的喜剧张力。</p>
+                  
+                  <h5>关键喜剧机制</h5>
+                  <ol>
+                    <li><strong>预期违背</strong>：面试本应是严肃的职业评估，却变成荒诞剧舞台。</li>
+                    <li><strong>反差幽默</strong>：应聘者的极端亢奋 vs 面试官的极致克制。</li>
+                    <li><strong>升级式荒谬</strong>：问题越常规，回答越离谱（从"茶和蛋糕"到"歌剧式育儿观"）。</li>
+                    <li><strong>观众共情</strong>：听众与面试官共享"这太离谱了"的感受，通过面试官的视角体验荒诞。</li>
+                  </ol>
+                  
+                  <h5>结论</h5>
+                  <p>该片段是一场<strong>精心编排的喜剧表演</strong>，场景设定为"失控的求职者 vs 崩溃的面试官"。应聘者全程处于<strong>精神亢奋的混乱状态</strong>，而面试官则经历<strong>从专业到精神崩溃的心理滑坡</strong>。二者互动的核心是<strong>用职场礼仪的外壳包裹荒诞内核</strong>，通过心理状态的极端反差制造持续笑点，最终以面试官"解脱式赶客"收尾，完成一场荒诞喜剧的完美闭环。</p>
                 </div>
               </div>
             </div>
