@@ -260,7 +260,7 @@
       <div class="section__body">
         <p class="muted">StepAudio R1 builds on the architecture of StepAudio 2 and is designed specifically for audio-based reasoning. The model comprises an audio encoder, an audio adaptor, and an LLM decoder. It adopts the Qwen2 audio encoder, pretrained on diverse speech and audio understanding tasks, whose 25 Hz outputs are passed through a downsampling audio adaptor—identical to that of StepAudio 2—to produce 12.5 Hz latent features. These features are then consumed by a Qwen2.5 32B decoder, which generates reasoning chains followed by the final textual response. A central innovation is Modality-Grounded Reasoning Distillation (MGRD), which iteratively transforms initially semantic reasoning into "native audio think" by strengthening the model's grounding in acoustic cues, ensuring that reasoning is tied to the audio itself rather than its transcription alone. The model is pretrained using the same data and procedures as StepAudio 2, and subsequently refined through a dedicated Post-Training phase.</p>
         <figure>
-          <img src="assets/overview.png" alt="Step-Audio R1 Overview" />
+          <img src="assets/overview.jpg" alt="Step-Audio R1 Overview" />
           
         </figure>
       </div>
