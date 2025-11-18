@@ -6,6 +6,11 @@
   <title>Step Audio R1 （Overview / Abstract / Leaderboard / Samples）</title>
   <meta name="description" content="Step Audio R1" />
   
+  <!-- Inter 字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <!-- MathJax 配置和加载 -->
   <script>
     MathJax = {
@@ -41,9 +46,9 @@
       --radius-lg: 16px;
       --radius-md: 12px;
 
-      /* 学术风格字体栈 - 统一使用 Times New Roman */
-      --heading-font: 'Times New Roman', Times, 'Noto Serif SC', 'Songti SC', STSong, SimSun, serif;
-      --body-font: 'Times New Roman', Times, 'Noto Serif SC', 'Songti SC', STSong, SimSun, serif;
+      /* 学术风格字体栈 - 英文使用 Inter，中文使用中文字体 */
+      --heading-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Serif SC', 'Songti SC', STSong, SimSun, sans-serif;
+      --body-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Serif SC', 'Songti SC', STSong, SimSun, sans-serif;
 
       /* 分组带状底色（Text / Audio 统一） */
       --text-band: #f4f8ff;
@@ -58,6 +63,7 @@
     html, body { height: 100%; }
     body {
       margin: 0;
+      padding-top: 70px; /* 为固定导航栏留出空间 */
       font-family: var(--body-font);
       color: var(--text);
       background: var(--bg);
@@ -76,7 +82,7 @@
     a:focus-visible, button:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 
     /* ========== 顶部导航 ========== */
-    .nav { position: sticky; top: 0; z-index: 1000; background: rgba(255,255,255,.92); border-bottom: 1px solid var(--border); backdrop-filter: saturate(180%) blur(12px); box-shadow: 0 1px 3px rgba(15,23,42,.04), 0 4px 16px rgba(15,23,42,.06); }
+    .nav { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 1000; background: rgba(255,255,255,.92); border-bottom: 1px solid var(--border); backdrop-filter: saturate(180%) blur(12px); box-shadow: 0 1px 3px rgba(15,23,42,.04), 0 4px 16px rgba(15,23,42,.06); }
     .nav__inner { display: flex; align-items: center; gap: 16px; padding: 14px 24px; }
     .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; letter-spacing: .3px; color: var(--text); }
     .brand img { width: var(--logo-size); height: var(--logo-size); object-fit: contain; }
@@ -92,7 +98,7 @@
     .section__body { padding: 18px; }
 
     /* ========== 英雄区 ========== */
-    .hero { text-align: center; padding: 46px 16px 16px; }
+    .hero { text-align: center; padding: 100px 16px 16px; }
     .hero h1 { font-size: clamp(30px, 5.6vw, 48px); line-height: 1.15; margin: 0 0 8px; letter-spacing: .2px; }
     .hero .authors { color: #22324a; font-weight: 600; }
     .hero .notes { color: var(--muted); margin-top: 4px; }
