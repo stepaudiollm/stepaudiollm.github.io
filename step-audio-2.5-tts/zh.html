@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contextual TTS | 面向Agent时代的语音表达模型</title>
+    <meta name="description" content="Contextual TTS：面向Agent时代的语音表达模型。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&family=Noto+Serif+SC:wght@500;700&family=Roboto:wght@300;400;500;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="demo-data.zh.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="page-frame">
+        <aside class="demo-sidebar" aria-label="Demo Navigation">
+          <div class="demo-sidebar__inner" id="demo-sidebar"></div>
+        </aside>
+
+        <main class="page-shell">
+          <section class="hero section-panel" id="top">
+            <nav class="page-switch" aria-label="Language switch">
+              <a class="page-switch__link" href="index.html">English</a>
+            </nav>
+
+            <div class="hero-brand" aria-label="StepAudio Logo">
+              <img class="hero-brand__image" src="assets/logo/logo.png" alt="StepAudio logo" />
+            </div>
+
+            <div class="hero-heading">
+              <p class="section-kicker" id="hero-kicker"></p>
+              <h1 class="hero-title" id="hero-title"></h1>
+              <p class="hero-lead" id="hero-lead"></p>
+            </div>
+
+            <div class="hero-grid">
+              <div class="hero-left">
+                <div class="hero-intro">
+                  <p class="hero-description" id="hero-description"></p>
+                </div>
+
+                <div class="feature-list" id="feature-list"></div>
+                <!--
+                <div class="keyword-stage" aria-label="Model Keywords">
+                  <div class="keyword-grid" id="keyword-grid"></div>
+                </div>
+                -->
+              </div>
+            </div>
+          </section>
+
+          <section class="demo-block section-panel" id="global-demo">
+            <div class="block-head block-head--stacked">
+              <div>
+                <p class="section-kicker" id="global-kicker"></p>
+                <h2 class="block-title" id="global-title"></h2>
+                <div class="block-description" id="global-description"></div>
+              </div>
+            </div>
+            <div class="case-list" id="global-cases"></div>
+          </section>
+
+          <section class="demo-block section-panel" id="local-demo">
+            <div class="block-head block-head--stacked">
+              <div>
+                <p class="section-kicker" id="local-kicker"></p>
+                <h2 class="block-title" id="local-title"></h2>
+                <div class="block-description" id="local-description"></div>
+              </div>
+            </div>
+            <div class="case-list" id="local-cases"></div>
+          </section>
+
+          <section class="demo-block section-panel" id="scenes-demo">
+            <div class="block-head block-head--stacked">
+              <div>
+                <p class="section-kicker" id="scenes-kicker"></p>
+                <h2 class="block-title" id="scenes-title"></h2>
+                <div class="block-description" id="scenes-description"></div>
+              </div>
+            </div>
+            <div class="case-list" id="scenes-cases"></div>
+          </section>
+
+          <section class="demo-block section-panel" id="persona-demo">
+            <div class="block-head block-head--stacked">
+              <div>
+                <p class="section-kicker" id="persona-kicker"></p>
+                <h2 class="block-title" id="persona-title"></h2>
+                <div class="block-description" id="persona-description"></div>
+              </div>
+            </div>
+            <div class="case-list" id="persona-cases"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
