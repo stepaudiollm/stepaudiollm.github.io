@@ -176,6 +176,7 @@ p {
 .hero-heading,
 .block-head,
 .hero-grid,
+.hero-video,
 .hero-actions,
 .case-list {
   position: relative;
@@ -475,6 +476,23 @@ html:lang(en) .block-description__item {
   justify-content: center;
   gap: 14px;
   margin-top: 28px;
+}
+
+.hero-video {
+  margin-top: 28px;
+}
+
+.hero-video__media {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  border: 1px solid rgba(171, 188, 208, 0.36);
+  border-radius: 24px;
+  background: #0f1720;
+  box-shadow: 0 18px 42px rgba(58, 76, 98, 0.16);
 }
 
 .hero-button {
