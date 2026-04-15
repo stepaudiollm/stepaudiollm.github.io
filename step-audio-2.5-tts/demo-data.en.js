@@ -1,7 +1,7 @@
 window.CONTEXTUAL_TTS_PAGE_DATA = {
   hero: {
     kicker: "Contextual Speech Generation",
-    title: "StepAudio-2.5-TTS: A Contextual Speech Synthesis\n Model for the Agent Era",
+    title: "StepAudio 2.5 TTS: A Contextual Speech Synthesis\n Model for the Agent Era",
     lead:
       "Intelligent Speech, Knowing What You Think, Speaking What You Feel—Infusing the Agent Era with Warmth and Intentional Expression",
     description:

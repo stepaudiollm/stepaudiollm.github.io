@@ -1,7 +1,7 @@
 window.CONTEXTUAL_TTS_PAGE_DATA = {
   hero: {
     kicker: "Contextual Speech Generation",
-    title: "StepAudio-2.5-TTS：面向Agent时代的\n具备语境感知力的语音合成模型",
+    title: "StepAudio 2.5 TTS：面向Agent时代的\n具备语境感知力的语音合成模型",
     lead:
       "智能语音，知你所想，言你所感——为Agent时代注入有温度、有意图的表达力",
     description:
