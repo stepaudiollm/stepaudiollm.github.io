@@ -1,4 +1,5 @@
 const DATA_URL = "./stepaudio_asr_showcase_cases.json";
+const INLINE_DATA_KEY = "STEPAUDIO_ASR_SHOWCASE_DATA";
 const BENCHMARK_SECTIONS = [
   {
     id: "zh",
@@ -114,6 +115,40 @@ function normalizeData(data) {
     caseMap,
     sections,
   };
+}
+
+function getInlineData() {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const inlineData = window[INLINE_DATA_KEY];
+  return inlineData && typeof inlineData === "object" ? inlineData : null;
+}
+
+async function loadShowcaseData() {
+  const inlineData = getInlineData();
+
+  if (window.location.protocol === "file:" && inlineData) {
+    return inlineData;
+  }
+
+  try {
+    const response = await fetch(DATA_URL, { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (inlineData) {
+      console.warn("Falling back to inline showcase data.", error);
+      return inlineData;
+    }
+
+    throw error;
+  }
 }
 
 function buildMainRow(item) {
@@ -302,13 +337,7 @@ async function init() {
   renderBenchmarks();
 
   try {
-    const response = await fetch(DATA_URL, { cache: "no-store" });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data: ${response.status}`);
-    }
-
-    const rawData = await response.json();
+    const rawData = await loadShowcaseData();
     const data = normalizeData(rawData);
 
     renderShowcaseSections(data);

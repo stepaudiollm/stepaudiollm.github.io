@@ -1,0 +1,150 @@
+// Generated from stepaudio_asr_showcase_cases.json for file:// fallback.
+window.STEPAUDIO_ASR_SHOWCASE_DATA = {
+  "meta": {
+    "model_name": "StepAudio 2.5 ASR",
+    "page_intent": "静态 demo page 数据，只保留本地可播放、适合直接试听的中英文案例。",
+    "data_note": "转写结果已回填为完整文本；新增英文与中文长音频样本来自 long_chunked 本地 chunk_wavs 拼接。",
+    "video_asset": "./assets/asr_media_summary_demo.mp4"
+  },
+  "showcase_sections": [
+    {
+      "id": "zh",
+      "title": "StepAudio 2.5 ASR中文效果展示",
+      "groups": [
+        {
+          "id": "zh-tougue-twister",
+          "title": "中文快语速转写",
+          "case_ids": [
+            "zh_tougue-twister1",
+            "zh_high_speed"
+          ]
+        },
+        {
+          "id": "zh_sing_bgm",
+          "title": "中文带BGM唱歌",
+          "case_ids": [
+            "zh_sing_bgm"
+          ]
+        },
+        {
+          "id": "zh-noise-speech",
+          "title": "中文嘈杂背景声人声",
+          "case_ids": [
+            "zh_noise_speech"
+          ]
+        },
+        {
+          "id": "zh-yueyu",
+          "title": "粤语转写",
+          "case_ids": [
+            "zh_yueyu"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "en",
+      "title": "StepAudio 2.5 ASR英文效果展示",
+      "groups": [
+        {
+          "id": "en-tougue-twister",
+          "title": "英文快语速转写",
+          "case_ids": [
+            "en_tougue_twister1",
+            "en_tougue_twister2",
+            "en_high_speed"
+          ]
+        },
+        {
+          "id": "en-noise-speech",
+          "title": "英文嘈杂背景声人声",
+          "case_ids": [
+            "en_noise_speech"
+          ]
+        }
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "zh_tougue-twister1",
+      "title": "中文绕口令快板",
+      "group_id": "zh-tougue-twister",
+      "language": "zh",
+      "audio_path": "./assets/audio/zh_tougue_twister_1.wav",
+      "hyp_full": "正月里正月正，姐俩人去逛灯。大姑娘名叫粉红女，二姑娘名叫女粉红。粉红女身穿的一件粉红袄，女粉红身穿的一件袄粉红。粉红女怀抱的一瓶粉红酒，女粉红怀抱的一瓶酒粉红。他们二人来到了无人处，推杯换盏饮流零。女粉红喝了粉红女的粉红酒，粉红。"
+    },
+    {
+      "case_id": "zh_high_speed",
+      "title": "中文快语速",
+      "group_id": "zh-high-speed",
+      "language": "zh",
+      "audio_path": "./assets/audio/zh_high_speed.wav",
+      "hyp_full": "我们这段时间主要是练中期跟中后期的团战吧，因为我们之前比赛很多都是那种前期优势就很大，然后中期就莫名其妙就死掉，然后要么就被翻盘，要么就是打的就很艰难。所以我们之前主要是因为这方面做的不够好，然后我们就已经练的这方面比较多，然后主要是BP上面的调整吧，因为可能以前是这个英雄优先级很高，但是我们看了别的队伍的比赛，感觉其实对我们来说优先级很高，但是对别的来说，别的队伍来说其实优先级没有那么高。"
+    },
+    {
+      "case_id": "zh_yueyu",
+      "title": "粤语",
+      "group_id": "zh-yueyu",
+      "language": "zh",
+      "audio_path": "./assets/audio/yueyu.wav",
+      "hyp_full": "大家好，我系佘诗曼，唔系man姐，唔系佘诗曼，我唔知自己系边个。"
+    },
+    {
+      "case_id": "zh_sing_bgm",
+      "title": "中文带BGM唱歌",
+      "group_id": "zh_sing_bgm",
+      "language": "zh",
+      "audio_path": "./assets/audio/zh_sing_bgm.wav",
+      "hyp_full": "乌云在我们心里打下一块阴影。我聆听这记忆中的心情。"
+    },
+    {
+      "case_id": "zh_noise_speech",
+      "title": "中文嘈杂背景声人声",
+      "group_id": "zh-noise-speech",
+      "language": "zh",
+      "audio_path": "./assets/audio/zh_noise_speech.wav",
+      "hyp_full": "迪拜时间的中午12点，然后跟国内相差四个小时，然后第一次做长途飞行，并没有想象中那种特别累的感觉。"
+    },
+    {
+      "case_id": "en_tougue_twister1",
+      "title": "英文绕口令1",
+      "group_id": "en-tougue-twister",
+      "language": "en",
+      "audio_path": "./assets/audio/en_tougue_twister_1.wav",
+      "hyp_full": "the boughter bought some butter, but she said the butter's bitter. Butter, butter's bitter. Bitter butter, butter bitter. But she bought some butter, but she said the butter's bitter."
+    },
+    {
+      "case_id": "en_tougue_twister2",
+      "title": "英文绕口令2",
+      "group_id": "en-tougue-twister",
+      "language": "en",
+      "audio_path": "./assets/audio/en_tougue_twister_2.wav",
+      "hyp_full": "there Is how much wood would a woodchuck chuck if a woodchuck could chuck wood? How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+    },
+    {
+      "case_id": "en_high_speed",
+      "title": "英文快语速",
+      "group_id": "en-tougue-twister",
+      "language": "en",
+      "audio_path": "./assets/audio/en_high_speed.wav",
+      "hyp_full": "I'm Ellen lavey L A. Mayor Karen Bass is expected to speak at any moment now about what the city of Los Angeles is doing to prepare for this historic weather event."
+    },
+    {
+      "case_id": "en_noise_speech",
+      "title": "英文嘈杂背景声人声",
+      "group_id": "en-noise-speech",
+      "language": "en",
+      "audio_path": "./assets/audio/en_noise_speech.wav",
+      "hyp_full": "I usually don't like these cookies. These loft house cookies. I actually kind of despise them, but for some reason, it's enticing right now. So let's see if I still don't like it. I actually kind of don't hate it. I used to hate."
+    },
+    {
+      "case_id": "en_sing_bgm",
+      "title": "英文带BGM唱歌",
+      "group_id": "en_sing_bgm",
+      "language": "en",
+      "audio_path": "./assets/audio/en_sing_bgm.wav",
+      "hyp_full": "There ain't no gold in this river, and that I've been washing my hands in forever. I know there is hope in."
+    }
+  ]
+};
