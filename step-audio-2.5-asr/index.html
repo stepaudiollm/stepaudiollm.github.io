@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StepAudio 2.5 ASR</title>
+    <meta
+      name="description"
+      content="StepAudio 2.5 ASR 静态 demo page，展示极速推理、SOTA 转写精度与原生超长音频能力。"
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260417c" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero" id="top">
+        <div class="hero__nav">
+          <a class="brand" href="#top">StepAudio 2.5 ASR</a>
+
+        </div>
+
+        <div class="hero__content">
+          <div class="hero__copy">
+            <h1>StepAudio 2.5 ASR</h1>
+            <p class="hero__lead">
+              全球首发 ASR + MTP-5 深度融合架构，兼顾极速推理、转写精度与原生超长音频处理。
+            </p>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card">
+              <span>推理加速</span>
+              <strong>+400%</strong>
+            </article>
+            <article class="stat-card">
+              <span>极速吞吐</span>
+              <strong>500 tokens/s</strong>
+            </article>
+            <article class="stat-card">
+              <span>推理成本</span>
+              <strong>-80%</strong>
+            </article>
+            <article class="stat-card">
+              <span>上下文窗口</span>
+              <strong>32K</strong>
+            </article>
+            <article class="stat-card">
+              <span>单次转写</span>
+              <strong>30 min</strong>
+            </article>
+          </div>
+        </div>
+      </header>
+
+      <section class="section" id="highlights">
+        <div class="section-heading">
+          <h2>Highlights</h2>
+        </div>
+
+        <div class="pillar-grid">
+          <article class="pillar-card">
+            <span class="pillar-card__index">01</span>
+            <h3>极速推理效率</h3>
+            <p>全球首发 ASR + MTP-5 深度融合架构，推理速度飙升，单机吞吐更高。</p>
+            <div class="pill-row">
+              <span class="metric-pill">实测速度 +400%</span>
+              <span class="metric-pill">极速 500 tokens/s</span>
+              <span class="metric-pill">成本 -80%</span>
+            </div>
+          </article>
+
+          <article class="pillar-card">
+            <span class="pillar-card__index">02</span>
+            <h3>SOTA 转写精度</h3>
+            <p>4B 参数量级持续打磨，在通用中英文转写场景中具备强竞争力。</p>
+            <div class="pill-row">
+              <span class="metric-pill">中英文稳定</span>
+              <span class="metric-pill">复杂术语覆盖</span>
+              <span class="metric-pill">长段转写强</span>
+            </div>
+          </article>
+
+          <article class="pillar-card">
+            <span class="pillar-card__index">03</span>
+            <h3>原生超长音频</h3>
+            <p>复用 LLM 底层 32K 上下文窗口，一次性完整转写最长 30 分钟音频。</p>
+            <div class="pill-row">
+              <span class="metric-pill">原生 32K 上下文</span>
+              <span class="metric-pill">最长 30 分钟</span>
+              <span class="metric-pill">连续转写稳定</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="video-demo">
+        <div class="section-heading">
+          <h2>ASR 媒体总结 Demo</h2>
+        </div>
+
+        <article class="media-demo-card">
+          <video
+            class="media-demo-player"
+            controls
+            preload="metadata"
+            playsinline
+            src="./assets/asr_media_summary_demo.mp4"
+          ></video>
+        </article>
+      </section>
+
+      <section class="section" id="examples">
+        <div id="example-sections" class="example-sections"></div>
+      </section>
+
+      <section class="section" id="benchmarks">
+        <div class="section-heading">
+          <h2>识别指标</h2>
+        </div>
+        <div id="benchmark-grid" class="benchmark-grid">
+          <article class="benchmark-card">
+            <div class="benchmark-card__header">
+              <h3>中文</h3>
+              <span class="metric-pill">Average CER</span>
+            </div>
+            <div class="benchmark-chart">
+              <div class="benchmark-row is-best">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">StepAudio 2.5 ASR</span>
+                  <span class="benchmark-value">2.97</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 100%"></span></div>
+              </div>
+              <div class="benchmark-row">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">Qwen3 ASR (1.7B)</span>
+                  <span class="benchmark-value">3.17</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 88%"></span></div>
+              </div>
+              <div class="benchmark-row">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">Doubao-ASR-2603</span>
+                  <span class="benchmark-value">3.34</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 76%"></span></div>
+              </div>
+              <div class="benchmark-row">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">FunASR-Nano</span>
+                  <span class="benchmark-value">3.66</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 64%"></span></div>
+              </div>
+              <div class="benchmark-row">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">VibeVoice-ASR</span>
+                  <span class="benchmark-value">10.19</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 52%"></span></div>
+              </div>
+            </div>
+            <div class="benchmark-datasets">
+              <span class="meta-pill">aishell1</span>
+              <span class="meta-pill">aishell2_ios</span>
+              <span class="meta-pill">Wenet testnet</span>
+              <span class="meta-pill">Wenet testmeeting</span>
+              <span class="meta-pill">fleurs-zh</span>
+            </div>
+          </article>
+
+          <article class="benchmark-card">
+            <div class="benchmark-card__header">
+              <h3>英文</h3>
+              <span class="metric-pill">Average WER</span>
+            </div>
+            <div class="benchmark-chart">
+              <div class="benchmark-row is-best">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">StepAudio 2.5 ASR</span>
+                  <span class="benchmark-value">3.68</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 100%"></span></div>
+              </div>
+              <div class="benchmark-row">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">Qwen3 ASR (1.7B)</span>
+                  <span class="benchmark-value">3.85</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 88%"></span></div>
+              </div>
+              <div class="benchmark-row">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">FunASR-Nano</span>
+                  <span class="benchmark-value">5.24</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 76%"></span></div>
+              </div>
+              <div class="benchmark-row">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">Doubao-ASR-2603</span>
+                  <span class="benchmark-value">6.67</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 64%"></span></div>
+              </div>
+              <div class="benchmark-row">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">VibeVoice-ASR</span>
+                  <span class="benchmark-value">7.14</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 52%"></span></div>
+              </div>
+            </div>
+            <div class="benchmark-datasets">
+              <span class="meta-pill">librispeech-clean</span>
+              <span class="meta-pill">librispeech-other</span>
+              <span class="meta-pill">common_voice_v11.0_en</span>
+              <span class="meta-pill">fleurs-en</span>
+              <span class="meta-pill">VoxPopuli_Cleaned_AA</span>
+            </div>
+          </article>
+
+          <article class="benchmark-card">
+            <div class="benchmark-card__header">
+              <h3>长文</h3>
+              <span class="metric-pill">Average WER</span>
+            </div>
+            <div class="benchmark-chart">
+              <div class="benchmark-row is-best">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">StepAudio 2.5 ASR</span>
+                  <span class="benchmark-value">3.70</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 100%"></span></div>
+              </div>
+              <div class="benchmark-row">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">Qwen3 ASR (1.7B)</span>
+                  <span class="benchmark-value">4.20</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 88%"></span></div>
+              </div>
+              <div class="benchmark-row">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">VibeVoice-ASR</span>
+                  <span class="benchmark-value">4.87</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 76%"></span></div>
+              </div>
+              <div class="benchmark-row">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">FunASR-Nano</span>
+                  <span class="benchmark-value">5.59</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 64%"></span></div>
+              </div>
+              <div class="benchmark-row">
+                <div class="benchmark-row__top">
+                  <span class="benchmark-model">Doubao-ASR-2603</span>
+                  <span class="benchmark-value">6.11</span>
+                </div>
+                <div class="benchmark-track"><span class="benchmark-bar" style="width: 52%"></span></div>
+              </div>
+            </div>
+            <div class="benchmark-datasets">
+              <span class="meta-pill">librispeech-clean (long)</span>
+              <span class="meta-pill">librispeech-other (long)</span>
+              <span class="meta-pill">Wenet testnet (long)</span>
+              <span class="meta-pill">Earnings22_Cleaned_AA</span>
+            </div>
+          </article>
+        </div>
+        <p class="benchmark-footnote">中文结果使用 CER，英文与长文结果使用 WER，lower better.</p>
+      </section>
+
+      <footer class="footer">
+        <p id="footer-meta">Curated showcase cases for StepAudio 2.5 ASR.</p>
+      </footer>
+
+      <section class="load-error hidden" id="load-error">
+        页面数据加载失败。
+      </section>
+    </div>
+
+    <script src="./app.js?v=20260417c"></script>
+  </body>
+</html>
