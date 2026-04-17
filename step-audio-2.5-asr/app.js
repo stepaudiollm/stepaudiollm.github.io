@@ -1,4 +1,4 @@
-const DATA_URL = "./mtp_asr_showcase_cases.json";
+const DATA_URL = "./stepaudio_asr_showcase_cases.json";
 const BENCHMARK_SECTIONS = [
   {
     id: "zh",
