@@ -1,10 +1,258 @@
 const DATA_URL = "./stepaudio_asr_showcase_cases.json";
 const INLINE_DATA_KEY = "STEPAUDIO_ASR_SHOWCASE_DATA";
+const UI_COPY = {
+  zh: {
+    localeLabel: "中文",
+    nav: {
+      top: "概览",
+      highlights: "亮点",
+      demo: "Demo",
+      cases: "案例",
+      benchmarks: "指标",
+    },
+    hero: {
+      title: "StepAudio 2.5 ASR：基于 Multi-Token Prediction 的极速语音识别模型",
+      lead: "500 token/s 解码吞吐，在真实生产链路中提供极低时延的中英文转写与音视频理解体验。",
+      actions: {
+        demo: "观看音视频总结 Demo",
+        cases: "浏览识别样例",
+      },
+      stats: ["推理加速", "极速吞吐", "推理成本", "上下文窗口", "单次转写"],
+    },
+    highlights: {
+      title: "核心亮点",
+      summary: "围绕推理效率、转写精度与长音频能力，展示 StepAudio 2.5 ASR 在真实生产环境中的稳定表现。",
+      cards: [
+        {
+          title: "极速推理效率",
+          body: "ASR 与 MTP-5 深度融合，在真实业务请求链路中显著提升解码速度与单机吞吐。",
+          pills: ["实测 +400%", "500 token/s", "成本 -80%"],
+        },
+        {
+          title: "SOTA 转写精度",
+          body: "在常见中英文转写评测中保持强竞争力，兼顾复杂术语与长段内容。",
+          pills: ["中英文稳定", "术语覆盖", "长段转写强"],
+        },
+        {
+          title: "原生超长音频",
+          body: "依托 32K 上下文窗口，支持最长 30 分钟音频的一次性完整转写。",
+          pills: ["原生 32K 上下文", "最长 30 分钟", "连续转写稳定"],
+        },
+      ],
+    },
+    video: {
+      title: "音视频自动总结 Demo",
+      summary: "不止是把语音转成文本，还进一步展示模型在真实音视频内容上的理解与自动总结能力。",
+    },
+    examples: {
+      title: "识别样例",
+      featuredOutput: "识别结果",
+      jump: "查看完整案例",
+      tableHeaders: ["案例", "音频", "识别结果"],
+      showcaseSections: {
+        zh: {
+          title: "中文案例",
+          summary: "覆盖中文快语速、粤语、噪声背景与带 BGM 场景，观察模型在真实复杂输入中的稳定性。",
+        },
+        en: {
+          title: "英文案例",
+          summary: "聚焦英文绕口令、快语速与噪声录音，检验模型对复杂英文语流的转写表现。",
+        },
+      },
+    },
+    benchmarks: {
+      title: "识别指标",
+      rtfTitle: "生产环境端到端效率 / Real Time Factor (RTF)",
+      rtfSummary: "按真实交付形态衡量用户可感知体验，含音频上传时间；RTF 越低越好。",
+      summaryLabels: ["中文场景", "英文场景", "长音频场景"],
+      titles: {
+        zh: "中文",
+        en: "英文",
+        longform: "长音频",
+      },
+      metrics: {
+        cer: "平均 CER",
+        wer: "平均 WER",
+      },
+    },
+    footer: (cases, sections) => `${cases} 个可播放案例 · ${sections} 个展示分区 · StepAudio 2.5 ASR`,
+    loadError: "页面数据加载失败。",
+    caseDetails: {
+      "zh_tougue-twister1": {
+        summary: "中文绕口令与快板场景，验证高密度音节下的清晰转写能力。",
+        tags: ["中文", "绕口令", "快节奏"],
+      },
+      zh_high_speed: {
+        summary: "高速连续语流下仍保持稳定断句与完整转写，适合展示实时识别效率。",
+        tags: ["中文", "快语速", "连续语流"],
+      },
+      zh_yueyu: {
+        summary: "覆盖粤语口语表达，展示方言与非普通话场景下的识别稳定性。",
+        tags: ["粤语", "方言", "口语场景"],
+      },
+      zh_sing_bgm: {
+        summary: "在人声与音乐混合的条件下，保持对主声部歌词内容的准确捕获。",
+        tags: ["中文", "带 BGM", "唱歌"],
+      },
+      zh_noise_speech: {
+        summary: "面对嘈杂背景与真实环境干扰，依然能够稳定锁定目标人声内容。",
+        tags: ["中文", "噪声背景", "鲁棒性"],
+      },
+      en_tougue_twister1: {
+        summary: "英文绕口令样例，检验模型对高相似音节与连续重复词的解析能力。",
+        tags: ["英文", "绕口令", "密集重复"],
+      },
+      en_tougue_twister2: {
+        summary: "英文高混淆短语识别样例，适合观察 tongue twister 场景中的稳定性。",
+        tags: ["英文", "绕口令", "复杂发音"],
+      },
+      en_high_speed: {
+        summary: "英文新闻式快语速样例，展示模型在高速信息流中的完整捕获能力。",
+        tags: ["英文", "快语速", "资讯播报"],
+      },
+      en_noise_speech: {
+        summary: "嘈杂背景中的英文口语识别，体现对真实录音环境的鲁棒性。",
+        tags: ["英文", "噪声背景", "生活口语"],
+      },
+      en_sing_bgm: {
+        summary: "英文带背景音乐演唱样例，展示对旋律与歌词混合内容的识别能力。",
+        tags: ["英文", "带 BGM", "唱歌"],
+      },
+      fallback: {
+        summary: "展示模型在真实语音输入下的稳定转写结果。",
+        tags: ["识别样例"],
+      },
+    },
+  },
+  en: {
+    localeLabel: "English",
+    nav: {
+      top: "Overview",
+      highlights: "Highlights",
+      demo: "Demo",
+      cases: "Cases",
+      benchmarks: "Benchmarks",
+    },
+    hero: {
+      title: "StepAudio 2.5 ASR: Ultrafast Speech Recognition Powered by Multi-Token Prediction",
+      lead: "500 token/s decoding throughput with low-latency Chinese, English, and multimedia understanding in real production paths.",
+      actions: {
+        demo: "Watch Multimedia Demo",
+        cases: "Browse ASR Cases",
+      },
+      stats: ["Inference Speedup", "Throughput", "Inference Cost", "Context Window", "Single Pass Audio"],
+    },
+    highlights: {
+      title: "Highlights",
+      summary: "Faster decoding, stronger accuracy, and native long-form audio handling designed for real production environments.",
+      cards: [
+        {
+          title: "Ultrafast Inference",
+          body: "Deep integration between ASR and MTP-5 delivers much faster decoding and higher single-node throughput in real product traffic.",
+          pills: ["Measured +400%", "500 token/s", "Cost -80%"],
+        },
+        {
+          title: "SOTA Transcription Accuracy",
+          body: "A carefully tuned 4B-scale model stays competitive across common Chinese and English transcription benchmarks.",
+          pills: ["Stable bilingual ASR", "Terminology coverage", "Strong long-form ASR"],
+        },
+        {
+          title: "Native Long-Form Audio",
+          body: "Reusing the LLM's native 32K context window, the model can transcribe up to 30 minutes of audio in one pass.",
+          pills: ["Native 32K context", "Up to 30 minutes", "Stable continuous decoding"],
+        },
+      ],
+    },
+    video: {
+      title: "Multimedia Auto-Summary Demo",
+      summary: "Beyond transcription, the model can understand real multimedia content and generate concise summaries for product experiences.",
+    },
+    examples: {
+      title: "ASR Cases",
+      featuredOutput: "Recognition Output",
+      jump: "View full case",
+      tableHeaders: ["Case", "Audio", "Transcript"],
+      showcaseSections: {
+        zh: {
+          title: "Chinese Cases",
+          summary: "Fast Chinese speech, Cantonese, noisy environments, and music-overlap cases that show the model in realistic listening conditions.",
+        },
+        en: {
+          title: "English Cases",
+          summary: "Tongue twisters, fast English speech, and noisy recordings that stress-test recognition on complex spoken content.",
+        },
+      },
+    },
+    benchmarks: {
+      title: "Benchmarks",
+      rtfTitle: "Production End-to-End Efficiency / Real Time Factor (RTF)",
+      rtfSummary: "Measured in real production delivery paths to reflect true end-user experience, including audio upload time. Lower is better.",
+      summaryLabels: ["Chinese", "English", "Long-form"],
+      titles: {
+        zh: "Chinese",
+        en: "English",
+        longform: "Long-form",
+      },
+      metrics: {
+        cer: "Average CER",
+        wer: "Average WER",
+      },
+    },
+    footer: (cases, sections) => `${cases} curated playable cases · ${sections} showcase sections · StepAudio 2.5 ASR`,
+    loadError: "Failed to load showcase data.",
+    caseDetails: {
+      "zh_tougue-twister1": {
+        summary: "A Chinese tongue-twister clip that stresses dense syllable sequences and clean articulation.",
+        tags: ["Chinese", "tongue twister", "rapid rhythm"],
+      },
+      zh_high_speed: {
+        summary: "High-speed continuous speech with stable segmentation and complete transcription under dense information flow.",
+        tags: ["Chinese", "fast speech", "continuous flow"],
+      },
+      zh_yueyu: {
+        summary: "Cantonese conversational speech showing stability beyond standard Mandarin conditions.",
+        tags: ["Cantonese", "dialect", "spoken style"],
+      },
+      zh_sing_bgm: {
+        summary: "Speech mixed with music, testing the model's ability to focus on the dominant vocal signal.",
+        tags: ["Chinese", "with BGM", "singing"],
+      },
+      zh_noise_speech: {
+        summary: "Noisy real-world audio where the model still locks onto the target speaker content.",
+        tags: ["Chinese", "noisy audio", "robustness"],
+      },
+      en_tougue_twister1: {
+        summary: "An English tongue-twister case that stresses repeated patterns and similar phonetic units.",
+        tags: ["English", "tongue twister", "dense repetition"],
+      },
+      en_tougue_twister2: {
+        summary: "A highly confusable English phrase pattern for observing stability in tongue-twister recognition.",
+        tags: ["English", "tongue twister", "complex pronunciation"],
+      },
+      en_high_speed: {
+        summary: "Fast English news-style delivery that tests how well the model captures rapid information streams.",
+        tags: ["English", "fast speech", "news-style"],
+      },
+      en_noise_speech: {
+        summary: "Noisy English conversational audio that highlights robustness in consumer recording conditions.",
+        tags: ["English", "noisy audio", "daily speech"],
+      },
+      en_sing_bgm: {
+        summary: "English singing with background music, demonstrating mixed-source recognition behavior.",
+        tags: ["English", "with BGM", "singing"],
+      },
+      fallback: {
+        summary: "A playable recognition case showing the model's transcription behavior on real audio input.",
+        tags: ["ASR case"],
+      },
+    },
+  },
+};
+
 const BENCHMARK_SECTIONS = [
   {
     id: "zh",
-    title: "中文",
-    metric: "Average CER",
+    metricKey: "cer",
     datasets: ["aishell1", "aishell2_ios", "Wenet testnet", "Wenet testmeeting", "fleurs-zh"],
     models: [
       { name: "StepAudio 2.5 ASR", value: 2.97 },
@@ -16,8 +264,7 @@ const BENCHMARK_SECTIONS = [
   },
   {
     id: "en",
-    title: "英文",
-    metric: "Average WER",
+    metricKey: "wer",
     datasets: [
       "librispeech-clean",
       "librispeech-other",
@@ -35,8 +282,7 @@ const BENCHMARK_SECTIONS = [
   },
   {
     id: "longform",
-    title: "长文",
-    metric: "Average WER",
+    metricKey: "wer",
     datasets: [
       "librispeech-clean (long)",
       "librispeech-other (long)",
@@ -53,6 +299,48 @@ const BENCHMARK_SECTIONS = [
   },
 ];
 
+const RTF_BENCHMARK_MODELS = [
+  {
+    name: {
+      zh: "VibeVoice-ASR（本地部署）",
+      en: "VibeVoice-ASR (On-prem)",
+    },
+    value: 0.147,
+  },
+  {
+    name: {
+      zh: "FunASR-Nano（本地部署）",
+      en: "FunASR-Nano (On-prem)",
+    },
+    value: 0.092,
+  },
+  {
+    name: {
+      zh: "Doubao-ASR-2603（API）",
+      en: "Doubao-ASR-2603 (API)",
+    },
+    value: 0.064,
+  },
+  {
+    name: {
+      zh: "Qwen3 ASR（1.7B，API）",
+      en: "Qwen3 ASR (1.7B, API)",
+    },
+    value: 0.045,
+  },
+  {
+    name: {
+      zh: "StepAudio 2.5 ASR（API）",
+      en: "StepAudio 2.5 ASR (API)",
+    },
+    value: 0.015,
+  },
+];
+
+let currentLocale = "zh";
+let showcaseData = null;
+let navObserver = null;
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -62,16 +350,12 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
-function formatDuration(durationSec) {
-  if (durationSec === null || durationSec === undefined || Number.isNaN(Number(durationSec))) {
-    return "时长未知";
-  }
-
-  return `${Number(durationSec).toFixed(2)}s`;
-}
-
 function formatMetric(value) {
   return Number(value).toFixed(2);
+}
+
+function getCopy() {
+  return UI_COPY[currentLocale] || UI_COPY.zh;
 }
 
 function getDisplayModels(models) {
@@ -153,7 +437,6 @@ async function loadShowcaseData() {
 
 function buildMainRow(item) {
   const transcriptText = item.hyp_full || "—";
-  const durationLabel = item.audio_path ? "时长加载中" : "时长未知";
   const audioBlock = item.audio_path
     ? `
         <audio class="audio-player" controls preload="metadata" src="${escapeHtml(item.audio_path)}"></audio>
@@ -161,12 +444,9 @@ function buildMainRow(item) {
     : '<span class="audio-empty">—</span>';
 
   return `
-    <tr class="row-main">
+    <tr class="row-main" id="case-${escapeHtml(item.case_id)}">
       <td>
         <p class="scene-title">${escapeHtml(item.title || item.case_id)}</p>
-        <div class="scene-meta">
-          <span class="meta-pill js-duration">${escapeHtml(durationLabel)}</span>
-        </div>
       </td>
       <td>
         <div class="audio-cell">
@@ -180,36 +460,6 @@ function buildMainRow(item) {
       </td>
     </tr>
   `;
-}
-
-function bindAudioDurations(root) {
-  root.querySelectorAll(".row-main").forEach((row) => {
-    const audio = row.querySelector(".audio-player");
-    const durationNode = row.querySelector(".js-duration");
-
-    if (!audio || !durationNode) {
-      return;
-    }
-
-    const syncDuration = () => {
-      if (Number.isFinite(audio.duration) && audio.duration > 0) {
-        durationNode.textContent = formatDuration(audio.duration);
-        return;
-      }
-
-      durationNode.textContent = "时长未知";
-    };
-
-    audio.addEventListener("loadedmetadata", syncDuration);
-    audio.addEventListener("durationchange", syncDuration);
-    audio.addEventListener("error", () => {
-      durationNode.textContent = "时长未知";
-    });
-
-    if (audio.readyState >= 1) {
-      syncDuration();
-    }
-  });
 }
 
 function getBenchmarkRows(models) {
@@ -239,6 +489,7 @@ function getBenchmarkRows(models) {
 
 function renderBenchmarks() {
   const container = document.querySelector("#benchmark-grid");
+  const copy = getCopy();
 
   if (!container) {
     return;
@@ -249,12 +500,14 @@ function renderBenchmarks() {
     const datasetPills = section.datasets
       .map((dataset) => `<span class="meta-pill">${escapeHtml(dataset)}</span>`)
       .join("");
+    const sectionTitle = copy.benchmarks.titles[section.id];
+    const metricLabel = copy.benchmarks.metrics[section.metricKey];
 
     return `
       <article class="benchmark-card">
         <div class="benchmark-card__header">
-          <h3>${escapeHtml(section.title)}</h3>
-          <span class="metric-pill">${escapeHtml(section.metric)}</span>
+          <h3>${escapeHtml(sectionTitle)}</h3>
+          <span class="metric-pill">${escapeHtml(metricLabel)}</span>
         </div>
         <div class="benchmark-chart">
           ${rows}
@@ -267,84 +520,244 @@ function renderBenchmarks() {
   }).join("");
 }
 
-function buildGroup(group, caseMap) {
-  const rows = (group.case_ids || [])
+function renderRtfBenchmark() {
+  const container = document.querySelector("#rtf-benchmark");
+  const copy = getCopy();
+
+  if (!container) {
+    return;
+  }
+
+  const models = RTF_BENCHMARK_MODELS.map((item) => ({
+    name: item.name[currentLocale] || item.name.zh,
+    value: item.value,
+  }));
+
+  container.innerHTML = `
+    <article class="benchmark-card benchmark-card--rtf">
+      <div class="benchmark-card__header benchmark-card__header--stacked">
+        <div>
+          <h3>${escapeHtml(copy.benchmarks.rtfTitle)}</h3>
+          <p class="benchmark-card__summary">${escapeHtml(copy.benchmarks.rtfSummary)}</p>
+        </div>
+        <span class="metric-pill">RTF</span>
+      </div>
+      <div class="benchmark-chart">
+        ${getBenchmarkRows(models)}
+      </div>
+    </article>
+  `;
+}
+
+function buildSectionRows(section, caseMap) {
+  const seen = new Set();
+  return (section.groups || [])
+    .flatMap((group) => group.case_ids || [])
+    .filter((caseId) => {
+      if (!caseId || seen.has(caseId)) {
+        return false;
+      }
+
+      seen.add(caseId);
+      return true;
+    })
     .map((caseId) => caseMap.get(caseId))
     .filter(Boolean)
     .map((item) => buildMainRow(item))
     .join("");
+}
+
+function buildSectionTable(rows) {
+  const copy = getCopy();
 
   if (!rows) {
     return "";
   }
 
   return `
-    <article class="example-block">
-      <div class="example-block__header">
-        <h3>${escapeHtml(group.title || group.id)}</h3>
-      </div>
-      <div class="table-shell">
-        <table class="showcase-table">
-          <thead>
-            <tr>
-              <th>场景</th>
-              <th>音频</th>
-              <th>识别结果</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rows}
-          </tbody>
-        </table>
-      </div>
-    </article>
+    <div class="table-shell">
+      <table class="showcase-table">
+        <thead>
+          <tr>
+            <th>${escapeHtml(copy.examples.tableHeaders[0])}</th>
+            <th>${escapeHtml(copy.examples.tableHeaders[1])}</th>
+            <th>${escapeHtml(copy.examples.tableHeaders[2])}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows}
+        </tbody>
+      </table>
+    </div>
   `;
 }
 
 function renderShowcaseSections(data) {
   const container = document.querySelector("#example-sections");
+  const copy = getCopy();
 
   container.innerHTML = data.sections
     .map((section) => {
-      const groups = (section.groups || []).map((group) => buildGroup(group, data.caseMap)).join("");
+      const rows = buildSectionRows(section, data.caseMap);
+      const table = buildSectionTable(rows);
 
-      if (!groups) {
+      if (!table) {
         return "";
       }
 
+      const meta = copy.examples.showcaseSections[section.id];
+
       return `
-        <section class="language-section">
+        <section class="language-section" id="${escapeHtml(section.id)}-cases">
           <div class="language-section__header">
-            <h2>${escapeHtml(section.title || section.id)}</h2>
+            <h2>${escapeHtml(meta.title)}</h2>
+            <p class="language-section__summary">${escapeHtml(meta.summary)}</p>
           </div>
-          <div class="example-sections">
-            ${groups}
-          </div>
+          ${table}
         </section>
       `;
     })
     .join("");
 
-  bindAudioDurations(container);
 }
 
 function updateFooter(data) {
   const footer = document.querySelector("#footer-meta");
-  footer.textContent = `${data.cases.length} curated playable cases · ${data.sections.length} showcase sections · StepAudio 2.5 ASR`;
+  footer.textContent = getCopy().footer(data.cases.length, data.sections.length);
+}
+
+function setText(id, value) {
+  const node = document.getElementById(id);
+  if (node) {
+    node.textContent = value;
+  }
+}
+
+function applyStaticCopy() {
+  const copy = getCopy();
+  document.documentElement.lang = currentLocale === "zh" ? "zh-CN" : "en";
+
+  setText("nav-top-label", copy.nav.top);
+  setText("nav-highlights-label", copy.nav.highlights);
+  setText("nav-demo-label", copy.nav.demo);
+  setText("nav-cases-label", copy.nav.cases);
+  setText("nav-benchmarks-label", copy.nav.benchmarks);
+
+  setText("hero-title", copy.hero.title);
+  setText("hero-lead", copy.hero.lead);
+  setText("hero-demo-link", copy.hero.actions.demo);
+  setText("hero-cases-link", copy.hero.actions.cases);
+  copy.hero.stats.forEach((value, index) => setText(`stat-label-${index + 1}`, value));
+
+  setText("highlights-title", copy.highlights.title);
+  setText("highlights-summary", copy.highlights.summary);
+  copy.highlights.cards.forEach((card, index) => {
+    const cardIndex = index + 1;
+    setText(`highlight-card-${cardIndex}-title`, card.title);
+    setText(`highlight-card-${cardIndex}-body`, card.body);
+    card.pills.forEach((pill, pillIndex) => setText(`highlight-card-${cardIndex}-pill-${pillIndex + 1}`, pill));
+  });
+
+  setText("video-title", copy.video.title);
+  setText("video-summary", copy.video.summary);
+
+  setText("examples-title", copy.examples.title);
+  setText("benchmarks-title", copy.benchmarks.title);
+  copy.benchmarks.summaryLabels.forEach((value, index) => setText(`benchmark-summary-label-${index + 1}`, value));
+  setText("load-error", copy.loadError);
+}
+
+function updateLocaleSwitch() {
+  document.querySelectorAll(".locale-switch__button").forEach((button) => {
+    const isActive = button.dataset.locale === currentLocale;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
+function setupSectionNav() {
+  const links = [...document.querySelectorAll(".section-nav__link")];
+
+  if (navObserver) {
+    navObserver.disconnect();
+    navObserver = null;
+  }
+
+  if (!links.length || typeof IntersectionObserver === "undefined") {
+    return;
+  }
+
+  const targets = links
+    .map((link) => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
+
+  if (!targets.length) {
+    return;
+  }
+
+  const setActive = (id) => {
+    links.forEach((link) => {
+      const isActive = link.getAttribute("href") === `#${id}`;
+      link.classList.toggle("is-active", isActive);
+    });
+  };
+
+  navObserver = new IntersectionObserver(
+    (entries) => {
+      const visibleEntries = entries.filter((entry) => entry.isIntersecting);
+
+      if (!visibleEntries.length) {
+        return;
+      }
+
+      visibleEntries.sort((left, right) => right.intersectionRatio - left.intersectionRatio);
+      setActive(visibleEntries[0].target.id);
+    },
+    {
+      rootMargin: "-25% 0px -55% 0px",
+      threshold: [0.1, 0.2, 0.35, 0.5],
+    }
+  );
+
+  targets.forEach((target) => navObserver.observe(target));
+  setActive("top");
+}
+
+function renderPage(data) {
+  applyStaticCopy();
+  updateLocaleSwitch();
+  renderRtfBenchmark();
+  renderBenchmarks();
+  renderShowcaseSections(data);
+  updateFooter(data);
+  setupSectionNav();
+}
+
+function setupLocaleSwitch(data) {
+  document.querySelectorAll(".locale-switch__button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const nextLocale = button.dataset.locale;
+
+      if (!nextLocale || nextLocale === currentLocale) {
+        return;
+      }
+
+      currentLocale = nextLocale;
+      renderPage(data);
+    });
+  });
 }
 
 async function init() {
-  renderBenchmarks();
-
   try {
     const rawData = await loadShowcaseData();
-    const data = normalizeData(rawData);
-
-    renderShowcaseSections(data);
-    updateFooter(data);
+    showcaseData = normalizeData(rawData);
+    setupLocaleSwitch(showcaseData);
+    renderPage(showcaseData);
   } catch (error) {
     const errorNode = document.querySelector("#load-error");
     errorNode.classList.remove("hidden");
+    applyStaticCopy();
     console.error(error);
   }
 }
