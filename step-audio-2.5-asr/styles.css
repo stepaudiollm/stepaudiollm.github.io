@@ -899,6 +899,14 @@ textarea {
   transform: translateY(-50%);
 }
 
+.benchmark-row.is-best .benchmark-track--metric {
+  background: linear-gradient(90deg, rgba(47, 111, 237, 0.24) 0%, rgba(47, 111, 237, 0.06) 100%);
+}
+
+.benchmark-row.is-best .benchmark-track--metric::before {
+  background: linear-gradient(90deg, rgba(47, 111, 237, 0.95) 0%, rgba(122, 179, 255, 0.18) 100%);
+}
+
 .benchmark-row.is-best .benchmark-model,
 .benchmark-row.is-best .benchmark-value {
   color: var(--accent);
