@@ -83,8 +83,6 @@ const UI_COPY = {
       rtfTitle: "推理效率 / Real Time Factor (RTF)",
       rtfSummary: "单卡单并发测量，RTF 越低越好。注：除 Doubao-ASR-2603 为 API 调用外，其余模型均为本地部署。",
       rtfNext: "第二名",
-      axisBetter: "更优",
-      axisWorse: "更弱",
       summaryLabels: ["中文场景", "英文场景", "长音频场景"],
       titles: {
         zh: "中文",
@@ -227,8 +225,6 @@ const UI_COPY = {
       rtfTitle: "Inference Efficiency / Real Time Factor (RTF)",
       rtfSummary: "Measured with a single-card, single-concurrency setup. Lower RTF is better. Note: Doubao-ASR-2603 is evaluated via API, while all other models are locally deployed.",
       rtfNext: "Next best",
-      axisBetter: "Better",
-      axisWorse: "Worse",
       summaryLabels: ["Chinese", "English", "Long-form"],
       titles: {
         zh: "Chinese",
@@ -563,10 +559,6 @@ function renderBenchmarks() {
         <div class="benchmark-card__header">
           <h3>${escapeHtml(sectionTitle)}</h3>
           <span class="metric-pill">${escapeHtml(metricLabel)}</span>
-        </div>
-        <div class="benchmark-axis">
-          <span>${escapeHtml(copy.benchmarks.axisBetter)}</span>
-          <span>${escapeHtml(copy.benchmarks.axisWorse)}</span>
         </div>
         <div class="benchmark-chart">
           ${rows}
