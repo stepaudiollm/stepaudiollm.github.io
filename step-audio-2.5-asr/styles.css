@@ -723,6 +723,12 @@ textarea {
   word-break: break-word;
 }
 
+.result-text--scrollable {
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
 .audio-player {
   display: block;
   width: min(100%, 250px);

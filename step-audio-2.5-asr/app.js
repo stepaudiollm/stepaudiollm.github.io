@@ -49,6 +49,20 @@ const UI_COPY = {
       featuredOutput: "识别结果",
       jump: "查看完整案例",
       tableHeaders: ["案例", "音频", "识别结果"],
+      caseTitles: {
+        "zh_tougue-twister1": "中文绕口令快板",
+        zh_high_speed: "中文快语速",
+        zh_yueyu: "粤语",
+        zh_sing_bgm: "中文带BGM唱歌",
+        zh_noise_speech: "中文嘈杂背景声人声",
+        en_tougue_twister1: "英文绕口令1",
+        en_tougue_twister2: "英文绕口令2",
+        en_high_speed: "英文快语速",
+        en_noise_speech: "英文嘈杂背景声人声",
+        en_sing_bgm: "英文带BGM唱歌",
+        zh_longform: "中文长文",
+        en_longform: "英文长文",
+      },
       showcaseSections: {
         zh: {
           title: "中文案例",
@@ -57,6 +71,10 @@ const UI_COPY = {
         en: {
           title: "英文案例",
           summary: "聚焦英文绕口令、快语速与噪声录音，检验模型对复杂英文语流的转写表现。",
+        },
+        longform: {
+          title: "长文案例",
+          summary: "展示中文与英文长段连续内容，观察模型在更长上下文中的稳定转写与信息保持能力。",
         },
       },
     },
@@ -172,6 +190,20 @@ const UI_COPY = {
       featuredOutput: "Recognition Output",
       jump: "View full case",
       tableHeaders: ["Case", "Audio", "Transcript"],
+      caseTitles: {
+        "zh_tougue-twister1": "Chinese tongue twister",
+        zh_high_speed: "Fast Chinese speech",
+        zh_yueyu: "Cantonese",
+        zh_sing_bgm: "Chinese singing with BGM",
+        zh_noise_speech: "Chinese noisy speech",
+        en_tougue_twister1: "English tongue twister 1",
+        en_tougue_twister2: "English tongue twister 2",
+        en_high_speed: "Fast English speech",
+        en_noise_speech: "English noisy speech",
+        en_sing_bgm: "English singing with BGM",
+        zh_longform: "Chinese long-form",
+        en_longform: "English long-form",
+      },
       showcaseSections: {
         zh: {
           title: "Chinese Cases",
@@ -180,6 +212,10 @@ const UI_COPY = {
         en: {
           title: "English Cases",
           summary: "Tongue twisters, fast English speech, and noisy recordings that stress-test recognition on complex spoken content.",
+        },
+        longform: {
+          title: "Long-form Cases",
+          summary: "Long continuous Chinese and English content that highlights stable transcription and information retention over extended context.",
         },
       },
     },
@@ -437,6 +473,9 @@ async function loadShowcaseData() {
 
 function buildMainRow(item) {
   const transcriptText = item.hyp_full || "—";
+  const copy = getCopy();
+  const displayTitle = copy.examples.caseTitles[item.case_id] || item.title || item.case_id;
+  const isLongform = item.group_id === "longform-cases";
   const audioBlock = item.audio_path
     ? `
         <audio class="audio-player" controls preload="metadata" src="${escapeHtml(item.audio_path)}"></audio>
@@ -446,7 +485,7 @@ function buildMainRow(item) {
   return `
     <tr class="row-main" id="case-${escapeHtml(item.case_id)}">
       <td>
-        <p class="scene-title">${escapeHtml(item.title || item.case_id)}</p>
+        <p class="scene-title">${escapeHtml(displayTitle)}</p>
       </td>
       <td>
         <div class="audio-cell">
@@ -455,7 +494,7 @@ function buildMainRow(item) {
       </td>
       <td>
         <div class="result-cell">
-          <div class="result-text">${escapeHtml(transcriptText)}</div>
+          <div class="result-text${isLongform ? " result-text--scrollable" : ""}">${escapeHtml(transcriptText)}</div>
         </div>
       </td>
     </tr>
