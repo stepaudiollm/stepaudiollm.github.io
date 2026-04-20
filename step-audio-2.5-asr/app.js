@@ -11,8 +11,8 @@ const UI_COPY = {
       benchmarks: "指标",
     },
     hero: {
-      title: "StepAudio 2.5 ASR：基于 Multi-Token Prediction 的极速语音识别模型",
-      lead: "500 token/s 解码吞吐，在真实生产链路中提供极低时延的中英文转写与音视频理解体验。",
+      title: "StepAudio 2.5 ASR：让语音识别进入闪电时代",
+      lead: "Multi-Token Prediction技术加持，500 token/s 吞吐，速度与精度同步跃升。",
       actions: {
         demo: "观看音视频总结 Demo",
         cases: "浏览识别样例",
@@ -82,6 +82,9 @@ const UI_COPY = {
       title: "识别指标",
       rtfTitle: "推理效率 / Real Time Factor (RTF)",
       rtfSummary: "单卡单并发测量，RTF 越低越好。注：除 Doubao-ASR-2603 为 API 调用外，其余模型均为本地部署。",
+      rtfNext: "第二名",
+      axisBetter: "更优",
+      axisWorse: "更弱",
       summaryLabels: ["中文场景", "英文场景", "长音频场景"],
       titles: {
         zh: "中文",
@@ -152,8 +155,8 @@ const UI_COPY = {
       benchmarks: "Benchmarks",
     },
     hero: {
-      title: "StepAudio 2.5 ASR: Ultrafast Speech Recognition Powered by Multi-Token Prediction",
-      lead: "500 token/s decoding throughput with low-latency Chinese, English, and multimedia understanding in real production paths.",
+      title: "StepAudio 2.5 ASR: Bringing Speech Recognition into the Lightning Era",
+      lead: "Powered by Multi-Token Prediction, with 500 token/s throughput and simultaneous gains in speed and accuracy.",
       actions: {
         demo: "Watch Multimedia Demo",
         cases: "Browse ASR Samples",
@@ -223,6 +226,9 @@ const UI_COPY = {
       title: "Benchmarks",
       rtfTitle: "Inference Efficiency / Real Time Factor (RTF)",
       rtfSummary: "Measured with a single-card, single-concurrency setup. Lower RTF is better. Note: Doubao-ASR-2603 is evaluated via API, while all other models are locally deployed.",
+      rtfNext: "Next best",
+      axisBetter: "Better",
+      axisWorse: "Worse",
       summaryLabels: ["Chinese", "English", "Long-form"],
       titles: {
         zh: "Chinese",
@@ -407,34 +413,16 @@ function getCopy() {
   return UI_COPY[currentLocale] || UI_COPY.zh;
 }
 
-function getDisplayModels(models) {
-  return [...models].sort((left, right) => {
-    const leftIsStep = left.name === "StepAudio 2.5 ASR";
-    const rightIsStep = right.name === "StepAudio 2.5 ASR";
-
-    if (leftIsStep && !rightIsStep) {
-      return -1;
-    }
-
-    if (!leftIsStep && rightIsStep) {
-      return 1;
-    }
-
-    return left.value - right.value;
-  });
+function getSortedModels(models) {
+  return [...models].sort((left, right) => left.value - right.value);
 }
 
-function getPresentationWidths(models) {
-  const ranked = [...models].sort((left, right) => left.value - right.value);
-  const widthByName = new Map();
-  const baseWidths = [100, 88, 76, 64, 52];
+function getValuePosition(value, minValue, maxValue) {
+  if (!Number.isFinite(value) || !Number.isFinite(minValue) || !Number.isFinite(maxValue) || minValue === maxValue) {
+    return 6;
+  }
 
-  ranked.forEach((item, index) => {
-    const fallbackWidth = Math.max(40, 100 - index * 12);
-    widthByName.set(item.name, baseWidths[index] ?? fallbackWidth);
-  });
-
-  return widthByName;
+  return 6 + (((value - minValue) / (maxValue - minValue)) * 88);
 }
 
 function normalizeData(data) {
@@ -515,24 +503,39 @@ function buildMainRow(item) {
 }
 
 function getBenchmarkRows(models) {
-  const displayModels = getDisplayModels(models);
-  const widthByName = getPresentationWidths(models);
+  const displayModels = getSortedModels(models);
   const minValue = Math.min(...models.map((item) => item.value));
+  const maxValue = Math.max(...models.map((item) => item.value));
 
   return displayModels
     .map((item) => {
-      const width = widthByName.get(item.name) ?? 48;
       const isBest = item.value === minValue;
+      const position = getValuePosition(item.value, minValue, maxValue);
 
       return `
-        <div class="benchmark-row${isBest ? " is-best" : ""}">
+        <div class="benchmark-row benchmark-row--metric${isBest ? " is-best" : ""}">
           <div class="benchmark-row__top">
             <span class="benchmark-model">${escapeHtml(item.name)}</span>
             <span class="benchmark-value">${escapeHtml(formatBenchmarkValue(item))}</span>
           </div>
-          <div class="benchmark-track">
-            <span class="benchmark-bar" style="width: ${width.toFixed(2)}%"></span>
+          <div class="benchmark-track benchmark-track--metric">
+            <span class="benchmark-point" style="left: ${position.toFixed(2)}%"></span>
           </div>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function getRtfRankingRows(models) {
+  return getSortedModels(models)
+    .slice(1)
+    .map((item, index) => {
+      return `
+        <div class="rtf-rank-row">
+          <span class="rtf-rank-row__index">#${index + 2}</span>
+          <span class="rtf-rank-row__model">${escapeHtml(item.name)}</span>
+          <span class="rtf-rank-row__value">${escapeHtml(formatBenchmarkValue(item))}</span>
         </div>
       `;
     })
@@ -561,6 +564,10 @@ function renderBenchmarks() {
           <h3>${escapeHtml(sectionTitle)}</h3>
           <span class="metric-pill">${escapeHtml(metricLabel)}</span>
         </div>
+        <div class="benchmark-axis">
+          <span>${escapeHtml(copy.benchmarks.axisBetter)}</span>
+          <span>${escapeHtml(copy.benchmarks.axisWorse)}</span>
+        </div>
         <div class="benchmark-chart">
           ${rows}
         </div>
@@ -585,6 +592,9 @@ function renderRtfBenchmark() {
     value: item.value,
     displayValue: Number(item.value).toFixed(3),
   }));
+  const rankedModels = getSortedModels(models);
+  const bestModel = rankedModels[0];
+  const rankingRows = getRtfRankingRows(models);
 
   container.innerHTML = `
     <article class="benchmark-card benchmark-card--rtf">
@@ -595,8 +605,23 @@ function renderRtfBenchmark() {
         </div>
         <span class="metric-pill">RTF</span>
       </div>
-      <div class="benchmark-chart">
-        ${getBenchmarkRows(models)}
+      <div class="rtf-list">
+        <div class="rtf-hero">
+          <div class="rtf-hero__main">
+            <div class="rtf-hero__title">
+              <span class="rtf-rank-row__index rtf-rank-row__index--hero">#1</span>
+              <h4>${escapeHtml(bestModel.name)}</h4>
+            </div>
+            <strong>${escapeHtml(formatBenchmarkValue(bestModel))}</strong>
+          </div>
+        </div>
+        ${
+          rankingRows
+            ? `<div class="rtf-ranking__list">
+        ${rankingRows}
+      </div>`
+            : ""
+        }
       </div>
     </article>
   `;
