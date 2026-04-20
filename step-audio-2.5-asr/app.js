@@ -7,7 +7,7 @@ const UI_COPY = {
       top: "概览",
       highlights: "亮点",
       demo: "Demo",
-      cases: "案例",
+      cases: "样例",
       benchmarks: "指标",
     },
     hero: {
@@ -47,8 +47,8 @@ const UI_COPY = {
     examples: {
       title: "识别样例",
       featuredOutput: "识别结果",
-      jump: "查看完整案例",
-      tableHeaders: ["案例", "音频", "识别结果"],
+      jump: "查看完整样例",
+      tableHeaders: ["样例", "音频", "识别结果"],
       caseTitles: {
         "zh_tougue-twister1": "中文绕口令快板",
         zh_high_speed: "中文快语速",
@@ -65,23 +65,23 @@ const UI_COPY = {
       },
       showcaseSections: {
         zh: {
-          title: "中文案例",
+          title: "中文样例",
           summary: "覆盖中文快语速、粤语、噪声背景与带 BGM 场景，观察模型在真实复杂输入中的稳定性。",
         },
         en: {
-          title: "英文案例",
+          title: "英文样例",
           summary: "聚焦英文绕口令、快语速与噪声录音，检验模型对复杂英文语流的转写表现。",
         },
         longform: {
-          title: "长文案例",
+          title: "长文样例",
           summary: "展示中文与英文长段连续内容，观察模型在更长上下文中的稳定转写与信息保持能力。",
         },
       },
     },
     benchmarks: {
       title: "识别指标",
-      rtfTitle: "生产环境端到端效率 / Real Time Factor (RTF)",
-      rtfSummary: "按真实交付形态衡量用户可感知体验，含音频上传时间；RTF 越低越好。",
+      rtfTitle: "推理效率 / Real Time Factor (RTF)",
+      rtfSummary: "单卡单并发测量，RTF 越低越好。注：除 Doubao-ASR-2603 为 API 调用外，其余模型均为本地部署。",
       summaryLabels: ["中文场景", "英文场景", "长音频场景"],
       titles: {
         zh: "中文",
@@ -93,7 +93,7 @@ const UI_COPY = {
         wer: "平均 WER",
       },
     },
-    footer: (cases, sections) => `${cases} 个可播放案例 · ${sections} 个展示分区 · StepAudio 2.5 ASR`,
+    footer: (cases, sections) => `${cases} 个可播放样例 · ${sections} 个展示分区 · StepAudio 2.5 ASR`,
     loadError: "页面数据加载失败。",
     caseDetails: {
       "zh_tougue-twister1": {
@@ -148,7 +148,7 @@ const UI_COPY = {
       top: "Overview",
       highlights: "Highlights",
       demo: "Demo",
-      cases: "Cases",
+      cases: "Samples",
       benchmarks: "Benchmarks",
     },
     hero: {
@@ -156,7 +156,7 @@ const UI_COPY = {
       lead: "500 token/s decoding throughput with low-latency Chinese, English, and multimedia understanding in real production paths.",
       actions: {
         demo: "Watch Multimedia Demo",
-        cases: "Browse ASR Cases",
+        cases: "Browse ASR Samples",
       },
       stats: ["Inference Speedup", "Throughput", "Inference Cost", "Context Window", "Single Pass Audio"],
     },
@@ -186,10 +186,10 @@ const UI_COPY = {
       summary: "Beyond transcription, the model can understand real multimedia content and generate concise summaries for product experiences.",
     },
     examples: {
-      title: "ASR Cases",
+      title: "ASR Samples",
       featuredOutput: "Recognition Output",
-      jump: "View full case",
-      tableHeaders: ["Case", "Audio", "Transcript"],
+      jump: "View full sample",
+      tableHeaders: ["Sample", "Audio", "Transcript"],
       caseTitles: {
         "zh_tougue-twister1": "Chinese tongue twister",
         zh_high_speed: "Fast Chinese speech",
@@ -206,23 +206,23 @@ const UI_COPY = {
       },
       showcaseSections: {
         zh: {
-          title: "Chinese Cases",
+          title: "Chinese Samples",
           summary: "Fast Chinese speech, Cantonese, noisy environments, and music-overlap cases that show the model in realistic listening conditions.",
         },
         en: {
-          title: "English Cases",
+          title: "English Samples",
           summary: "Tongue twisters, fast English speech, and noisy recordings that stress-test recognition on complex spoken content.",
         },
         longform: {
-          title: "Long-form Cases",
+          title: "Long-form Samples",
           summary: "Long continuous Chinese and English content that highlights stable transcription and information retention over extended context.",
         },
       },
     },
     benchmarks: {
       title: "Benchmarks",
-      rtfTitle: "Production End-to-End Efficiency / Real Time Factor (RTF)",
-      rtfSummary: "Measured in real production delivery paths to reflect true end-user experience, including audio upload time. Lower is better.",
+      rtfTitle: "Inference Efficiency / Real Time Factor (RTF)",
+      rtfSummary: "Measured with a single-card, single-concurrency setup. Lower RTF is better. Note: Doubao-ASR-2603 is evaluated via API, while all other models are locally deployed.",
       summaryLabels: ["Chinese", "English", "Long-form"],
       titles: {
         zh: "Chinese",
@@ -234,7 +234,7 @@ const UI_COPY = {
         wer: "Average WER",
       },
     },
-    footer: (cases, sections) => `${cases} curated playable cases · ${sections} showcase sections · StepAudio 2.5 ASR`,
+    footer: (cases, sections) => `${cases} curated playable samples · ${sections} showcase sections · StepAudio 2.5 ASR`,
     loadError: "Failed to load showcase data.",
     caseDetails: {
       "zh_tougue-twister1": {
@@ -338,38 +338,43 @@ const BENCHMARK_SECTIONS = [
 const RTF_BENCHMARK_MODELS = [
   {
     name: {
-      zh: "VibeVoice-ASR（本地部署）",
-      en: "VibeVoice-ASR (On-prem)",
+      zh: "VibeVoice-ASR",
+      en: "VibeVoice-ASR",
     },
-    value: 0.147,
+    value: 0.1039,
+    displayValue: "0.1039",
   },
   {
     name: {
-      zh: "FunASR-Nano（本地部署）",
-      en: "FunASR-Nano (On-prem)",
+      zh: "FunASR-Nano",
+      en: "FunASR-Nano",
     },
-    value: 0.092,
+    value: 0.0591,
+    displayValue: "0.0591",
   },
   {
     name: {
-      zh: "Doubao-ASR-2603（API）",
-      en: "Doubao-ASR-2603 (API)",
+      zh: "Doubao-ASR-2603",
+      en: "Doubao-ASR-2603",
     },
     value: 0.064,
+    displayValue: "0.064",
   },
   {
     name: {
-      zh: "Qwen3 ASR（1.7B，API）",
-      en: "Qwen3 ASR (1.7B, API)",
+      zh: "Qwen3 ASR(1.7B)",
+      en: "Qwen3 ASR(1.7B)",
     },
-    value: 0.045,
+    value: 0.0094,
+    displayValue: "0.0094",
   },
   {
     name: {
-      zh: "StepAudio 2.5 ASR（API）",
-      en: "StepAudio 2.5 ASR (API)",
+      zh: "StepAudio 2.5 ASR",
+      en: "StepAudio 2.5 ASR",
     },
-    value: 0.015,
+    value: 0.0053,
+    displayValue: "0.0053",
   },
 ];
 
@@ -388,6 +393,14 @@ function escapeHtml(value) {
 
 function formatMetric(value) {
   return Number(value).toFixed(2);
+}
+
+function formatBenchmarkValue(item) {
+  if (item && item.displayValue !== undefined && item.displayValue !== null) {
+    return String(item.displayValue);
+  }
+
+  return formatMetric(item?.value);
 }
 
 function getCopy() {
@@ -515,7 +528,7 @@ function getBenchmarkRows(models) {
         <div class="benchmark-row${isBest ? " is-best" : ""}">
           <div class="benchmark-row__top">
             <span class="benchmark-model">${escapeHtml(item.name)}</span>
-            <span class="benchmark-value">${escapeHtml(formatMetric(item.value))}</span>
+            <span class="benchmark-value">${escapeHtml(formatBenchmarkValue(item))}</span>
           </div>
           <div class="benchmark-track">
             <span class="benchmark-bar" style="width: ${width.toFixed(2)}%"></span>
@@ -570,6 +583,7 @@ function renderRtfBenchmark() {
   const models = RTF_BENCHMARK_MODELS.map((item) => ({
     name: item.name[currentLocale] || item.name.zh,
     value: item.value,
+    displayValue: Number(item.value).toFixed(3),
   }));
 
   container.innerHTML = `

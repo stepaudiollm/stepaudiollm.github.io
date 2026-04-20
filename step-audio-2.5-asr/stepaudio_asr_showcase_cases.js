@@ -2,7 +2,7 @@
 window.STEPAUDIO_ASR_SHOWCASE_DATA = {
   "meta": {
     "model_name": "StepAudio 2.5 ASR",
-    "page_intent": "静态 demo page 数据，只保留本地可播放、适合直接试听的中英文案例。",
+    "page_intent": "静态 demo page 数据，只保留本地可播放、适合直接试听的中英文样例。",
     "data_note": "转写结果已回填为完整文本；新增英文与中文长音频样本来自 long_chunked 本地 chunk_wavs 拼接。",
     "video_asset": "./assets/asr_media_summary_demo.mp4"
   },
@@ -70,7 +70,7 @@ window.STEPAUDIO_ASR_SHOWCASE_DATA = {
       "groups": [
         {
           "id": "longform-cases",
-          "title": "长文案例",
+          "title": "长文样例",
           "case_ids": [
             "zh_longform",
             "en_longform"

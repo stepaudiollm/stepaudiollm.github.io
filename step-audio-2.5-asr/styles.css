@@ -758,6 +758,7 @@ textarea {
 }
 
 .benchmark-spotlight {
+  margin-top: 24px;
   margin-bottom: 16px;
 }
 
@@ -854,6 +855,8 @@ textarea {
   font-size: 14px;
   font-weight: 700;
   color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }
 
 .benchmark-track {
