@@ -8,7 +8,7 @@
       name="description"
       content="StepAudio 2.5 ASR 静态 demo page，展示极速推理、SOTA 转写精度与原生超长音频能力。"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260422c" />
+    <link rel="stylesheet" href="./styles.css?v=20260422g" />
   </head>
   <body>
     <div class="page">
@@ -181,7 +181,20 @@
           </section>
 
           <footer class="footer">
-            <p id="footer-meta">Curated showcase cases for StepAudio 2.5 ASR.</p>
+            <div class="footer-links">
+              <a
+                id="footer-link-online"
+                href="https://www.stepfun.com/studio/audio?tab=speech-recognition"
+                target="_blank"
+                rel="noreferrer"
+              >在线体验</a>
+              <a
+                id="footer-link-api"
+                href="https://platform.stepfun.com/docs/zh/api-reference/audio/asr-stream"
+                target="_blank"
+                rel="noreferrer"
+              >API 文档</a>
+            </div>
           </footer>
 
           <section class="load-error hidden" id="load-error">页面数据加载失败。</section>
@@ -190,6 +203,6 @@
     </div>
 
     <script src="./stepaudio_asr_showcase_cases.js?v=20260420c"></script>
-    <script src="./app.js?v=20260422c"></script>
+    <script src="./app.js?v=20260422g"></script>
   </body>
 </html>

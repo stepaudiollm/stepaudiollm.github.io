@@ -12,7 +12,7 @@ const UI_COPY = {
     },
     hero: {
       title: "StepAudio 2.5 ASR：让语音识别进入闪电时代",
-      lead: "Multi-Token Prediction技术加持，500 token/s 吞吐，速度与精度同步跃升。",
+      lead: "Multi-Token Prediction技术加持，500 token/s 吞吐，速度与精度同步跃升；1小时音频转写0.15元，击穿行业底价。",
       actions: {
         demo: "观看音视频总结 Demo",
         cases: "浏览识别样例",
@@ -96,6 +96,10 @@ const UI_COPY = {
       },
     },
     footer: (cases, sections) => `${cases} 个可播放样例 · ${sections} 个展示分区 · StepAudio 2.5 ASR`,
+    footerLinks: {
+      online: "在线体验",
+      api: "API 文档",
+    },
     loadError: "页面数据加载失败。",
     caseDetails: {
       "zh_tougue-twister1": {
@@ -155,7 +159,7 @@ const UI_COPY = {
     },
     hero: {
       title: "StepAudio 2.5 ASR: Bringing Speech Recognition into the Lightning Era",
-      lead: "Powered by Multi-Token Prediction, with 500 token/s throughput and simultaneous gains in speed and accuracy.",
+      lead: "Powered by Multi-Token Prediction, with 500 token/s throughput, simultaneous gains in speed and accuracy, and transcription cost down to RMB 0.15 per hour.",
       actions: {
         demo: "Watch Multimedia Demo",
         cases: "Browse ASR Samples",
@@ -239,6 +243,10 @@ const UI_COPY = {
       },
     },
     footer: (cases, sections) => `${cases} curated playable samples · ${sections} showcase sections · StepAudio 2.5 ASR`,
+    footerLinks: {
+      online: "Try online",
+      api: "API docs",
+    },
     loadError: "Failed to load showcase data.",
     caseDetails: {
       "zh_tougue-twister1": {
@@ -693,9 +701,9 @@ function renderShowcaseSections(data) {
 
 }
 
-function updateFooter(data) {
-  const footer = document.querySelector("#footer-meta");
-  footer.textContent = getCopy().footer(data.cases.length, data.sections.length);
+function updateFooter() {
+  setText("footer-link-online", getCopy().footerLinks.online);
+  setText("footer-link-api", getCopy().footerLinks.api);
 }
 
 function setText(id, value) {
@@ -802,7 +810,7 @@ function renderPage(data) {
   renderRtfBenchmark();
   renderBenchmarks();
   renderShowcaseSections(data);
-  updateFooter(data);
+  updateFooter();
   setupSectionNav();
 }
 
