@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StepAudio 2.5 ASR</title>
+    <meta
+      name="description"
+      content="StepAudio 2.5 ASR 静态 demo page，展示极速推理、SOTA 转写精度与原生超长音频能力。"
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260422g" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="page-layout">
+        <aside class="page-sidebar">
+          <nav class="section-nav" aria-label="Page sections" id="section-nav">
+            <a class="section-nav__link" href="#top"><span id="nav-top-label">概览</span></a>
+            <a class="section-nav__link" href="#highlights"><span id="nav-highlights-label">亮点</span></a>
+            <a class="section-nav__link" href="#video-demo"><span id="nav-demo-label">Demo</span></a>
+            <a class="section-nav__link" href="#examples"><span id="nav-cases-label">样例</span></a>
+            <a class="section-nav__link" href="#benchmarks"><span id="nav-benchmarks-label">指标</span></a>
+          </nav>
+        </aside>
+
+        <main class="page-main">
+          <header class="hero section-panel" id="top">
+            <div class="hero__topbar">
+              <a class="hero-brand" href="#top" aria-label="StepFun">
+                <img class="hero-brand__image" src="./assets/logo.png" alt="StepFun logo" />
+              </a>
+              <div class="locale-switch" role="tablist" aria-label="Language switch">
+                <button class="locale-switch__button is-active" type="button" data-locale="zh">中文</button>
+                <button class="locale-switch__button" type="button" data-locale="en">English</button>
+              </div>
+            </div>
+
+            <div class="hero__content">
+              <div class="hero__copy">
+                <h1 id="hero-title">StepAudio 2.5 ASR：基于 Multi-Token Prediction 的极速语音识别模型</h1>
+                <p class="hero__lead" id="hero-lead">
+                  500 token/s 解码吞吐，兼顾中英文识别速度、精度与长音频处理能力。
+                </p>
+              </div>
+
+              <div class="hero__actions">
+                <a class="hero-button hero-button--primary" href="#video-demo" id="hero-demo-link">观看音视频总结 Demo</a>
+                <a class="hero-button hero-button--secondary" href="#examples" id="hero-cases-link">浏览识别样例</a>
+                <a
+                  class="hero-button hero-button--secondary"
+                  href="https://www.stepfun.com/studio/audio?tab=speech-recognition"
+                  target="_blank"
+                  rel="noreferrer"
+                  id="hero-online-link"
+                >在线体验</a>
+              </div>
+
+              <div class="stats-grid">
+                <article class="stat-card">
+                  <span id="stat-label-1">推理加速</span>
+                  <strong>+400%</strong>
+                </article>
+                <article class="stat-card">
+                  <span id="stat-label-2">极速吞吐</span>
+                  <strong>500 token/s</strong>
+                </article>
+                <article class="stat-card">
+                  <span id="stat-label-3">推理成本</span>
+                  <strong>-80%</strong>
+                </article>
+                <article class="stat-card">
+                  <span id="stat-label-4">上下文窗口</span>
+                  <strong>32K</strong>
+                </article>
+                <article class="stat-card">
+                  <span id="stat-label-5">单次转写</span>
+                  <strong>30 min</strong>
+                </article>
+              </div>
+            </div>
+          </header>
+
+          <section class="section section-panel" id="highlights">
+            <div class="section-heading section-heading--row">
+              <div>
+                <h2 id="highlights-title">核心亮点</h2>
+                <p class="section-summary section-summary--below" id="highlights-summary">
+                  围绕推理效率、转写精度与长音频能力，展示 StepAudio 2.5 ASR 面向真实生产场景的核心竞争力。
+                </p>
+              </div>
+            </div>
+
+            <div class="pillar-grid">
+              <article class="pillar-card">
+                <span class="pillar-card__index">01</span>
+                <h3 id="highlight-card-1-title">极速推理效率</h3>
+                <p id="highlight-card-1-body">ASR 与 MTP-5 深度融合，显著提升解码速度与单机吞吐。</p>
+                <div class="pill-row">
+                  <span class="metric-pill" id="highlight-card-1-pill-1">实测 +400%</span>
+                  <span class="metric-pill" id="highlight-card-1-pill-2">500 token/s</span>
+                  <span class="metric-pill" id="highlight-card-1-pill-3">成本 -80%</span>
+                </div>
+              </article>
+
+              <article class="pillar-card">
+                <span class="pillar-card__index">02</span>
+                <h3 id="highlight-card-2-title">SOTA 转写精度</h3>
+                <p id="highlight-card-2-body">在常见中英文转写评测中保持强竞争力，兼顾复杂术语与长段内容。</p>
+                <div class="pill-row">
+                  <span class="metric-pill" id="highlight-card-2-pill-1">中英文稳定</span>
+                  <span class="metric-pill" id="highlight-card-2-pill-2">术语覆盖</span>
+                  <span class="metric-pill" id="highlight-card-2-pill-3">长段转写强</span>
+                </div>
+              </article>
+
+              <article class="pillar-card">
+                <span class="pillar-card__index">03</span>
+                <h3 id="highlight-card-3-title">原生超长音频</h3>
+                <p id="highlight-card-3-body">依托 32K 上下文窗口，支持最长 30 分钟音频的一次性完整转写。</p>
+                <div class="pill-row">
+                  <span class="metric-pill" id="highlight-card-3-pill-1">原生 32K 上下文</span>
+                  <span class="metric-pill" id="highlight-card-3-pill-2">最长 30 分钟</span>
+                  <span class="metric-pill" id="highlight-card-3-pill-3">连续转写稳定</span>
+                </div>
+              </article>
+            </div>
+
+            <div id="rtf-benchmark" class="benchmark-spotlight"></div>
+          </section>
+
+          <section class="section section-panel" id="video-demo">
+            <div class="section-heading section-heading--row">
+              <div>
+                <h2 id="video-title">音视频自动总结 Demo</h2>
+                <p class="section-summary section-summary--below" id="video-summary">
+                  不止是把语音转成文本，还进一步展示模型对音视频内容的理解与自动总结能力。
+                </p>
+              </div>
+            </div>
+
+            <article class="media-demo-card">
+              <video
+                class="media-demo-player"
+                controls
+                preload="metadata"
+                playsinline
+                src="./assets/asr_media_summary_demo.mp4"
+              ></video>
+            </article>
+          </section>
+
+          <section class="section section-panel" id="examples">
+            <div class="section-heading section-heading--row">
+              <div>
+                <h2 id="examples-title">识别样例</h2>
+              </div>
+            </div>
+
+            <div id="example-sections" class="example-sections"></div>
+          </section>
+
+          <section class="section section-panel" id="benchmarks">
+            <div class="section-heading section-heading--row">
+              <div>
+                <h2 id="benchmarks-title">识别指标</h2>
+                <p class="section-summary section-summary--below" id="benchmarks-summary">
+                  围绕中英文与长音频场景的核心结果，直观展示 StepAudio 2.5 ASR 在识别精度与推理效率上的领先表现。
+                </p>
+              </div>
+            </div>
+
+            <div class="benchmark-summary-grid">
+              <article class="benchmark-summary-card">
+                <span id="benchmark-summary-label-1">中文场景</span>
+                <strong>2.97 CER</strong>
+              </article>
+              <article class="benchmark-summary-card">
+                <span id="benchmark-summary-label-2">英文场景</span>
+                <strong>3.68 WER</strong>
+              </article>
+              <article class="benchmark-summary-card">
+                <span id="benchmark-summary-label-3">长音频场景</span>
+                <strong>3.70 WER</strong>
+              </article>
+            </div>
+
+            <div id="benchmark-grid" class="benchmark-grid"></div>
+          </section>
+
+          <section class="load-error hidden" id="load-error">页面数据加载失败。</section>
+        </main>
+      </div>
+    </div>
+
+    <script src="./stepaudio_asr_showcase_cases.js?v=20260420c"></script>
+    <script src="./app.js?v=20260422g"></script>
+  </body>
+</html>
