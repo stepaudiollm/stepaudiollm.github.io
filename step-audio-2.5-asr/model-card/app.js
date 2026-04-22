@@ -154,7 +154,19 @@ function renderModelData(content) {
 
 function renderEvaluation(content) {
   const target = document.getElementById('evaluation-content');
-  const benchmarkColumnWeights = (columnCount) => [1.35, ...Array.from({ length: Math.max(0, columnCount - 1) }, () => 1)];
+  const benchmarkColumnWeights = (columnCount) => {
+    const referenceWeight = 1.35;
+    const referenceColumnCount = 6;
+    const remainingColumnCount = Math.max(0, columnCount - 1);
+    if (!remainingColumnCount) {
+      return [referenceWeight];
+    }
+
+    // Keep the Model column as wide as the long-form table's Model column.
+    const referenceRatio = referenceWeight / (referenceWeight + (referenceColumnCount - 1));
+    const modelWeight = Number(((referenceRatio * remainingColumnCount) / (1 - referenceRatio)).toFixed(2));
+    return [modelWeight, ...Array.from({ length: remainingColumnCount }, () => 1)];
+  };
   const protocolSection = content.evaluation.protocolItems?.length
     ? `
       <section class="subsection">

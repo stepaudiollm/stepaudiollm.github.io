@@ -26,7 +26,7 @@ window.MODEL_CARD_CONTENT = {
       title: 'StepAudio 2.5 ASR',
       subtitle: 'Model Card',
       intro:
-        'StepAudio 2.5 ASR 是一款面向实时转写与长音频转写场景的自动语音识别模型。本文档提供模型结构、数据概况、评测结果和公开接口信息。',
+        'StepAudio 2.5 ASR 是一款面向语音转写与长音频转写场景的自动语音识别模型。本文档提供模型结构、数据概况、评测结果和公开接口信息。',
       notes: ['Document snapshot: 2026-04-22'],
       links: [
         { label: 'API 文档', hrefKey: 'apiDocs' },
@@ -40,7 +40,7 @@ window.MODEL_CARD_CONTENT = {
         {
           term: 'Description',
           paragraphs: [
-            'StepAudio 2.5 ASR 是一款面向实时转写、会议纪要与长音频转写任务的自动语音识别模型，在保持较强语言建模能力的同时兼顾高吞吐解码效率。',
+            'StepAudio 2.5 ASR 是一款面向语音转写、会议纪要与长音频转写任务的自动语音识别模型，在保持较强语言建模能力的同时兼顾高吞吐解码效率。',
           ],
         },
         {
@@ -49,7 +49,7 @@ window.MODEL_CARD_CONTENT = {
           items: [
             '0.6B Transformer audio encoder，将输入音频转化为 12.5 Hz 的 audio embedding。',
             'Linear Adapter 负责隐藏维度对齐。',
-            '4B Qwen3 LLM 作为模型主干，负责上下文建模与自回归文本生成。',
+            '4B LLM 作为模型主干，负责上下文建模与自回归文本生成。',
             'MTP-5 采用与 Step 3.5 Flash 一致的 MTP 设计，单次前向可额外预测 5 个 token。',
           ],
         },
@@ -59,7 +59,7 @@ window.MODEL_CARD_CONTENT = {
         },
         {
           term: 'Outputs',
-          paragraphs: ['流式返回转写文本。'],
+          paragraphs: ['返回转写文本。'],
         },
       ],
     },
@@ -94,7 +94,7 @@ window.MODEL_CARD_CONTENT = {
         {
           term: 'Reading guide',
           paragraphs: [
-            '所有表格均为 lower is better。Average 列仅用于辅助阅读，更重要的是逐测试集上的稳定表现与长音频套件上的整体均值。',
+            '所有表格均为 lower is better。Average 列仅用于辅助阅读，更重要的是逐测试集上的稳定表现与长音频评测集上的整体均值。',
           ],
         },
       ],
@@ -161,7 +161,7 @@ window.MODEL_CARD_CONTENT = {
         {
           term: 'Developer guidance',
           paragraphs: [
-            '如需查看流式 ASR 的具体调用方式、参数说明与示例代码，请直接前往对应的 API 文档页面。',
+            '如需查看 ASR API 的具体调用方式、参数说明与示例代码，请直接前往对应的 API 文档页面。',
           ],
         },
       ],
@@ -171,7 +171,7 @@ window.MODEL_CARD_CONTENT = {
         rows: [
           ['Demo page', '查看公开示例与模型效果展示。'],
           ['体验中心', '上传音频进行在线体验。'],
-          ['API 文档', '查看流式 ASR 接入说明、参数定义与最新示例。'],
+          ['API 文档', '查看 ASR API 接入说明、参数定义与最新示例。'],
         ],
       },
       docsLabel: '前往 API 文档',
@@ -182,8 +182,8 @@ window.MODEL_CARD_CONTENT = {
         {
           term: 'Benefit and intended usage',
           items: [
-            '实时字幕、会议纪要、长音频转写和媒资预处理。',
-            '需要持续消费增量文本并拼接最终结果的后端链路。',
+            '字幕生成、会议纪要、长音频转写和媒资预处理。',
+            '需要将识别结果接入检索、摘要、质检或归档链路的后端系统。',
             '重视术语一致性、时延与长文稳定性的工业接入场景。',
           ],
         },
@@ -245,7 +245,7 @@ window.MODEL_CARD_CONTENT = {
       title: 'StepAudio 2.5 ASR',
       subtitle: 'Model Card',
       intro:
-        'StepAudio 2.5 ASR is an automatic speech recognition model for realtime transcription and long-form transcription workloads. This document summarizes the model structure, data profile, evaluation results, and public interfaces.',
+        'StepAudio 2.5 ASR is an automatic speech recognition model for speech transcription and long-form transcription workloads. This document summarizes the model structure, data profile, evaluation results, and public interfaces.',
       notes: ['Document snapshot: 2026-04-22'],
       links: [
         { label: 'API Docs', hrefKey: 'apiDocs' },
@@ -259,7 +259,7 @@ window.MODEL_CARD_CONTENT = {
         {
           term: 'Description',
           paragraphs: [
-            'StepAudio 2.5 ASR is an automatic speech recognition model for realtime transcription, meeting transcription, and long-form transcription tasks, balancing strong language modeling with high-throughput decoding.',
+            'StepAudio 2.5 ASR is an automatic speech recognition model for speech transcription, meeting transcription, and long-form transcription tasks, balancing strong language modeling with high-throughput decoding.',
           ],
         },
         {
@@ -268,7 +268,7 @@ window.MODEL_CARD_CONTENT = {
           items: [
             'A 0.6B Transformer audio encoder converts input audio into 12.5 Hz audio embeddings.',
             'The Linear Adapter aligns hidden dimensions between the encoder and the backbone.',
-            'A 4B Qwen3 LLM serves as the backbone for context modeling and autoregressive text generation.',
+            'A 4B LLM serves as the backbone for context modeling and autoregressive text generation.',
             'MTP-5 follows the same MTP design used in Step 3.5 Flash and predicts five additional tokens per forward pass.',
           ],
         },
@@ -278,7 +278,7 @@ window.MODEL_CARD_CONTENT = {
         },
         {
           term: 'Outputs',
-          paragraphs: ['Streamed transcription text.'],
+          paragraphs: ['Transcription text.'],
         },
       ],
     },
@@ -313,7 +313,7 @@ window.MODEL_CARD_CONTENT = {
         {
           term: 'Reading guide',
           paragraphs: [
-            'All tables are lower is better. The Average column is included only as a reading aid; the more important signal is per-dataset stability and the overall average on the long-form suite.',
+            'All tables are lower is better. The Average column is included only as a reading aid; the more important signal is per-dataset stability and the overall average on the long-form evaluation set.',
           ],
         },
       ],
@@ -380,7 +380,7 @@ window.MODEL_CARD_CONTENT = {
         {
           term: 'Developer guidance',
           paragraphs: [
-            'For concrete streaming ASR invocation patterns, parameter descriptions, and example code, developers should go directly to the API documentation page.',
+            'For concrete ASR API invocation patterns, parameter descriptions, and example code, developers should go directly to the API documentation page.',
           ],
         },
       ],
@@ -390,7 +390,7 @@ window.MODEL_CARD_CONTENT = {
         rows: [
           ['Demo page', 'Inspect public examples and transcript outputs.'],
           ['Experience Center', 'Upload audio for interactive hands-on testing.'],
-          ['API Docs', 'Review streaming ASR integration guidance, parameter definitions, and the latest examples.'],
+          ['API Docs', 'Review ASR API integration guidance, parameter definitions, and the latest examples.'],
         ],
       },
       docsLabel: 'Open the API documentation',
@@ -401,8 +401,8 @@ window.MODEL_CARD_CONTENT = {
         {
           term: 'Benefit and intended usage',
           items: [
-            'Live captioning, meeting transcription, long-form transcription, and media preprocessing.',
-            'Back-end pipelines that continuously consume incremental text and assemble final transcripts.',
+            'Subtitle generation, meeting transcription, long-form transcription, and media preprocessing.',
+            'Back-end systems that route recognition outputs into retrieval, summarization, QA, or archival workflows.',
             'Industrial deployments that prioritize terminology consistency, latency, and long-form stability.',
           ],
         },
