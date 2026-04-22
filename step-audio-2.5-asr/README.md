@@ -22,6 +22,7 @@ python3 -m http.server 8080
 - `index.html`：页面结构与模块布局
 - `styles.css`：视觉样式
 - `app.js`：案例数据渲染、benchmark 渲染与音频时长绑定
+- `model-card/`：面向开发者的模型卡静态页面
 - `stepaudio_asr_showcase_cases.json`：展示案例数据
 - `stepaudio_asr_showcase_notes.md`：案例与素材整理说明
 - `assets/audio/`：音频样例

@@ -1,7 +1,7 @@
 window.MODEL_CARD_CONTENT = {
   links: {
     apiDocs: 'https://platform.stepfun.com/docs/zh/api-reference/audio/asr-stream',
-    demoPage: 'https://stepaudiollm.github.io/step-audio-2.5-asr/showcase/',
+    demoPage: 'https://stepaudiollm.github.io/step-audio-2.5-asr/',
     studio: 'https://www.stepfun.com/studio/audio?tab=speech-recognition',
   },
   zh: {
