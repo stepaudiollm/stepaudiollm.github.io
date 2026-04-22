@@ -42,7 +42,7 @@ const UI_COPY = {
     },
     video: {
       title: "音视频自动总结 Demo",
-      summary: "不止是把语音转成文本，还进一步展示模型在真实音视频内容上的理解与自动总结能力。",
+      summary: "不止是把语音转成文本，更直观展示模型对真实音视频内容的强理解能力，以及高质量、可直接应用的自动总结效果。",
     },
     examples: {
       title: "识别样例",
@@ -66,20 +66,21 @@ const UI_COPY = {
       showcaseSections: {
         zh: {
           title: "中文样例",
-          summary: "覆盖中文快语速、粤语、噪声背景与带 BGM 场景，观察模型在真实复杂输入中的稳定性。",
+          summary: "覆盖中文快语速、粤语、噪声背景与带 BGM 场景，直观体现模型在真实复杂输入下依然稳定、准确的强转写效果。",
         },
         en: {
           title: "英文样例",
-          summary: "聚焦英文绕口令、快语速与噪声录音，检验模型对复杂英文语流的转写表现。",
+          summary: "聚焦英文绕口令、快语速与噪声录音，直观展示模型面对复杂英文语流时依然稳定、准确、表现出色的转写能力。",
         },
         longform: {
           title: "长文样例",
-          summary: "展示中文与英文长段连续内容，观察模型在更长上下文中的稳定转写与信息保持能力。",
+          summary: "展示中文与英文长段连续内容，充分体现模型在长上下文下依然保持稳定、完整且高质量输出的强长文转写能力。",
         },
       },
     },
     benchmarks: {
       title: "识别指标",
+      summary: "围绕中英文与长音频场景的核心结果，直观展示 StepAudio 2.5 ASR 在识别精度与推理效率上的领先表现。",
       rtfTitle: "推理效率 / Real Time Factor (RTF)",
       rtfSummary: "单卡单并发测量，RTF 越低越好。注：除 Doubao-ASR-2603 为 API 调用外，其余模型均为本地部署。",
       rtfNext: "第二名",
@@ -184,7 +185,7 @@ const UI_COPY = {
     },
     video: {
       title: "Multimedia Auto-Summary Demo",
-      summary: "Beyond transcription, the model can understand real multimedia content and generate concise summaries for product experiences.",
+      summary: "Beyond transcription, this demo clearly showcases strong real-world multimedia understanding and high-quality auto-summaries ready for product experiences.",
     },
     examples: {
       title: "ASR Samples",
@@ -208,20 +209,21 @@ const UI_COPY = {
       showcaseSections: {
         zh: {
           title: "Chinese Samples",
-          summary: "Fast Chinese speech, Cantonese, noisy environments, and music-overlap cases that show the model in realistic listening conditions.",
+          summary: "Fast Chinese speech, Cantonese, noisy environments, and music-overlap cases that clearly demonstrate stable, accurate transcription in realistic listening conditions.",
         },
         en: {
           title: "English Samples",
-          summary: "Tongue twisters, fast English speech, and noisy recordings that stress-test recognition on complex spoken content.",
+          summary: "Tongue twisters, fast English speech, and noisy recordings that clearly showcase stable, accurate, high-quality transcription on complex spoken English.",
         },
         longform: {
           title: "Long-form Samples",
-          summary: "Long continuous Chinese and English content that highlights stable transcription and information retention over extended context.",
+          summary: "Long continuous Chinese and English content that clearly demonstrates stable, complete, and high-quality transcription across extended context.",
         },
       },
     },
     benchmarks: {
       title: "Benchmarks",
+      summary: "Core Chinese, English, and long-form results that clearly highlight StepAudio 2.5 ASR's leading accuracy and inference efficiency.",
       rtfTitle: "Inference Efficiency / Real Time Factor (RTF)",
       rtfSummary: "Measured with a single-card, single-concurrency setup. Lower RTF is better. Note: Doubao-ASR-2603 is evaluated via API, while all other models are locally deployed.",
       rtfNext: "Next best",
@@ -733,6 +735,7 @@ function applyStaticCopy() {
 
   setText("examples-title", copy.examples.title);
   setText("benchmarks-title", copy.benchmarks.title);
+  setText("benchmarks-summary", copy.benchmarks.summary);
   copy.benchmarks.summaryLabels.forEach((value, index) => setText(`benchmark-summary-label-${index + 1}`, value));
   setText("load-error", copy.loadError);
 }
