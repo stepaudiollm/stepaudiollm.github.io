@@ -6,7 +6,7 @@ const UI_COPY = {
     nav: {
       top: "概览",
       highlights: "亮点",
-      demo: "Demo",
+      demo: "视频",
       cases: "样例",
       benchmarks: "指标",
     },
@@ -14,7 +14,7 @@ const UI_COPY = {
       title: "StepAudio 2.5 ASR：让语音识别进入闪电时代",
       lead: "Multi-Token Prediction技术加持，500 token/s 吞吐，速度与精度同步跃升；1小时音频转写0.15元，击穿行业底价。",
       actions: {
-        demo: "观看音视频总结 Demo",
+        demo: "观看视频",
         cases: "浏览识别样例",
         online: "在线体验",
       },
@@ -42,8 +42,8 @@ const UI_COPY = {
       ],
     },
     video: {
-      title: "音视频自动总结 Demo",
-      summary: "不止是把语音转成文本，更直观展示模型对真实音视频内容的强理解能力，以及高质量、可直接应用的自动总结效果。",
+      title: "视频展示",
+      summary: "完整展示 StepAudio 2.5 ASR 的极速转写、复杂场景鲁棒性、长音频能力与中英文综合表现，更直接传达产品级 ASR 实力。",
     },
     examples: {
       title: "识别样例",
@@ -149,7 +149,7 @@ const UI_COPY = {
     nav: {
       top: "Overview",
       highlights: "Highlights",
-      demo: "Demo",
+      demo: "Video",
       cases: "Samples",
       benchmarks: "Benchmarks",
     },
@@ -157,7 +157,7 @@ const UI_COPY = {
       title: "StepAudio 2.5 ASR: Bringing Speech Recognition into the Lightning Era",
       lead: "Powered by Multi-Token Prediction, with 500 token/s throughput, simultaneous gains in speed and accuracy, and transcription cost down to RMB 0.15 per hour.",
       actions: {
-        demo: "Watch Multimedia Demo",
+        demo: "Watch Video",
         cases: "Browse ASR Samples",
         online: "Try Online",
       },
@@ -185,8 +185,8 @@ const UI_COPY = {
       ],
     },
     video: {
-      title: "Multimedia Auto-Summary Demo",
-      summary: "Beyond transcription, this demo clearly showcases strong real-world multimedia understanding and high-quality auto-summaries ready for product experiences.",
+      title: "Video Showcase",
+      summary: "A public-facing walkthrough of StepAudio 2.5 ASR, bringing together ultrafast transcription, strong robustness in challenging audio, long-form capability, and standout bilingual recognition in one complete showcase.",
     },
     examples: {
       title: "ASR Samples",
@@ -792,12 +792,31 @@ function setupSectionNav() {
   setActive("top");
 }
 
+function setupHeroVideoLink() {
+  const trigger = document.getElementById("hero-demo-link");
+  const player = document.querySelector(".media-demo-player");
+
+  if (!trigger || !player || trigger.dataset.autoplayBound === "true") {
+    return;
+  }
+
+  trigger.dataset.autoplayBound = "true";
+  trigger.addEventListener("click", () => {
+    player.currentTime = 0;
+    const playPromise = player.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {});
+    }
+  });
+}
+
 function renderPage(data) {
   applyStaticCopy();
   updateLocaleSwitch();
   renderRtfBenchmark();
   renderBenchmarks();
   renderShowcaseSections(data);
+  setupHeroVideoLink();
   setupSectionNav();
 }
 

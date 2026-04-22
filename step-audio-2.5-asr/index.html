@@ -16,8 +16,8 @@
         <aside class="page-sidebar">
           <nav class="section-nav" aria-label="Page sections" id="section-nav">
             <a class="section-nav__link" href="#top"><span id="nav-top-label">概览</span></a>
+            <a class="section-nav__link" href="#video-demo"><span id="nav-demo-label">视频</span></a>
             <a class="section-nav__link" href="#highlights"><span id="nav-highlights-label">亮点</span></a>
-            <a class="section-nav__link" href="#video-demo"><span id="nav-demo-label">Demo</span></a>
             <a class="section-nav__link" href="#examples"><span id="nav-cases-label">样例</span></a>
             <a class="section-nav__link" href="#benchmarks"><span id="nav-benchmarks-label">指标</span></a>
           </nav>
@@ -44,7 +44,7 @@
               </div>
 
               <div class="hero__actions">
-                <a class="hero-button hero-button--primary" href="#video-demo" id="hero-demo-link">观看音视频总结 Demo</a>
+                <a class="hero-button hero-button--primary" href="#video-demo" id="hero-demo-link">观看视频</a>
                 <a class="hero-button hero-button--secondary" href="#examples" id="hero-cases-link">浏览识别样例</a>
                 <a
                   class="hero-button hero-button--secondary"
@@ -79,6 +79,27 @@
               </div>
             </div>
           </header>
+
+          <section class="section section-panel" id="video-demo">
+            <div class="section-heading section-heading--row">
+              <div>
+                <h2 id="video-title">视频展示</h2>
+                <p class="section-summary section-summary--below" id="video-summary">
+                  完整展示 StepAudio 2.5 ASR 的极速转写、复杂场景鲁棒性、长音频能力与中英文综合表现。
+                </p>
+              </div>
+            </div>
+
+            <article class="media-demo-card">
+              <video
+                class="media-demo-player"
+                controls
+                preload="metadata"
+                playsinline
+                src="./assets/stepaudio_2_5_asr_showcase_video.mp4"
+              ></video>
+            </article>
+          </section>
 
           <section class="section section-panel" id="highlights">
             <div class="section-heading section-heading--row">
@@ -128,27 +149,6 @@
             <div id="rtf-benchmark" class="benchmark-spotlight"></div>
           </section>
 
-          <section class="section section-panel" id="video-demo">
-            <div class="section-heading section-heading--row">
-              <div>
-                <h2 id="video-title">音视频自动总结 Demo</h2>
-                <p class="section-summary section-summary--below" id="video-summary">
-                  不止是把语音转成文本，还进一步展示模型对音视频内容的理解与自动总结能力。
-                </p>
-              </div>
-            </div>
-
-            <article class="media-demo-card">
-              <video
-                class="media-demo-player"
-                controls
-                preload="metadata"
-                playsinline
-                src="./assets/asr_media_summary_demo.mp4"
-              ></video>
-            </article>
-          </section>
-
           <section class="section section-panel" id="examples">
             <div class="section-heading section-heading--row">
               <div>
@@ -193,6 +193,6 @@
     </div>
 
     <script src="./stepaudio_asr_showcase_cases.js?v=20260420c"></script>
-    <script src="./app.js?v=20260422g"></script>
+    <script src="./app.js?v=20260422h"></script>
   </body>
 </html>
