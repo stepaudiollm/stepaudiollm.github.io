@@ -16,6 +16,7 @@ const UI_COPY = {
       actions: {
         demo: "观看音视频总结 Demo",
         cases: "浏览识别样例",
+        online: "在线体验",
       },
       stats: ["推理加速", "极速吞吐", "推理成本", "上下文窗口", "单次转写"],
     },
@@ -95,11 +96,6 @@ const UI_COPY = {
         wer: "平均 WER",
       },
     },
-    footer: (cases, sections) => `${cases} 个可播放样例 · ${sections} 个展示分区 · StepAudio 2.5 ASR`,
-    footerLinks: {
-      online: "在线体验",
-      api: "API 文档",
-    },
     loadError: "页面数据加载失败。",
     caseDetails: {
       "zh_tougue-twister1": {
@@ -163,6 +159,7 @@ const UI_COPY = {
       actions: {
         demo: "Watch Multimedia Demo",
         cases: "Browse ASR Samples",
+        online: "Try Online",
       },
       stats: ["Inference Speedup", "Throughput", "Inference Cost", "Context Window", "Single Pass Audio"],
     },
@@ -241,11 +238,6 @@ const UI_COPY = {
         cer: "Average CER",
         wer: "Average WER",
       },
-    },
-    footer: (cases, sections) => `${cases} curated playable samples · ${sections} showcase sections · StepAudio 2.5 ASR`,
-    footerLinks: {
-      online: "Try online",
-      api: "API docs",
     },
     loadError: "Failed to load showcase data.",
     caseDetails: {
@@ -701,11 +693,6 @@ function renderShowcaseSections(data) {
 
 }
 
-function updateFooter() {
-  setText("footer-link-online", getCopy().footerLinks.online);
-  setText("footer-link-api", getCopy().footerLinks.api);
-}
-
 function setText(id, value) {
   const node = document.getElementById(id);
   if (node) {
@@ -727,6 +714,7 @@ function applyStaticCopy() {
   setText("hero-lead", copy.hero.lead);
   setText("hero-demo-link", copy.hero.actions.demo);
   setText("hero-cases-link", copy.hero.actions.cases);
+  setText("hero-online-link", copy.hero.actions.online);
   copy.hero.stats.forEach((value, index) => setText(`stat-label-${index + 1}`, value));
 
   setText("highlights-title", copy.highlights.title);
@@ -810,7 +798,6 @@ function renderPage(data) {
   renderRtfBenchmark();
   renderBenchmarks();
   renderShowcaseSections(data);
-  updateFooter();
   setupSectionNav();
 }
 
