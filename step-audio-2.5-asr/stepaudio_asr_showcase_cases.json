@@ -117,7 +117,7 @@
       "group_id": "zh-noise-speech",
       "language": "zh",
       "audio_path": "./assets/audio/zh_noise_speech.wav",
-      "hyp_full": "迪拜时间的中午12点，然后跟国内相差四个小时，然后第一次做长途飞行，并没有想象中那种特别累的感觉。"
+      "hyp_full": "迪拜时间的中午12点，然后跟国内相差四个小时，然后第一次坐长途飞行，并没有想象中那种特别累的感觉。"
     },
     {
       "case_id": "en_tougue_twister1",
