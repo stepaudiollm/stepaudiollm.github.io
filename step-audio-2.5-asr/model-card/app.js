@@ -153,20 +153,29 @@ function renderProseSection(section) {
 function renderHeader(content) {
   const target = document.getElementById('header-content');
   target.innerHTML = `
-    <p class="header-eyebrow">${escapeHtml(content.header.subtitle)}</p>
-    <h1>${escapeHtml(content.header.title)}</h1>
-    <p class="header-intro">${escapeHtml(content.header.intro)}</p>
-    <ul class="meta-list">
-      ${content.header.notes.map((note) => `<li>${escapeHtml(note)}</li>`).join('')}
-    </ul>
-    <p class="supporting-links">
-      ${content.header.links
-        .map(
-          (link, index) =>
-            `<a href="${escapeHtml(linkFor(link.hrefKey))}" target="_blank" rel="noreferrer">${escapeHtml(link.label)}</a>${index < content.header.links.length - 1 ? '<span class="separator">·</span>' : ''}`,
-        )
-        .join('')}
-    </p>
+    <div class="hero-layout">
+      <div class="hero-copy">
+        <p class="header-eyebrow">${escapeHtml(content.header.subtitle)}</p>
+        <h1>${escapeHtml(content.header.title)}</h1>
+        <p class="header-intro">${escapeHtml(content.header.intro)}</p>
+        <ul class="meta-list">
+          ${content.header.notes.map((note) => `<li>${escapeHtml(note)}</li>`).join('')}
+        </ul>
+        <p class="supporting-links">
+          ${content.header.links
+            .map(
+              (link, index) =>
+                `<a href="${escapeHtml(linkFor(link.hrefKey))}" target="_blank" rel="noreferrer">${escapeHtml(link.label)}</a>${index < content.header.links.length - 1 ? '<span class="separator">·</span>' : ''}`,
+            )
+            .join('')}
+        </p>
+      </div>
+      <div class="hero-ornament" aria-hidden="true">
+        <span class="hero-ornament__beam"></span>
+        <span class="hero-ornament__beam"></span>
+        <span class="hero-ornament__beam"></span>
+      </div>
+    </div>
   `;
 }
 
