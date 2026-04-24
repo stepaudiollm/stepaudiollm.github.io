@@ -155,7 +155,7 @@ const UI_COPY = {
     },
     hero: {
       title: "StepAudio 2.5 ASR: Bringing Speech Recognition into the Lightning Era",
-      lead: "Powered by Multi-Token Prediction, with 500 token/s throughput, simultaneous gains in speed and accuracy, and transcription cost down to RMB 0.15 per hour.",
+      lead: "Powered by Multi-Token Prediction, with 500 token/s throughput, simultaneous gains in speed and accuracy, and transcription cost down to USD 0.022 per hour.",
       actions: {
         demo: "Watch Video",
         cases: "Browse ASR Samples",
