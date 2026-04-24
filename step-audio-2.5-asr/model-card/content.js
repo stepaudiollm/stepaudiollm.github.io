@@ -1,6 +1,6 @@
 window.MODEL_CARD_CONTENT = {
   links: {
-    apiDocs: 'https://platform.stepfun.com/docs/zh/api-reference/audio/asr-stream',
+    apiDocs: 'https://platform.stepfun.com/docs/zh/api-reference/audio/asr-sse',
     demoPage: 'https://stepaudiollm.github.io/step-audio-2.5-asr/',
     studio: 'https://www.stepfun.com/studio/audio?tab=speech-recognition',
   },
@@ -36,48 +36,27 @@ window.MODEL_CARD_CONTENT = {
     },
     modelInformation: {
       title: 'Model Information',
-      entries: [
-        {
-          term: 'Description',
-          paragraphs: [
-            'StepAudio 2.5 ASR 是一款面向语音转写、会议纪要与长音频转写任务的自动语音识别模型，在保持较强语言建模能力的同时兼顾高吞吐解码效率。',
-          ],
-        },
-        {
-          term: 'Model Structure',
-          paragraphs: ['整体结构为 Audio Encoder + Linear Adapter + LLM + MTP-5。'],
-          items: [
-            '0.6B Transformer audio encoder，将输入音频转化为 12.5 Hz 的 audio embedding。',
-            'Linear Adapter 负责隐藏维度对齐。',
-            '4B LLM 作为模型主干，负责上下文建模与自回归文本生成。',
-            'MTP-5 采用与 Step 3.5 Flash 一致的 MTP 设计，单次前向可额外预测 5 个 token。',
-          ],
-        },
-        {
-          term: 'Inputs',
-          paragraphs: ['OGG、mp3、wav、PCM 等格式的音频。'],
-        },
-        {
-          term: 'Outputs',
-          paragraphs: ['返回转写文本。'],
-        },
+      paragraphs: [
+        'StepAudio 2.5 ASR 是一款面向语音转写、会议纪要与长音频转写任务的自动语音识别模型，在保持较强语言建模能力的同时兼顾高吞吐解码效率。模型输入为 OGG、mp3、wav、PCM 等格式的音频，输出为转写文本。整体结构为 Audio Encoder + Linear Adapter + LLM + MTP-5。',
+      ],
+      items: [
+        '0.6B Transformer audio encoder，将输入音频转化为 12.5 Hz 的 audio embedding。',
+        'Linear Adapter 负责隐藏维度对齐。',
+        '4B LLM 作为模型主干，负责上下文建模与自回归文本生成。',
+        'MTP-5 采用与 Step 3.5 Flash 一致的 MTP 设计，单次前向可额外预测 5 个 token。',
       ],
     },
     modelData: {
       title: 'Training Data',
       entries: [
         {
-          term: 'Pre-training data',
           paragraphs: [
-            '预训练阶段使用千万小时量级的 speech and audio data，用于建立通用的音频表征与语言建模能力。',
+            '训练数据由两部分构成。预训练阶段使用千万小时量级的 speech and audio data，用于建立通用的音频表征与语言建模能力；ASR 专项训练则进一步覆盖高质量短音频与长音频数据，以兼顾常规转写精度、口音与方言鲁棒性，以及长上下文场景下的稳定性。',
           ],
-        },
-        {
-          term: 'ASR training data',
           items: [
-            'ASR 训练数据由 10wh 高质量短音频与 5wh 长音频组成。',
-            '短音频最长不超过 30 秒，以中英文数据为主，并引入方言、带口音普通话、少量日语、阿拉伯语与 TTS 合成数据以增强鲁棒性。',
-            '长音频最长 30 分钟，用于覆盖会议、播客、访谈等长上下文转写场景。',
+            'ASR 训练数据由 10wh 高质量短音频和 5wh 长音频组成。',
+            '短音频最长不超过 30 秒，以中英文数据为主，并补充方言、带口音普通话、少量日语和阿拉伯语，以及 TTS 合成数据，以增强模型鲁棒性。',
+            '长音频最长 30 分钟，覆盖会议、播客、访谈等长上下文转写场景。',
           ],
         },
       ],
@@ -86,15 +65,8 @@ window.MODEL_CARD_CONTENT = {
       title: 'Evaluation',
       entries: [
         {
-          term: 'Benchmark scope',
           paragraphs: [
-            '评测覆盖中文开源集、英文开源集和长文开源集三组，按数据集分别统计 CER 或 WER，并保留逐测试集结果。',
-          ],
-        },
-        {
-          term: 'Reading guide',
-          paragraphs: [
-            '所有表格均为 lower is better。Average 列仅用于辅助阅读，更重要的是逐测试集上的稳定表现与长音频评测集上的整体均值。',
+            '评测覆盖中文开源集、英文开源集和长文开源集三组，按数据集分别统计 CER 或 WER，并保留逐测试集结果。所有表格均遵循 lower is better；其中 Average 列仅用于辅助阅读，更值得关注的是模型在各测试集上的稳定表现，以及在长音频评测集上的整体均值。',
           ],
         },
       ],
@@ -255,48 +227,27 @@ window.MODEL_CARD_CONTENT = {
     },
     modelInformation: {
       title: 'Model Information',
-      entries: [
-        {
-          term: 'Description',
-          paragraphs: [
-            'StepAudio 2.5 ASR is an automatic speech recognition model for speech transcription, meeting transcription, and long-form transcription tasks, balancing strong language modeling with high-throughput decoding.',
-          ],
-        },
-        {
-          term: 'Model Structure',
-          paragraphs: ['The overall stack is Audio Encoder + Linear Adapter + LLM + MTP-5.'],
-          items: [
-            'A 0.6B Transformer audio encoder converts input audio into 12.5 Hz audio embeddings.',
-            'The Linear Adapter aligns hidden dimensions between the encoder and the backbone.',
-            'A 4B LLM serves as the backbone for context modeling and autoregressive text generation.',
-            'MTP-5 follows the same MTP design used in Step 3.5 Flash and predicts five additional tokens per forward pass.',
-          ],
-        },
-        {
-          term: 'Inputs',
-          paragraphs: ['Audio in formats such as OGG, mp3, wav, and PCM.'],
-        },
-        {
-          term: 'Outputs',
-          paragraphs: ['Transcription text.'],
-        },
+      paragraphs: [
+        'StepAudio 2.5 ASR is an automatic speech recognition model for speech transcription, meeting transcription, and long-form transcription tasks, balancing strong language modeling with high-throughput decoding. It accepts audio in formats such as OGG, mp3, wav, and PCM, and returns transcription text. The overall stack is Audio Encoder + Linear Adapter + LLM + MTP-5.',
+      ],
+      items: [
+        'A 0.6B Transformer audio encoder converts input audio into 12.5 Hz audio embeddings.',
+        'The Linear Adapter aligns hidden dimensions between the encoder and the backbone.',
+        'A 4B LLM serves as the backbone for context modeling and autoregressive text generation.',
+        'MTP-5 follows the same MTP design used in Step 3.5 Flash and predicts five additional tokens per forward pass.',
       ],
     },
     modelData: {
       title: 'Training Data',
       entries: [
         {
-          term: 'Pre-training data',
           paragraphs: [
-            'The pre-training stage uses speech and audio data at the scale of tens of millions of hours to build general audio representation and language modeling capability.',
+            'The training corpus has two layers. The pre-training stage uses speech and audio data at the scale of tens of millions of hours to build general audio representation and language modeling capability, while ASR-specific training further adds curated short-form and long-form data to support transcription accuracy, robustness to accents and dialectal variation, and stability on longer-context workloads.',
           ],
-        },
-        {
-          term: 'ASR training data',
           items: [
             'The ASR training data consists of 10wh curated short-form audio and 5wh long-form audio.',
-            'Short-form audio is capped at 30 seconds. It is primarily Chinese and English, with additional dialectal speech, accented Mandarin, limited Japanese and Arabic data, and TTS-synthesized data for robustness.',
-            'Long-form audio is capped at 30 minutes and is used to cover meetings, podcasts, interviews, and other longer-context transcription scenarios.',
+            'Short-form audio is capped at 30 seconds. It is primarily Chinese and English, with additional dialectal speech, accented Mandarin, limited Japanese and Arabic data, and TTS-synthesized data to improve robustness.',
+            'Long-form audio is capped at 30 minutes and covers meetings, podcasts, interviews, and other longer-context transcription scenarios.',
           ],
         },
       ],
@@ -305,15 +256,8 @@ window.MODEL_CARD_CONTENT = {
       title: 'Evaluation',
       entries: [
         {
-          term: 'Benchmark scope',
           paragraphs: [
-            'Evaluation is reported on Chinese open-source sets, English open-source sets, and long-form open-source sets, with CER or WER computed per dataset and retained in full.',
-          ],
-        },
-        {
-          term: 'Reading guide',
-          paragraphs: [
-            'All tables are lower is better. The Average column is included only as a reading aid; the more important signal is per-dataset stability and the overall average on the long-form evaluation set.',
+            'Evaluation covers Chinese open-source sets, English open-source sets, and long-form open-source sets, with CER or WER reported per dataset and retained in full. All tables follow a lower-is-better convention; the Average column is included only as a reading aid, while the more important signal is per-dataset stability and the overall mean on the long-form evaluation set.',
           ],
         },
       ],

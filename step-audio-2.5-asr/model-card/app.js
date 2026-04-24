@@ -33,6 +33,7 @@ function tableHtml(table, highlightRow, extraClass = '', columnWeights = null) {
         `;
       })()
     : '';
+
   return `
     <div class="${className}">
       <table class="data-table">
@@ -75,12 +76,16 @@ function codePanel(title, code, copyLabel) {
 
 function renderNav(content) {
   const nav = document.getElementById('section-nav');
-  nav.innerHTML = content.nav
-    .map(
-      (item) =>
-        `<a class="section-nav__link" href="#${escapeHtml(item.id)}" data-target="${escapeHtml(item.id)}">${escapeHtml(item.label)}</a>`,
-    )
-    .join('');
+  nav.innerHTML = `
+    <div class="top-nav__list">
+      ${content.nav
+        .map(
+          (item) =>
+            `<a class="top-nav__link" href="#${escapeHtml(item.id)}" data-target="${escapeHtml(item.id)}">${escapeHtml(item.label)}</a>`,
+        )
+        .join('')}
+    </div>
+  `;
 }
 
 function renderSidebar(content) {
@@ -95,18 +100,26 @@ function renderSectionTitle(title) {
   `;
 }
 
-function renderFieldRow(entry) {
+function renderEntryBody(entry) {
   const paragraphs = (entry.paragraphs || []).map((text) => `<p>${escapeHtml(text)}</p>`).join('');
   const items = entry.items?.length
     ? `<ul class="bullet-list">${entry.items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
     : '';
 
   return `
-    <div class="field-row">
-      <h3 class="field-term">${escapeHtml(entry.term)}</h3>
+    ${paragraphs}
+    ${items}
+  `;
+}
+
+function renderFieldRow(entry) {
+  const hasTerm = Boolean(entry.term);
+
+  return `
+    <div class="field-row${hasTerm ? '' : ' field-row--full'}">
+      ${hasTerm ? `<h3 class="field-term">${escapeHtml(entry.term)}</h3>` : ''}
       <div class="field-body">
-        ${paragraphs}
-        ${items}
+        ${renderEntryBody(entry)}
       </div>
     </div>
   `;
@@ -114,6 +127,27 @@ function renderFieldRow(entry) {
 
 function renderFieldList(entries) {
   return `<div class="field-list">${entries.map(renderFieldRow).join('')}</div>`;
+}
+
+function renderEntryFlow(entries) {
+  return `
+    <div class="prose-stack">
+      ${entries.map(renderEntryBody).join('')}
+    </div>
+  `;
+}
+
+function renderEntries(entries) {
+  return entries.every((entry) => !entry.term) ? renderEntryFlow(entries) : renderFieldList(entries);
+}
+
+function renderProseSection(section) {
+  return `
+    ${renderSectionTitle(section.title)}
+    <div class="prose-stack">
+      ${renderEntryBody(section)}
+    </div>
+  `;
 }
 
 function renderHeader(content) {
@@ -140,36 +174,41 @@ function renderBasicSection(targetId, section) {
   const target = document.getElementById(targetId);
   target.innerHTML = `
     ${renderSectionTitle(section.title)}
-    ${renderFieldList(section.entries)}
+    ${renderEntries(section.entries)}
   `;
+}
+
+function renderModelInformation(content) {
+  const target = document.getElementById('model-information-content');
+  target.innerHTML = renderProseSection(content.modelInformation);
 }
 
 function renderModelData(content) {
   const target = document.getElementById('model-data-content');
   target.innerHTML = `
     ${renderSectionTitle(content.modelData.title)}
-    ${renderFieldList(content.modelData.entries)}
+    ${renderEntries(content.modelData.entries)}
   `;
+}
+
+function benchmarkColumnWeights(columnCount) {
+  const referenceWeight = 1.35;
+  const referenceColumnCount = 6;
+  const remainingColumnCount = Math.max(0, columnCount - 1);
+  if (!remainingColumnCount) {
+    return [referenceWeight];
+  }
+
+  const referenceRatio = referenceWeight / (referenceWeight + (referenceColumnCount - 1));
+  const modelWeight = Number(((referenceRatio * remainingColumnCount) / (1 - referenceRatio)).toFixed(2));
+  return [modelWeight, ...Array.from({ length: remainingColumnCount }, () => 1)];
 }
 
 function renderEvaluation(content) {
   const target = document.getElementById('evaluation-content');
-  const benchmarkColumnWeights = (columnCount) => {
-    const referenceWeight = 1.35;
-    const referenceColumnCount = 6;
-    const remainingColumnCount = Math.max(0, columnCount - 1);
-    if (!remainingColumnCount) {
-      return [referenceWeight];
-    }
-
-    // Keep the Model column as wide as the long-form table's Model column.
-    const referenceRatio = referenceWeight / (referenceWeight + (referenceColumnCount - 1));
-    const modelWeight = Number(((referenceRatio * remainingColumnCount) / (1 - referenceRatio)).toFixed(2));
-    return [modelWeight, ...Array.from({ length: remainingColumnCount }, () => 1)];
-  };
   const protocolSection = content.evaluation.protocolItems?.length
     ? `
-      <section class="subsection">
+      <section class="subsection subsection--detail">
         <h3 class="subsection-title">${escapeHtml(content.evaluation.protocolTitle)}</h3>
         <ul class="bullet-list">
           ${content.evaluation.protocolItems.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}
@@ -179,7 +218,7 @@ function renderEvaluation(content) {
     : '';
   const acceptedLengthSection = content.evaluation.acceptedLengthItems?.length
     ? `
-      <section class="subsection">
+      <section class="subsection subsection--detail">
         <h3 class="subsection-title">${escapeHtml(content.evaluation.acceptedLengthTitle)}</h3>
         <ul class="bullet-list">
           ${content.evaluation.acceptedLengthItems.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}
@@ -189,19 +228,19 @@ function renderEvaluation(content) {
     : '';
   const ablationSection = content.evaluation.ablationItems?.length
     ? `
-      <section class="subsection">
+      <section class="subsection subsection--detail">
         <h3 class="subsection-title">${escapeHtml(content.evaluation.ablationTitle)}</h3>
         <ul class="bullet-list">
           ${content.evaluation.ablationItems.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}
         </ul>
-        ${content.evaluation.ablationTable ? tableHtml(content.evaluation.ablationTable, content.evaluation.ablationTable.highlightRow, 'table-wrap--compact') : ''}
+        ${content.evaluation.ablationTable ? tableHtml(content.evaluation.ablationTable, content.evaluation.ablationTable.highlightRow, 'table-wrap--plain table-wrap--compact') : ''}
       </section>
     `
     : '';
 
   target.innerHTML = `
     ${renderSectionTitle(content.evaluation.title)}
-    ${renderFieldList(content.evaluation.entries)}
+    ${renderEntries(content.evaluation.entries)}
     ${content.evaluation.suites
       .map(
         (suite) => `
@@ -210,7 +249,7 @@ function renderEvaluation(content) {
             ${tableHtml(
               { columns: suite.columns, rows: suite.rows },
               suite.highlightRow,
-              'table-wrap--compact',
+              'table-wrap--plain table-wrap--compact',
               benchmarkColumnWeights(suite.columns.length),
             )}
           </section>
@@ -231,7 +270,7 @@ function renderDistribution(content) {
     ${renderFieldList(content.distribution.entries)}
     <section class="subsection">
       <h3 class="subsection-title">${escapeHtml(content.distribution.channelTitle)}</h3>
-      ${tableHtml(content.distribution.channelTable)}
+      ${tableHtml(content.distribution.channelTable, null, 'table-wrap--plain')}
     </section>
     <p class="supporting-links supporting-links--block">
       <a href="${escapeHtml(linkFor('apiDocs'))}" target="_blank" rel="noreferrer">${escapeHtml(content.distribution.docsLabel)}</a>
@@ -289,8 +328,8 @@ function setupNavObserver() {
     navObserver.disconnect();
   }
 
-  const sections = document.querySelectorAll('header[id], section[id]');
-  const links = Array.from(document.querySelectorAll('.section-nav__link'));
+  const sections = document.querySelectorAll('section[id], footer[id], header[id]');
+  const links = Array.from(document.querySelectorAll('.top-nav__link'));
 
   navObserver = new IntersectionObserver(
     (entries) => {
@@ -307,8 +346,8 @@ function setupNavObserver() {
       });
     },
     {
-      rootMargin: '-20% 0px -60% 0px',
-      threshold: [0.2, 0.45, 0.7],
+      rootMargin: '-18% 0px -58% 0px',
+      threshold: [0.18, 0.45, 0.7],
     },
   );
 
@@ -321,7 +360,7 @@ function renderPage() {
   renderNav(content);
   renderSidebar(content);
   renderHeader(content);
-  renderBasicSection('model-information-content', content.modelInformation);
+  renderModelInformation(content);
   renderModelData(content);
   renderEvaluation(content);
   renderDistribution(content);
