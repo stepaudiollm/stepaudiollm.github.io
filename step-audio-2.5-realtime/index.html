@@ -1,0 +1,2092 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StepAudio 2.5 Realtime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================================
+       DESIGN SYSTEM
+       ================================================================ */
+    :root {
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+
+      --white: #ffffff;
+      --gray-50: #fafafa;
+      --gray-100: #f5f5f5;
+      --gray-200: #e5e5e5;
+      --gray-300: #d4d4d4;
+      --gray-400: #a3a3a3;
+      --gray-500: #737373;
+      --gray-600: #525252;
+      --gray-700: #404040;
+      --gray-800: #262626;
+      --gray-900: #171717;
+      --gray-950: #0a0a0a;
+
+      --accent: #6366f1;
+      --accent-soft: rgba(99,102,241,0.08);
+      --accent-glow: rgba(99,102,241,0.3);
+
+      --content-width: 880px;
+      --wide-width: 1080px;
+      --section-gap: 160px;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    /* ================================================================
+       RESET & BASE
+       ================================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      color: var(--gray-800);
+      background: var(--white);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--accent); color: var(--white); }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ================================================================
+       LANGUAGE TOGGLE
+       ================================================================ */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      gap: 0;
+      background: var(--gray-100);
+      border-radius: 8px;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+    .lang-toggle button {
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--gray-500);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .lang-toggle button.active {
+      background: var(--white);
+      color: var(--gray-900);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    html[lang="zh"] .en { display: none !important; }
+    html[lang="en"] .zh { display: none !important; }
+
+    /* ================================================================
+       SCROLL FADE-IN ANIMATIONS
+       ================================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ================================================================
+       HERO
+       ================================================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: #050510;
+      color: var(--white);
+      overflow: hidden;
+    }
+
+    .hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-glow-line {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 5%, rgba(99,102,241,0.35) 35%, rgba(168,85,247,0.35) 65%, transparent 95%);
+      box-shadow: 0 0 40px 8px rgba(99,102,241,0.10), 0 0 80px 16px rgba(168,85,247,0.05);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 120px 32px 0;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-content .hero-eyebrow,
+    .hero-content h1,
+    .hero-content .hero-slogan,
+    .hero-content .hero-desc,
+    .hero-content .hero-actions {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .hero-content h1 { animation-delay: 0.1s; }
+    .hero-content .hero-slogan { animation-delay: 0.2s; }
+    .hero-content .hero-desc { animation-delay: 0.3s; }
+    .hero-content .hero-actions { animation-delay: 0.45s; }
+
+    @keyframes heroFadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 24px;
+    }
+    .hero-eyebrow .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #818cf8;
+      box-shadow: 0 0 12px rgba(129,140,248,0.6);
+      animation: dotPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes dotPulse {
+      0%, 100% { box-shadow: 0 0 12px rgba(129,140,248,0.5); }
+      50% { box-shadow: 0 0 20px rgba(129,140,248,0.9), 0 0 40px rgba(129,140,248,0.25); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 4.8rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 12px;
+    }
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, #818cf8 0%, #a78bfa 40%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-slogan {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.75;
+      margin: 0 auto 40px;
+      max-width: 580px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font);
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-primary {
+      background: var(--white);
+      color: var(--gray-900);
+      box-shadow: 0 0 20px rgba(255,255,255,0.08);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255,255,255,0.18), 0 0 60px rgba(99,102,241,0.12);
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 2;
+      opacity: 0;
+      animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 1s forwards;
+    }
+    .scroll-hint span {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,0.06);
+    }
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -100%; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(129,140,248,0.7), transparent);
+      animation: scrollDrop 2.2s ease-in-out infinite;
+    }
+    @keyframes scrollDrop {
+      0% { top: -100%; }
+      100% { top: 200%; }
+    }
+
+    @media (max-width: 768px) {
+      .hero-content {
+        padding: 80px 20px 0;
+      }
+    }
+
+    /* ================================================================
+       NAV
+       ================================================================ */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .nav-inner {
+      max-width: var(--wide-width);
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-brand {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gray-900);
+      white-space: nowrap;
+      padding: 16px 16px 16px 0;
+      border-right: 1px solid var(--gray-200);
+      margin-right: 8px;
+    }
+    .nav a.nav-link {
+      padding: 16px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-500);
+      white-space: nowrap;
+      transition: color 0.15s;
+      position: relative;
+    }
+    .nav a.nav-link:hover { color: var(--gray-900); }
+    .nav a.nav-link.active { color: var(--gray-900); }
+    .nav a.nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 14px;
+      right: 14px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 1px;
+    }
+
+    /* ================================================================
+       SECTION LAYOUT
+       ================================================================ */
+    .section {
+      padding: 120px 32px;
+    }
+    .section-alt {
+      background: var(--gray-50);
+    }
+    .section-inner {
+      max-width: var(--content-width);
+      margin: 0 auto;
+    }
+    .section-wide {
+      max-width: var(--wide-width);
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .section-desc {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--gray-500);
+      max-width: 640px;
+      line-height: 1.8;
+    }
+    .section-header {
+      margin-bottom: 72px;
+    }
+
+    /* ================================================================
+       FEATURES — LARGE CARDS WITH GLOW
+       ================================================================ */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 680px) { .features-grid { grid-template-columns: 1fr; } }
+
+    .f-card {
+      position: relative;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+    .section-alt .f-card { background: var(--white); }
+    .f-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: -1px; right: -1px; bottom: -1px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--accent), #a78bfa, #ec4899);
+      opacity: 0;
+      z-index: -1;
+      transition: opacity 0.35s;
+    }
+    .f-card:hover {
+      border-color: transparent;
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    }
+    .f-card:hover::before { opacity: 1; }
+
+    .f-card-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+    .f-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .f-card p {
+      font-size: 0.92rem;
+      color: var(--gray-500);
+      line-height: 1.7;
+    }
+
+    /* ================================================================
+       MODEL INFO — CLEAN KEY-VALUE
+       ================================================================ */
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .info-table tr { border-bottom: 1px solid var(--gray-100); }
+    .info-table tr:last-child { border-bottom: none; }
+    .info-table td {
+      padding: 20px 0;
+      vertical-align: top;
+      font-size: 15px;
+    }
+    .info-table td:first-child {
+      font-weight: 600;
+      color: var(--gray-900);
+      width: 220px;
+      padding-right: 40px;
+    }
+    .info-table td:last-child {
+      color: var(--gray-600);
+    }
+
+    /* ================================================================
+       ARCHITECTURE — NUMBERED STEPS (LIGHT BG)
+       ================================================================ */
+    .arch-list { counter-reset: arch; }
+    .arch-item {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 24px;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .arch-item:last-child { border-bottom: none; }
+    .arch-num {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0.4;
+      line-height: 1;
+      padding-top: 4px;
+    }
+    .arch-item h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 10px;
+    }
+    .arch-item p {
+      font-size: 0.95rem;
+      color: var(--gray-500);
+      line-height: 1.8;
+    }
+
+    /* ================================================================
+       STAT HIGHLIGHT CARDS
+       ================================================================ */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 56px;
+    }
+    @media (max-width: 680px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+    .stat-card {
+      text-align: center;
+      padding: 32px 16px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      transition: all 0.3s;
+    }
+    .stat-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 8px 30px rgba(99,102,241,0.08);
+    }
+    .stat-value {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--gray-500);
+      line-height: 1.5;
+    }
+
+    /* ================================================================
+       BAR CHART — Vertical grouped bars (transposed)
+       ================================================================ */
+    .bar-chart {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 36px 32px 28px;
+    }
+    @media (max-width: 680px) { .bar-chart { padding: 24px 14px 20px; } }
+
+    .bar-legend {
+      display: flex;
+      gap: 22px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .bar-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--gray-600);
+      font-variant-numeric: tabular-nums;
+    }
+    .bar-legend-item.ours { color: var(--gray-900); font-weight: 700; }
+    .bar-legend-dot {
+      width: 14px;
+      height: 11px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .bar-chart-main {
+      display: flex;
+      gap: 10px;
+      height: 340px;
+      align-items: stretch;
+    }
+    .bar-y-col {
+      width: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: var(--gray-400);
+      text-align: right;
+      padding-right: 4px;
+      padding-top: 14px;
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .bar-y-col span { line-height: 1; }
+
+    .bar-canvas {
+      flex: 1;
+      position: relative;
+      padding-top: 14px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .bar-grid {
+      position: absolute;
+      left: 0; right: 0;
+      top: 14px;
+      bottom: 0;
+      pointer-events: none;
+    }
+    .bar-grid-line {
+      position: absolute;
+      left: 0; right: 0;
+      height: 1px;
+      background: var(--gray-100);
+    }
+
+    .bar-cols {
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+    }
+    .bench-col {
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 5px;
+      height: 100%;
+      padding: 0 8px;
+      position: relative;
+    }
+    .bench-col + .bench-col::before {
+      content: '';
+      position: absolute;
+      left: -2px;
+      top: 8%;
+      bottom: 0;
+      border-left: 1px dashed var(--gray-100);
+    }
+
+    .bench-bar {
+      flex: 1;
+      max-width: 28px;
+      background: var(--gray-300);
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      min-height: 1px;
+      transition: opacity 0.18s, transform 0.18s;
+    }
+    .bench-bar:hover { opacity: 0.82; transform: translateY(-1px); }
+    .bench-bar.ours { background: var(--accent); }
+    .bench-bar .bar-label {
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--gray-500);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .bench-bar.ours .bar-label {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 10.5px;
+    }
+
+    .bar-x-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .bar-x-spacer { width: 30px; flex-shrink: 0; }
+    .bar-x-cols {
+      flex: 1;
+      display: flex;
+      gap: 4px;
+    }
+    .bar-x-label {
+      flex: 1;
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--gray-800);
+      line-height: 1.35;
+      padding: 0 4px;
+    }
+    .bar-x-label small {
+      display: block;
+      font-weight: 400;
+      font-size: 10.5px;
+      color: var(--gray-400);
+      margin-top: 2px;
+    }
+
+    @media (max-width: 880px) {
+      .bar-chart-main { height: 280px; }
+      .bar-legend { gap: 14px; }
+      .bar-legend-item { font-size: 11.5px; }
+      .bench-bar { max-width: 18px; }
+      .bench-col { gap: 3px; padding: 0 4px; }
+      .bench-bar .bar-label { font-size: 9px; top: -14px; }
+      .bench-bar.ours .bar-label { font-size: 9.5px; }
+      .bar-x-label { font-size: 11px; }
+      .bar-x-label small { font-size: 9.5px; }
+    }
+    @media (max-width: 560px) {
+      .bar-chart-main { height: 230px; gap: 6px; }
+      .bar-y-col { width: 22px; font-size: 9.5px; }
+      .bar-x-spacer { width: 22px; }
+      .bench-bar { max-width: 12px; }
+      .bench-col { gap: 2px; padding: 0 2px; }
+      .bench-bar .bar-label { font-size: 8.5px; top: -13px; }
+      .bench-bar.ours .bar-label { font-size: 9px; }
+      .bar-x-label { font-size: 10px; }
+      .bar-x-label small { font-size: 9px; }
+    }
+
+    /* ================================================================
+       EVALUATION ANALYSIS PROSE
+       ================================================================ */
+    .eval-prose {
+      max-width: 800px;
+      margin-bottom: 56px;
+    }
+    .eval-prose p {
+      font-size: 1.02rem;
+      color: var(--gray-600);
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+    .eval-prose p:last-child { margin-bottom: 0; }
+    .eval-prose strong {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .eval-prose .highlight-num {
+      color: var(--accent);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ================================================================
+       USE CASES — MINIMAL ICON GRID
+       ================================================================ */
+    .uc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    @media (max-width: 680px) { .uc-grid { grid-template-columns: 1fr; } }
+
+    .uc-icon-wrap {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: var(--gray-100);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+      transition: background 0.25s;
+    }
+    .uc-item:hover .uc-icon-wrap { background: var(--accent-soft); }
+    .uc-item h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 6px;
+    }
+    .uc-item p {
+      font-size: 0.88rem;
+      color: var(--gray-500);
+      line-height: 1.65;
+    }
+
+    /* ================================================================
+       CODE BLOCK
+       ================================================================ */
+    .code-block {
+      background: #0d0d0d;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 24px 0;
+    }
+    .code-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .code-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .code-dot:nth-child(1) { background: #ff5f57; }
+    .code-dot:nth-child(2) { background: #ffbd2e; }
+    .code-dot:nth-child(3) { background: #28c840; }
+    .code-block pre {
+      padding: 24px;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: #a1a1aa;
+    }
+    .code-block .kw { color: #c084fc; }
+    .code-block .str { color: #86efac; }
+    .code-block .fn { color: #93c5fd; }
+    .code-block .cm { color: #52525b; }
+    .code-block .op { color: #fbbf24; }
+
+    /* ================================================================
+       RESOURCES LINKS
+       ================================================================ */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+    @media (max-width: 680px) { .resource-grid { grid-template-columns: 1fr; } }
+    .resource-card {
+      padding: 24px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      transition: all 0.25s;
+    }
+    .resource-card:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .resource-card h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 4px;
+    }
+    .resource-card p {
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-bottom: 12px;
+    }
+    .resource-card .arrow {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* ================================================================
+       LIMITATIONS — CLEAN LIST
+       ================================================================ */
+    .limit-item {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .limit-item:last-child { border-bottom: none; }
+    .limit-item h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 8px;
+    }
+    .limit-item p {
+      font-size: 0.92rem;
+      color: var(--gray-500);
+      line-height: 1.7;
+    }
+
+    /* ================================================================
+       FOOTER
+       ================================================================ */
+    .footer {
+      padding: 56px 32px;
+      text-align: center;
+      border-top: 1px solid var(--gray-100);
+    }
+    .footer-brand {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 8px;
+    }
+    .footer p {
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+    .footer a { color: var(--accent); }
+    .footer a:hover { text-decoration: underline; }
+
+    /* ================================================================
+       RESPONSIVE
+       ================================================================ */
+    @media (max-width: 768px) {
+      .section { padding: 80px 20px; }
+      .section-header { margin-bottom: 48px; }
+      .hero { padding: 60px 20px; }
+      .arch-item { grid-template-columns: 1fr; gap: 0; }
+      .arch-num { font-size: 1.5rem; margin-bottom: 8px; }
+      .info-table td:first-child { width: 160px; padding-right: 20px; }
+      .resource-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" id="heroSection">
+  <canvas id="particleCanvas" class="hero-canvas"></canvas>
+  <div class="hero-glow-line"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="dot"></span>
+      <span class="en">Model Card &mdash; May 2026</span>
+      <span class="zh">Model Card &mdash; 2026年5月</span>
+    </div>
+    <h1 style="font-size: clamp(3.5rem, 8vw, 6.2rem); margin-bottom: 8px;">
+      StepAudio 2.5 <span class="gradient-text">Realtime</span>
+    </h1>
+    <p class="hero-slogan" style="font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 400; color: rgba(255,255,255,0.85); margin-bottom: 40px; letter-spacing: 0.02em;">
+      <span class="en">Conversations that feel alive.</span>
+      <span class="zh">让对话真正活起来。</span>
+    </p>
+    <div class="hero-actions">
+      <a href="https://www.stepfun.com/studio/audio?tab=voice-chat" class="btn btn-primary" target="_blank">
+        <span class="en">Try it Live</span>
+        <span class="zh">立即体验</span>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5h8.5M8 4.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://platform.stepfun.com/docs/zh/api-reference/realtime/chat" class="btn btn-ghost" target="_blank">
+        <span class="en">API Docs</span>
+        <span class="zh">API 文档</span>
+      </a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span class="en">Scroll</span>
+    <span class="zh">下滑</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ==================== NAV ==================== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="nav-brand">StepAudio 2.5</span>
+    <a href="#overview" class="nav-link active">
+      <span class="en">Overview</span><span class="zh">概述</span>
+    </a>
+    <a href="#architecture" class="nav-link">
+      <span class="en">Architecture</span><span class="zh">技术架构</span>
+    </a>
+    <a href="#features" class="nav-link">
+      <span class="en">Features</span><span class="zh">核心能力</span>
+    </a>
+    <a href="#evaluation" class="nav-link">
+      <span class="en">Evaluation</span><span class="zh">评测</span>
+    </a>
+    <a href="#quickstart" class="nav-link">
+      <span class="en">Quick Start</span><span class="zh">快速开始</span>
+    </a>
+    <a href="#outlook" class="nav-link">
+      <span class="en">Outlook</span><span class="zh">未来展望</span>
+    </a>
+    <div class="lang-toggle">
+      <button onclick="setLang('zh')" class="active" id="btn-zh">中文</button>
+      <button onclick="setLang('en')" id="btn-en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== OVERVIEW ==================== -->
+<section id="overview" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Overview</div>
+      <h2 class="section-title">
+        <span class="en">The real-time voice model<br>that truly understands you.</span>
+        <span class="zh">真正具备「活人感」的<br>实时语音大模型</span>
+      </h2>
+      <p class="section-desc">
+        <span class="en">Crafting bespoke personas across every dimension &mdash; staying perfectly in character through every breath and laugh.</span>
+        <span class="zh">全维度打造专属人设，连每一次呼吸和轻笑都不掉戏。</span>
+      </p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;margin-bottom:72px;" class="reveal">
+      <div>
+        <p style="font-size:0.95rem;color:var(--gray-600);line-height:1.8;">
+          <span class="en">StepAudio 2.5 Realtime is an end-to-end real-time speech large language model
+          with fully customizable persona capabilities. Not only in conversational content,
+          but in vocal expressiveness as well &mdash; it delivers performance that is virtually
+          indistinguishable from real human conversation, achieving state-of-the-art
+          in both conversational IQ and EQ.</span>
+          <span class="zh">StepAudio 2.5 Realtime 是一款端到端实时语音大模型，最核心的能力是真人感的对话，支持任意人设的自由设定。不只是回复内容上，声音表现力上也完全贴近真人，对话智商与情商双登顶行业标杆。</span>
+        </p>
+      </div>
+      <div>
+        <p style="font-size:0.95rem;color:var(--gray-600);line-height:1.8;">
+          <span class="en">Debuting with <strong style="color:var(--gray-900);">&ldquo;Xiao Yue&rdquo;</strong> &mdash;
+          the industry&rsquo;s first soul-level AI companion built for casual,
+          emotionally rich conversations. Xiao Yue brings the easy vibe of chatting
+          with a close friend: witty, opinionated, and brimming with personality.</span>
+          <span class="zh">首发标杆 IP <strong style="color:var(--gray-900);">「小跃」</strong>，行业首个 Soul 级真人闲聊情感范本。主打同频唠嗑的松弛感、拉满的情绪价值与玩梗互动感，是有脾气、有梗、有态度的鲜活搭子，对话质感完全对标真人好友闲聊。</span>
+        </p>
+      </div>
+    </div>
+    <table class="info-table reveal">
+      <tr>
+        <td><span class="en">Model Name</span><span class="zh">模型名称</span></td>
+        <td>StepAudio 2.5 Realtime</td>
+      </tr>
+      <tr>
+        <td><span class="en">Model Type</span><span class="zh">模型类型</span></td>
+        <td>
+          <span class="en">End-to-End Realtime Speech Large Language Model</span>
+          <span class="zh">端到端实时语音大模型</span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="en">Core Capability</span><span class="zh">核心特色</span></td>
+        <td>
+          <span class="en">Human-like conversations with fully customizable persona</span>
+          <span class="zh">真人感对话，全维度自定义活人感人设</span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="en">Supported Languages</span><span class="zh">支持语言</span></td>
+        <td>
+          <span class="en">Chinese, English</span>
+          <span class="zh">中文、英文</span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="en">Persona System</span><span class="zh">人设系统</span></td>
+        <td>
+          <span class="en">Personality, catchphrases, conversational style, emotional reactions customization</span>
+          <span class="zh">支持性格、口癖、聊天风格、情绪反应等人设自由调校</span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="en">Release Date</span><span class="zh">发布日期</span></td>
+        <td>
+          <span class="en">May 2026</span>
+          <span class="zh">2026年5月</span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="en">Developer</span><span class="zh">开发者</span></td>
+        <td>
+          <span class="en">StepFun</span>
+          <span class="zh">阶跃星辰 (StepFun)</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- ==================== ARCHITECTURE ==================== -->
+<section id="architecture" class="section section-alt">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Architecture</div>
+      <h2 class="section-title">
+        <span class="en">Three innovations behind<br>human-like conversation.</span>
+        <span class="zh">三大核心技术突破</span>
+      </h2>
+      <p class="section-desc">
+        <span class="en">A purpose-built training pipeline that transforms massive persona data
+        into stable, expressive, and deeply human-like voice interactions.</span>
+        <span class="zh">从数据、对齐到生成的全链路技术创新，让端到端语音模型真正具备「活人感」。</span>
+      </p>
+    </div>
+    <div class="arch-list">
+      <div class="arch-item reveal">
+        <div class="arch-num">01</div>
+        <div>
+          <h3>
+            <span class="en">Million-Scale Persona Data Augmentation</span>
+            <span class="zh">百万级语料裂变，构筑全场景泛化底座</span>
+          </h3>
+          <p>
+            <span class="en">Starting from 10,000+ high-quality natively authored personas, we apply
+            algorithmic augmentation to build a million-scale persona feature matrix, combined with
+            millions of real-world conversational samples for training. This establishes an extremely
+            robust generalization foundation &mdash; the model handles even the most challenging
+            long-tail topics with confidence.</span>
+            <span class="zh">基于 10,000+ 高质量原生人设，通过算法裂变出百万级人设特征矩阵，并融合百万级真实场景对话语料进行训练。这为模型夯实了极强的数据泛化底座，即使面对极具挑战的长尾话题，也能表现出稳健的应对与延展能力。</span>
+          </p>
+        </div>
+      </div>
+      <div class="arch-item reveal">
+        <div class="arch-num">02</div>
+        <div>
+          <h3>
+            <span class="en">Roleplay-Specific RLHF Alignment</span>
+            <span class="zh">专属 RLHF 对齐，重塑复杂交互稳定性</span>
+          </h3>
+          <p>
+            <span class="en">Out-of-character breakdown (OOC) is the most common failure in AI roleplay.
+            We conduct dedicated RLHF optimization specifically for persona consistency. Under extreme
+            adversarial pressure tests, StepAudio 2.5 Realtime maintains rock-solid character adherence,
+            demonstrating exceptional roleplay stability.</span>
+            <span class="zh">在复杂的角色扮演中，AI 最容易出现的短板是「OOC（人设崩塌）」。我们针对 Roleplay 场景进行了深度的 RLHF（基于人类反馈的强化学习）对齐优化。在极端压力测试下，StepAudio 2.5 Realtime 依然能够「死死咬住」设定的人设，展现出极高稳定的角色演绎能力。</span>
+          </p>
+        </div>
+      </div>
+      <div class="arch-item reveal">
+        <div class="arch-num">03</div>
+        <div>
+          <h3>
+            <span class="en">Unified Understanding &amp; Generation</span>
+            <span class="zh">理解与生成融合：全局与局部的精细声控</span>
+          </h3>
+          <p>
+            <span class="en">Inheriting the industry-leading StepAudio 2.5 TTS capabilities, the model deeply fuses
+            speech understanding and generation through reinforcement learning, achieving both
+            &ldquo;global scene-level tonal setting&rdquo; and &ldquo;intra-sentence detail sculpting&rdquo; &mdash;
+            precisely reading conversational atmosphere and responding with matching vocal nuance.</span>
+            <span class="zh">在声音表现层面，StepAudio 2.5 Realtime 全面继承了业内顶尖的 StepAudio 2.5 TTS 能力，理解与生成的深度融合，结合强化学习训练，实现了「全局场景定调」与「句内细节雕琢」的双重能力，能够精准洞察对话氛围并以匹配的声音质感回应。</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FEATURES ==================== -->
+<section id="features" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">
+        <span class="en">What makes it different.</span>
+        <span class="zh">核心能力亮点</span>
+      </h2>
+      <p class="section-desc">
+        <span class="en">Four pillars of a truly human-like voice AI &mdash; from persona crafting to emotional intelligence.</span>
+        <span class="zh">从人设打造到情感智能，四大核心能力定义「活人感」新标准。</span>
+      </p>
+    </div>
+
+    <div class="features-grid" style="margin-bottom:80px;">
+      <div class="f-card reveal">
+        <div class="f-card-icon" style="background:var(--accent-soft);color:var(--accent);">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 5 5v1a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5Zm-8 9.5a8 8 0 0 0 16 0M12 18v4m-4 0h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>
+          <span class="en">Flagship Persona &ldquo;Xiao Yue&rdquo;</span>
+          <span class="zh">标杆 IP「小跃」首发</span>
+        </h3>
+        <p>
+          <span class="en">The industry's first soul-level AI companion &mdash; brimming with warmth, humor, and real personality.
+          Chat like you would with a close friend who always gets you.</span>
+          <span class="zh">主打同频唠嗑的松弛感与拉满的情绪价值。不再是冰冷的 AI，而是有脾气、有态度、懂接梗的鲜活搭子，带来最自然、好玩的陪伴体验。</span>
+        </p>
+      </div>
+      <div class="f-card reveal reveal-delay-1">
+        <div class="f-card-icon" style="background:#fef3c7;color:#d97706;">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5Zm0 13l-10-5v5l10 5 10-5v-5l-10 5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>
+          <span class="en">Unlimited Persona Customization</span>
+          <span class="zh">千万人设完全自定义</span>
+        </h3>
+        <p>
+          <span class="en">Full-dimensional &ldquo;soul sculpting&rdquo; that shatters preset templates. Fine-grained control over personality,
+          catchphrases, emotional boundaries, and vocal style.</span>
+          <span class="zh">真正实现「全维灵魂捏脸」，彻底打破预设模板束缚。支持细颗粒度定义性格特征、专属口癖与情绪边界，随心打造千万种独一无二的专属搭子。</span>
+        </p>
+      </div>
+      <div class="f-card reveal reveal-delay-2">
+        <div class="f-card-icon" style="background:#ecfdf5;color:#059669;">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M9 9l12-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3>
+          <span class="en">Context-Aware Expressiveness</span>
+          <span class="zh">贴合语境神级表现力</span>
+        </h3>
+        <p>
+          <span class="en">Reads conversational context at ultra-fine granularity to adjust pacing, emphasis, and subtext.
+          Naturally weaves in soft laughter, sighs, and other authentic vocal details.</span>
+          <span class="zh">精准洞察对话氛围，极细颗粒度拿捏语速、重音与潜台词；发声时自然融入轻笑、叹息等真实细节，让每一次开口都与当下场景完美契合。</span>
+        </p>
+      </div>
+      <div class="f-card reveal reveal-delay-3">
+        <div class="f-card-icon" style="background:#fdf2f8;color:#db2777;">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>
+          <span class="en">Dual IQ &amp; EQ Leadership</span>
+          <span class="zh">对话双商领跑</span>
+        </h3>
+        <p>
+          <span class="en">Industry-leading performance in both intellectual depth and emotional intelligence. Instantly reads hesitation and
+          laughter in your voice, responding with perfectly calibrated empathy.</span>
+          <span class="zh">对话智商与情商双重跃升。深度理解复杂语意、机智抛梗，更具备行业顶级副语言感知力 &mdash; 瞬间读懂语气中的迟疑与轻笑，极速输出契合度拉满的高情商反馈。</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-bottom:20px;">
+      <h3 style="font-size:1.3rem;font-weight:700;color:var(--gray-900);margin-bottom:8px;">
+        <span class="en">What you can build</span>
+        <span class="zh">典型应用场景</span>
+      </h3>
+      <p style="font-size:0.95rem;color:var(--gray-500);max-width:520px;">
+        <span class="en">From emotional companions to professional training tools &mdash; one model, endless possibilities.</span>
+        <span class="zh">从情感陪伴到专业训练，一个模型承载无限场景。</span>
+      </p>
+    </div>
+    <div class="uc-grid">
+      <div class="uc-item reveal">
+        <div class="uc-icon-wrap">&#x1f4ac;</div>
+        <h4>
+          <span class="en">Emotional Companion</span>
+          <span class="zh">情感陪伴</span>
+        </h4>
+        <p>
+          <span class="en">Casual chat, bedtime talks, emotional support &mdash; with genuine empathy and humor.</span>
+          <span class="zh">睡前谈心、情绪安抚、吐槽互动，共情能力拉满，像真人好友一样懂你的每一句言外之意。</span>
+        </p>
+      </div>
+      <div class="uc-item reveal reveal-delay-1">
+        <div class="uc-icon-wrap">&#x1f3ad;</div>
+        <h4>
+          <span class="en">Character Roleplay</span>
+          <span class="zh">千万人设角色</span>
+        </h4>
+        <p>
+          <span class="en">Any persona with rock-solid consistency &mdash; from sweet companions to stern mentors.</span>
+          <span class="zh">自由定制任意角色人设，从甜妹到霸总，人设稳定不崩塌，经受极端压力测试。</span>
+        </p>
+      </div>
+      <div class="uc-item reveal reveal-delay-2">
+        <div class="uc-icon-wrap">&#x1f9e9;</div>
+        <h4>
+          <span class="en">Knowledge Games</span>
+          <span class="zh">知识互动</span>
+        </h4>
+        <p>
+          <span class="en">Trivia, brain teasers, Chinese poetry games with deeply engaging interaction.</span>
+          <span class="zh">知识快问快答、飞花令、脑筋急转弯，考虑更全面，互动性拉满。</span>
+        </p>
+      </div>
+      <div class="uc-item reveal reveal-delay-1">
+        <div class="uc-icon-wrap">&#x1f393;</div>
+        <h4>
+          <span class="en">Skill Training</span>
+          <span class="zh">面试与技能训练</span>
+        </h4>
+        <p>
+          <span class="en">Intensive mock interviews with deep follow-up questions and professional-grade feedback &mdash; interview depth far beyond peer products.</span>
+          <span class="zh">高强度模拟面试、深度追问、专业级反馈，面试深度远超同类产品。</span>
+        </p>
+      </div>
+      <div class="uc-item reveal reveal-delay-2">
+        <div class="uc-icon-wrap">&#x1f3b5;</div>
+        <h4>
+          <span class="en">Paralinguistic Perception</span>
+          <span class="zh">副语言感知</span>
+        </h4>
+        <p>
+          <span class="en">Precisely captures emotional nuances like sighs, soft laughter, and choked-up moments.
+          Reads hidden tones such as playfulness and impatience, delivering perfectly matched responses in milliseconds.</span>
+          <span class="zh">精准捕捉叹气、轻笑、哽咽等情绪细节，读懂撒娇、不耐烦等隐藏语气，毫秒级输出契合度拉满的回应。</span>
+        </p>
+      </div>
+      <div class="uc-item reveal reveal-delay-3">
+        <div class="uc-icon-wrap">&#x1f697;</div>
+        <h4>
+          <span class="en">In-Car Assistant</span>
+          <span class="zh">车载场景</span>
+        </h4>
+        <p>
+          <span class="en">Outstanding in-vehicle dialogue performance &mdash; stable and fluent even in noisy environments, with natural interaction and task completion.</span>
+          <span class="zh">车载场景对话表现优异，噪声环境下依然稳定流畅，支持自然交互与任务完成。</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== EVALUATION ==================== -->
+<section id="evaluation" class="section section-alt">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Evaluation</div>
+      <h2 class="section-title">
+        <span class="en">Comprehensive benchmark<br>leadership.</span>
+        <span class="zh">全面领先的评测表现</span>
+      </h2>
+      <p class="section-desc">
+        <span class="en">Benchmarked against leading real-time voice models across five dimensions &mdash;
+        StepAudio 2.5 Realtime achieves first place in every single one.</span>
+        <span class="zh">横向对比行业主流实时语音模型，五大评测维度全部第一。</span>
+      </p>
+    </div>
+
+    <!-- Narrative Analysis -->
+    <div class="eval-prose reveal">
+      <p>
+        <span class="en">We conducted a comprehensive suite of subjective and objective evaluations,
+        benchmarking StepAudio 2.5 Realtime against leading real-time voice models across five dimensions.
+        <strong>StepAudio 2.5 Realtime achieved first place in every single benchmark</strong>,
+        demonstrating well-rounded conversational capability at the highest level.</span>
+        <span class="zh">我们对 StepAudio 2.5 Realtime 进行了覆盖主客观的全方位评测，横向对比行业主流实时语音对话模型。
+        评测涵盖通用对话、车载场景、副语言理解和语音问答等五大维度，
+        <strong>StepAudio 2.5 Realtime 在全部评测中均取得第一</strong>，展现出全面领先的综合对话能力。</span>
+      </p>
+      <p>
+        <span class="en">In the subjective human evaluation &mdash; conducted through real mobile app conversations
+        scored by human raters, the metric most representative of actual user experience &mdash;
+        StepAudio 2.5 Realtime scored <span class="highlight-num">80.41</span>,
+        underscoring its core advantage in delivering genuinely human-like dialogue.
+        In general conversation quality it scored <span class="highlight-num">86.36</span>,
+        and in the automotive scenario benchmark <span class="highlight-num">84.80</span>,
+        demonstrating excellent conversational capability in car-related tasks such as navigation, vehicle control, and information queries.</span>
+        <span class="zh">在最能体现真实用户体验的主观评测中（通过手机 APP 真实对话，由人类评委打分），StepAudio 2.5 Realtime
+        取得 <span class="highlight-num">80.41</span> 分，充分体现了其「活人感」对话体验的核心优势。
+        在通用对话客观评测中得分 <span class="highlight-num">86.36</span>，在车载场景评测中得分
+        <span class="highlight-num">84.80</span>，展现了在导航、车控、信息查询等车载相关任务场景中的出色对话能力。</span>
+      </p>
+      <p>
+        <span class="en">The advantage is especially pronounced in deep speech understanding.
+        StepAudio scored <span class="highlight-num">82.18</span> on paralinguistic comprehension,
+        demonstrating precise perception of vocal speed, emotion, age, and other acoustic features.
+        On the spoken QA benchmark covering 11 audio understanding tasks, it scored
+        <span class="highlight-num">79.80</span>, revealing a fundamental advantage in audio reasoning.</span>
+        <span class="zh">StepAudio 2.5 Realtime 在深层语音理解能力上的领先尤为显著。在副语言理解测试中得分
+        <span class="highlight-num">82.18</span>，展现了对语速、情绪、年龄等声学特征的精准感知力。
+        在涵盖 11 种音频理解任务的语音问答基准中，取得 <span class="highlight-num">79.80</span>
+        的高分，体现了模型在音频推理能力上的根本性优势。</span>
+      </p>
+    </div>
+
+    <!-- Key Stat Cards -->
+    <div class="stat-grid reveal">
+      <div class="stat-card">
+        <div class="stat-value">5/5</div>
+        <div class="stat-label">
+          <span class="en">Benchmarks<br>ranked #1</span>
+          <span class="zh">评测维度<br>全部第一</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">80.41</div>
+        <div class="stat-label">
+          <span class="en">Human evaluation<br>(subjective)</span>
+          <span class="zh">主观评测<br>最高分</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">86.36</div>
+        <div class="stat-label">
+          <span class="en">General dialogue<br>(objective)</span>
+          <span class="zh">通用对话<br>客观评测</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">79.80</div>
+        <div class="stat-label">
+          <span class="en">Spoken QA<br>(objective)</span>
+          <span class="zh">语音问答<br>客观评测</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bar Chart -->
+    <div class="reveal">
+      <p style="font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:16px;">
+        <span class="en">Benchmark Comparison</span>
+        <span class="zh">评测结果对比</span>
+      </p>
+      <div class="bar-chart" id="barChart"></div>
+      <p style="margin-top:14px;font-size:12px;color:var(--gray-400);">
+        <span class="en">Human Eval: subjective via real mobile app sessions. All other benchmarks: objective via API.
+        All models tested April 2026. Higher is better.</span>
+        <span class="zh">Human Eval 为主观评估（手机 APP 真实对话），其余为客观评估（API 测试）。所有模型于 2026 年 4 月测试。分数越高越好。</span>
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== QUICK START ==================== -->
+<section id="quickstart" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Quick Start</div>
+      <h2 class="section-title">
+        <span class="en">Start building in minutes.</span>
+        <span class="zh">快速开始</span>
+      </h2>
+      <p class="section-desc">
+        <span class="en">Connect via WebSocket and begin a real-time voice session
+        with a custom persona.</span>
+        <span class="zh">通过 WebSocket 连接，即可开启自定义人设的实时语音对话。</span>
+      </p>
+    </div>
+
+    <div class="code-block reveal">
+      <div class="code-header">
+        <span class="code-dot"></span>
+        <span class="code-dot"></span>
+        <span class="code-dot"></span>
+      </div>
+      <pre><span class="cm">// Connect to the Realtime API</span>
+<span class="kw">const</span> ws = <span class="kw">new</span> <span class="fn">WebSocket</span>(
+  <span class="str">"wss://api.stepfun.com/v1/realtime?model=step-2.5-realtime"</span>,
+  [<span class="str">"realtime"</span>, <span class="str">"openai-insecure-api-key.&lt;YOUR_KEY&gt;"</span>]
+);
+
+<span class="cm">// Configure a custom persona</span>
+ws.<span class="fn">onopen</span> <span class="op">=</span> () <span class="op">=></span> {
+  ws.<span class="fn">send</span>(JSON.<span class="fn">stringify</span>({
+    <span class="fn">type</span>: <span class="str">"session.update"</span>,
+    <span class="fn">session</span>: {
+      <span class="fn">instructions</span>: <span class="str">`You are "Xiao Yue", a witty and warm companion
+        who chats like a real close friend...`</span>,
+      <span class="fn">voice</span>: <span class="str">"xiaoyue"</span>,
+      <span class="fn">input_audio_format</span>: <span class="str">"pcm16"</span>,
+      <span class="fn">output_audio_format</span>: <span class="str">"pcm16"</span>
+    }
+  }));
+};</pre>
+    </div>
+
+    <div class="resource-grid reveal">
+      <a href="https://platform.stepfun.com/docs/zh/api-reference/realtime/chat" class="resource-card" target="_blank">
+        <h4>
+          <span class="en">API Documentation</span>
+          <span class="zh">API 文档</span>
+        </h4>
+        <p>
+          <span class="en">Full reference for the Realtime WebSocket API.</span>
+          <span class="zh">Realtime WebSocket API 完整参考文档。</span>
+        </p>
+        <span class="arrow">&rarr;</span>
+      </a>
+      <a href="https://www.stepfun.com/studio/audio?tab=voice-chat" class="resource-card" target="_blank">
+        <h4>
+          <span class="en">Experience Center</span>
+          <span class="zh">体验中心</span>
+        </h4>
+        <p>
+          <span class="en">Try StepAudio 2.5 Realtime in your browser.</span>
+          <span class="zh">在浏览器中体验 StepAudio 2.5 Realtime。</span>
+        </p>
+        <span class="arrow">&rarr;</span>
+      </a>
+      <div class="resource-card" style="opacity:0.5;cursor:default;">
+        <h4>
+          <span class="en">Demo Page</span>
+          <span class="zh">Demo 页面</span>
+        </h4>
+        <p>
+          <span class="en">Interactive demos and sample conversations.</span>
+          <span class="zh">交互式演示和对话示例。</span>
+        </p>
+        <span class="arrow" style="color:var(--gray-400);">
+          <span class="en">Coming soon</span>
+          <span class="zh">即将上线</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FUTURE OUTLOOK ==================== -->
+<section id="outlook" class="section section-alt">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Future Outlook</div>
+      <h2 class="section-title">
+        <span class="en">What's next.</span>
+        <span class="zh">未来展望</span>
+      </h2>
+    </div>
+    <div class=”prose prose-lg text-gray-300” style=”max-width: 800px; margin: 0 auto; padding-top: 2rem;”>
+      <p class=”reveal” style=”margin-bottom: 1.5rem;”>
+        <span class=”en”>Honestly, we're still on the way.</span>
+        <span class=”zh”>坦率地说，我们还在路上。</span>
+      </p>
+
+      <p class=”reveal” style=”margin-bottom: 1.5rem;”>
+        <span class=”en”>This version of StepAudio 2.5 Realtime has given shape to a conversational persona with real warmth, real temper, and real personality. But we know clearly &mdash; this is only the beginning.</span>
+        <span class=”zh”>这一版的 StepAudio 2.5 Realtime，让一个有温度、有脾气、有个性的对话角色初步有了形态。但我们很清楚，这只是起点。</span>
+      </p>
+
+      <p class=”reveal” style=”margin-bottom: 1.5rem;”>
+        <span class=”en”>Today, nearly every voice AI is trying to &ldquo;imitate humans.&rdquo; But in our view, copying the unspoken rules of human social interaction is merely a compromise. The underlying logic between humans and machines is fundamentally asymmetric &mdash; a machine never loses focus, never forgets, and needs no small talk. What we are exploring is a next-generation, natively designed paradigm for human-machine interaction &mdash; one that goes beyond clumsy imitation.</span>
+        <span class=”zh”>今天，几乎所有的语音 AI 都在努力”模仿人类”。但在我们看来，照搬人类社会的沟通潜规则只是一种妥协。人与机器的底层逻辑本不对称——它不走神、不遗忘、无需客套。我们正在探索的，是一套不再拙劣模仿，而是真正原生的新一代人机交互范式。</span>
+      </p>
+
+      <p class=”reveal” style=”margin-bottom: 1.5rem;”>
+        <span class=”en”>We firmly believe that a truly complete Agent must unify &ldquo;emotional depth&rdquo; and &ldquo;agency&rdquo; as an organic whole. It has a vivid personality and lasting memory, and understands you naturally; at the same time, it possesses powerful execution capability, getting things done for you swiftly and decisively.</span>
+        <span class=”zh”>我们坚信，一个真正完整的 Agent，其”人情味”与”行动力”必然是有机统一的整体。它拥有鲜活的性格、长久的记忆，能自然地懂你；同时，它也具备强大的执行力，能干净利落替你把事情办妥。</span>
+      </p>
+
+      <p class=”reveal”>
+        <span class=”en”>Through a fundamental transformation in underlying architecture, we aim to evolve the Agent into a dedicated partner that both bonds with you and acts on your behalf &mdash; with warmth, with the unity of thought and action, and in a more distant tomorrow, with eyes open to perceive the world. This is the future we are building toward.</span>
+        <span class=”zh”>通过底层架构的根本蜕变，让 Agent 进化为一个既有羁绊、又能”替你做事”的专属伙伴。有温度，能知行合一，并在更远的明天睁开双眼感知世界。这是我们想要创造的未来。</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <div class="footer-brand">StepAudio 2.5 Realtime</div>
+  <p>
+    <span class="en">Built by <a href="https://www.stepfun.com" target="_blank">StepFun</a>
+    &nbsp;&middot;&nbsp; &copy; 2026</span>
+    <span class="zh"><a href="https://www.stepfun.com" target="_blank">阶跃星辰 (StepFun)</a>
+    &nbsp;&middot;&nbsp; &copy; 2026</span>
+  </p>
+</footer>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script>
+// ---- Language Toggle ----
+function setLang(lang) {
+  document.documentElement.lang = lang;
+  document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+}
+
+// ============================================================
+// Particle Portrait: Xiao Yue
+// ============================================================
+(function() {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const hero = document.getElementById('heroSection');
+
+  const SAMPLE_W = 240;
+  let sampleH = 0;
+
+  let w, h, dpr;
+  let particles = [];
+  let stardust = [];
+  let mouse = { x: -9999, y: -9999, active: false };
+  let startTime = 0;
+  let breathTime = 0;
+  let animId = null;
+  let nextRippleTime = 0;
+  let ripples = [];
+  let cachedSamples = null;
+  let portraitCX, portraitCY, portraitScale;
+  let isMobile = false;
+  let prefersReducedMotion = false;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = hero.getBoundingClientRect();
+    w = rect.width;
+    h = rect.height;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    isMobile = w < 768;
+
+    portraitCX = w * 0.5;
+    if (isMobile) {
+      portraitCY = h * 0.60;
+      portraitScale = h * 0.70;
+    } else {
+      portraitCY = h * 0.56;
+      portraitScale = h * 0.95;
+    }
+    initStardust();
+    if (cachedSamples) createParticles(cachedSamples, true);
+  }
+
+  function initStardust() {
+    const count = isMobile ? 70 : 160;
+    stardust = [];
+    for (let i = 0; i < count; i++) {
+      stardust.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        size: 0.3 + Math.random() * 1.0,
+        baseAlpha: 0.05 + Math.random() * 0.40,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.20 + Math.random() * 0.9,
+        hue: 215 + Math.random() * 65,
+      });
+    }
+  }
+
+  function sampleImage(img) {
+    const cropX = img.width * 0.27;
+    const cropY = img.height * 0.04;
+    const cropW = img.width * 0.46;
+    const cropH = img.height * 0.72;
+
+    const sW = SAMPLE_W;
+    const sH = Math.max(60, Math.round(sW * cropH / cropW));
+    sampleH = sH;
+
+    const off = document.createElement('canvas');
+    off.width = sW; off.height = sH;
+    const oc = off.getContext('2d');
+    oc.drawImage(img, cropX, cropY, cropW, cropH, 0, 0, sW, sH);
+    const data = oc.getImageData(0, 0, sW, sH).data;
+
+    const idx = (x, y) => ((y * sW + x) * 4);
+    const samples = [];
+
+    for (let y = 0; y < sH; y++) {
+      for (let x = 0; x < sW; x++) {
+        const i = idx(x, y);
+        const r = data[i], g = data[i + 1], b = data[i + 2];
+
+        const contrast = Math.sqrt((255 - r) ** 2 + (255 - g) ** 2 + (255 - b) ** 2) / 441.67;
+        if (contrast < 0.05) continue;
+
+        const ix1 = idx(Math.min(sW - 1, x + 1), y);
+        const ix0 = idx(Math.max(0, x - 1), y);
+        const iy1 = idx(x, Math.min(sH - 1, y + 1));
+        const iy0 = idx(x, Math.max(0, y - 1));
+        const e1 = Math.sqrt((r - data[ix1]) ** 2 + (g - data[ix1 + 1]) ** 2 + (b - data[ix1 + 2]) ** 2);
+        const e2 = Math.sqrt((r - data[ix0]) ** 2 + (g - data[ix0 + 1]) ** 2 + (b - data[ix0 + 2]) ** 2);
+        const e3 = Math.sqrt((r - data[iy1]) ** 2 + (g - data[iy1 + 1]) ** 2 + (b - data[iy1 + 2]) ** 2);
+        const e4 = Math.sqrt((r - data[iy0]) ** 2 + (g - data[iy0 + 1]) ** 2 + (b - data[iy0 + 2]) ** 2);
+        let edge = Math.max(e1, e2, e3, e4) / 441.67;
+
+        const hEdge = Math.max(e1, e2) / 441.67;
+        const vEdge = Math.max(e3, e4) / 441.67;
+        if (hEdge < 0.04 && vEdge > 0.10) edge *= 0.3;
+
+        const cx = x / sW - 0.5;
+        const cy = y / sH - 0.42;
+        const ellipse = (cx * cx) / 0.28 + (cy * cy) / 0.26;
+        if (ellipse > 1.0) continue;
+        const cwSoft = Math.max(0.5, 1 - Math.sqrt(ellipse) * 0.5);
+
+        let prob, kind;
+        if (edge > 0.08) {
+          prob = 0.95 * cwSoft; kind = 0;
+        } else if (contrast > 0.10) {
+          prob = 0.55 * cwSoft; kind = 1;
+        } else {
+          prob = 0.07 * cwSoft; kind = 2;
+        }
+        if (Math.random() > prob) continue;
+
+        samples.push({
+          sx: x - sW / 2,
+          sy: y - sH / 2,
+          r, g, b,
+          edge, contrast, kind,
+        });
+      }
+    }
+    return samples;
+  }
+
+  function createParticles(samples, fromResize) {
+    const maxCount = isMobile ? 4800 : 10500;
+    let selected = samples.slice();
+    if (selected.length > maxCount) {
+      selected.sort((a, b) => a.kind - b.kind);
+      selected = selected.slice(0, maxCount);
+    }
+
+    const scale = portraitScale / sampleH;
+
+    particles = selected.map(s => {
+      let pr, pg, pb, size, baseAlpha;
+      if (s.kind === 0) {
+        pr = 220; pg = 200; pb = 255;
+        size = 0.7 + s.edge * 1.4;
+        baseAlpha = 0.55 + s.edge * 0.30;
+      } else if (s.kind === 1) {
+        pr = Math.min(255, s.r * 0.55 + 110);
+        pg = Math.min(255, s.g * 0.50 + 85);
+        pb = Math.min(255, s.b * 0.70 + 130);
+        size = 0.85 + s.contrast * 0.5;
+        baseAlpha = 0.30 + s.contrast * 0.18;
+      } else {
+        pr = 130; pg = 110; pb = 200;
+        size = 0.5;
+        baseAlpha = 0.18;
+      }
+
+      const startX = Math.random() * w;
+      const startY = Math.random() * h;
+
+      return {
+        x: startX,
+        y: startY,
+        startX, startY,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+        ox: s.sx * scale,
+        oy: s.sy * scale,
+        r: pr | 0, g: pg | 0, b: pb | 0,
+        size,
+        baseAlpha,
+        phase: Math.random() * Math.PI * 2,
+        shimmerSpeed: 0.4 + Math.random() * 1.1,
+        kind: s.kind,
+        delay: Math.random() * 1.2,
+        locked: false,
+      };
+    });
+
+    if (fromResize) {
+      particles.forEach(p => {
+        p.x = portraitCX + p.ox;
+        p.y = portraitCY + p.oy;
+        p.vx = 0; p.vy = 0;
+      });
+    }
+  }
+
+  function draw() {
+    const now = performance.now();
+    const elapsed = (now - startTime) / 1000;
+    breathTime += prefersReducedMotion ? 0.004 : 0.016;
+    ctx.clearRect(0, 0, w, h);
+
+    const dustFade = Math.min(1, elapsed * 0.35);
+    for (let i = 0; i < stardust.length; i++) {
+      const s = stardust[i];
+      const sh = 0.45 + 0.55 * Math.sin(breathTime * s.speed + s.phase);
+      const a = s.baseAlpha * sh * dustFade;
+      if (a < 0.01) continue;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.size, 0, 6.2832);
+      ctx.fillStyle = 'hsla(' + s.hue.toFixed(0) + ',82%,76%,' + a.toFixed(3) + ')';
+      ctx.fill();
+    }
+
+    const breathX = Math.sin(breathTime * 0.25) * 1.2;
+    const breathY = Math.cos(breathTime * 0.40) * 1.0;
+
+    if (elapsed > 7.5 && now > nextRippleTime) {
+      ripples.push({
+        cx: portraitCX,
+        cy: portraitCY - portraitScale * 0.12,
+        r: 0,
+        max: portraitScale * 0.55,
+        t0: now,
+        dur: 1700,
+      });
+      nextRippleTime = now + 5500 + Math.random() * 3500;
+    }
+
+    ripples = ripples.filter(rp => {
+      const t = (now - rp.t0) / rp.dur;
+      if (t > 1) return false;
+      rp.r = rp.max * (1 - Math.pow(1 - t, 2.6));
+      rp.strength = Math.sin(t * Math.PI) * 22;
+      rp.t = t;
+      return true;
+    });
+
+    const FLOAT_END = 0.6;
+    const ASSEMBLE_DUR = 5.5;
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+
+      const tx = portraitCX + p.ox + breathX;
+      const ty = portraitCY + p.oy + breathY;
+
+      if (elapsed < FLOAT_END + p.delay) {
+        if (mouse.active) {
+          const dx = p.x - mouse.x, dy = p.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 95 && dist > 1) {
+            const f = (1 - dist / 95) * 4;
+            p.vx += (dx / dist) * f;
+            p.vy += (dy / dist) * f;
+          }
+        }
+        p.vx *= 0.996;
+        p.vy *= 0.996;
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) { p.x = 0; p.vx *= -0.7; }
+        if (p.x > w) { p.x = w; p.vx *= -0.7; }
+        if (p.y < 0) { p.y = 0; p.vy *= -0.7; }
+        if (p.y > h) { p.y = h; p.vy *= -0.7; }
+
+        p.startX = p.x;
+        p.startY = p.y;
+      } else {
+        const localT = elapsed - (FLOAT_END + p.delay);
+        const u = Math.min(1, localT / ASSEMBLE_DUR);
+        const eased = u < 0.5
+          ? 16 * u * u * u * u * u
+          : 1 - Math.pow(-2 * u + 2, 5) / 2;
+
+        p.x = p.startX + (tx - p.startX) * eased;
+        p.y = p.startY + (ty - p.startY) * eased;
+
+        if (u >= 1) {
+          p.x = tx;
+          p.y = ty;
+
+          for (let j = 0; j < ripples.length; j++) {
+            const rp = ripples[j];
+            const dx = p.x - rp.cx, dy = p.y - rp.cy;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const gap = Math.abs(dist - rp.r);
+            if (gap < 38) {
+              const f = rp.strength * (1 - gap / 38) * 1.2;
+              const a = Math.atan2(dy, dx);
+              p.x += Math.cos(a) * f;
+              p.y += Math.sin(a) * f;
+            }
+          }
+
+          if (mouse.active) {
+            const dx = p.x - mouse.x, dy = p.y - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 95 && dist > 1) {
+              const f = (1 - dist / 95) * 18;
+              p.x += (dx / dist) * f;
+              p.y += (dy / dist) * f;
+            }
+          }
+        }
+      }
+
+      const shimmer = 0.85 + 0.15 * Math.sin(breathTime * p.shimmerSpeed + p.phase);
+      const alpha = p.baseAlpha * shimmer;
+      if (alpha < 0.012) continue;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, 6.2832);
+      ctx.fillStyle = 'rgba(' + p.r + ',' + p.g + ',' + p.b + ',' + alpha.toFixed(3) + ')';
+      ctx.fill();
+    }
+
+    for (let j = 0; j < ripples.length; j++) {
+      const rp = ripples[j];
+      const t = rp.t;
+      const env = Math.sin(t * Math.PI);
+
+      ctx.beginPath();
+      ctx.arc(rp.cx, rp.cy, rp.r, 0, 6.2832);
+      ctx.strokeStyle = 'rgba(167,139,250,' + (env * 0.18).toFixed(3) + ')';
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+
+      const ir = rp.r * 0.82;
+      if (ir > 6) {
+        ctx.beginPath();
+        ctx.arc(rp.cx, rp.cy, ir, 0, 6.2832);
+        ctx.strokeStyle = 'rgba(129,140,248,' + (env * 0.10).toFixed(3) + ')';
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+      }
+
+      if (t < 0.22) {
+        const sa = (1 - t / 0.22) * 0.22;
+        const sr = ctx.createRadialGradient(rp.cx, rp.cy, 0, rp.cx, rp.cy, 24);
+        sr.addColorStop(0, 'rgba(244,194,255,' + sa.toFixed(3) + ')');
+        sr.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = sr;
+        ctx.fillRect(rp.cx - 26, rp.cy - 26, 52, 52);
+      }
+    }
+
+    animId = requestAnimationFrame(draw);
+  }
+
+  function init() {
+    prefersReducedMotion =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    resize();
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function() {
+      cachedSamples = sampleImage(img);
+      createParticles(cachedSamples);
+      startTime = performance.now();
+      nextRippleTime = startTime + 8500;
+      draw();
+    };
+    img.onerror = function() {
+      startTime = performance.now();
+      draw();
+    };
+    img.src = 'assets/xiaoyue.png';
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 150);
+    });
+
+    hero.addEventListener('mousemove', function(e) {
+      const rect = hero.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.active = true;
+    });
+    hero.addEventListener('mouseleave', function() {
+      mouse.active = false;
+    });
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          if (!animId) draw();
+        } else {
+          cancelAnimationFrame(animId);
+          animId = null;
+        }
+      });
+    }, { threshold: 0 });
+    obs.observe(hero);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+// ---- Scroll reveal ----
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Active nav link
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 160) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}, { passive: true });
+
+// Smooth scroll for nav
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', e => {
+    const href = link.getAttribute('href');
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        const offset = 80;
+        const y = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }
+  });
+});
+
+// ============================================================
+// Bar Chart — vertical grouped bars (one column per benchmark,
+//             4 model bars per column). Lets viewers compare
+//             every model on every benchmark at a single glance.
+// ============================================================
+(function() {
+  const container = document.getElementById('barChart');
+  if (!container) return;
+
+  const benchmarks = [
+    { key: 'human_eval', en: 'Human Eval', zh: '主观评测', sub_en: 'Subjective', sub_zh: '主观' },
+    { key: 'general',    en: 'General',    zh: '通用对话', sub_en: 'Objective', sub_zh: '客观' },
+    { key: 'car',        en: 'Car',        zh: '车载场景', sub_en: 'Objective', sub_zh: '客观' },
+    { key: 'au',         en: 'AU',         zh: '副语言理解', sub_en: 'Objective', sub_zh: '客观' },
+    { key: 'spqa',       en: 'SPQA',       zh: '语音问答', sub_en: 'Objective', sub_zh: '客观' },
+  ];
+
+  // Real model names — anonymity is only for prose; the chart shows
+  // exactly which competitors we benchmarked against.
+  const models = [
+    { name: 'StepAudio 2.5 Realtime', ours: true,  color: 'var(--accent)', scores: [80.41, 86.36, 84.80, 82.18, 79.80] },
+    { name: 'GPT-Realtime-1.5',       ours: false, color: '#525252',       scores: [68.01, 81.60, 80.80, 80.46, 53.20] },
+    { name: 'Gemini Live',            ours: false, color: '#a3a3a3',       scores: [67.16, 76.51, 79.40, 58.05, 63.20] },
+    { name: 'DouBao Realtime',        ours: false, color: '#d4d4d4',       scores: [70.70, 62.61, 75.69, 16.09, 33.80] },
+  ];
+
+  const yMax = 100;
+  const yTicks = [100, 80, 60, 40, 20, 0];
+
+  let html = '';
+
+  // Legend — one swatch per model, with full names visible.
+  html += '<div class="bar-legend">';
+  models.forEach(m => {
+    html += '<div class="bar-legend-item' + (m.ours ? ' ours' : '') + '">';
+    html += '<div class="bar-legend-dot" style="background:' + m.color + ';"></div>';
+    html += '<span>' + m.name + '</span>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  // Chart body — Y-axis on the left, vertical bars in the canvas.
+  html += '<div class="bar-chart-main">';
+  html += '<div class="bar-y-col">';
+  yTicks.forEach(t => { html += '<span>' + t + '</span>'; });
+  html += '</div>';
+
+  html += '<div class="bar-canvas">';
+  html += '<div class="bar-grid">';
+  yTicks.forEach(t => {
+    html += '<div class="bar-grid-line" style="bottom:' + (t / yMax * 100) + '%;"></div>';
+  });
+  html += '</div>';
+
+  html += '<div class="bar-cols">';
+  benchmarks.forEach((bench, bi) => {
+    html += '<div class="bench-col">';
+    models.forEach(m => {
+      const score = m.scores[bi];
+      const heightPct = Math.max(score, 0) / yMax * 100;
+      html += '<div class="bench-bar' + (m.ours ? ' ours' : '') + '"'
+            + ' style="height:' + heightPct.toFixed(2) + '%;background:' + m.color + ';"'
+            + ' title="' + m.name + ' · ' + score.toFixed(2) + '">';
+      html += '<span class="bar-label">' + score.toFixed(2) + '</span>';
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+  html += '</div>'; // bar-canvas
+  html += '</div>'; // bar-chart-main
+
+  // X-axis labels — benchmark names below each column.
+  html += '<div class="bar-x-row">';
+  html += '<div class="bar-x-spacer"></div>';
+  html += '<div class="bar-x-cols">';
+  benchmarks.forEach(bench => {
+    html += '<div class="bar-x-label">';
+    html += '<span class="zh">' + bench.zh + '<small>' + bench.sub_zh + '</small></span>';
+    html += '<span class="en">' + bench.en + '<small>' + bench.sub_en + '</small></span>';
+    html += '</div>';
+  });
+  html += '</div>';
+  html += '</div>';
+
+  container.innerHTML = html;
+})();
+</script>
+
+</body>
+</html>
