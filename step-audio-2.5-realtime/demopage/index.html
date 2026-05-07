@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StepAudio-2.5-Realtime · 真正具备「活人感」的实时语音大模型</title>
+  <meta name="description" content="StepAudio-2.5-Realtime：你的活人感 AI 聊天伴侣。千万人设自定义、贴合语境神级表现力、对话双商领跑。" />
+  <link rel="icon" type="image/png" href="assets/img/logo_single.png" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260507c" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./assets/vendor/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <nav class="nav">
+    <a class="nav-brand" href="#hero">
+      <img class="nav-brand-mark" src="assets/img/logo_new_colored.png" alt="StepFun" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#intro">介绍</a></li>
+      <li><a href="#highlights">亮点</a></li>
+      <li><a href="#emotion">情绪</a></li>
+      <li><a href="#iq-eq">双商</a></li>
+      <li><a href="#paralinguistic">副语言</a></li>
+      <li><a href="#personas">人设</a></li>
+      <li><a href="#expression">表现力</a></li>
+    </ul>
+  </nav>
+
+  <!-- § 1 HERO -->
+  <section id="hero" class="section section-hero">
+    <div class="hero-canvas-wrap">
+      <canvas id="hero-canvas"></canvas>
+    </div>
+    <div class="hero-content reveal">
+      <h1 class="hero-title">
+        <span class="gradient-text">StepAudio-2.5</span>
+        <span class="hero-title-mono">Realtime</span>
+      </h1>
+      <p class="hero-tagline">真正具备「活人感」的实时语音大模型</p>
+      <p class="hero-sub">全维度打造专属人设，连每一次呼吸和轻笑都不掉戏。</p>
+    </div>
+    <a href="#intro" class="scroll-indicator" aria-label="scroll down">
+      <span class="scroll-indicator-line"></span>
+      <span class="scroll-indicator-text">Scroll</span>
+    </a>
+  </section>
+
+  <!-- § 2 INTRO -->
+  <section id="intro" class="section section-intro">
+    <div class="intro-grid">
+      <div class="intro-text reveal">
+        <div class="intro-eyebrow">
+          <span class="dot"></span>
+          Overview
+        </div>
+        <h2 class="intro-title">
+          你的<span class="accent">活人感</span><br />AI 聊天伴侣
+        </h2>
+        <p class="intro-body" id="intro-body"></p>
+        <div class="intro-links">
+          <a class="btn btn-primary" id="link-arxiv" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm3-9h6v2H9v-2zm0 4h6v2H9v-2z"/>
+            </svg>
+            <span>Read Paper</span>
+          </a>
+          <a class="btn btn-ghost" id="link-github" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+              <path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.04-.02-2.04-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49.99.11-.77.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.29 0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/>
+            </svg>
+            <span>GitHub</span>
+          </a>
+        </div>
+      </div>
+      <div class="intro-visual reveal">
+        <div class="waveform">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#01A9FF" />
+                <stop offset="100%" stop-color="#0160FF" />
+              </linearGradient>
+            </defs>
+            <g id="waveform-bars"></g>
+          </svg>
+          <div class="waveform-caption">real-time · empathetic · alive</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- § 3 HIGHLIGHTS -->
+  <section id="highlights" class="section section-highlights">
+    <div class="section-header reveal">
+      <div class="eyebrow">Highlights</div>
+      <h2 class="section-title">四大亮点，重新定义<span class="accent">语音搭子</span></h2>
+      <p class="section-sub">从 IP 打磨、人设自定义，到语境感知与双商领跑。</p>
+    </div>
+    <div class="bento-grid" id="bento-grid"></div>
+  </section>
+
+  <!-- § 4 EMOTION — 情绪价值（左 grid 卡片 + 右详情） -->
+  <section id="emotion" class="section section-emotion">
+    <div class="emotion-layout">
+      <div class="emotion-grid" id="emotion-grid"></div>
+      <div class="emotion-detail" id="emotion-detail"></div>
+    </div>
+  </section>
+
+  <!-- § 5 IQ-EQ — 双商领跑（弧形转盘） -->
+  <section id="iq-eq" class="section section-iq-eq">
+    <div class="ability-track" id="ability-track">
+      <div class="ability-sticky">
+        <div class="ability-stage">
+          <div class="ability-detail">
+            <div class="ability-main-header reveal">
+              <div class="eyebrow">IQ × EQ</div>
+              <h2 class="ability-main-title">对话<span class="accent">双商</span>领跑</h2>
+            </div>
+            <div class="ability-detail-body" id="ability-detail-body"></div>
+          </div>
+          <div class="ability-carousel" id="ability-carousel"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- § 6 PARALINGUISTIC — 副语言感知（诊断面板） -->
+  <section id="paralinguistic" class="section section-paralinguistic">
+    <div class="section-header reveal align-left">
+      <div class="eyebrow">Paralinguistic</div>
+      <h2 class="section-title">读懂你<span class="accent">没说出口</span>的</h2>
+      <p class="section-sub">不只解析字面——每一次呼吸、停顿、音色起伏，都被精准捕捉。</p>
+    </div>
+    <div class="para-list" id="para-list"></div>
+  </section>
+
+  <!-- § 7 PERSONAS — 百变人设（保持） -->
+
+  <!-- § 7 PERSONAS — 人设画廊（seed 风格横向大卡片） -->
+  <section id="personas" class="section section-personas">
+    <div class="section-header reveal align-left">
+      <div class="eyebrow">Persona Gallery</div>
+      <h2 class="section-title">百变<span class="accent">人设</span>，千万种搭子</h2>
+      <p class="section-sub">点任意一张卡片，视频和 ta 的声音同步到位。横向拖动查看更多。</p>
+    </div>
+    <div class="persona-gallery" id="persona-gallery">
+      <div class="persona-track" id="persona-track" role="list"></div>
+    </div>
+    <div class="persona-gallery-meta">
+      <div class="persona-indicator" id="persona-indicator"></div>
+      <div class="persona-nav-btns">
+        <button class="persona-nav persona-nav-prev" type="button" aria-label="prev">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M15.5 19l-7-7 7-7z"/></svg>
+        </button>
+        <button class="persona-nav persona-nav-next" type="button" aria-label="next">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8.5 5l7 7-7 7z"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- § 8 EXPRESSION — 贴合语境神级表现力（中心 stage） -->
+  <section id="expression" class="section section-expression">
+    <div class="section-header reveal align-left">
+      <div class="eyebrow">Expression</div>
+      <h2 class="section-title">每一次<span class="accent">开口</span>，都和当下契合</h2>
+      <p class="section-sub">继承 StepAudio-2.5-TTS 的顶级表达力：Global 全局定调 + 句内细节雕琢。</p>
+    </div>
+    <div class="expr-stage" id="expr-stage"></div>
+  </section>
+
+  <!-- § 7 FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/img/logo_single.png" alt="StepFun" />
+        <div>
+          <div class="footer-brand-name">StepAudio-2.5-Realtime</div>
+          <div class="footer-brand-tag">by StepFun · 阶跃星辰</div>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="#" class="footer-link">Paper</a>
+        <a href="#" class="footer-link">GitHub</a>
+        <a href="#hero" class="footer-link">Back to top ↑</a>
+      </div>
+    </div>
+    <div class="footer-copy">© 2026 StepFun. Made with warmth for real conversations.</div>
+  </footer>
+
+  <script type="module" src="assets/js/main.js?v=20260507c"></script>
+</body>
+</html>

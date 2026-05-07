@@ -1,0 +1,7 @@
+# 生成 ASS 字幕的中间文件
+scripts/_*.ass
+# 系统垃圾
+.DS_Store
+__MACOSX/
+# 内部资料 / 抓取脚本
+0505_update/
