@@ -1654,13 +1654,21 @@ function setLang(lang) {
         if (ellipse > 1.0) continue;
         const cwSoft = Math.max(0.5, 1 - Math.sqrt(ellipse) * 0.5);
 
+        // 纵向密度衰减：顶部（头发）区域大幅减少内部填充粒子
+        // y/sH: 0=顶部, 1=底部；顶部 20% 权重，底部 100%
+        const yRatio = y / sH;
+        const vFade = 0.20 + 0.80 * Math.min(1, yRatio * 2.0);
+
         let prob, kind;
         if (edge > 0.08) {
-          prob = 0.95 * cwSoft; kind = 0;
+          // 边缘粒子保持高密度，但顶部也略减少避免发丝区过密
+          prob = 0.90 * cwSoft * Math.max(0.35, vFade); kind = 0;
         } else if (contrast > 0.10) {
-          prob = 0.55 * cwSoft; kind = 1;
+          // 内部填充粒子：大幅降低概率，顶部几乎不采样
+          prob = 0.10 * cwSoft * vFade; kind = 1;
         } else {
-          prob = 0.07 * cwSoft; kind = 2;
+          // 微弱过渡像素：极少采样
+          prob = 0.015 * cwSoft * vFade; kind = 2;
         }
         if (Math.random() > prob) continue;
 
