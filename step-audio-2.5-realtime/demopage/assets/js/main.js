@@ -395,7 +395,7 @@ document.getElementById('link-github').href = MODEL.links.github;
         canvas2d.clearRect(0, 0, W, H);
         // 基准横线（非常淡）
         canvas2d.lineWidth = 1;
-        canvas2d.strokeStyle = 'rgba(1, 169, 255, 0.08)';
+        canvas2d.strokeStyle = 'rgba(129, 140, 248, 0.08)';
         canvas2d.beginPath();
         canvas2d.moveTo(0, H / 2);
         canvas2d.lineTo(W, H / 2);
@@ -406,20 +406,20 @@ document.getElementById('link-github').href = MODEL.links.github;
           _analyser.getByteTimeDomainData(TIME_BUF);
           // 外发光层
           canvas2d.lineWidth = 3.5;
-          canvas2d.strokeStyle = 'rgba(1, 169, 255, 0.25)';
+          canvas2d.strokeStyle = 'rgba(129, 140, 248, 0.25)';
           drawTimePath(canvas2d, W, H);
           // 主线
           canvas2d.lineWidth = 1.8;
           const grad = canvas2d.createLinearGradient(0, 0, W, 0);
-          grad.addColorStop(0, '#01A9FF');
-          grad.addColorStop(1, '#5ed4ff');
+          grad.addColorStop(0, '#818cf8');
+          grad.addColorStop(1, '#a78bfa');
           canvas2d.strokeStyle = grad;
           drawTimePath(canvas2d, W, H);
         } else {
           // 空闲：细微正弦呼吸
           const t = performance.now() / 1000;
           canvas2d.lineWidth = 1.5;
-          canvas2d.strokeStyle = 'rgba(1, 169, 255, 0.55)';
+          canvas2d.strokeStyle = 'rgba(129, 140, 248, 0.55)';
           canvas2d.beginPath();
           const steps = 160;
           for (let i = 0; i < steps; i++) {
@@ -788,7 +788,7 @@ document.getElementById('link-github').href = MODEL.links.github;
     const el = document.createElement('article');
     el.className = 'para-case reveal';
     el.dataset.id = c.id;
-    el.style.setProperty('--para-accent', c.accent || '#5ed4ff');
+    el.style.setProperty('--para-accent', c.accent || '#818cf8');
     const detectsHtml = (c.detects || []).map(d => `
       <li class="para-detect-item">
         <span class="para-detect-icon">${d.icon || '◆'}</span>
@@ -1269,7 +1269,7 @@ document.getElementById('link-github').href = MODEL.links.github;
         ctx2d.lineWidth = 2;
         const grad = ctx2d.createLinearGradient(0, 0, W, 0);
         grad.addColorStop(0, '#a855f7');
-        grad.addColorStop(1, '#5ed4ff');
+        grad.addColorStop(1, '#818cf8');
         ctx2d.strokeStyle = grad;
         drawPath(W, H);
       } else {
