@@ -147,11 +147,21 @@ code { font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; bac
   align-items: center;
   justify-content: space-between;
   z-index: 100;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background 0.45s var(--ease-out),
+    border-color 0.45s var(--ease-out),
+    backdrop-filter 0.45s var(--ease-out);
+}
+/* 滚出 hero 后显示毛玻璃背景 */
+.nav.is-scrolled {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  background: rgba(6, 6, 20, 0.55);
+  background: rgba(6, 6, 20, 0.72);
   border-bottom: 1px solid var(--border-light);
-  transition: background .3s var(--ease-out);
 }
 .nav-brand {
   display: flex;
@@ -180,6 +190,7 @@ code { font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; bac
   transition: color .2s var(--ease-out);
 }
 .nav-links a:hover { color: var(--text-light); }
+.nav-links a.active { color: var(--text-light); }
 .nav-links a::after {
   content: '';
   position: absolute;
@@ -187,8 +198,10 @@ code { font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; bac
   width: 0; height: 2px;
   background: linear-gradient(90deg, var(--brand-1), var(--brand-2));
   transition: width .3s var(--ease-out);
+  border-radius: 1px;
 }
 .nav-links a:hover::after { width: 100%; }
+.nav-links a.active::after { width: 100%; }
 
 /* ---------- 4. § Hero ---------- */
 .section-hero {

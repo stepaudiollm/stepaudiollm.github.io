@@ -1475,4 +1475,44 @@ document.getElementById('link-github').href = MODEL.links.github;
   obs.observe(metricsSec);
 })();
 
-/* ---------- Nav: 滚动到锚点时减淡首屏 hero 的 canvas 压力（暂停渲染可在 pointcloud 内处理） ---------- */
+/* ---------- Nav: hero 上透明，滚出后显示；active 项随滚动高亮 ---------- */
+(function setupNav() {
+  const nav = document.querySelector('.nav');
+  const heroSection = document.getElementById('hero');
+  if (!nav || !heroSection) return;
+
+  const navLinks = Array.from(nav.querySelectorAll('.nav-links a[href^="#"]'));
+  const NAV_H = 64;
+
+  // 收集所有 section 目标
+  const sectionTargets = navLinks.map(a => ({
+    link: a,
+    el: document.querySelector(a.getAttribute('href')),
+  })).filter(o => o.el);
+
+  function updateNav() {
+    const scrollY = window.scrollY;
+    const heroBottom = heroSection.getBoundingClientRect().bottom + scrollY;
+
+    // 滚出 hero 后显示 nav 背景
+    if (scrollY + NAV_H >= heroBottom) {
+      nav.classList.add('is-scrolled');
+    } else {
+      nav.classList.remove('is-scrolled');
+    }
+
+    // 高亮当前可见 section
+    let activeIdx = 0;
+    for (let i = 0; i < sectionTargets.length; i++) {
+      const top = sectionTargets[i].el.getBoundingClientRect().top + scrollY;
+      if (scrollY + NAV_H * 2 >= top) activeIdx = i;
+    }
+    navLinks.forEach(a => a.classList.remove('active'));
+    if (sectionTargets[activeIdx]) {
+      sectionTargets[activeIdx].link.classList.add('active');
+    }
+  }
+
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+})();
