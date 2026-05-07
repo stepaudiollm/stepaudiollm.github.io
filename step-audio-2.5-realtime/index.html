@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StepAudio 2.5 Realtime</title>
+  <link rel="icon" type="image/png" href="assets/logo_single.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -336,13 +337,18 @@
     }
     .nav-inner::-webkit-scrollbar { display: none; }
     .nav-brand {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--gray-900);
+      display: flex;
+      align-items: center;
       white-space: nowrap;
-      padding: 16px 16px 16px 0;
+      padding: 12px 16px 12px 0;
       border-right: 1px solid var(--gray-200);
       margin-right: 8px;
+      flex-shrink: 0;
+    }
+    .nav-brand img {
+      height: 26px;
+      width: auto;
+      display: block;
     }
     .nav a.nav-link {
       padding: 16px 14px;
@@ -906,10 +912,21 @@
       border-top: 1px solid var(--gray-100);
     }
     .footer-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .footer-brand img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+    .footer-brand-name {
       font-size: 14px;
       font-weight: 700;
       color: var(--gray-900);
-      margin-bottom: 8px;
     }
     .footer p {
       font-size: 13px;
@@ -977,7 +994,9 @@
 <!-- ==================== NAV ==================== -->
 <nav class="nav">
   <div class="nav-inner">
-    <span class="nav-brand">StepAudio 2.5</span>
+    <a class="nav-brand" href="#heroSection">
+      <img src="assets/logo_new_colored.png" alt="StepFun" />
+    </a>
     <a href="#overview" class="nav-link active">
       <span class="en">Overview</span><span class="zh">概述</span>
     </a>
@@ -1534,7 +1553,10 @@ ws.<span class="fn">onopen</span> <span class="op">=</span> () <span class="op">
 
 <!-- ==================== FOOTER ==================== -->
 <footer class="footer">
-  <div class="footer-brand">StepAudio 2.5 Realtime</div>
+  <div class="footer-brand">
+    <img src="assets/logo_single.png" alt="StepFun" />
+    <span class="footer-brand-name">StepAudio 2.5 Realtime</span>
+  </div>
   <p>
     <span class="en">Built by <a href="https://www.stepfun.com" target="_blank">StepFun</a>
     &nbsp;&middot;&nbsp; &copy; 2026</span>
