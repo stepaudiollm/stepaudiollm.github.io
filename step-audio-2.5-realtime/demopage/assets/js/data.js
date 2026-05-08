@@ -47,8 +47,8 @@ export const IQ_EQ_CASES = [
     ],
     audio: 'assets/audio/goodcase_734032ff.mp3',
     audioLabel: '知识快问快答',
-    accent: '#818cf8',
-    accent2: '#6366f1',
+    accent: '#5ed4ff',
+    accent2: '#0160ff',
   },
   {
     id: '5dab6299',
@@ -65,7 +65,7 @@ export const IQ_EQ_CASES = [
     audio: 'assets/audio/goodcase_5dab6299.mp3',
     audioLabel: '飞花令 · 意境递增',
     accent: '#9b7bff',
-    accent2: '#a78bfa',
+    accent2: '#5ed4ff',
   },
   {
     id: '87fdb2b7',
@@ -98,8 +98,8 @@ export const IQ_EQ_CASES = [
     ],
     audio: 'assets/audio/goodcase_ac0e7b4f.mp3',
     audioLabel: '飞花令 · 固定首字',
-    accent: '#a5b4fc',
-    accent2: '#818cf8',
+    accent: '#2be4c0',
+    accent2: '#00a9ff',
   },
   {
     id: '9c08129a',
@@ -153,7 +153,7 @@ export const PARALINGUISTIC_CASES = [
     ],
     audio: 'assets/audio/goodcase_85b444df.mp3',
     audioLabel: '情绪识别 · 环境识别',
-    accent: '#818cf8',
+    accent: '#5ed4ff',
   },
   {
     id: '288a72d5',
@@ -169,7 +169,7 @@ export const PARALINGUISTIC_CASES = [
     ],
     audio: 'assets/audio/case_288a72d5.mp3',
     audioLabel: '副语言理解 · 歌声评价',
-    accent: '#a5b4fc',
+    accent: '#2be4c0',
   },
 ];
 
@@ -188,7 +188,7 @@ export const EXPRESSION_CASES = [
     audio: 'assets/audio/goodcase_87e80eec.mp3',
     audioLabel: '共情能力拉满 · 小鱼儿',
     accent: '#a855f7',
-    accent2: '#a78bfa',
+    accent2: '#5ed4ff',
   },
 ];
 
@@ -202,7 +202,7 @@ export const PERSONAS = [
     tag: '元气少女',
     desc: '咋呼又暖心，吐槽和宠你之间反复横跳。',
     avatar: 'assets/img/avatars/tianfeifei.png',
-    video: 'assets/video/persona/tianfeifei_subbed.mp4',
+    video: 'assets/video/persona/tianfeifei.mp4',
     accent: '#ff8ab0',
   },
   {
@@ -211,8 +211,17 @@ export const PERSONAS = [
     tag: '冷淡贵公子',
     desc: '语气克制，关心藏在字里行间，逐字都得品。',
     avatar: 'assets/img/avatars/sujinyan.png',
-    video: 'assets/video/persona/sujinyan_subbed.mp4',
-    accent: '#818cf8',
+    video: 'assets/video/persona/sujinyan.mp4',
+    accent: '#5ed4ff',
+  },
+  {
+    id: 'xiaoyuer',
+    name: '小鱼儿',
+    tag: '吐槽搭子',
+    desc: '嘴硬心软，一边怼你一边为你出主意的损友。',
+    avatar: 'assets/img/avatars/xiaoyuer.png',
+    video: 'assets/video/persona/xiaoyuer.mp4',
+    accent: '#a7f3d0',
   },
 ];
 
@@ -332,10 +341,10 @@ export const METRICS = {
 
 // 人设头像配色（胶囊）
 const AVATARS = {
-  jingLan: { name: '婧岚', color1: '#9b7bff', color2: '#818cf8' },
+  jingLan: { name: '婧岚', color1: '#9b7bff', color2: '#5ed4ff' },
   chenYu:  { name: '陈鋆', color1: '#b794ff', color2: '#e694ff' },
   yuXin:   { name: '宇欣', color1: '#ff8ab0', color2: '#ff5577' },
-  tianFei: { name: '田飞', color1: '#a5b4fc', color2: '#6366f1' },
+  tianFei: { name: '田飞', color1: '#2be4c0', color2: '#00a9ff' },
   wuYan:   { name: '吴燕', color1: '#5ce1a8', color2: '#00c4a1' },
 };
 

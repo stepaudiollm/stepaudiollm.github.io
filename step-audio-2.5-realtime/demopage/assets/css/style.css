@@ -1716,7 +1716,44 @@ code { font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; bac
   letter-spacing: 0.04em;
 }
 
-/* 音频行已移到卡片内部，原右侧详情中的 audio-row 不再使用 */
+/* ---- 左：大视频播放器 ---- */
+.emotion-video-wrap {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(6, 16, 36, 0.6);
+  border: 1px solid rgba(255, 184, 107, 0.18);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+  aspect-ratio: 16 / 9;
+}
+.emotion-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  cursor: pointer;
+}
+.emotion-video-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 184, 107, 0.92);
+  color: #1a0e22;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s var(--ease-out), transform 0.2s var(--ease-out), background 0.2s var(--ease-out);
+  box-shadow: 0 12px 32px rgba(255, 184, 107, 0.35);
+}
+.emotion-video-play svg { width: 36px; height: 36px; fill: currentColor; transform: translateX(2px); }
+.emotion-video-play:hover { transform: scale(1.06); background: #ffd6a8; }
+.emotion-video-play.is-playing { opacity: 0; pointer-events: none; }
+.emotion-video-wrap:hover .emotion-video-play.is-playing { opacity: 0.85; pointer-events: auto; }
 
 @media (max-width: 880px) {
   .emotion-layout { grid-template-columns: 1fr; }

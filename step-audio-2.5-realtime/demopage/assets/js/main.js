@@ -534,220 +534,55 @@ document.getElementById('link-github').href = MODEL.links.github;
 })();
 
 
-/* ---------- § 4 Emotion: 左 grid 卡片（含播放器） + 右纯文字详情 ---------- */
+/* ---------- § 4 Emotion: 左 单视频（点击播放） + 右纯文字介绍 ---------- */
 (function renderEmotion() {
-  const grid = document.getElementById('emotion-grid');
   const detail = document.getElementById('emotion-detail');
-  if (!grid || !detail || !EMOTION_CASES.length) return;
+  const video = document.getElementById('emotion-video');
+  const playBtn = document.getElementById('emotion-video-play');
+  if (!detail || !video) return;
 
-  const PLAY_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>`;
-  const PAUSE_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>`;
-
-  let selectedIdx = 0;
-  let hoveredIdx = -1;
-  let displayedIdx = -1;
-  let isPlaying = false;
-  let fadeTimer = 0;
-  const TIME_BUF = new Uint8Array(1024);
-
-  // ---- 主标题（常驻） + body 容器 ----
+  // 右侧只放标题 + 描述（不再随 case 切换）
   detail.innerHTML = `
     <div class="emotion-main-header reveal">
       <div class="eyebrow">Emotional Value</div>
       <h2 class="emotion-main-title">接住你的<span class="accent">情绪</span></h2>
-      <p class="emotion-main-sub">不是冰冷的 AI，而是有脾气、有态度、懂接梗的鲜活搭子。点击场景卡片听一段真实回应。</p>
+      <p class="emotion-main-sub">不是冰冷的 AI，而是有脾气、有态度、懂接梗的鲜活搭子。点左侧视频听一段真实回应。</p>
     </div>
-    <div class="emotion-detail-body" id="emotion-detail-body"></div>
   `;
-  const body = document.getElementById('emotion-detail-body');
 
-  // ---- 渲染左侧场景卡（含底部 mini 控件） ----
-  EMOTION_CASES.forEach((c, i) => {
-    const card = document.createElement('button');
-    card.type = 'button';
-    card.className = 'emotion-card';
-    card.dataset.idx = String(i);
-    card.innerHTML = `
-      <div class="emotion-card-tag">Scene 0${i + 1}</div>
-      <h3 class="emotion-card-title">${c.title}</h3>
-      <p class="emotion-card-hint">${c.hint || ''}</p>
-      <div class="emotion-card-controls">
-        <canvas class="emotion-card-wave"></canvas>
-        <button class="emotion-card-play" type="button" aria-label="play/pause">
-          <span class="play-icon">${PLAY_ICON}</span>
-          <span class="pause-icon">${PAUSE_ICON}</span>
-        </button>
-      </div>
-    `;
-    card.addEventListener('mouseenter', () => setHovered(i));
-    card.addEventListener('click', () => onCardClick(i));
-    card.querySelector('.emotion-card-play').addEventListener('click', (e) => {
-      e.stopPropagation();
-      onCardClick(i);
-    });
-    grid.appendChild(card);
-  });
-  const cards = Array.from(grid.querySelectorAll('.emotion-card'));
-  // 收集每张卡的 canvas / 2d
-  const canvases = cards.map(card => {
-    const cv = card.querySelector('.emotion-card-wave');
-    return { el: cv, ctx: cv ? cv.getContext('2d') : null };
-  });
-  grid.addEventListener('mouseleave', () => setHovered(-1));
-
-  function setHovered(i) {
-    if (hoveredIdx === i) return;
-    hoveredIdx = i;
-    const target = hoveredIdx >= 0 ? hoveredIdx : selectedIdx;
-    transitionTo(target);
+  function setPlayingClass(isPlaying) {
+    video.classList.toggle('is-playing', isPlaying);
+    if (playBtn) playBtn.classList.toggle('is-playing', isPlaying);
   }
 
-  function onCardClick(i) {
-    if (i === selectedIdx) {
-      if (isPlaying) { releaseAudio(); stopPlayState(); }
-      else { startPlay(i); }
-      return;
+  function toggle() {
+    if (video.paused || video.ended) {
+      try { releaseAudio(); } catch (_) {}
+      video.muted = false;
+      video.play().then(() => setPlayingClass(true)).catch((err) => {
+        console.warn('[emotion] video play blocked:', err);
+        setPlayingClass(false);
+      });
+    } else {
+      video.pause();
+      setPlayingClass(false);
     }
-    selectedIdx = i;
-    cards.forEach((el, j) => el.classList.toggle('is-selected', j === i));
-    transitionTo(i);
-    startPlay(i);
   }
 
-  function transitionTo(idx) {
-    if (idx === displayedIdx) return;
-    body.classList.add('fading');
-    if (fadeTimer) clearTimeout(fadeTimer);
-    fadeTimer = setTimeout(() => {
-      renderBody(idx);
-      displayedIdx = idx;
-      body.classList.remove('fading');
-    }, 180);
-  }
+  video.addEventListener('click', toggle);
+  if (playBtn) playBtn.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
+  video.addEventListener('play',  () => setPlayingClass(true));
+  video.addEventListener('pause', () => setPlayingClass(false));
+  video.addEventListener('ended', () => { setPlayingClass(false); video.currentTime = 0; });
 
-  function renderBody(idx) {
-    const c = EMOTION_CASES[idx];
-    if (!c) return;
-    const tagsHtml = (c.tags || []).map(t => `<span class="emotion-tag">${t}</span>`).join('');
-    body.innerHTML = `
-      <div class="emotion-detail-index">0${idx + 1} · Emotional Moment</div>
-      <h3 class="emotion-detail-title">${c.title}</h3>
-      ${c.quote ? `<blockquote class="emotion-detail-quote">${c.quote}</blockquote>` : ''}
-      ${c.summary ? `<p class="emotion-detail-desc">${c.summary}</p>` : ''}
-      ${tagsHtml ? `<div class="emotion-detail-tags">${tagsHtml}</div>` : ''}
-    `;
-  }
-
-  function resizeCanvases() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvases.forEach(({ el, ctx }) => {
-      if (!el || !ctx) return;
-      const rect = el.getBoundingClientRect();
-      el.width = Math.max(2, rect.width) * dpr;
-      el.height = Math.max(2, rect.height) * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    });
-  }
-  window.addEventListener('resize', resizeCanvases);
-
-  function drawAllWaves() {
-    const liveAvailable = _analyser && !sharedAudio.paused && !sharedAudio.ended && isPlaying;
-    if (liveAvailable) _analyser.getByteTimeDomainData(TIME_BUF);
-    const t = performance.now() / 1000;
-
-    canvases.forEach(({ el, ctx }, idx) => {
-      if (!el || !ctx) return;
-      const r = el.getBoundingClientRect();
-      const W = r.width, H = r.height;
-      if (W <= 0 || H <= 0) return;
-      ctx.clearRect(0, 0, W, H);
-
-      // baseline
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(255, 184, 107, 0.12)';
-      ctx.beginPath();
-      ctx.moveTo(0, H / 2); ctx.lineTo(W, H / 2);
-      ctx.stroke();
-
-      const isLive = liveAvailable && idx === selectedIdx;
-      if (isLive) {
-        // glow
-        ctx.lineWidth = 2.6;
-        ctx.strokeStyle = 'rgba(255, 184, 107, 0.3)';
-        drawLivePath(ctx, W, H);
-        // main
-        ctx.lineWidth = 1.4;
-        const grad = ctx.createLinearGradient(0, 0, W, 0);
-        grad.addColorStop(0, '#ffb86b');
-        grad.addColorStop(1, '#ff8ab0');
-        ctx.strokeStyle = grad;
-        drawLivePath(ctx, W, H);
-      } else {
-        // idle sine, 卡之间 phase 错开
-        ctx.lineWidth = 1.2;
-        ctx.strokeStyle = 'rgba(255, 184, 107, 0.45)';
-        ctx.beginPath();
-        const steps = 120;
-        const phase = idx * 0.6;
-        for (let i = 0; i < steps; i++) {
-          const x = (i / (steps - 1)) * W;
-          const y = H / 2 + Math.sin(i * 0.22 + t * 0.9 + phase) * 1.4;
-          if (i === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-      }
-    });
-    requestAnimationFrame(drawAllWaves);
-  }
-  function drawLivePath(ctx, W, H) {
-    ctx.beginPath();
-    const N = TIME_BUF.length;
-    for (let i = 0; i < N; i++) {
-      const x = (i / (N - 1)) * W;
-      const v = TIME_BUF[i] / 128 - 1;
-      const y = H / 2 + v * (H / 2 - 2);
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-  }
-  // 等首帧布局完成再 resize 一次
-  requestAnimationFrame(() => { resizeCanvases(); requestAnimationFrame(drawAllWaves); });
-
-  // ---- 播放控制 ----
-  function startPlay(idx) {
-    const c = EMOTION_CASES[idx];
-    if (!c || !c.audio) return;
-    ensureAudioAnalyser();
-    resumeAudioCtx();
-    isPlaying = true;
-    cards.forEach((el, j) => el.classList.toggle('is-playing', j === idx));
-    claimAudio(bust(c.audio), {
-      onEnded: () => stopPlayState(),
-      onError: () => stopPlayState(),
-      onStop:  () => stopPlayState(),
-    });
-  }
-
-  function stopPlayState() {
-    isPlaying = false;
-    cards.forEach(el => el.classList.remove('is-playing'));
-  }
-
-  // ---- 初始 ----
-  cards[0].classList.add('is-selected');
-  renderBody(0);
-  displayedIdx = 0;
-
-  // 离开 section 停止
+  // 离开 section 自动暂停
   const sec = document.getElementById('emotion');
   if (sec && 'IntersectionObserver' in window) {
     new IntersectionObserver((ents) => {
       ents.forEach(e => {
-        if (!e.isIntersecting && isPlaying) { releaseAudio(); stopPlayState(); }
+        if (!e.isIntersecting && !video.paused) video.pause();
       });
-    }, { threshold: 0.02 }).observe(sec);
+    }, { threshold: 0.05 }).observe(sec);
   }
 })();
 

@@ -108,10 +108,18 @@
     <div class="bento-grid" id="bento-grid"></div>
   </section>
 
-  <!-- § 4 EMOTION — 情绪价值（左 grid 卡片 + 右详情） -->
+  <!-- § 4 EMOTION — 情绪价值（左 大视频 + 右介绍） -->
   <section id="emotion" class="section section-emotion">
     <div class="emotion-layout">
-      <div class="emotion-grid" id="emotion-grid"></div>
+      <div class="emotion-video-wrap">
+        <video class="emotion-video" id="emotion-video" playsinline preload="metadata"
+               disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
+          <source src="assets/video/feishu_cases/xiaoyue-emotion-r1.mp4" type="video/mp4" />
+        </video>
+        <button class="emotion-video-play" type="button" id="emotion-video-play" aria-label="play/pause">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
       <div class="emotion-detail" id="emotion-detail"></div>
     </div>
   </section>
