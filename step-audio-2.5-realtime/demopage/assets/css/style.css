@@ -1716,6 +1716,32 @@ code { font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; bac
   letter-spacing: 0.04em;
 }
 
+/* ---- 右侧特性列表 ---- */
+.emotion-feat-list {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.emotion-feat-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-light-dim);
+  line-height: 1.5;
+}
+.emotion-feat-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffb86b;
+  box-shadow: 0 0 8px rgba(255, 184, 107, 0.6);
+}
+
 /* ---- 左：大视频播放器 ---- */
 .emotion-video-wrap {
   position: relative;

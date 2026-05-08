@@ -544,9 +544,14 @@ document.getElementById('link-github').href = MODEL.links.github;
   // 右侧只放标题 + 描述（不再随 case 切换）
   detail.innerHTML = `
     <div class="emotion-main-header reveal">
-      <div class="eyebrow">Emotional Value</div>
-      <h2 class="emotion-main-title">接住你的<span class="accent">情绪</span></h2>
-      <p class="emotion-main-sub">不是冰冷的 AI，而是有脾气、有态度、懂接梗的鲜活搭子。点左侧视频听一段真实回应。</p>
+      <div class="eyebrow">Emotional Range</div>
+      <h2 class="emotion-main-title">演技派<span class="accent"> AI</span></h2>
+      <p class="emotion-main-sub">中彩票的狂喜、发现号不对的落差、男友竟是富二代的震惊、渣男曝光后的愤怒——剧情急转九次，情绪分毫不差地踩在每一拍上，全程没有一次出戏。</p>
+      <ul class="emotion-feat-list">
+        <li><span class="emotion-feat-dot"></span>极端情绪落差，无缝即时切换</li>
+        <li><span class="emotion-feat-dot"></span>轻笑、语速、停顿随台词精细雕琢</li>
+        <li><span class="emotion-feat-dot"></span>角色性格始终如一，连戏能力拉满</li>
+      </ul>
     </div>
   `;
 
