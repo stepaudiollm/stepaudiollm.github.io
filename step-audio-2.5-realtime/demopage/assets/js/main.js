@@ -132,8 +132,10 @@ if (heroCanvas) {
 
 /* ---------- Intro ---------- */
 document.getElementById('intro-body').textContent = MODEL.introBody;
-document.getElementById('link-arxiv').href = MODEL.links.arxiv;
-document.getElementById('link-github').href = MODEL.links.github;
+const _arxiv = document.getElementById('link-arxiv');
+const _github = document.getElementById('link-github');
+if (_arxiv) _arxiv.href = MODEL.links.arxiv;
+if (_github) _github.href = MODEL.links.github;
 
 /* ---------- Intro: 装饰性声波 ---------- */
 (function renderWaveformBars() {
