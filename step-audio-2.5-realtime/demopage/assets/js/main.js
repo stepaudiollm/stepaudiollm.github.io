@@ -546,7 +546,7 @@ if (_github) _github.href = MODEL.links.github;
   // 右侧只放标题 + 描述（不再随 case 切换）
   detail.innerHTML = `
     <div class="emotion-main-header reveal">
-      <div class="eyebrow">Emotional Range</div>
+      <div class="eyebrow">Acting · Performance</div>
       <h2 class="emotion-main-title">百变<span class="accent">大咖</span></h2>
       <p class="emotion-main-sub">中彩票的狂喜、发现号不对的落差、男友竟是富二代的震惊、渣男曝光后的愤怒——剧情急转九次，情绪分毫不差地踩在每一拍上，全程没有一次出戏。</p>
       <ul class="emotion-feat-list">
