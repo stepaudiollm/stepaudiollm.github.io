@@ -265,6 +265,9 @@ if (_github) _github.href = MODEL.links.github;
     card.dataset.idx = String(idx);
     card.style.setProperty('--ability-accent', ab.accent);
     card.style.setProperty('--ability-accent2', ab.accent2 || ab.accent);
+    if (ab.image) {
+      card.style.setProperty('--card-bg-image', `url('assets/img/iqeq/${ab.image}')`);
+    }
     // mini 波柱（仅 active 卡跳动）
     const bars = [];
     for (let i = 0; i < 26; i++) {
