@@ -28,7 +28,7 @@ export const IQ_EQ_CASES = [
       '模型先共情，再引导回忆自身优势',
       '帮你重拾信心，充满期待地去迎战',
     ],
-    audio: 'assets/audio/iqeq-emotion-update.WAV',
+    audio: 'assets/audio/iqeq-emotion-update1.WAV',
     audioLabel: '情绪安抚 · 打气鼓励',
     image: 'emotion.png',
     accent: '#ff8ab0',

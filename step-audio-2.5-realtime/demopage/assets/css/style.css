@@ -941,9 +941,7 @@ code { font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; bac
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background:
-    linear-gradient(160deg, rgba(20, 20, 52, 0.88) 0%, rgba(10, 10, 28, 0.92) 55%, rgba(5, 5, 18, 0.82) 100%),
-    var(--card-bg-image, none) center bottom / cover no-repeat;
+  background: linear-gradient(160deg, rgba(20, 20, 52, 0.88) 0%, rgba(10, 10, 28, 0.92) 55%, rgba(5, 5, 18, 0.82) 100%);
   border: 1px solid var(--border-light);
   transition:
     transform 0.75s cubic-bezier(0.34, 1.35, 0.64, 1),
@@ -977,9 +975,24 @@ code { font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; bac
     0 30px 70px rgba(0, 0, 0, 0.5),
     0 0 0 1px var(--ability-accent, var(--brand-1)) inset,
     0 0 40px rgba(1, 169, 255, 0.15);
-  background:
-    linear-gradient(160deg, rgba(20, 20, 52, 0.72) 0%, rgba(10, 10, 28, 0.80) 55%, rgba(5, 5, 18, 0.65) 100%),
-    var(--card-bg-image, none) center bottom / cover no-repeat;
+}
+
+/* 背景图层：用 ::after 伪元素，避免 var(url) 在 background 简写里解析失败 */
+.ability-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: var(--card-bg-image, none);
+  background-size: cover;
+  background-position: center bottom;
+  opacity: 0.22;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease-out);
+}
+.ability-card.is-active::after {
+  opacity: 0.40;
 }
 
 .ability-card-index {
