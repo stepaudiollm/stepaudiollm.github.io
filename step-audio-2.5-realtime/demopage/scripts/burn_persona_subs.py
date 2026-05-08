@@ -48,11 +48,27 @@ class Cue:
 def parse_srt(path: Path) -> list[Cue]:
     raw = path.read_text(encoding="utf-8").replace("\r", "")
     cues: list[Cue] = []
+    # 第一个出现的非 user/assistant speaker 视作 "user"，第二个视作 "assistant"。
+    # 用于支持 [Speaker_1]/[Speaker_2] 这类标签。
+    alias: dict[str, str] = {}
+
+    def normalize(raw_speaker: str) -> str:
+        s = raw_speaker.strip().lower()
+        if s in ("user", "assistant"):
+            return s
+        if s in alias:
+            return alias[s]
+        used = set(alias.values())
+        for slot in ("user", "assistant"):
+            if slot not in used:
+                alias[s] = slot
+                return slot
+        return s  # 第三个及以后保留原样
+
     for block in re.split(r"\n\s*\n", raw.strip()):
         lines = block.strip().split("\n")
         if len(lines) < 2:
             continue
-        # 跳过序号行
         time_idx = next((i for i, l in enumerate(lines) if "-->" in l), -1)
         if time_idx < 0:
             continue
@@ -67,7 +83,7 @@ def parse_srt(path: Path) -> list[Cue]:
         end = h2 * 3600 + mn2 * 60 + s2 + ms2 / 1000
         body = "\n".join(lines[time_idx + 1 :]).strip()
         sm = re.match(r"^\[([^\]]+)\]\s*", body)
-        speaker = sm.group(1).strip().lower() if sm else ""
+        speaker = normalize(sm.group(1)) if sm else ""
         text = body[sm.end() :].strip() if sm else body
         cues.append(Cue(start, end, speaker, text))
     return cues
@@ -101,26 +117,41 @@ def darken(hex_color: str, factor: float = 0.55) -> str:
 
 
 def wrap_chinese(text: str, max_per_line: int = 22) -> list[str]:
-    """中文按字数软换行，返回行列表（中文 1 计、ASCII 0.5 计）。"""
+    """中文按字数硬换行，返回行列表（中文 1 计、ASCII 0.5 计）。
+
+    - 优先在标点处断行（标点超过软阈值就断）
+    - 若超过硬阈值（max_per_line）仍未遇到标点，强制硬切，避免文本溢出气泡
+    """
+    soft_limit = max_per_line * 0.9
     out: list[str] = []
     cur: list[str] = []
     cur_len = 0.0
     for ch in text:
         cur.append(ch)
         cur_len += 1 if ord(ch) > 127 else 0.5
-        if cur_len >= max_per_line and ch in "，。！？、；：,.!?;: ":
+        # 命中标点 + 已经够长 → 在标点后切
+        if cur_len >= soft_limit and ch in "，。！？、；：,.!?;: ":
+            out.append("".join(cur).strip())
+            cur, cur_len = [], 0.0
+            continue
+        # 没标点也长到极限 → 强制硬切
+        if cur_len >= max_per_line:
             out.append("".join(cur).strip())
             cur, cur_len = [], 0.0
     if cur:
         out.append("".join(cur).strip())
-    return out
+    return [s for s in out if s]
 
 
 def line_pixel_width(line: str, fs: float) -> float:
-    """估算 ASS 渲染下某行的像素宽度。CJK ≈ 1em，ASCII ≈ 0.55em。"""
+    """估算 ASS 渲染下某行像素宽度。略往大估避免溢出。
+
+    Noto Sans CJK SC 实测 CJK 字宽 ~ 1.0em，但加 spacing/anti-alias 边缘后接近 1.02em；
+    ASCII 在该字体下平均 ~ 0.55-0.6em（标点最窄、字母数字偏宽）。保守估算用 1.05/0.6。
+    """
     w = 0.0
     for ch in line:
-        w += fs * 1.0 if ord(ch) > 127 else fs * 0.55
+        w += fs * 1.05 if ord(ch) > 127 else fs * 0.6
     return w
 
 
@@ -169,13 +200,14 @@ def build_ass(cues: list[Cue], persona: dict, video_w: int, video_h: int) -> str
 
     pad_x = int(fontsize * 0.7)
     pad_y = int(fontsize * 0.55)
-    line_height = int(fontsize * 1.3)
-    label_block = int(label_size * 1.55)
+    line_height = int(fontsize * 1.45)
+    label_block = int(label_size * 1.7)
     radius = int(fontsize * 0.55)
 
-    max_box_w = int(video_w * 0.5)
+    # 气泡最宽不超过画面 45%；max_chars 留 5% 安全边
+    max_box_w = int(video_w * 0.45)
     max_text_w = max_box_w - 2 * pad_x
-    max_chars_per_line = max(8, int(max_text_w / fontsize))
+    max_chars_per_line = max(6, int(max_text_w / (fontsize * 1.1)))
 
     user_bg_color = ass_color_bbggrr("#061024")
     user_bg_alpha = "&H66&"  # ~60% 透

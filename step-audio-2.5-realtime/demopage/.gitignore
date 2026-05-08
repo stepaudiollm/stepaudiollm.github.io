@@ -1,7 +1,8 @@
-# 生成 ASS 字幕的中间文件
 scripts/_*.ass
-# 系统垃圾
+scripts/__pycache__/
+__pycache__/
+*.pyc
 .DS_Store
 __MACOSX/
-# 内部资料 / 抓取脚本
 0505_update/
+assets/video/persona/_archive_subbed/
