@@ -147,17 +147,26 @@ code { font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; bac
   align-items: center;
   justify-content: space-between;
   z-index: 100;
+  /* 初始完全隐藏：不可见、不可交互、向上偏移 */
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
   backdrop-filter: blur(0px);
   -webkit-backdrop-filter: blur(0px);
   background: transparent;
   border-bottom: 1px solid transparent;
   transition:
-    background 0.45s var(--ease-out),
-    border-color 0.45s var(--ease-out),
-    backdrop-filter 0.45s var(--ease-out);
+    opacity 0.4s var(--ease-out),
+    transform 0.4s var(--ease-out),
+    background 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out),
+    backdrop-filter 0.4s var(--ease-out);
 }
-/* 滚出 hero 后显示毛玻璃背景 */
+/* 滚出 hero 后从上方滑入 */
 .nav.is-scrolled {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   background: rgba(6, 6, 20, 0.72);
@@ -227,54 +236,93 @@ code { font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; bac
   position: relative;
   z-index: 2;
   text-align: center;
-  max-width: 860px;
-  margin-top: -8vh;
-  padding-top: 42vh;  /* 把文字下推，让 logo 占据视觉中心 */
+  max-width: 760px;
+  width: 100%;
+  padding: 0 32px;
+  /* 画布中心略低于屏幕中心（约 56vh），文字稍微上移让二者错开 */
+  margin-top: -12vh;
   pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+/* 入场动画：各元素依次淡入上移，与 model card heroFadeIn 一致 */
+@keyframes heroFadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-content .hero-eyebrow,
+.hero-content .hero-title,
+.hero-content .hero-tagline {
+  opacity: 0;
+  transform: translateY(28px);
+  animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-content .hero-eyebrow  { animation-delay: 0.05s; }
+.hero-content .hero-title    { animation-delay: 0.15s; }
+.hero-content .hero-tagline  { animation-delay: 0.28s; }
+
 .hero-eyebrow {
-  display: inline-block;
-  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
   font-size: 12px;
-  letter-spacing: 0.2em;
-  color: var(--brand-3);
-  background: rgba(1,169,255,0.08);
-  border: 1px solid rgba(1,169,255,0.25);
-  border-radius: 999px;
-  margin-bottom: 20px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 28px;
   pointer-events: auto;
 }
+.hero-eyebrow .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--brand-1);
+  box-shadow: 0 0 12px rgba(129,140,248,0.7);
+  animation: dotPulse 2.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(129,140,248,0.5); }
+  50%       { box-shadow: 0 0 20px rgba(129,140,248,1), 0 0 40px rgba(129,140,248,0.3); }
+}
+
 .hero-title {
-  margin: 0 0 18px;
-  font-size: clamp(36px, 6vw, 72px);
+  margin: 0 0 16px;
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   line-height: 1.05;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 20px;
+  gap: 8px 18px;
   justify-content: center;
   align-items: baseline;
+  color: #fff;
 }
 .hero-title-mono {
   font-family: 'JetBrains Mono', Consolas, monospace;
   font-weight: 500;
-  font-size: 0.6em;
+  font-size: 0.58em;
   color: var(--text-light-dim);
   letter-spacing: 0.04em;
 }
 .hero-tagline {
-  font-size: clamp(18px, 2.2vw, 26px);
-  color: var(--text-light);
-  margin: 0 0 10px;
+  font-size: clamp(1.3rem, 2.8vw, 2rem);
   font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 0;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
 }
 .hero-sub {
-  font-size: 15px;
-  color: var(--text-light-dim);
-  margin: 0;
-  max-width: 600px;
+  font-size: clamp(14px, 1.1vw, 16px);
+  font-weight: 300;
+  color: rgba(255,255,255,0.5);
   margin: 0 auto;
+  line-height: 1.75;
+  max-width: 520px;
 }
 .scroll-indicator {
   position: absolute;
@@ -2306,7 +2354,7 @@ code { font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; bac
   .metrics-layout { grid-template-columns: 1fr; gap: 32px; }
   .bento-grid { grid-template-columns: 1fr; }
   .bento-card.size-large, .bento-card.size-small { grid-column: span 1; }
-  .hero-content { padding-top: 48vh; }
+  .hero-content { margin-top: -8vh; }
   .timeline { padding-left: 36px; }
   .timeline-dot { left: -32px; }
 }
