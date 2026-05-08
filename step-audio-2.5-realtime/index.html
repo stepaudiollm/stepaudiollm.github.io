@@ -2348,12 +2348,12 @@ document.querySelectorAll('.nav-link').forEach(link => {
 /* ========== Video Showcase Carousel ========== */
 (function () {
   const VIDEOS = [
-    { file: 'assets/videos/actor.mp4',      title: '百变大咖' },
-    { file: 'assets/videos/feihualing.mp4', title: '飞花令'   },
-    { file: 'assets/videos/para_lang.mp4',  title: '声情感知' },
-    { file: 'assets/videos/sujinyan.mp4',   title: '苏烬言'   },
-    { file: 'assets/videos/tianfeifei.mp4', title: '田菲菲'   },
-    { file: 'assets/videos/xiaoyuer.mp4',   title: '小鱼儿'   },
+    { file: 'assets/videos/actor.mp4',      poster: 'assets/videos/actor.jpg',      title: '百变大咖' },
+    { file: 'assets/videos/feihualing.mp4', poster: 'assets/videos/feihualing.jpg', title: '飞花令'   },
+    { file: 'assets/videos/para_lang.mp4',  poster: 'assets/videos/para_lang.jpg',  title: '声情感知' },
+    { file: 'assets/videos/sujinyan.mp4',   poster: 'assets/videos/sujinyan.jpg',   title: '苏烬言'   },
+    { file: 'assets/videos/tianfeifei.mp4', poster: 'assets/videos/tianfeifei.jpg', title: '田菲菲'   },
+    { file: 'assets/videos/xiaoyuer.mp4',   poster: 'assets/videos/xiaoyuer.jpg',   title: '小鱼儿'   },
   ];
 
   const track   = document.getElementById('vc-track');
@@ -2370,7 +2370,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
     const card = document.createElement('div');
     card.className = 'vc-card';
     card.innerHTML = `
-      <video preload="none" playsinline src="${v.file}"></video>
+      <video preload="none" playsinline src="${v.file}" poster="${v.poster}"></video>
       <div class="vc-overlay"></div>
       <div class="vc-info"><div class="vc-info-title">${v.title}</div></div>
       <div class="vc-playing-badge"><span class="vc-playing-dot"></span>正在播放</div>
