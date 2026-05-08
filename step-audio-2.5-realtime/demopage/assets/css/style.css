@@ -968,7 +968,7 @@ code { font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; bac
   pointer-events: none;
 }
 .ability-card.is-active::before { opacity: 0.55; }
-.ability-card > * { position: relative; z-index: 1; }
+.ability-card > *:not(.ability-card-bg) { position: relative; z-index: 1; }
 .ability-card.is-active {
   border-color: var(--ability-accent, var(--brand-1));
   box-shadow:
@@ -977,22 +977,25 @@ code { font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; bac
     0 0 40px rgba(1, 169, 255, 0.15);
 }
 
-/* 背景图层：用 ::after 伪元素，避免 var(url) 在 background 简写里解析失败 */
-.ability-card::after {
-  content: '';
+/* 背景图层：真实 DOM 节点，避免 CSS var(url) 路径解析问题 */
+.ability-card-bg {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background-image: var(--card-bg-image, none);
   background-size: cover;
-  background-position: center bottom;
-  opacity: 0.22;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0.28;
   z-index: 0;
   pointer-events: none;
-  transition: opacity 0.5s var(--ease-out);
+  transition: opacity 0.5s var(--ease-out), transform 0.6s var(--ease-out);
 }
-.ability-card.is-active::after {
-  opacity: 0.40;
+.ability-card.is-active .ability-card-bg {
+  opacity: 0.55;
+}
+.ability-card-content {
+  position: relative;
+  z-index: 1;
 }
 
 .ability-card-index {

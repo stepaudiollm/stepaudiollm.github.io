@@ -265,9 +265,6 @@ if (_github) _github.href = MODEL.links.github;
     card.dataset.idx = String(idx);
     card.style.setProperty('--ability-accent', ab.accent);
     card.style.setProperty('--ability-accent2', ab.accent2 || ab.accent);
-    if (ab.image) {
-      card.style.setProperty('--card-bg-image', `url('assets/img/iqeq/${ab.image}')`);
-    }
     // mini 波柱（仅 active 卡跳动）
     const bars = [];
     for (let i = 0; i < 26; i++) {
@@ -275,8 +272,12 @@ if (_github) _github.href = MODEL.links.github;
       const delay = -Math.random() * 2;
       bars.push(`<span style="--bar-dur:${dur.toFixed(2)}s; --bar-delay:${delay.toFixed(2)}s;"></span>`);
     }
+    const bgHtml = ab.image
+      ? `<div class="ability-card-bg" style="background-image:url('assets/img/iqeq/${ab.image}')"></div>`
+      : '';
     card.innerHTML = `
-      <div>
+      ${bgHtml}
+      <div class="ability-card-content">
         <div class="ability-card-index">${ab.index}</div>
         <div class="ability-card-subtitle">${ab.subtitle}</div>
         <h3 class="ability-card-title">${ab.title}</h3>
