@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StepAudio 3 · StepFun</title>
+<link rel="icon" type="image/svg+xml" href="assets/brand/step-favicon.svg">
+<meta name="description" content="StepAudio 3 — 为自然交谈而生">
+<style>
+  /* ---------- 字体 ----------
+     MiSans（小米，免费商用），子集化到本页实际用到的字符。
+     改文案后重跑 tools/build_fonts.py，否则新字会掉到系统字体兜底。 */
+  @font-face{font-family:MiSans;font-style:normal;font-weight:200;font-display:swap;
+             src:url(assets/fonts/MiSans-ExtraLight.woff2) format('woff2')}
+  @font-face{font-family:MiSans;font-style:normal;font-weight:300;font-display:swap;
+             src:url(assets/fonts/MiSans-Light.woff2) format('woff2')}
+  @font-face{font-family:MiSans;font-style:normal;font-weight:400;font-display:swap;
+             src:url(assets/fonts/MiSans-Regular.woff2) format('woff2')}
+  @font-face{font-family:MiSans;font-style:normal;font-weight:700;font-display:swap;
+             src:url(assets/fonts/MiSans-Bold.woff2) format('woff2')}
+
+  /* ---------- 品牌字标字体 ----------
+     用户认出商标字体和 Safari 标签页字体一致 —— 那是苹果系统字 SF Pro。
+     这个判断比我的像素比对可信（他是拿每天都看的实时渲染对照的），
+     而且和测量吻合：等 cap 高时商标字宽比 Inter/Archivo 窄 7~12%，SF Pro 正是偏紧凑的。
+
+     **SF Pro 不能作为 webfont 内嵌**（苹果许可只允许在苹果平台的界面里使用系统字，
+     不允许打包分发字体文件）。所以：
+       苹果设备 → -apple-system / BlinkMacSystemFont 直接取系统里的 SF Pro，精确匹配；
+       其他平台 → 自托管 Roboto Medium 兜底（等 cap 高时字宽只差 +2.8%，
+                  是这批候选里最接近的；Inter/Archivo 都偏宽）。
+     兜底文件按 600 声明、实际是 Medium(500) 字形：非苹果平台上要的是中粗而不是 Bold。 */
+  @font-face{font-family:BrandFallback;font-style:normal;font-weight:600;font-display:swap;
+             src:url(assets/fonts/Roboto-Medium.woff2) format('woff2')}
+
+  /* ---------- token ----------
+     沿用两个模型展示页的深色 token，保持一家人的观感 */
+  :root{
+    --bg-0:#07070C;
+    --bg-1:#0D0B18;
+    --indigo:#6366F1;
+    --purple:#A855F7;
+    --cyan:#22D3EE;
+    --text:#FFFFFF;
+    --text-2:rgba(255,255,255,.72);
+    --text-3:rgba(255,255,255,.50);
+    --text-4:rgba(255,255,255,.34);
+    --line:rgba(255,255,255,.09);
+    --line-2:rgba(255,255,255,.16);
+    --card:rgba(255,255,255,.028);
+    --card-hover:rgba(255,255,255,.05);
+    --tbd:#FBBF24;                 /* 占位一律琥珀，一眼看出不是真数据 */
+    --tbd-line:rgba(251,191,36,.34);
+    --line-3:rgba(255,255,255,.42);
+    --surface:#07070C;             /* 卡片底色，浅色区会覆盖成纯白 */
+    --max-w:1140px;
+    --font:"MiSans","PingFang SC","Noto Sans SC","Microsoft YaHei",
+           system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+    /* 品牌字标专用栈：**统一用自托管的 Roboto Medium，不再引用苹果系统字**。
+       原来是 -apple-system / SF Pro 打头、Roboto 兜底，苹果设备上取真 SF Pro。
+       改掉的理由是**规避苹果字体的授权问题**（按要求）—— 虽然「按名字引用系统字」
+       并不分发字体文件、风险很低，但统一成自托管之后还有个实打实的好处：
+       **跨平台字形完全一致**，不再有「苹果上是 SF Pro、别处是 Roboto」的细微差别。
+       注意 Roboto-Medium.woff2 是**子集化**的（现 21 个码位 / 5.6KB），
+       字符集是 ` 3AFGMRSacdeilmnopstu` —— 刚好覆盖
+       "StepAudio 3 Realtime"、"Gen"、"Music" 与 "StepFun"。
+       **改字标文案必须重做这个子集**，而且 tools/build_fonts.py 只管 MiSans、不含 Roboto：
+       Roboto 要单独从 Google Fonts 取 latin 分片再 fontTools 子集化
+       （加 Realtime 那次就缺了 R/a/l/m 四个字形，不补就直接显示不出来）。 */
+    --font-brand:BrandFallback,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:auto;background:var(--bg-0)}
+  body{
+    background:var(--bg-0);color:var(--text);font-family:var(--font);
+    font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  ::selection{background:rgba(99,102,241,.45)}
+
+  /* ================= 视频舞台 ================= */
+  #stage{
+    position:fixed;inset:0;z-index:10;background:#000;
+    /* 这条现在是真正的开场淡入（黑屏闪字那段已删）。不能太慢，
+       否则第一镜前半段是在渐亮中度过的。 */
+    opacity:0;transition:opacity .7s ease;
+  }
+  #stage.playing{opacity:1}
+  #stage video{width:100%;height:100%;object-fit:cover;display:block}
+  /* 字标背景再压一层暗：幕5 是户外天光（蓝天 + 亮衣服），不压的话渐变字标读不出来。
+     字标背景现在是**循环播放的幕5**，所以这层从**字标浮现那一刻**就挂上并一直留着
+     （.ended 由 revealMark() 添加），前四幕播放中不加，素材该亮就亮。 */
+  #stage .endscrim{
+    position:absolute;inset:0;pointer-events:none;opacity:0;
+    transition:opacity 1.2s ease;
+    background:
+      /* 暗只压在字标那一条带上，四角留亮 —— 画面要好看，不能整张糊黑 */
+      radial-gradient(64% 42% at 50% 50%,rgba(7,7,12,.66),rgba(7,7,12,.34) 56%,transparent 82%),
+      linear-gradient(180deg,rgba(7,7,12,.30),rgba(7,7,12,.06) 44%,rgba(7,7,12,.40));
+  }
+  #stage.ended .endscrim{opacity:1}
+  /* 压一层暗角，让后面浮上来的字标不至于被素材的高光吃掉 */
+  #stage .veil{
+    position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 45%,transparent 38%,rgba(7,7,12,.55) 100%);
+  }
+
+  /* ================= 字标浮现 ================= */
+  #reveal{
+    position:fixed;inset:0;z-index:20;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    /* gap 也要**等比**，不能是固定 26px。基准是 1440x810（视口正好 16:9、
+       cover 之后画面=视口）那一档：26/810 = 画面高的 3.21%。竖屏下画面高
+       = 56.25vw，所以同一比例 = 1.806vw。上限钉在 26px —— 1440 及以上原样不变。
+       留着 26px 的后果实测很明显：390 宽下两道 gap 合计 52px，
+       在只有 219px 高的画面里占 24%，字标组整个被撑散。 */
+    gap:clamp(7px,1.806vw,26px);
+    opacity:0;pointer-events:none;transition:opacity 1.6s ease;
+    /* 和正文同一套安全边距。**不能改成给 .reveal-sub 加 padding** ——
+       它宽度是 shrink-to-fit，加 padding 只会让整体更宽；要让文字提前换行
+       就得约束容器。320 宽下英文副标实测正好 320px，不加这层是贴死两边的。 */
+    padding-inline:clamp(20px,5vw,32px);
+  }
+  #reveal.on{opacity:1}
+  /* 放开滚动后摘掉 transition：这条 1.6s 是给字标浮现用的，
+     留着会让滚动淡出比手指慢 1.6s，字标飘在溶解区里 —— 正是「过渡突兀」的来源。 */
+  #reveal.nofade{transition:none}
+  /* **滚动驱动时用短动画。** 滚动既触发浮现、又同时驱动淡出
+     （onScroll 里 opacity = 1 - top/(0.38 屏)），两者打架：实测 810px 视口下
+     滚 80px（约两下滚轮）目标 opacity 已降到 0.74，而 1.6s 的淡入才走一半 ——
+     用户看到的就是「还没显现出来就已经滑下去了」。
+     所以滚动触发走这条 `.fast`：淡入 0.22s、字距 0.85s，一划就看得见。
+     时间驱动（不滚的用户）仍用原来那套慢动画，开屏的仪式感不变。 */
+  #reveal.fast{transition:opacity .22s ease}
+  #reveal.fast .wordmark{transition:letter-spacing .85s cubic-bezier(.16,.84,.24,1),
+                         filter .38s ease,
+                         transform .85s cubic-bezier(.16,.84,.24,1)}
+  #reveal.fast .reveal-sub{transition:opacity .32s ease .16s}
+  #reveal.fast .sweep::after{animation-duration:1.1s;animation-delay:.18s}
+  .wordmark{
+    position:relative;
+    font-family:var(--font-brand);
+    /* **拆成两行**：下行 "Realtime" 是主体（1.10em），上行 "StepAudio 3" 压小
+       （.42em），主次比 **1:2.62**。这个 clamp 是「基准字号」，两行都按 em 乘它，
+       所以下行实际 114.4px、上行 43.7px @1440。
+       **7.6vw 这个斜率就是电脑端的比例**：基准档 1440x810 实测
+       基准字号/画面宽 = 7.22%，和 7.6vw 差 5%，本来就对得上。
+       问题一直出在**下限**：原来是 38px，390 宽下 7.6vw 只有 29.6px、被顶到 38px，
+       于是字标组占掉画面高的 60%（电脑端是 30%）—— 就是「手机上太挤」的来源。
+       下限定 **24px**：320 宽下 7.6vw = 24.3px 刚好不触发，
+       也就是**所有主流手机都走等比**，下限纯粹是防御（折叠屏分屏、桌面缩到极窄）。
+       取 26px 试过一版：320 下会被顶住、宽度比例多出 5.1pp，
+       下限本该兜底、结果成了破坏比例的那一方。
+       nowrap 不会溢出：320 下实测 128px，可用宽度 280px。 */
+    display:flex;flex-direction:column;align-items:center;
+    font-size:clamp(24px,7.6vw,104px);font-weight:600;line-height:1.04;
+    letter-spacing:.30em;                     /* 先宽 */
+    transform:translateY(14px);
+    /* **渐变已下移到 .wm-main**（只有 "Realtime" 那行是彩色，上行是纯白）。
+       这里只留 filter —— 它作用于整个子树，两行的阴影/浮现模糊都靠它。 */
+    filter:blur(9px) drop-shadow(0 2px 22px rgba(0,0,0,.5));
+    transition:letter-spacing 2.4s cubic-bezier(.16,.84,.24,1),
+               filter 1.8s ease, transform 2.4s cubic-bezier(.16,.84,.24,1);
+    white-space:nowrap;
+  }
+  /* 上行 .42em。**两行的字号都写 em 而不是绝对值**，这样一起跟着 .wordmark 的
+     clamp 缩放，手机上主次比例不走形（改过一次比例：.5/1 → .42/1.10）。 */
+  /* 上行的颜色和副标**对调过**（按要求：凸显副标、淡化 "StepAudio 3"）。
+     原来这里是纯白 #FFF、副标是 --text-2，实测笔画亮度 255 vs 194、
+     对比背景 +188 vs +136 —— 视觉重量确实压在产品名上而不是那句话上。
+     现在两者互换：这一行走 **rgba(255,255,255,.60)**（对调时先给 --text-2，
+     再按「灰一点」下调，最后定在 .60），副标走纯白。
+     实测四档笔画亮度 / 对比背景（390 宽，12.4px 那个尺寸）：
+       .72=200/+139   **.60=176/+117**   .50=157/+97   .34=127/+66
+     试到 .34 就过头了 —— 行尾那个 "3" 落在亮背景上已经开始融进去。
+
+     **这里是本页唯一写 rgba 字面量而不用 token 的地方**，两个理由：
+       ① .60 落在 --text-2(.72) 和 --text-3(.50) 之间，为一处声明加个全局 token 不值当；
+       ② 深浅两套 token 里 --text-* 各有一份定义，用变量的好处是跟着 .sheet 翻色 ——
+          但**字标区只存在于深色的开屏层、从不进入 .sheet**，这个好处在这里用不上。
+     如果以后字标区要跟着翻色，得先把它换回 token。
+
+     渐变仍然挂在 .wm-main 上、不在父元素 .wordmark：
+     只给这里写 color 的话，父元素被 background-clip:text 裁出的渐变
+     会垫在字下面、边缘透出彩色（这是当初把渐变下移的原因，别改回去）。 */
+  .wm-top{font-size:.42em;display:block;color:rgba(255,255,255,.60)}
+  /* 彩色只剩这一行：沿用第一版闪字里那条 cyan→indigo→purple 的渐变。
+     background-clip:text 要求 color 透明，所以描边/阴影只能走父元素的 filter。
+     渐变现在在这一行自己的宽度上展开（492px @1440），
+     比原来跨整块展开更饱满 —— 原来上行只取到中段那点 indigo。 */
+  .wm-main{font-size:1.10em;display:block;
+           background:linear-gradient(92deg,var(--cyan),var(--indigo) 55%,var(--purple));
+           -webkit-background-clip:text;background-clip:text;color:transparent}
+  #reveal.on .wordmark{
+    /* 落定字距 **+.05em**（按要求两次放开）。历程：单行长文案 +.012em →
+       拆两行后按「和左上角一样」收到 −.025em → +.02em → +.05em。
+       两行共用同一个 em 值，所以下行的绝对间距是上行的 2.6 倍（跟字号比一致）。
+       再往上到 +.08em 时上行「StepAudio 3」会开始散架，别越过。 */
+    letter-spacing:.05em;transform:translateY(0);
+    filter:blur(0) drop-shadow(0 2px 22px rgba(0,0,0,.5));
+  }
+  /* 字标下的细光带：扫过一次后隐去 */
+  .sweep{
+    /* 30vw 而不是 46vw：电脑端实测光带 420px / 画面 1440px = 29.2%，
+       46vw 在 390 宽手机上是 45.9%，相对画面宽了一半。
+       上限 420px 保持，所以 1400 以上一个像素都没变。 */
+    position:relative;width:min(30vw,420px);height:1px;
+    background:var(--line);overflow:hidden;
+  }
+  .sweep::after{
+    content:"";position:absolute;inset:0;transform:translateX(-100%);
+    background:linear-gradient(90deg,transparent,var(--cyan),var(--indigo),transparent);
+  }
+  #reveal.on .sweep::after{animation:sweep 2.1s 1.1s cubic-bezier(.4,0,.2,1) forwards}
+  @keyframes sweep{
+    0%{transform:translateX(-100%);opacity:1}
+    70%{opacity:1}
+    100%{transform:translateX(100%);opacity:0}
+  }
+  .reveal-sub{
+    display:flex;align-items:center;gap:11px;
+    /* **换行后要居中。** 容器是 flex、宽度 shrink-to-fit，所以单行时看不出问题；
+       但 320 宽下英文副标（实测 320px）会被 #reveal 的 padding-inline 逼到
+       两行，此时行内文字按默认的 start 排 —— 两行左对齐、整块看着偏出画面。 */
+    text-align:center;
+    /* 15px → 22px（按要求放大）。**字距要跟着从 .24em 收到 .18em** ——
+       .24em 是给 12~15px 小字设计的，放大后不收会显得散。
+       字重/大写/--text-2 都保持不变，仍是「宽字距副标」那个调性。 */
+    /* 下限 **6px**（走过 14 → 12 → 10 → 6，最后一档是用户在真机上确认可读后定的）。
+       意义是**这条终于也等比了**：下限压到 6px 之后，390 及以上的手机全部走
+       `1.6vw` 本身（390 下 6.24px），而 `1.6vw` 就是电脑端的比例
+       （22px / 1440px = 1.53%）—— 副标/字标实测 21.1% vs 电脑端 21.2%。
+       整组四个量至此全部等比，没有例外了。
+
+       历程里两个不同的动机，别混在一起看：
+         · **14 → 12 是修折行**：英文副标 14px 实测 320px 宽，在 320 屏上被
+           padding 逼成两行，两行在 180px 高的画面里占掉 21%，组高偏离 +21.9pp。
+         · **12 → 10 → 6 换的是主次关系，不是组高**。组高的大头是字标那 46.8px、
+           副标只占十几 px，所以砍字号对组高几乎没用（12→9 砍 25% 只换 1.7pp）；
+           但「副标/字标」是线性的：40.5% → 33.7% → 21.1%。
+
+       6px 能成立靠三件事，改文案/配色时都得留意：
+         ① 全大写（英文）+ .18em 字距 —— 不是小号正文；
+         ② DPR≥2 的手机上是 12+ 物理像素；
+         ③ 页面有 `viewport width=device-width`，所以 Android Chrome 的
+            text autosizing（font boosting）不会介入把它顶大。
+       **line-height 仍然不动**：设 1 能再省 1pp，但会一并收紧电脑端的副标行盒
+       （30px→22px），那边的间距调过很多轮，不为 1pp 去碰。
+       1440 及以上仍是 22px 上限，电脑端一个像素没动。 */
+    font-size:clamp(6px,1.6vw,22px);font-weight:300;letter-spacing:.18em;
+    /* 副标走**纯白**（和上行对调，见 .wm-top 的注释）。
+       历程是 text-3 → text-2 → #FFF：幕5 是户外天光，text-3 当初就太淡读不出；
+       现在既要凸显它、又刚好帮到 6px 那一档的可读性，纯白是同一个方向。
+       字影保留 —— 白字压在亮画面上仍需要一层压边。 */
+    color:var(--text);text-transform:uppercase;
+    text-shadow:0 1px 10px rgba(0,0,0,.55);
+    opacity:0;transition:opacity 1.4s ease 1.6s;
+  }
+  /* **中文副标的下限单独留在 10px。** 上面那个 6px 是按比例算出来的
+     （1.6vw = 电脑端的 22/1440），拉丁全大写在这个尺寸上仍然立得住 ——
+     字形只有几笔、没有降部、又有 .18em 字距撑开。
+     中文不行：7 个字都是多笔画方块，6px 下笔画开始并到一起。
+     所以这一条**是刻意的语言差异，不是漏改**：切换语言时副标会跳一档大小。
+     选择器用 :lang(zh) 而不是 [lang="zh-CN"] —— htmlLang 现在是 "zh-CN"，
+     写死属性值以后加 zh-TW 之类就漏了，:lang() 本来就做语言范围匹配。
+     特异性 (0,2,0) 高于上面的 (0,1,0)，所以放在这里就能覆盖。
+     1440 及以上两种语言都取 22px 上限，电脑端不受影响。 */
+  .reveal-sub:lang(zh){
+    font-size:clamp(10px,1.6vw,22px);
+    /* 中文字距单独放到 **.30em**（英文留在 .18em —— 全大写本身就有字距感）。
+       试过四档，.38em 开始散、.24em 变化不明显。 */
+    letter-spacing:.30em;
+    /* **负尾距，抵消最后一个字后面那一份字距。** CSS 的 letter-spacing 会加在
+       每个字符后面、包括末字，所以「容器居中」并不等于「墨迹居中」——
+       容器比墨迹宽一个字距，居中后墨迹左偏半个字距。
+       实测（视频定帧后用「显示/隐藏副标两张图相减」求墨迹重心）：
+         .18em 偏左 2.34px → .30em 偏左 4.14px → 加这行后 1.07px
+       残下的 1.07px 是字形本身左右不对称（"为" 与 "生" 的墨量不同），跟字距无关。
+       英文那档不加：6.24px × .18em 的尾距只有 1.12px、偏移 0.56px，不值当。
+
+       **量墨迹重心必须用 diff，不能取「区域内的亮像素」。** 背景是活动画面，
+       亮部会被当成笔画：直接取亮像素实测 1440 偏 +15px、390 偏 −17px，
+       两个方向相反 —— 那量的是背景不是字。
+       另外 diff 前**要先让字标浮现再 pause**：revealWatch 靠播放中的轮询触发，
+       先 pause 的话 #reveal 永远拿不到 .on，两张图都是无字、diff 恒为 0。 */
+    margin-inline-end:-.30em;
+  }
+  #reveal.on .reveal-sub{opacity:1}
+
+  /* 跳过 / 语言 */
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:50;
+          display:flex;justify-content:space-between;align-items:center;
+          padding:20px clamp(18px,4vw,44px);pointer-events:none}
+  .topbar > *{pointer-events:auto;position:relative;z-index:1}
+  /* 滚进正文后给顶栏垫一层底：否则窄屏上「StepAudio 3」和语言胶囊会直接压在
+     正文标题上，两层字叠着看不清（headless 截图里一眼就看出来了）。 */
+  .topbar::before{
+    content:"";position:absolute;inset:0;opacity:0;pointer-events:none;
+    background:linear-gradient(180deg,rgba(7,7,12,.92),rgba(7,7,12,.62) 62%,transparent);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    transition:opacity .35s ease;
+  }
+  /* 顶栏滚进浅色正文后整套翻过来：白底上原来的白字/深胶囊会看不见 */
+  .topbar.solid::before{
+    opacity:1;
+    background:linear-gradient(180deg,rgba(239,239,236,.95),rgba(239,239,236,.70) 62%,transparent);
+  }
+  .topbar.solid .brand-lockup{color:#15171C}
+  .topbar.solid .chip{background:rgba(255,255,255,.62);
+                      border-color:rgba(21,23,28,.22);color:rgba(21,23,28,.66)}
+  .topbar.solid .chip:hover{color:#15171C;border-color:rgba(21,23,28,.46)}
+  .topbar.solid .lang b{color:#15171C}
+  /* 公司商标：从第一帧就在（品牌锚点），颜色走 currentColor，
+     所以顶栏翻浅色时它自己就变深了。 */
+  .brand-lockup{display:flex;align-items:center;gap:11px;color:var(--text)}
+  .brand-div{width:1px;height:15px;background:currentColor;opacity:.28;flex:none}
+  /* 和商标字标同一字体、同一字重，视觉上连成一个锁定。
+     字号是量出来的：4 倍截图逐行扫墨迹边界，商标里 "StepFun" 墨高 14.25px，
+     产品名在 15px 时正好也是 14.25px。（换字体要重量：Archivo 时是 16px，
+     Roboto 的 cap/em 更大所以变成 15px；SF Pro 的 cap 比例与 Roboto 很近，
+     两个平台都对得上。）
+     **字重 650 + 负字距 −0.025em 是照 stepaudio3-gen-demo 的顶栏字标对齐的**
+     （i-mouzhenwei/stepaudio3-gen-demo，`.brand`：15px / 650 / −0.025em）。
+     那个页面「看起来更官方」不是因为用了什么定制字体 —— 它整站没有一个字体文件，
+     字体栈和我们的 --font-brand 一样都是 -apple-system → SF Pro；
+     差别只在**字重更粗一档、字距收紧成负值**，也就是苹果官网那种紧排。
+     **注意跨平台差异**：苹果上 650 会取到真 SF Pro Semibold；
+     其余平台只有 BrandFallback 一个字重文件（Roboto-Medium），
+     650 与 600 渲染几乎相同 —— 所以实际变化主要来自负字距。 */
+  .brand-prod{display:inline-flex;align-items:center;gap:11px;
+              font-family:var(--font-brand);font-size:15px;font-weight:650;
+              letter-spacing:-.025em;white-space:nowrap;opacity:.92}
+  .brand-prod a{color:inherit;text-decoration-line:underline;
+                text-decoration-thickness:0.5px;text-underline-offset:4px;
+                text-decoration-color:currentColor;transition:opacity .2s ease}
+  .brand-prod a:hover{opacity:.56}
+  .brand-prod a:focus-visible{outline:1px solid currentColor;outline-offset:4px}
+  @media (max-width:680px){ .brand-div,.brand-prod{display:none} }
+  .brand{display:block;color:inherit;opacity:.92;transition:opacity .3s ease}
+  .brand:hover{opacity:1}
+  .brand svg{display:block;height:22px;width:auto}
+  @media (max-width:640px){ .brand svg{height:19px} }
+  .ctrls{display:flex;gap:10px;align-items:center}
+  .chip{
+    border:1px solid var(--line-2);background:rgba(0,0,0,.28);color:var(--text-3);
+    font-family:var(--font);font-size:11.5px;letter-spacing:.14em;font-weight:300;
+    padding:7px 13px;border-radius:999px;cursor:pointer;
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    transition:color .25s,border-color .25s,background .25s;
+  }
+  .chip:hover{color:var(--text);border-color:rgba(255,255,255,.4)}
+  .chip[hidden]{display:none}
+  /* 体验中心：**照 stepaudio3-gen-demo 的 .header-action 做的实心按钮**
+     （白底 #F5F7FA / 黑字 #050608，12px/700，圆角 10px，padding 11px 15px，
+     hover 上移 2px）。原来是「深底白字 + 宽字距」的胶囊，改成实心是为了和那边一致。
+     `.chip` 基类的 border-radius:999px 和 letter-spacing 都要在这里覆盖掉。 */
+  .chip.nav{display:inline-flex;align-items:center;gap:7px;
+            height:34px;padding:0 15px;border-radius:999px;
+            background:var(--text);color:var(--bg-0);
+            border-color:transparent;font-size:12px;font-weight:500;
+            letter-spacing:normal;white-space:nowrap;
+            transition:transform .24s cubic-bezier(.16,1,.3,1),background .24s ease}
+  .chip.nav:hover{background:var(--text);color:var(--bg-0);
+                  border-color:transparent;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.18)}
+  .chip.nav[aria-disabled="true"]{cursor:not-allowed}
+  .chip.nav .arw-ne{width:13px;height:13px;flex:none;opacity:1}
+  /* 滚进浅色正文后顶栏翻白，白底按钮在白底上就没对比了 —— 反转成深底白字 */
+  .topbar.solid .chip.nav{background:#15171C;color:#FFFFFF}
+  .topbar.solid .chip.nav:hover{background:#15171C;color:#FFFFFF}
+  .chip.nav.hint{animation:nudge .5s ease}
+  .lang b{color:var(--text);font-weight:400}
+  /* **语言切换：右下角固定，且开屏时不出现、下滑之后才显现。**
+     开屏要干净（画面上没有任何文字），语言是次要操作，等用户开始看正文再给。
+     它已经不在 .topbar 里了，所以显隐类挂在 body 上（`body.scrolled`），
+     翻色也走 `body.lightzone` 而不是 `.topbar.solid` —— 别再往 .topbar 上找。
+     阈值和字标浮现同一个（8px），和顶栏翻色的 1.3 屏是两回事。 */
+  .llang { display:flex; gap:2px; padding:2px; border-radius:999px;
+           border:1px solid currentColor; opacity:.48; }
+  .llang button { border:0; padding:4px 10px; border-radius:999px;
+                  background:transparent; color:currentColor; opacity:.8;
+                  font:300 11.5px var(--font); cursor:pointer;
+                  transition:opacity .2s ease,background .2s ease,color .2s ease; }
+  .llang:hover { opacity:.75; }
+  .llang button[aria-pressed="true"] { background:currentColor; opacity:1; }
+  .llang button[aria-pressed="true"] span { color:var(--bg-0); }
+  .topbar.solid .llang { color:#15171C; border-color:#15171C; opacity:.72; }
+  .topbar.solid .llang button[aria-pressed="true"] span { color:#F4F5F7; }
+  /* **配色和顶栏那套是反的**（按要求）：视频区白底黑字、下滑到正文后灰底白字。
+     直觉上会想让它跟着背景走（深底浅字 / 浅底深字），但那样它在两个区里都很淡；
+     反过来做它在两处都是「一块实底」，更像一颗常驻的控件。 */
+  /* .lang is rendered in the topbar next to the experience-center action. */
+  .lang-fixed .chip{background:rgba(255,255,255,.92);
+                    border-color:rgba(21,23,28,.14);color:rgba(21,23,28,.72);
+                    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  .lang-fixed .chip:hover{background:#FFFFFF;color:#15171C;border-color:rgba(21,23,28,.38)}
+  .lang-fixed .lang b{color:#15171C}
+  body.lightzone .lang-fixed .chip{background:rgba(88,90,98,.88);
+                                   border-color:rgba(255,255,255,.20);color:rgba(255,255,255,.82)}
+  body.lightzone .lang-fixed .chip:hover{background:rgba(70,72,80,.94);
+                                         color:#FFFFFF;border-color:rgba(255,255,255,.42)}
+  body.lightzone .lang-fixed .lang b{color:#FFFFFF}
+
+  /* ================= 滚动内容 ================= */
+  main{position:relative;z-index:30;opacity:0;transition:opacity .8s ease}
+  main.live{opacity:1}
+  .spacer{height:100vh;pointer-events:none}
+  .wrap{width:min(var(--max-w),calc(100% - 64px));margin-inline:auto}
+  section{position:relative}
+  .sheet{
+    --page:#EFEFEC;
+    --page-alt:#E9E9E6;
+    --surface:#FFFFFF;
+    --text:#17191D;
+    --text-2:rgba(23,25,29,.78);
+    --text-3:rgba(23,25,29,.60);
+    --text-4:rgba(23,25,29,.44);
+    --line:rgba(23,25,29,.13);
+    --line-2:rgba(23,25,29,.20);
+    --accent:#176C70;
+    --accent-bright:#20A6BB;
+    --page-a0:rgba(239,239,236,0);
+    color:var(--text);
+    background:linear-gradient(180deg,var(--page-a0) 0%,var(--page) 44vh,var(--page));
+  }
+  .sheet > *{position:relative;z-index:1}
+  .band{padding-block:132px}
+  .band + .band{border-top:1px solid var(--line)}
+  .section-kicker{
+    display:flex;align-items:center;gap:10px;margin:0 0 28px;
+    color:var(--accent);font-size:12px;font-weight:700;line-height:1;
+    letter-spacing:0;text-transform:uppercase;
+  }
+  .section-kicker::before{
+    content:"";width:18px;height:18px;flex:none;border:1px solid currentColor;
+    border-radius:50%;background:linear-gradient(90deg,transparent 25%,currentColor 25% 31%,
+      transparent 31% 47%,currentColor 47% 53%,transparent 53% 69%,currentColor 69% 75%,transparent 75%);
+    opacity:.62;
+  }
+  .display-title{
+    margin:0;color:var(--text);font-size:64px;font-weight:610;line-height:1.04;
+    letter-spacing:0;
+  }
+  .display-title .accent{color:var(--accent-bright)}
+  .lede{margin:0;color:var(--text-3);font-size:17px;font-weight:300;line-height:1.78;letter-spacing:0}
+
+  /* 产品介绍：左侧建立一句产品主张，右侧用可扫读的产品能力承接。 */
+  .product-intro{padding-top:160px;padding-bottom:150px}
+  /* 正文不能压在上面那段溶解区里 —— 深字落在半透明的亮照片上读不清 */
+  .sheet > .band:first-of-type{padding-top:calc(44vh + clamp(30px,4vw,64px))}
+  .intro-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(390px,.72fr);gap:112px;align-items:end}
+  .intro-copy .display-title{max-width:720px}
+  .intro-copy .lede{max-width:690px;margin-top:38px}
+  .product-points{border-top:1px solid var(--line)}
+  .product-point{display:grid;grid-template-columns:38px 132px 1fr;gap:16px;padding:21px 0;border-bottom:1px solid var(--line)}
+  .product-point .index{color:var(--accent);font:500 10px var(--mono)}
+  .product-point strong{font-size:15px;font-weight:620;line-height:1.5}
+  .product-point span:last-child{color:var(--text-3);font-size:12px;line-height:1.65}
+
+  /* ===== 演示画廊，在 section-heading 后 ===== */
+  .demo-gallery{padding-block:132px 80px;background:var(--page)}
+  .gallery-carousel{position:relative;max-width:1480px;margin:0 auto;padding:0 12px;touch-action:pan-y}
+  .gallery-carousel-viewport{overflow:visible;border-radius:0;background:transparent;border:none;box-shadow:none}
+  .gallery-carousel-track{position:relative;height:clamp(320px,38vw,500px);margin-top:48px}
+
+  .gallery-card{position:absolute;top:50%;left:50%;width:62%;max-width:960px;
+    transform:translate(-50%,-50%) scale(0.6);opacity:0;pointer-events:none;
+    transition:transform 0.6s cubic-bezier(0.22,1,0.36,1),opacity 0.45s ease;
+    will-change:transform,opacity;z-index:1;isolation:isolate}
+  .gallery-card.is-center{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto;z-index:4}
+  .gallery-card.is-center .gallery-card-frame{box-shadow:0 36px 80px -32px rgba(0,0,0,.48),0 8px 20px rgba(0,0,0,.10)}
+  .gallery-card.is-left{transform:translate(calc(-50% - 48%),-50%) scale(0.55) rotate(-5deg);opacity:.68;pointer-events:auto;z-index:2;cursor:pointer}
+  .gallery-card.is-right{transform:translate(calc(-50% + 48%),-50%) scale(0.55) rotate(5deg);opacity:.68;pointer-events:auto;z-index:2;cursor:pointer}
+  .gallery-card.is-left:hover{transform:translate(calc(-50% - 48%),-50%) scale(0.59) rotate(-3deg);opacity:.9}
+  .gallery-card.is-right:hover{transform:translate(calc(-50% + 48%),-50%) scale(0.59) rotate(3deg);opacity:.9}
+
+  .gallery-card-frame{display:flex;flex-direction:column;background:#FCFCFD;border-radius:16px;overflow:visible;
+    border:1px solid var(--line-2);box-shadow:0 24px 56px -28px rgba(0,0,0,.38),0 4px 10px rgba(0,0,0,.06)}
+  .gallery-card-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 18px;
+    border-bottom:1px solid var(--line);background:var(--surface)}
+  .gallery-card-index{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--text-4)}
+  .gallery-card-title{font-size:13px;font-weight:600;letter-spacing:.01em;color:var(--text)}
+  .gallery-card-media{position:relative;background:#111417;overflow:hidden;flex:1 1 auto;
+    border-radius:15px;clip-path:inset(0 round 15px);contain:paint;isolation:isolate}
+  .gallery-card-video{width:100%;aspect-ratio:16/9;display:block;background:#111417;object-fit:cover;cursor:pointer}
+
+  .gallery-card-media .play-overlay{position:absolute;z-index:2;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity .3s ease}
+  .gallery-card-media .play-overlay.hidden{visibility:hidden;opacity:0}
+  .gallery-card-media .play-icon{width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;color:#fff;transition:transform .25s ease,background .25s ease}
+  .gallery-card.is-center .gallery-card-media:hover .play-icon{background:rgba(0,0,0,.7);transform:scale(1.06)}
+
+  .gallery-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;
+    border:1px solid var(--line-2);background:var(--surface);color:var(--text);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;
+    transition:transform .22s ease,background .22s ease,box-shadow .22s ease;
+    box-shadow:0 6px 18px rgba(0,0,0,.12)}
+  .gallery-nav:hover{background:var(--page);box-shadow:0 8px 24px rgba(0,0,0,.18);transform:translateY(-50%) scale(1.08)}
+  .gallery-nav:active{transform:translateY(-50%) scale(.96)}
+  .gallery-nav-prev{left:12px}
+  .gallery-nav-next{right:12px}
+
+  .gallery-dots{display:flex;justify-content:center;gap:8px;margin-top:28px;position:relative;z-index:6}
+  .gallery-dot{width:28px;height:4px;border-radius:2px;background:var(--line-2);border:none;cursor:pointer;padding:0;transition:all .25s ease}
+  .gallery-dot.active{background:var(--text);width:44px}
+  .gallery-dot:hover:not(.active){background:var(--text-3)}
+
+  @media (max-width:1100px){
+    .gallery-carousel-track{height:clamp(260px,40vw,400px)}
+    .gallery-card{width:66%}
+    .gallery-card.is-left{transform:translate(calc(-50% - 44%),-50%) scale(.5) rotate(-5deg)}
+    .gallery-card.is-right{transform:translate(calc(-50% + 44%),-50%) scale(.5) rotate(5deg)}
+    .gallery-nav{width:42px;height:42px}
+  }
+  @media (max-width:720px){
+    .demo-gallery{padding-block:78px 50px}
+    .gallery-carousel{max-width:100%;padding:0 8px}
+    .gallery-carousel-track{height:clamp(200px,48vw,300px);margin-top:32px}
+    .gallery-card{width:78%}
+    .gallery-card.is-left{transform:translate(calc(-50% - 38%),-50%) scale(.46) rotate(-4deg);opacity:.5}
+    .gallery-card.is-right{transform:translate(calc(-50% + 38%),-50%) scale(.46) rotate(4deg);opacity:.5}
+    .gallery-nav{width:38px;height:38px}
+    .gallery-nav-prev{left:6px}
+    .gallery-nav-next{right:6px}
+    .gallery-card-header{padding:8px 12px;gap:10px}
+    .gallery-card-index{font-size:10px}
+    .gallery-card-title{font-size:12px}
+  }
+
+  .section-heading{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.48fr);gap:96px;align-items:end;margin-bottom:66px}
+  .section-heading .display-title{font-size:56px}
+  .section-heading .lede{max-width:500px}
+
+
+  /* 评测数据未交付前保留完整信息结构，但不展示推测数字。 */
+  .benchmark-band{width:100%;background-color:var(--page-alt);background-image:linear-gradient(90deg,rgba(23,25,29,.055) 1px,transparent 1px);background-size:calc(100% / 6) 100%}
+  .benchmark-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.48fr);gap:96px;align-items:end;margin-bottom:64px}
+  .benchmark-head .display-title{font-size:56px}
+  .benchmark-copy .lede{max-width:500px}
+  .benchmark-status{display:inline-flex;align-items:center;gap:8px;margin-top:18px;color:var(--accent);font-size:11px;font-weight:650}
+  .benchmark-status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .benchmark-table-wrap{overflow-x:auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.28)}
+  .benchmark-table{width:100%;min-width:820px;border-collapse:collapse;table-layout:fixed}
+  .benchmark-table th,.benchmark-table td{height:64px;padding:0 20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
+  .benchmark-table tr:last-child td{border-bottom:0}
+  .benchmark-table th:last-child,.benchmark-table td:last-child{border-right:0}
+  .benchmark-table thead th{height:74px;color:var(--text-3);font-size:12px;font-weight:560}
+  .benchmark-table th:first-child,.benchmark-table td:first-child{width:230px;text-align:left}
+  .benchmark-table tbody td:first-child{color:var(--text-2);font-size:13px;font-weight:500}
+  .benchmark-table .ours{background:rgba(23,108,112,.075);color:var(--accent);font-weight:680}
+  .benchmark-table .pending{color:rgba(23,25,29,.28);font:400 15px var(--mono)}
+  .benchmark-group td{height:42px!important;background:rgba(23,25,29,.035);color:var(--text-4)!important;font-size:10px!important;font-weight:650!important;text-transform:uppercase}
+
+  .tbd{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:0;color:#7A551A;border:1px solid rgba(122,85,26,.35);border-radius:3px;padding:2px 6px;white-space:nowrap}
+
+  /* 体验入口 */
+  .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(32px,4vw,44px)}
+  .btn{display:inline-flex;align-items:center;gap:11px;
+       padding:15px 27px;border-radius:999px;text-decoration:none;
+       font-size:14px;font-weight:400;letter-spacing:.03em;
+       border:1px solid transparent;transition:transform .25s,box-shadow .3s,
+       background .3s,border-color .3s,color .3s}
+  .btn.primary{color:#0B0714;
+    background:linear-gradient(96deg,var(--cyan),var(--indigo) 58%,var(--purple));
+    box-shadow:0 10px 34px -14px rgba(99,102,241,.85)}
+  .btn.primary:hover{transform:translateY(-2px);
+    box-shadow:0 16px 42px -14px rgba(99,102,241,1)}
+  .btn.ghost{border-color:var(--line-2);color:var(--text-2)}
+  .btn.ghost:hover{border-color:var(--line-3);color:var(--text);
+                   background:var(--card)}
+  .btn .arw{font-family:var(--mono);opacity:.7}
+  /* 结尾主按钮：浅色区里的黑底白字（和顶栏那颗同一套反色逻辑）。
+     服务未接入所以不可跳转，但外观是正常按钮 —— 点击时才提示。 */
+  .btn.solid{background:#15171C;color:#FFFFFF;cursor:not-allowed;
+             box-shadow:0 10px 30px -16px rgba(21,23,28,.7)}
+  .btn.solid:hover{transform:translateY(-1px);background:#15171C;color:#FFFFFF}
+  .btn.solid .arw-ne{width:13px;height:13px;opacity:.9}
+  .btn.solid.hint{animation:nudge .5s ease}
+  .closing-band .display-title{font-size:56px;margin-bottom:24px}
+  .closing-band .lede{max-width:560px}
+  @keyframes nudge{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}
+                   75%{transform:translateX(3px)}}
+
+  footer{border-top:1px solid var(--line);padding:46px 0 60px;background:var(--page)}
+  .legal{margin-top:4px;font-size:11.5px;font-weight:300;color:var(--text-4)}
+  .foot-brand{display:inline-block;color:var(--text);margin-bottom:26px}
+  .foot-brand svg{display:block;height:26px;width:auto}
+
+  @media (max-width:900px){
+    .wrap{width:min(var(--max-w),calc(100% - 40px))}
+    .band{padding-block:92px}
+    .product-intro{padding-top:116px;padding-bottom:104px}
+    .intro-grid,.section-heading,.benchmark-head{grid-template-columns:1fr;gap:46px}
+    .display-title{font-size:48px}
+    .section-heading .display-title,.benchmark-head .display-title{font-size:44px}
+    .closing-band .display-title{font-size:44px}
+    .product-points{max-width:620px}
+  }
+
+  @media (max-width:560px){
+    .wrap{width:calc(100% - 32px)}
+    .band{padding-block:78px}
+    .product-intro{padding-top:92px;padding-bottom:84px}
+    .display-title{font-size:39px;line-height:1.08}
+    .section-heading .display-title,.benchmark-head .display-title{font-size:36px}
+    .closing-band .display-title{font-size:36px}
+    .lede{font-size:15px;line-height:1.75}
+    .section-heading,.benchmark-head{gap:30px;margin-bottom:40px}
+    .product-point{grid-template-columns:30px 104px 1fr;gap:10px;padding:18px 0}
+    .product-point strong{font-size:13px}
+    .product-point span:last-child{font-size:11px}
+    .benchmark-table th:first-child,.benchmark-table td:first-child{width:190px}
+  }
+
+  /* 窄屏只压**动画起点**（.30em→.18em，小字号下 .30em 会散成一排孤字）；
+     **落定值必须跟桌面同步**，否则调桌面字距时手机纹丝不动。
+     ——踩过：桌面从 −.025 放到 +.02 再到 +.05，这里一直停在 .01em，
+     390 宽下字标宽度三轮都是 153px 没变过。 */
+  @media (max-width:640px){
+    .wordmark{letter-spacing:.18em}
+    #reveal.on .wordmark{letter-spacing:.05em}
+
+    /* 触摸目标补到 44px（实测顶栏那颗 42、语言键只有 31）。
+       两颗的做法不同 ——
+       顶栏「体验中心」直接加高，它压在素材上、不挡任何要读的内容；
+       **语言键只撑命中区、视觉尺寸一个像素不动**：它是常驻右下角的浮层，
+       手机上正文占满整宽，做大就会盖住更多字（现在已经会压到图表标签）。
+       伪元素继承父按钮的 pointer-events，所以只是把可点范围垫高。 */
+    .chip.nav{height:34px;padding-inline:15px}
+    .llang button { padding:6px 10px; }
+  }
+  /* 竖屏（手机为主）：素材是 16:9，铺满裁到 9:16 会正好裁在两个人中间
+     —— 只剩一个后脑勺，"两个人在说话"这件事整个没了。
+     所以竖屏**唯一的差异就是完整放下整帧**（contain + 画面垂直居中），
+     字标/副标、endscrim、veil 全部沿用桌面那一套 —— 按要求「和电脑端一样，
+     字标居于视频中间」。
+     `object-position:center` 让画面落在视口正中，而 #reveal 本来就是
+     `justify-content:center`，两个中心自然重合，不需要再算偏移。
+
+     **原来那版（0901 之前）是另一种排法**：画面推到偏上（34%）、字标组用
+     `padding-bottom` 顶在屏底、endscrim 减到很轻 —— 那是「字标落在画面下方的
+     黑底上」的思路。它有个自身的毛病：画面和字标组各自独立锚定，中间空隙随屏高
+     从 10px（320x568）摆到 137px（430x932），也就是反馈里说的「错位」。
+     居中之后这个问题从根上没有了（同一个中心，无空隙可言）。 */
+  @media (max-aspect-ratio:4/5){
+    #stage video{object-fit:contain;object-position:center;background:var(--bg-0)}
+  }
+  /* 无障碍：关掉动效偏好时不演开屏，直接落到可读状态 */
+  @media (prefers-reduced-motion:reduce){
+    #stage .endscrim{transition:none}
+    /* 不演动画，直接给**落定值**（要和 #reveal.on 的 .05em 一致，别各写各的） */
+    .wordmark{transition:none;filter:none;transform:none;letter-spacing:.05em}
+    .sweep::after{animation:none;opacity:0}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <!-- 公司商标。官方文件是纯黑单色版（assets/brand/stepfun-logo.svg），
+       这里内联的是把 fill 换成 currentColor 的版本，好让它跟着顶栏深/浅翻色自动变，
+       不用维护两个文件。深色底上等于反白使用。 -->
+  <!-- 公司商标 + 产品名的组合锁定。商标链到公司站；产品名只是文字，不做链接
+       （产品名指向公司站会让人误解）。窄屏隐藏产品名，否则顶栏会挤爆。 -->
+  <div class="brand-lockup">
+    <a class="brand" href="https://www.stepfun.com" target="_blank" rel="noopener">
+      <svg aria-label="StepFun" role="img" viewBox="0 0 135 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 0C8.05758 0 0 8.05758 0 18C0 27.9424 8.05758 36 18 36C27.9424 36 36 27.9424 36 18C36 8.05758 27.9424 0 18 0ZM13.1431 29.4208H6.56393V22.8417H13.1431V29.4208ZM21.2769 29.4208H14.6977V22.8417H21.2769V29.4208ZM21.2769 21.2921H14.6977V14.713H21.2769V21.2921ZM21.2769 13.1634H14.6977V6.58425H21.2769V13.1634ZM29.4107 13.1583H22.8315V6.57917H29.4107V13.1583Z" fill="currentColor"/>
+          <path d="M59.7221 21.5618C59.7221 24.5695 57.4461 26.8607 53.0769 26.8607C49.3682 26.8607 46.4266 24.9302 46.2793 21.4755H49.2056C49.3936 23.3552 50.9533 24.3713 53.209 24.3713C55.4647 24.3713 56.8212 23.1977 56.8212 21.6889C56.8212 20.3324 55.8051 19.5195 53.2192 18.7574L51.6341 18.3104C48.6468 17.4518 46.8026 16.1309 46.8026 13.4331C46.8026 10.4052 49.5867 8.42383 53.2344 8.42383C56.8822 8.42383 59.4478 10.5068 59.5646 13.5297H56.6942C56.4605 11.9039 55.1853 10.9082 53.143 10.9082C51.1006 10.9082 49.7188 11.9141 49.7188 13.4077C49.7188 14.7033 50.8314 15.4552 53.0973 16.1105L54.4791 16.5017C57.9237 17.5077 59.7221 18.9403 59.7221 21.5669V21.5618ZM65.3767 22.7456V15.8565H67.8254V13.3061H65.3767V10.3646H62.6129V13.3061H60.4232V15.8565H62.6129V22.7761C62.6129 25.7786 64.4927 26.6474 66.2708 26.7388C67.1599 26.7845 68.0744 26.6626 68.0744 26.6626V24.3866C67.7645 24.4018 67.5663 24.4272 67.1853 24.4272C66.5147 24.4272 65.3716 24.3053 65.3716 22.7456H65.3767ZM95.1328 20.2409C95.1328 24.3561 92.2725 26.8455 88.9398 26.8455C87.5426 26.8455 86.0693 26.3527 85.0735 25.4535V31.4128H82.3098V13.7227H85.0735V14.9471C86.0693 14.0479 87.5426 13.5551 88.9398 13.5551C92.115 13.5551 95.1328 16.1359 95.1328 20.2409ZM92.3894 20.2003C92.3894 17.467 90.8348 15.9683 88.9194 15.9683C87.0041 15.9683 85.0685 17.467 85.0685 20.2003C85.0685 22.9336 87.0041 24.4323 88.9194 24.4323C90.8348 24.4323 92.3894 22.9336 92.3894 20.2003Z" fill="currentColor"/>
+          <path d="M85.0978 31.4371H82.2832V13.6962H85.0978V14.8901C86.0681 14.0366 87.4957 13.5285 88.9386 13.5285C90.5288 13.5285 92.0986 14.189 93.2468 15.3422C94.4813 16.5819 95.1621 18.3244 95.1621 20.2448C95.1621 22.1653 94.522 23.8875 93.3078 25.1068C92.1748 26.2448 90.6253 26.8748 88.9437 26.8748C87.5008 26.8748 86.0732 26.3668 85.1029 25.5133V31.4371H85.0978ZM82.3391 31.3863H85.0521V25.3964L85.0927 25.4371C86.0529 26.3058 87.4907 26.824 88.9437 26.824C92.0072 26.824 95.1113 24.5632 95.1113 20.2448C95.1113 15.9265 91.9767 13.5844 88.9437 13.5844C87.4958 13.5844 86.058 14.1026 85.0927 14.9714L85.0521 15.012V13.752H82.3391V31.3913V31.3863ZM53.0758 26.8901C51.1909 26.8901 49.5449 26.4023 48.3256 25.4879C47.0402 24.5226 46.3239 23.1356 46.2578 21.4794V21.454H49.2299V21.4794C49.4128 23.2779 50.8963 24.3498 53.2129 24.3498C55.3264 24.3498 56.7997 23.2576 56.7997 21.6928C56.7997 20.3617 55.7938 19.5488 53.2129 18.7868L51.6278 18.3397C49.9919 17.8723 48.8641 17.3134 48.0817 16.5869C47.2028 15.7741 46.776 14.7427 46.776 13.4371C46.776 11.9637 47.4162 10.6987 48.6355 9.77914C49.804 8.89007 51.4348 8.40234 53.2333 8.40234C55.0317 8.40234 56.5965 8.89515 57.7447 9.82487C58.8929 10.7546 59.533 12.0349 59.5889 13.5336V13.559H56.6676V13.5387C56.4289 11.8875 55.1435 10.9375 53.1418 10.9375C51.1401 10.9375 49.743 11.9078 49.743 13.4117C49.743 14.6208 50.7184 15.3981 53.1062 16.089L54.4881 16.4802C58.1765 17.5573 59.7515 19.0814 59.7515 21.5658C59.7515 23.1102 59.1672 24.421 58.0597 25.3609C56.8861 26.3617 55.1638 26.8901 53.0808 26.8901H53.0758ZM46.3086 21.4997C46.4559 24.741 49.1079 26.8342 53.0758 26.8342C57.0436 26.8342 59.6956 24.8122 59.6956 21.5607C59.6956 19.0967 58.1308 17.5929 54.4729 16.5209L53.091 16.1297C50.6778 15.4286 49.6922 14.6411 49.6922 13.4015C49.6922 11.8672 51.0487 10.8765 53.1418 10.8765C55.2349 10.8765 56.4644 11.8316 56.7134 13.498H59.5381C59.406 10.4752 56.8759 8.44299 53.2333 8.44299C49.5906 8.44299 46.8268 10.4955 46.8268 13.4269C46.8268 15.8604 48.2646 17.3134 51.6431 18.2838L53.2282 18.7309C55.8344 19.498 56.8505 20.3261 56.8505 21.6826C56.8505 23.2779 55.3569 24.3905 53.2129 24.3905C50.881 24.3905 49.3772 23.3084 49.1841 21.4946H46.3086V21.4997ZM66.6812 26.7732C66.544 26.7732 66.4068 26.7732 66.2697 26.7631C65.2231 26.7122 64.3797 26.4074 63.7599 25.8689C62.9826 25.1932 62.5863 24.1517 62.5863 22.7749V15.8808H60.3967V13.2796H62.5863V10.338H65.4009V13.2796H67.8497V15.8808H65.4009V22.7444C65.4009 24.2279 66.4221 24.4006 67.1892 24.4006C67.4534 24.4006 67.6363 24.3905 67.8243 24.3752C67.9056 24.3702 67.9869 24.3651 68.0732 24.36H68.0986V26.6818H68.0783C68.0783 26.6818 67.4128 26.7732 66.6812 26.7732ZM60.4526 15.8299H62.6422V22.7749C62.6422 25.874 64.6185 26.6259 66.2747 26.7122C67.0775 26.7529 67.9056 26.6564 68.0529 26.636V24.4108C67.9716 24.4108 67.9005 24.421 67.8294 24.4261C67.6363 24.4413 67.4585 24.4515 67.1892 24.4515C66.7371 24.4515 65.3501 24.4515 65.3501 22.7444V15.8299H67.7989V13.3304H65.3501V10.3888H62.6372V13.3304H60.4475V15.8299H60.4526ZM88.9183 24.4616C87.9327 24.4616 86.9623 24.0603 86.2561 23.3642C85.4636 22.5768 85.0419 21.4845 85.0419 20.2042C85.0419 18.9239 85.4636 17.8316 86.2561 17.0442C86.9623 16.3482 87.9327 15.9468 88.9183 15.9468C91.0114 15.9468 92.4136 17.6589 92.4136 20.2042C92.4136 22.7495 91.0114 24.4616 88.9183 24.4616ZM88.9183 15.9925C87.0639 15.9925 85.0927 17.4658 85.0927 20.1991C85.0927 22.9324 87.0639 24.4057 88.9183 24.4057C90.9759 24.4057 92.3628 22.7139 92.3628 20.1991C92.3628 17.6843 90.9809 15.9925 88.9183 15.9925Z" fill="currentColor"/>
+          <path d="M77.6471 22.7515C77.0883 23.8996 76.0823 24.4229 74.7055 24.4636C72.7648 24.4128 71.5557 23.2747 71.3067 21.0902H80.8071C80.8325 20.8006 80.8529 20.5008 80.8529 20.1909C80.8529 15.8827 78.1043 13.5508 74.7106 13.5508C71.3169 13.5508 68.5684 15.8776 68.5684 20.1909C68.5684 24.5042 71.0781 26.826 74.7106 26.826C77.7182 26.826 79.6082 25.4136 80.4718 22.7515H77.6471ZM74.7055 15.8929C76.5954 15.9437 77.7894 16.848 78.084 18.931H71.327C71.6217 16.848 72.8156 15.9437 74.7055 15.8929Z" fill="currentColor"/>
+          <path d="M74.7048 26.8533C72.8758 26.8533 71.3364 26.2589 70.2543 25.1361C69.1315 23.9727 68.5371 22.2606 68.5371 20.1929C68.5371 18.1251 69.162 16.4334 70.3458 15.2395C71.438 14.137 72.9876 13.5273 74.7098 13.5273C76.4321 13.5273 77.9766 14.137 79.0739 15.2395C80.2577 16.4334 80.8826 18.1455 80.8826 20.1929C80.8826 20.4875 80.8673 20.7924 80.8369 21.0921V21.1175H71.3415C71.5955 23.2361 72.759 24.3893 74.7098 24.4401C76.1375 24.3995 77.0875 23.8457 77.626 22.7433V22.728H80.5066L80.4965 22.7636C79.6125 25.4765 77.6667 26.8533 74.7098 26.8533H74.7048ZM74.7048 13.5781C71.0468 13.5781 68.5879 16.2352 68.5879 20.1929C68.5879 24.1505 70.93 26.8025 74.7048 26.8025C77.626 26.8025 79.5515 25.4511 80.4304 22.7788H77.6565C77.1078 23.8914 76.1425 24.4503 74.6997 24.4909C72.7082 24.435 71.5244 23.2615 71.2755 21.0921V21.0616H80.7759C80.8013 20.767 80.8165 20.4723 80.8165 20.1878C80.8165 16.2352 78.3576 13.5731 74.6997 13.5731L74.7048 13.5781ZM78.1137 18.9583H71.3009V18.9279C71.5854 16.9262 72.698 15.9253 74.7048 15.8694C76.7115 15.9253 77.8242 16.9262 78.1087 18.9279V18.9583H78.1137ZM71.3568 18.9075H78.0528C77.7683 16.9516 76.6709 15.9761 74.7048 15.9202C72.7386 15.9761 71.6413 16.9516 71.3568 18.9075Z" fill="currentColor"/>
+          <path d="M99.7517 11.8513V16.8454H107.271V19.6498H99.7517V26.8894H96.8203V9.04688H107.271V11.8513H99.7517Z" fill="currentColor"/>
+          <path d="M120.513 14.1426V26.8843H117.759V25.9495C117.119 26.7726 115.854 27.3365 113.807 27.2146C111.759 27.0926 108.914 25.5024 108.914 21.9665V14.1426H111.668V21.687C111.668 23.6227 112.968 24.6438 114.523 24.6438C116.077 24.6438 117.759 23.5719 117.759 20.9758V14.1426H120.513Z" fill="currentColor"/>
+          <path d="M122.703 26.8932V14.1515H125.457V15.0863C126.097 14.2633 127.362 13.6993 129.409 13.8213C131.457 13.9432 134.302 15.5334 134.302 19.0694V26.8932H131.548V19.3488C131.548 17.4131 130.248 16.392 128.693 16.392C127.138 16.392 125.457 17.4639 125.457 20.06V26.8932H122.703Z" fill="currentColor"/>
+          </svg>
+    </a>
+    <span class="brand-div"></span>
+    <span class="brand-prod">
+      <span>StepAudio&nbsp;3</span>
+      <!-- Gen / Music 暂时回到当前页；正式 demo 地址确定后只替换 href。 -->
+      <a href="./" aria-current="page">Realtime</a>
+      <a href="./">Gen</a>
+      <a href="./">Music</a>
+    </span>
+  </div>
+  <div class="ctrls">
+    <div class="llang" id="langBtn" role="group" aria-label="语言 / Language">
+      <button type="button" data-lang="zh" aria-pressed="true"><span>中文</span></button>
+      <button type="button" data-lang="en" aria-pressed="false"><span>EN</span></button>
+    </div>
+    <!-- 体验中心导航。服务未接入，所以**不跳转**：aria-disabled + 不给 href，
+         点了只提示一下，别做成看着能点其实 404 的死链。 -->
+    <button class="chip nav" id="expBtn" aria-disabled="true"><span></span><svg
+      class="arw-ne" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.6 8.4 8.4 3.6M8.4 3.6H4.9M8.4 3.6V7.1"
+      stroke="currentColor" stroke-width="1.5" fill="none"
+      stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+</div>
+
+<!-- 语言切换：右下角固定，下滑后才显现（见 .lang-fixed） -->
+
+<!-- 素材 -->
+<div id="stage">
+  <video id="hero" muted playsinline preload="auto" poster="assets/hero-first.jpg?v=5743d373">
+    <source src="assets/hero-720.mp4?v=ec45fb9f" type="video/mp4" media="(max-width: 820px)">
+    <source src="assets/hero.mp4?v=f249b0fd" type="video/mp4">
+  </video>
+  <div class="endscrim"></div>
+  <div class="veil"></div>
+</div>
+
+<!-- 素材放完后浮现的字标。
+     字标目前是 MiSans 排的占位版本 —— 这台机器上没有任何官方 StepAudio 品牌素材，
+     所以 TBD 徽章留在这儿，等官方字标（svg/png）到位后换成 <img> 并删掉徽章。 -->
+<div id="reveal">
+  <div class="wordmark" id="wordmark"><span class="wm-top">StepAudio 3</span><span
+    class="wm-main">Realtime</span></div>
+  <div class="sweep"></div>
+  <div class="reveal-sub"><span id="revealSub"></span></div>
+</div>
+
+<main id="main">
+  <div class="spacer"></div>
+
+  <div class="sheet">
+    <section class="band wrap product-intro" aria-labelledby="introTitle">
+      <div class="intro-grid">
+        <div class="intro-copy">
+          <p class="section-kicker" id="introKicker"></p>
+          <h1 class="display-title" id="introTitle"></h1>
+          <p class="lede" id="introLede"></p>
+        </div>
+        <div class="product-points" id="productPoints"></div>
+      </div>
+    </section>
+
+    <section class="band wrap demo-gallery" aria-labelledby="galleryTitle">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker" id="galleryKicker"></p>
+          <h2 class="display-title" id="galleryTitle"></h2>
+        </div>
+        <p class="lede" id="galleryLede"></p>
+      </div>
+      <div class="gallery-carousel" id="demoGalleryCarousel">
+        <div class="gallery-carousel-viewport">
+          <div class="gallery-carousel-track"></div>
+        </div>
+        <button class="gallery-nav gallery-nav-prev" aria-label="Previous">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="gallery-nav gallery-nav-next" aria-label="Next">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+        <div class="gallery-dots" id="galleryDots"></div>
+      </div>
+    </section>
+
+    <section class="benchmark-band" aria-labelledby="benchmarkTitle">
+      <div class="band wrap">
+        <div class="benchmark-head">
+          <div>
+            <p class="section-kicker" id="benchmarkKicker"></p>
+            <h2 class="display-title" id="benchmarkTitle"></h2>
+          </div>
+          <div class="benchmark-copy">
+            <p class="lede" id="benchmarkLede"></p>
+            <p class="benchmark-status" id="benchmarkStatus"></p>
+          </div>
+        </div>
+        <div class="benchmark-table-wrap" id="benchmarkTable"></div>
+      </div>
+    </section>
+
+    <section class="band wrap closing-band" aria-labelledby="h2c">
+      <p class="section-kicker" id="ey3"></p>
+      <h2 class="display-title" id="h2c"></h2>
+      <p class="lede" id="lede3"></p>
+      <div class="cta" id="cta"></div>
+    </section>
+
+    <footer>
+      <div class="wrap">
+        <a class="foot-brand" href="https://www.stepfun.com" target="_blank" rel="noopener">
+          <svg aria-label="StepFun" role="img" viewBox="0 0 135 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 0C8.05758 0 0 8.05758 0 18C0 27.9424 8.05758 36 18 36C27.9424 36 36 27.9424 36 18C36 8.05758 27.9424 0 18 0ZM13.1431 29.4208H6.56393V22.8417H13.1431V29.4208ZM21.2769 29.4208H14.6977V22.8417H21.2769V29.4208ZM21.2769 21.2921H14.6977V14.713H21.2769V21.2921ZM21.2769 13.1634H14.6977V6.58425H21.2769V13.1634ZM29.4107 13.1583H22.8315V6.57917H29.4107V13.1583Z" fill="currentColor"/>
+          <path d="M59.7221 21.5618C59.7221 24.5695 57.4461 26.8607 53.0769 26.8607C49.3682 26.8607 46.4266 24.9302 46.2793 21.4755H49.2056C49.3936 23.3552 50.9533 24.3713 53.209 24.3713C55.4647 24.3713 56.8212 23.1977 56.8212 21.6889C56.8212 20.3324 55.8051 19.5195 53.2192 18.7574L51.6341 18.3104C48.6468 17.4518 46.8026 16.1309 46.8026 13.4331C46.8026 10.4052 49.5867 8.42383 53.2344 8.42383C56.8822 8.42383 59.4478 10.5068 59.5646 13.5297H56.6942C56.4605 11.9039 55.1853 10.9082 53.143 10.9082C51.1006 10.9082 49.7188 11.9141 49.7188 13.4077C49.7188 14.7033 50.8314 15.4552 53.0973 16.1105L54.4791 16.5017C57.9237 17.5077 59.7221 18.9403 59.7221 21.5669V21.5618ZM65.3767 22.7456V15.8565H67.8254V13.3061H65.3767V10.3646H62.6129V13.3061H60.4232V15.8565H62.6129V22.7761C62.6129 25.7786 64.4927 26.6474 66.2708 26.7388C67.1599 26.7845 68.0744 26.6626 68.0744 26.6626V24.3866C67.7645 24.4018 67.5663 24.4272 67.1853 24.4272C66.5147 24.4272 65.3716 24.3053 65.3716 22.7456H65.3767ZM95.1328 20.2409C95.1328 24.3561 92.2725 26.8455 88.9398 26.8455C87.5426 26.8455 86.0693 26.3527 85.0735 25.4535V31.4128H82.3098V13.7227H85.0735V14.9471C86.0693 14.0479 87.5426 13.5551 88.9398 13.5551C92.115 13.5551 95.1328 16.1359 95.1328 20.2409ZM92.3894 20.2003C92.3894 17.467 90.8348 15.9683 88.9194 15.9683C87.0041 15.9683 85.0685 17.467 85.0685 20.2003C85.0685 22.9336 87.0041 24.4323 88.9194 24.4323C90.8348 24.4323 92.3894 22.9336 92.3894 20.2003Z" fill="currentColor"/>
+          <path d="M85.0978 31.4371H82.2832V13.6962H85.0978V14.8901C86.0681 14.0366 87.4957 13.5285 88.9386 13.5285C90.5288 13.5285 92.0986 14.189 93.2468 15.3422C94.4813 16.5819 95.1621 18.3244 95.1621 20.2448C95.1621 22.1653 94.522 23.8875 93.3078 25.1068C92.1748 26.2448 90.6253 26.8748 88.9437 26.8748C87.5008 26.8748 86.0732 26.3668 85.1029 25.5133V31.4371H85.0978ZM82.3391 31.3863H85.0521V25.3964L85.0927 25.4371C86.0529 26.3058 87.4907 26.824 88.9437 26.824C92.0072 26.824 95.1113 24.5632 95.1113 20.2448C95.1113 15.9265 91.9767 13.5844 88.9437 13.5844C87.4958 13.5844 86.058 14.1026 85.0927 14.9714L85.0521 15.012V13.752H82.3391V31.3913V31.3863ZM53.0758 26.8901C51.1909 26.8901 49.5449 26.4023 48.3256 25.4879C47.0402 24.5226 46.3239 23.1356 46.2578 21.4794V21.454H49.2299V21.4794C49.4128 23.2779 50.8963 24.3498 53.2129 24.3498C55.3264 24.3498 56.7997 23.2576 56.7997 21.6928C56.7997 20.3617 55.7938 19.5488 53.2129 18.7868L51.6278 18.3397C49.9919 17.8723 48.8641 17.3134 48.0817 16.5869C47.2028 15.7741 46.776 14.7427 46.776 13.4371C46.776 11.9637 47.4162 10.6987 48.6355 9.77914C49.804 8.89007 51.4348 8.40234 53.2333 8.40234C55.0317 8.40234 56.5965 8.89515 57.7447 9.82487C58.8929 10.7546 59.533 12.0349 59.5889 13.5336V13.559H56.6676V13.5387C56.4289 11.8875 55.1435 10.9375 53.1418 10.9375C51.1401 10.9375 49.743 11.9078 49.743 13.4117C49.743 14.6208 50.7184 15.3981 53.1062 16.089L54.4881 16.4802C58.1765 17.5573 59.7515 19.0814 59.7515 21.5658C59.7515 23.1102 59.1672 24.421 58.0597 25.3609C56.8861 26.3617 55.1638 26.8901 53.0808 26.8901H53.0758ZM46.3086 21.4997C46.4559 24.741 49.1079 26.8342 53.0758 26.8342C57.0436 26.8342 59.6956 24.8122 59.6956 21.5607C59.6956 19.0967 58.1308 17.5929 54.4729 16.5209L53.091 16.1297C50.6778 15.4286 49.6922 14.6411 49.6922 13.4015C49.6922 11.8672 51.0487 10.8765 53.1418 10.8765C55.2349 10.8765 56.4644 11.8316 56.7134 13.498H59.5381C59.406 10.4752 56.8759 8.44299 53.2333 8.44299C49.5906 8.44299 46.8268 10.4955 46.8268 13.4269C46.8268 15.8604 48.2646 17.3134 51.6431 18.2838L53.2282 18.7309C55.8344 19.498 56.8505 20.3261 56.8505 21.6826C56.8505 23.2779 55.3569 24.3905 53.2129 24.3905C50.881 24.3905 49.3772 23.3084 49.1841 21.4946H46.3086V21.4997ZM66.6812 26.7732C66.544 26.7732 66.4068 26.7732 66.2697 26.7631C65.2231 26.7122 64.3797 26.4074 63.7599 25.8689C62.9826 25.1932 62.5863 24.1517 62.5863 22.7749V15.8808H60.3967V13.2796H62.5863V10.338H65.4009V13.2796H67.8497V15.8808H65.4009V22.7444C65.4009 24.2279 66.4221 24.4006 67.1892 24.4006C67.4534 24.4006 67.6363 24.3905 67.8243 24.3752C67.9056 24.3702 67.9869 24.3651 68.0732 24.36H68.0986V26.6818H68.0783C68.0783 26.6818 67.4128 26.7732 66.6812 26.7732ZM60.4526 15.8299H62.6422V22.7749C62.6422 25.874 64.6185 26.6259 66.2747 26.7122C67.0775 26.7529 67.9056 26.6564 68.0529 26.636V24.4108C67.9716 24.4108 67.9005 24.421 67.8294 24.4261C67.6363 24.4413 67.4585 24.4515 67.1892 24.4515C66.7371 24.4515 65.3501 24.4515 65.3501 22.7444V15.8299H67.7989V13.3304H65.3501V10.3888H62.6372V13.3304H60.4475V15.8299H60.4526ZM88.9183 24.4616C87.9327 24.4616 86.9623 24.0603 86.2561 23.3642C85.4636 22.5768 85.0419 21.4845 85.0419 20.2042C85.0419 18.9239 85.4636 17.8316 86.2561 17.0442C86.9623 16.3482 87.9327 15.9468 88.9183 15.9468C91.0114 15.9468 92.4136 17.6589 92.4136 20.2042C92.4136 22.7495 91.0114 24.4616 88.9183 24.4616ZM88.9183 15.9925C87.0639 15.9925 85.0927 17.4658 85.0927 20.1991C85.0927 22.9324 87.0639 24.4057 88.9183 24.4057C90.9759 24.4057 92.3628 22.7139 92.3628 20.1991C92.3628 17.6843 90.9809 15.9925 88.9183 15.9925Z" fill="currentColor"/>
+          <path d="M77.6471 22.7515C77.0883 23.8996 76.0823 24.4229 74.7055 24.4636C72.7648 24.4128 71.5557 23.2747 71.3067 21.0902H80.8071C80.8325 20.8006 80.8529 20.5008 80.8529 20.1909C80.8529 15.8827 78.1043 13.5508 74.7106 13.5508C71.3169 13.5508 68.5684 15.8776 68.5684 20.1909C68.5684 24.5042 71.0781 26.826 74.7106 26.826C77.7182 26.826 79.6082 25.4136 80.4718 22.7515H77.6471ZM74.7055 15.8929C76.5954 15.9437 77.7894 16.848 78.084 18.931H71.327C71.6217 16.848 72.8156 15.9437 74.7055 15.8929Z" fill="currentColor"/>
+          <path d="M74.7048 26.8533C72.8758 26.8533 71.3364 26.2589 70.2543 25.1361C69.1315 23.9727 68.5371 22.2606 68.5371 20.1929C68.5371 18.1251 69.162 16.4334 70.3458 15.2395C71.438 14.137 72.9876 13.5273 74.7098 13.5273C76.4321 13.5273 77.9766 14.137 79.0739 15.2395C80.2577 16.4334 80.8826 18.1455 80.8826 20.1929C80.8826 20.4875 80.8673 20.7924 80.8369 21.0921V21.1175H71.3415C71.5955 23.2361 72.759 24.3893 74.7098 24.4401C76.1375 24.3995 77.0875 23.8457 77.626 22.7433V22.728H80.5066L80.4965 22.7636C79.6125 25.4765 77.6667 26.8533 74.7098 26.8533H74.7048ZM74.7048 13.5781C71.0468 13.5781 68.5879 16.2352 68.5879 20.1929C68.5879 24.1505 70.93 26.8025 74.7048 26.8025C77.626 26.8025 79.5515 25.4511 80.4304 22.7788H77.6565C77.1078 23.8914 76.1425 24.4503 74.6997 24.4909C72.7082 24.435 71.5244 23.2615 71.2755 21.0921V21.0616H80.7759C80.8013 20.767 80.8165 20.4723 80.8165 20.1878C80.8165 16.2352 78.3576 13.5731 74.6997 13.5731L74.7048 13.5781ZM78.1137 18.9583H71.3009V18.9279C71.5854 16.9262 72.698 15.9253 74.7048 15.8694C76.7115 15.9253 77.8242 16.9262 78.1087 18.9279V18.9583H78.1137ZM71.3568 18.9075H78.0528C77.7683 16.9516 76.6709 15.9761 74.7048 15.9202C72.7386 15.9761 71.6413 16.9516 71.3568 18.9075Z" fill="currentColor"/>
+          <path d="M99.7517 11.8513V16.8454H107.271V19.6498H99.7517V26.8894H96.8203V9.04688H107.271V11.8513H99.7517Z" fill="currentColor"/>
+          <path d="M120.513 14.1426V26.8843H117.759V25.9495C117.119 26.7726 115.854 27.3365 113.807 27.2146C111.759 27.0926 108.914 25.5024 108.914 21.9665V14.1426H111.668V21.687C111.668 23.6227 112.968 24.6438 114.523 24.6438C116.077 24.6438 117.759 23.5719 117.759 20.9758V14.1426H120.513Z" fill="currentColor"/>
+          <path d="M122.703 26.8932V14.1515H125.457V15.0863C126.097 14.2633 127.362 13.6993 129.409 13.8213C131.457 13.9432 134.302 15.5334 134.302 19.0694V26.8932H131.548V19.3488C131.548 17.4131 130.248 16.392 128.693 16.392C127.138 16.392 125.457 17.4639 125.457 20.06V26.8932H122.703Z" fill="currentColor"/>
+          </svg>
+        </a>
+      </div>
+      <div class="wrap"><div class="legal" id="legal"></div></div>
+    </footer>
+  </div>
+</main>
+
+<script>
+/* ============================================================
+   文案：中英两套，改这里就够了
+   ============================================================ */
+const COPY = {
+  zh: {
+    htmlLang:"zh-CN",
+    revealSub:"为自然交谈而生",
+    skip:"跳过",
+    introKicker:"实时语音模型",
+    introTitle:["让对话，回到","它本来的样子。"],
+    introLede:"StepAudio 3 Realtime 面向自然实时交互而生。它持续聆听、理解语境并组织回应，"
+             +"让接话、停顿、附和与打断不再是需要绕开的边界，而成为交流本身。",
+    productPoints:[
+      {t:"全双工实时",d:"边听、边想、边说"},
+      {t:"自然轮替",d:"接话、停顿与打断"},
+      {t:"真实语气",d:"语速、重音与情绪随内容变化"},
+      {t:"多场景交互",d:"面向助手、陪伴与角色对话"},
+    ],
+    galleryKicker:"案例演示",
+    galleryTitle:["自然交谈，","应该毫不费力。"],
+    galleryLede:"三段真实场景影片，展示 StepAudio 3 Realtime 在对话中的表现。",
+    galleryDemos:[
+      {no:"01",src:"assets/demo/realtime-main.mp4?v=740cc9",t:"完整样片 · 五个场景",d:"从轻声回应到热烈交谈，模型的表达始终跟随人物、关系与当下情境。"},
+      {no:"02",src:"assets/demo/quiet-reply.mp4?v=02edcd",t:"轻声回应，也有分寸",d:"在安静的个人场景里，回应不必填满每一秒。停顿和轻声本身就是交流的一部分。"},
+      {no:"03",src:"assets/demo/lively-exchange.mp4?v=c26a6f",t:"话题热起来，语气也跟上",d:"更快的轮替、更鲜明的重音，以及随现场关系变化的说话节奏。"},
+    ],
+    benchmarkKicker:"模型评测",
+    benchmarkTitle:["与主流实时模型，","放在同一把尺子上。"],
+    benchmarkLede:"对比模型为内部评测框架已接入的 GPT Realtime、Gemini Live 与 Doubao Realtime，覆盖音频理解、推理和口语对话公开评测集。",
+    benchmarkStatus:"本轮评测中，数据待回填",
+    benchmarkModels:["StepAudio 3","GPT Realtime","Gemini Live","Doubao Realtime"],
+    benchmarkGroups:[
+      {name:"音频理解与推理",rows:["MMAU","MMSU","MMAR","Big-Bench-Audio"]},
+      {name:"口语对话",rows:["WildSpeech","SpokenMQA","MTalk-Bench","TOEFL Listening"]},
+    ],
+    ey3:"体验",
+    h2c:"不如直接说一句",
+    lede3:"体验中心是贴近真实产品的可操作界面。服务接入后，在这里直接开口说一句。",
+    ctaMain:"打开体验中心",
+    notWired:"未接入",
+    expNav:"体验中心",
+    legal:"Copyright © 2026 上海阶跃星辰智能科技股份有限公司",
+  },
+  en: {
+    htmlLang:"en",
+    revealSub:"Born for natural conversation",
+    skip:"SKIP",
+    introKicker:"Realtime voice model",
+    introTitle:["Conversation,","as it should feel."],
+    introLede:"StepAudio 3 Realtime is built for natural, live interaction. It keeps listening, understands context, and shapes its response as the conversation unfolds, treating pauses, backchannels, and interruptions as part of the exchange.",
+    productPoints:[
+      {t:"Full-duplex",d:"Listen, think, and speak in realtime"},
+      {t:"Natural turns",d:"Respond to pauses and interruptions"},
+      {t:"Expressive delivery",d:"Pace, emphasis, and emotion follow meaning"},
+      {t:"Across scenarios",d:"For assistants, companions, and characters"},
+    ],
+    galleryKicker:"Demo Reels",
+    galleryTitle:["Natural conversation","should feel effortless."],
+    galleryLede:"Three real-scene clips showcasing StepAudio 3 Realtime across different conversational contexts.",
+    galleryDemos:[
+      {no:"01",src:"assets/demo/realtime-main.mp4?v=740cc9",t:"Full film · Five scenes",d:"From quiet replies to lively exchanges, every delivery follows the people, their relationship, and the moment they are in."},
+      {no:"02",src:"assets/demo/quiet-reply.mp4?v=02edcd",t:"A quiet reply, with room to breathe",d:"In a personal moment, a response does not need to fill every second. A pause and a softer voice carry meaning too."},
+      {no:"03",src:"assets/demo/lively-exchange.mp4?v=c26a6f",t:"When energy rises, delivery follows",d:"Faster turns, clearer emphasis, and a speaking rhythm that moves with the relationship in the scene."},
+    ],
+    benchmarkKicker:"Model evaluation",
+    benchmarkTitle:["Leading realtime models,","measured on the same scale."],
+    benchmarkLede:"The comparison covers GPT Realtime, Gemini Live, and Doubao Realtime as integrated in our internal evaluation framework, across public audio understanding, reasoning, and spoken-dialogue suites.",
+    benchmarkStatus:"Evaluation in progress, scores pending",
+    benchmarkModels:["StepAudio 3","GPT Realtime","Gemini Live","Doubao Realtime"],
+    benchmarkGroups:[
+      {name:"Audio understanding & reasoning",rows:["MMAU","MMSU","MMAR","Big-Bench-Audio"]},
+      {name:"Spoken dialogue",rows:["WildSpeech","SpokenMQA","MTalk-Bench","TOEFL Listening"]},
+    ],
+    ey3:"Try it",
+    h2c:"Easier to just say something",
+    lede3:"The experience center is a hands-on interface. Once the service is wired up, "
+         +"you can simply start talking.",
+    ctaMain:"Open the experience center",
+    notWired:"not wired up",
+    expNav:"Experience center",
+    legal:"Copyright © 2026 StepFun Intelligence Co., Ltd.",
+  }
+};
+
+/* 站内链接。TODO: 换成正式对外域名后统一改这里。 */
+const LINKS = {
+  experience:"../step-audio-experience/",
+};
+
+/* 节奏（毫秒） */
+const T_SAFETY = 7000; // 素材迟迟不动时的兜底，别把用户永远锁在首屏
+
+const qsLang = new URLSearchParams(location.search).get("lang");
+/* **默认英文**（按要求）。以前是跟随 navigator.language，
+   所以中文环境打开是中文版 —— 现在只有显式 ?lang=zh 或点语言按钮才切中文。 */
+let lang = (qsLang === "zh" || qsLang === "en") ? qsLang : "en";
+const $ = id => document.getElementById(id);
+const reduceMotion = matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+/* ============================================================
+   渲染静态文案
+   ============================================================ */
+function renderCopy(){
+  const c = COPY[lang];
+  const titleMarkup = parts => `${parts[0]}<br><span class="accent">${parts[1]}</span>`;
+  document.documentElement.lang = c.htmlLang;
+  $("langBtn").querySelectorAll("button").forEach(btn => {
+    btn.setAttribute("aria-pressed", btn.dataset.lang === lang ? "true" : "false");
+  });
+  $("expBtn").querySelector("span").textContent = c.expNav;
+  $("expBtn").title = c.notWired;
+  $("revealSub").textContent = c.revealSub;
+  $("introKicker").textContent = c.introKicker;
+  $("introTitle").innerHTML = titleMarkup(c.introTitle);
+  $("introLede").textContent = c.introLede;
+  $("productPoints").innerHTML = c.productPoints.map((point, index) => `
+    <div class="product-point">
+      <span class="index">${String(index + 1).padStart(2,"0")}</span>
+      <strong>${point.t}</strong>
+      <span>${point.d}</span>
+    </div>`).join("");
+
+  $("galleryKicker").textContent = c.galleryKicker;
+  $("galleryTitle").innerHTML = titleMarkup(c.galleryTitle);
+  $("galleryLede").textContent = c.galleryLede;
+  initGalleryCarousel(c.galleryDemos);
+
+  $("benchmarkKicker").textContent = c.benchmarkKicker;
+  $("benchmarkTitle").innerHTML = titleMarkup(c.benchmarkTitle);
+  $("benchmarkLede").textContent = c.benchmarkLede;
+  $("benchmarkStatus").textContent = c.benchmarkStatus;
+  const pendingCells = c.benchmarkModels.map((model, index) =>
+    `<td class="pending ${index === 0 ? "ours" : ""}" aria-label="${model}: ${c.benchmarkStatus}">--</td>`
+  ).join("");
+  $("benchmarkTable").innerHTML = `
+    <table class="benchmark-table" aria-label="${c.benchmarkKicker}">
+      <thead><tr><th scope="col">Benchmark</th>${c.benchmarkModels.map((model, index) =>
+        `<th scope="col" class="${index === 0 ? "ours" : ""}">${model}</th>`).join("")}</tr></thead>
+      <tbody>${c.benchmarkGroups.map(group => `
+        <tr class="benchmark-group"><td colspan="5">${group.name}</td></tr>
+        ${group.rows.map(row => `<tr><td>${row}</td>${pendingCells}</tr>`).join("")}`
+      ).join("")}</tbody>
+    </table>`;
+
+  $("ey3").textContent = c.ey3;  $("h2c").textContent = c.h2c;
+  $("lede3").textContent = c.lede3;
+  initDemoVideos();
+
+  /* 体验中心还没接服务，所以主按钮做成不可跳转的占位（button 而不是 a），
+     旁边挂「未接入」徽章说清状态；两个展示页是本地真实页面，保持可跳。 */
+  /* 只留体验中心一个入口。服务未接入，所以是不可跳转的 button 而不是 a，
+     旁边挂「未接入」徽章说清状态，别做成看着能点其实 404 的死链。 */
+  /* 黑底白字 + 右上箭头。服务未接入，所以仍是不可跳转的 button；
+     「未接入」字样按要求去掉了，改为点击时就地闪一下，不做无声失败。 */
+  $("cta").innerHTML = `
+    <button class="btn solid" id="ctaExp" aria-disabled="true"><span>${c.ctaMain}</span><svg
+      class="arw-ne" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.6 8.4 8.4 3.6M8.4 3.6H4.9M8.4 3.6V7.1"
+      stroke="currentColor" stroke-width="1.5" fill="none"
+      stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
+  $("ctaExp").addEventListener("click", () => {
+    const el = $("ctaExp"), sp = el.querySelector("span"), c2 = COPY[lang];
+    flashPending(el); sp.textContent = c2.notWired;
+    setTimeout(() => { sp.textContent = c2.ctaMain; }, 1100);
+  });
+
+  $("legal").textContent = c.legal;
+}
+
+/* ===== Gallery 3D 走马灯 ===== */
+function initGalleryCarousel(demos){
+  const container = document.getElementById("demoGalleryCarousel");
+  if (!container) return;
+  const track = container.querySelector(".gallery-carousel-track");
+  const prevBtn = container.querySelector(".gallery-nav-prev");
+  const nextBtn = container.querySelector(".gallery-nav-next");
+  const dotsContainer = document.getElementById("galleryDots");
+  if (!demos || !demos.length) return;
+
+  let current = 0;
+  const total = demos.length;
+  let swipeX = 0, swipeY = 0, swiped = false;
+
+  // Drag/swipe 翻页
+  container.addEventListener("pointerdown", e => {
+    swipeX = e.clientX; swipeY = e.clientY; swiped = false;
+  });
+  container.addEventListener("pointerup", e => {
+    const dx = e.clientX - swipeX, dy = e.clientY - swipeY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      swiped = true; goTo(dx > 0 ? current - 1 : current + 1);
+    }
+  });
+
+  // Render cards — poster 做占位，preload=none 懒加载（参考 stepaudio3-gen-demo 模式）
+  track.innerHTML = demos.map((item, i) => {
+    const posterSrc = item.src.replace(/\?.*$/, "").replace(/\.mp4$/, ".jpg");
+    return `<div class="gallery-card" data-title="${item.t}" data-index="${i}">
+      <div class="gallery-card-frame">
+        <div class="gallery-card-media">
+          <video class="gallery-card-video" loop playsinline preload="none"
+            poster="${posterSrc}" data-src="${item.src}" aria-label="${item.t}">
+          </video>
+          <div class="play-overlay">
+            <div class="play-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+
+  const cards = track.querySelectorAll(".gallery-card");
+
+  // Dots
+  dotsContainer.innerHTML = "";
+  for (let i = 0; i < total; i++){
+    const dot = document.createElement("button");
+    dot.className = "gallery-dot" + (i === 0 ? " active" : "");
+    dot.addEventListener("click", () => goTo(i));
+    dotsContainer.appendChild(dot);
+  }
+  const dots = dotsContainer.querySelectorAll(".gallery-dot");
+
+  /* 只响应用户点击。play() 必须留在点击调用栈里，Safari 才会允许带声音播放。 */
+  function loadAndPlay(video){
+    if (!video) return;
+    if (!video.src && video.dataset.src) {
+      video.src = video.dataset.src;
+      video.load();
+    }
+    const p = video.play();
+    if (p && p.catch) p.catch(() => syncOverlay(video.closest(".gallery-card")));
+  }
+
+  function goTo(index){
+    current = ((index % total) + total) % total;
+    const leftIdx  = (current - 1 + total) % total;
+    const rightIdx = (current + 1) % total;
+
+    cards.forEach((card, i) => {
+      card.classList.remove("is-center", "is-left", "is-right");
+      if (i === current)       card.classList.add("is-center");
+      else if (i === leftIdx)  card.classList.add("is-left");
+      else if (i === rightIdx) card.classList.add("is-right");
+    });
+
+    // 暂停非当前视频
+    cards.forEach((card, i) => {
+      const v = card.querySelector("video");
+      if (!v) return;
+      if (i !== current) v.pause();
+    });
+
+    dots.forEach((d, i) => d.classList.toggle("active", i === current));
+    cards.forEach(c => syncOverlay(c));
+  }
+
+  function syncOverlay(card){
+    const v = card.querySelector("video");
+    const ov = card.querySelector(".play-overlay");
+    if (!v || !ov) return;
+    const playing = !v.paused && !v.ended;
+    ov.classList.toggle("hidden", playing);
+  }
+
+  // Click handlers
+  cards.forEach(card => {
+    card.addEventListener("click", e => {
+      if (swiped) return;
+      if (card.classList.contains("is-left"))  { goTo(current - 1); return; }
+      if (card.classList.contains("is-right")) { goTo(current + 1); return; }
+      if (card.classList.contains("is-center")){
+        const v = card.querySelector("video");
+        if (!v) return;
+        if (v.paused) { loadAndPlay(v); } else { v.pause(); }
+        syncOverlay(card);
+      }
+    });
+    const v = card.querySelector("video");
+    if (v){
+      v.addEventListener("play",  () => syncOverlay(card));
+      v.addEventListener("pause", () => syncOverlay(card));
+      v.addEventListener("ended", () => syncOverlay(card));
+    }
+  });
+
+  prevBtn.addEventListener("click", e => { e.stopPropagation(); goTo(current - 1); });
+  nextBtn.addEventListener("click", e => { e.stopPropagation(); goTo(current + 1); });
+
+  container.tabIndex = 0;
+  container.addEventListener("keydown", e => {
+    if (e.key === "ArrowLeft")  goTo(current - 1);
+    if (e.key === "ArrowRight") goTo(current + 1);
+  });
+
+  // 初始和翻页都只显示 poster；必须点击中间卡片才播放。
+  goTo(0);
+}
+
+/* 三个播放器互斥播放，避免两条演示音轨同时发声。 */
+function initDemoVideos(){
+  document.addEventListener("play", e => {
+    if (e.target.tagName !== "VIDEO") return;
+    document.querySelectorAll("video").forEach(other => {
+      if (other !== e.target && !other.paused) other.pause();
+    });
+  }, {passive:true});
+}
+
+/* ============================================================
+   开屏时序：素材淡入 → 播完 5 幕 → 字标随第 5 幕浮现 → 放开滚动 → 第 5 幕循环
+   ============================================================ */
+const stage = $("stage"), video = $("hero"), reveal = $("reveal");
+let timers = [], finished = false, revealed = false, looping = false;
+
+/* ============================================================
+   循环回绕：接在**视频文件里做好的那次交叉转场**上
+   ------------------------------------------------------------
+   循环的范围是**只循环最后一幕**（幕5），不是整段轮播 —— 幕5 播到卷发女生侧脸
+   向左的那一瞬（落点）后，回到幕5 开头再演一遍。
+   为什么不是别的做法（都试过、都被否）：
+     · `video.loop=true`  —— 回绕是一次真实 seek（pause→ended→seeking→waiting→seeked），
+       本地无网络延迟都实测 27ms 停顿 + 掉帧；且回到 0 是硬切。
+     · 盖一张静图去溶接缝 —— 跳变没了，但画面「定」住近 0.8s，
+       换来的是更明显的卡顿感（用户反馈的就是这个）。
+     · 两路 video 交叉 —— 视觉最好，但同页两个 video 对同一 URL 不共享媒体缓冲，
+       首次加载要多下整片一遍（实测 16MB → 31MB），交叉时双解码帧间隔涨到 52.8ms。
+       对远程访问反而更卡，所以放弃。
+   现在的做法：**build_hero 已经把「正片末尾 → 幕5 干净起点」做成了一次正常的交叉转场**
+   （和镜头之间的切换同一种转场，写进文件里）。所以页面只需在播完时 seek 到 LOOP_BACK。
+   单路、零额外带宽、画面全程在动。
+   ============================================================ */
+/* 必须和 build_hero.py 打印出来的 LOOP_BACK 一致（= 幕5 干净起点 + LOOP_XF，
+   且是 1/FPS 的整数倍，并在那里钉了关键帧）。改剪辑后照着脚本输出改这里。 */
+const LOOP_BACK = 19.78;
+
+function loopBack(){
+  try { video.currentTime = LOOP_BACK; } catch (e) {}
+  const p = video.play();
+  if (p && p.catch) p.catch(() => {});
+}
+
+/* 字标浮现 + 放开滚动。**由 revealWatch 在幕5 出现的那一刻触发**（REVEAL_AT）——
+   要的效果是：最后一幕一出现，字标就同时浮起、字距展开定形，
+   画面继续演一小会（含那位转头过去），然后才开始循环。
+   所以这一步不碰 video，只管字标与压暗。 */
+function revealMark(fast){
+  if (revealed) return;
+  revealed = true;
+  // 滚动触发要立刻看得见（见 #reveal.fast 的注释）；时间触发保持原来的慢浮现
+  if (fast) reveal.classList.add("fast");
+  // .ended 同时开启 endscrim 压暗 —— 字标要压在动态画面上，得先把画面压下去。
+  // 点跳过时舞台可能还没淡入过，.playing 在这里补上。
+  stage.classList.add("playing", "ended");
+  reveal.classList.add("on");
+  // 滚动早就是放开的，这里只需保证正文可见 + 同步一次滚动态
+  $("main").classList.add("live");
+  onScroll();
+  // 摘 transition 要等字标那条 1.6s 淡入**演完**再做，
+  // 否则会在 75% 处被 transition:none 硬拉到 1，看着是一下跳帧。
+  timers.push(setTimeout(() => reveal.classList.add("nofade"),
+                         reduceMotion ? 0 : (fast ? 700 : 1900)));
+}
+
+/* 正片放完（落点已经出现、字标也定住了）→ 开始**只循环幕5**。
+   hero 靠 'ended' 触发，所以到这一步才回绕 —— 提前设 video.loop 就永远不会 ended。 */
+function startSceneLoop(){
+  if (looping) return;
+  looping = true;
+  stopRevealWatch();                // 定形之后不用再逐帧盯 currentTime
+  if (reduceMotion){ video.pause(); return; }
+  // 两种入口：正常播完（video.ended，立刻接回转场点继续）
+  // 或点了跳过 / autoplay 被拦（视频还在中间，让它继续播，到 ended 时自然回绕）。
+  if (video.ended) loopBack();
+  else { const p = video.play(); if (p && p.catch) p.catch(() => {}); }
+}
+
+/* 直达最终态（点跳过、autoplay 被拦、素材加载不出来时的兜底）。两步都是幂等的。 */
+function finish(){
+  if (finished) return;
+  finished = true;
+  timers.forEach(clearTimeout); timers = [];
+  revealMark();
+  startSceneLoop();
+}
+
+/* 未接入的入口被点时，就地闪一下「未接入」，不做无声失败也不假跳转。 */
+function flashPending(el){
+  el.classList.add("hint");
+  setTimeout(() => el.classList.remove("hint"), 620);
+}
+
+/* 盯着 video.currentTime，到点就让字标浮起来。
+   **必须按 video.currentTime 而不是 setTimeout**：素材缓冲卡一下，字标也跟着等，
+   不会提前跑到还在放幕4 的画面上。
+   （这个 rAF 以前还兼着渲染素材上的中央闪字，闪字已按要求整段删掉，只剩这一件事。） */
+let revealRaf = 0;
+/* 字标浮现的时刻 = **幕5 起点 + 2s**（按要求让最后一幕先演 2 秒再浮字标，
+   不再和幕5 同时出现）。幕5 起点是 20.0s（5s 幕1 + 5s×3），所以这里是 22.0。
+   改剪辑后按 build_hero.py 打印的 REVEAL_AT 加上这 2s 的延迟。
+   之后的节奏：字距展开 2.4s、光带扫到 3.2s → 约 25.2s **完全定形**；
+   幕5 演到 26.97s 是落点（卷发女生侧脸向左），27.77s 正片结束进入循环。
+   REVEAL_MIN_TAIL 是兜底：万一剪辑改短了，至少留这么多时间给动画演完
+   （27.8 - 3.2 = 24.6 > 22.0，所以正常情况下取的是 22.0）。 */
+const REVEAL_AT = 20.5;
+const REVEAL_MIN_TAIL = 3.2;
+/* **滚动驱动字标浮现的阈值。** 8px 足够躲开触控板/回弹带来的 1~2px 抖动，
+   又小到「手一划就出来」。时间驱动（REVEAL_AT）保留做兜底：不滚的用户到点照样看到字标。 */
+const SCROLL_REVEAL_AT = 8;
+
+function revealWatch(){
+  if (looping){ revealRaf = 0; return; }
+  const t = video.currentTime;
+  const d = video.duration || 0;
+  // 幕5 一出现就让字标浮起来（早于正片结束，不是等 ended）
+  if (d && t >= Math.min(REVEAL_AT, d - REVEAL_MIN_TAIL)){ revealMark(); revealRaf = 0; return; }
+  revealRaf = requestAnimationFrame(revealWatch);
+}
+
+function stopRevealWatch(){
+  if (revealRaf) cancelAnimationFrame(revealRaf);
+  revealRaf = 0;
+}
+
+/* 起播。素材还没缓冲好就等 canplay —— 在空 buffer 上硬 play 会静默失败，
+   第一镜就又被吃掉了。autoplay 被浏览器拦掉时直接落到结束卡，
+   别让人对着静止的第一帧发呆。 */
+function startVideo(){
+  const go = () => {
+    const p = video.play();
+    if (p && p.catch) p.catch(() => { if (!finished) finish(); });
+    if (!revealRaf && !reduceMotion) revealRaf = requestAnimationFrame(revealWatch);
+  };
+  if (video.readyState >= 3) go();
+  else video.addEventListener("canplay", go, {once:true});
+}
+
+/* 开场：不再有黑屏闪字那一段，进页面就是素材淡入 + 起播。
+   起播必须和画面淡入同一时刻（并且缓冲不够时等 canplay）—— 否则第一镜又会被吃掉，
+   这是之前踩过的坑，见 startVideo()。 */
+function start(){
+  timers.forEach(clearTimeout); timers = [];
+  finished = false; revealed = false; looping = false;
+  // **不再锁滚动**（按要求：打开页面就能下滑，不必等视频演完）。
+  // main 立即 .live 也是安全的：它 z-index 最高，但第一个子元素是 100vh 的透明
+  // .spacer，第一屏看到的仍是下面的视频层。
+  document.scrollingElement.scrollTop = 0;
+  stage.classList.remove("playing", "ended");
+  reveal.classList.remove("on");
+  reveal.classList.remove("nofade");
+  reveal.classList.remove("fast");
+  reveal.style.removeProperty("opacity");
+  stopRevealWatch();
+  $("main").classList.add("live");
+
+  if (reduceMotion){ stage.classList.add("playing"); finish(); return; }
+
+  video.pause();
+  try { video.currentTime = 0; } catch (e) {}
+
+  // 下一帧再加 .playing，让 opacity 从 0 真正过渡过去（同帧改会没有淡入）
+  requestAnimationFrame(() => {
+    stage.classList.add("playing");
+    startVideo();
+  });
+
+  // 兜底：autoplay 被拦或素材加载不出来时，别把人锁死在首屏
+  timers.push(setTimeout(() => {
+    if (video.paused || !video.duration) finish();
+  }, T_SAFETY));
+}
+
+// 第一次播完 → 进最终态；之后每次播完 → 回绕到转场点继续
+video.addEventListener("ended", () => { looping ? loopBack() : finish(); });
+video.addEventListener("error", () => setTimeout(finish, 600));
+$("expBtn").addEventListener("click", () => {
+  const sp = $("expBtn").querySelector("span");
+  const c = COPY[lang];
+  $("expBtn").classList.add("hint"); sp.textContent = c.notWired;
+  setTimeout(() => { $("expBtn").classList.remove("hint"); sp.textContent = c.expNav; }, 1100);
+});
+$("langBtn").addEventListener("click", () => {
+  lang = lang === "zh" ? "en" : "zh";
+  renderCopy();
+  // 语言切换只更新文案和选中态，不重置滚动位置或重新播放首屏视频。
+});
+
+/* ============================================================
+   滚动：素材层与字标随第一屏淡出
+   ============================================================ */
+function onScroll(){
+  const h = innerHeight || 1;
+  const top = document.scrollingElement.scrollTop || 0;
+  // 还在第一屏顶上时不要写 inline opacity —— 否则会盖掉字标浮现那条 transition，
+  // 淡入演到一半被硬拉到 1，看着像跳帧。
+  const bar = document.querySelector(".topbar");
+  // **一有下滑就让字标浮起来**（按要求：不必等视频演完）。时间驱动仍然保留在
+  // revealWatch() 里做兜底 —— 用户不滚的话，到 REVEAL_AT 照样浮现。
+  if (top > SCROLL_REVEAL_AT && !revealed) revealMark(true);
+  // `body.scrolled` 管右下角语言按钮的显现，阈值很小；
+  // `body.lightzone` / `.topbar.solid`（1.3 屏）是翻色，两者无关。
+  document.body.classList.toggle("scrolled", top > SCROLL_REVEAL_AT);
+  if (top <= 0){
+    stage.style.removeProperty("opacity");
+    reveal.style.removeProperty("opacity");
+    bar.classList.remove("solid");
+    document.body.classList.remove("lightzone");
+    return;
+  }
+  // 素材层**不再淡出**：让浅色区那段透明→浅色的渐变自己盖上去，
+  // 亮度就从「照片」直接走到「白页」，中间不再凹一段黑。
+  // 字标则要提前淡完（0→38vh），否则会被溶解区洗成一团糊字。
+  reveal.style.opacity = Math.max(0, 1 - top / (h * .38)).toFixed(3);
+  // 详情纸面在首屏末端前 380px 开始溶入，接近铺满顶栏时再翻成深色控件。
+  const light = top > Math.max(h * .62, h - 150);
+  bar.classList.toggle("solid", light);
+  document.body.classList.toggle("lightzone", light);
+}
+addEventListener("scroll", onScroll, {passive:true});
+addEventListener("resize", onScroll);
+
+/* 竖屏的排版**不再需要 JS 参与**。
+   0901 那一版有个 fitPortrait()：竖屏下画面（object-position 百分比）和字标组
+   （padding-bottom）各自独立锚定，中间空隙随屏高从 10px 摆到 137px，
+   所以拿 JS 按实测算「上下留白相等 + 间距恒定」。
+   现在字标改成和桌面一样压在画面正中（见 max-aspect-ratio 那段 CSS），
+   两者共用同一个中心，整段计算连同 ResizeObserver 一起删掉了。 */
+
+renderCopy();
+start();
+</script>
+</body>
+</html>
