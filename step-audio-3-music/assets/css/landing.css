@@ -1,0 +1,529 @@
+/* =============================================================================
+   landing.css · 首页（落地页）
+   -----------------------------------------------------------------------------
+   设计方向：Session Sheet —— 把整页当成一首歌的结构表。
+
+   1. 分区标记用**真实的歌曲结构标签**（[Intro] / [Verse] / [Chorus] / [Bridge] /
+      [Outro]），不是 01/02/03。理由：这些标签就是接口 lyrics 字段真正接受的
+      语法（见 assets/音乐生成接口文档.md §3.2），而模型的差异点恰好是"先规划
+      结构再生成"。所以这个装置不是装饰，它编码了内容本身。
+
+   2. 深 → 浅 → 深。首屏与尾屏压深（视频与收束），中间回到 tokens 的纸色。
+      整页像一张唱片：淡入、正文、淡出。
+
+   3. 首屏品牌字标使用大字号无衬线字，产品名与 Music 分列显示，Music 使用渐变色。
+
+   复用 tokens.css 的全部变量；只在这里补深色舞台面所需的几个值。
+   ============================================================================= */
+
+@font-face {
+  font-family: "Hero Brand";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/Roboto-Medium-brand.woff") format("woff");
+}
+@font-face {
+  font-family: "Hero Slogan";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../fonts/MiSans-Light.woff2") format("woff2");
+}
+
+/* -----------------------------------------------------------------------------
+   让页面能滚。
+   base.css 给 body 设了 `height:100%` + `overflow:hidden`，因为**应用**是
+   「外壳固定、.main 自己滚」的结构。落地页没有那个外壳，直接继承过来的结果是
+   整个 body 变成一个视口高、且裁掉溢出的盒子 —— 鼠标滚轮和键盘翻页全都失效，
+   只有 JS 的 scrollTo 还能动（所以光用 scrollTo 做验证会漏掉这个 bug，踩过）。
+   落地页必须把这两条改回文档流默认值。
+   -------------------------------------------------------------------------- */
+html:has(> body.landing) { height: auto; }
+body.landing {
+  height: auto;
+  min-height: 100%;
+  overflow: visible;
+  overflow-x: hidden;                  /* 只兜横向，纵向必须留给滚动 */
+}
+
+.landing {
+  /* 深色舞台面。tokens.css 是浅色体系，没有深色 surface，在这里补齐 */
+  --stage:        #0E0F12;
+  --stage-2:      #16181C;
+  --on-stage:     #F4F3F0;
+  --on-stage-2:   rgba(244, 243, 240, .66);
+  --on-stage-3:   rgba(244, 243, 240, .42);
+  --cyan:         #22D3EE;
+  --indigo:       #6366F1;
+  --purple:       #A855F7;
+  --stage-rule:   rgba(244, 243, 240, .14);
+
+  background: var(--field);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.landing-wrap {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* 跳过导航（键盘/读屏）——质量地板 */
+.skip {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--ink); color: var(--ink-on-dark);
+  padding: 10px 16px; border-radius: var(--r-sm); z-index: 99;
+}
+.skip:focus { left: 12px; top: 12px; }
+
+/* =============================================================================
+   顶栏 —— 浮在视频上，滚动后转为浅色玻璃
+   ============================================================================= */
+.lhead {
+  position: fixed; inset: 0 0 auto 0; z-index: var(--z-nav);
+  /* 三栏：品牌靠左、导航居中、语言+CTA 靠右。
+     两侧用 1fr 等分，导航才是**视口正中**而不是"剩余空间的中点"。 */
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  gap: var(--s5);
+  height: 64px;
+  padding-inline: var(--gutter);
+  color: var(--on-stage);
+  transition: background var(--d-base) var(--ease), color var(--d-base) var(--ease),
+              border-color var(--d-base) var(--ease), backdrop-filter var(--d-base) var(--ease);
+  border-bottom: 1px solid transparent;
+}
+.lhead.stuck {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom-color: var(--glass-border);
+  color: var(--ink);
+}
+
+.lbrand {
+  display: flex; align-items: center; gap: 9px;
+  font-size: var(--fs-ui); font-weight: var(--fw-semi);
+  letter-spacing: -.01em; color: currentColor;
+  white-space: nowrap;                 /* 窄屏下不许折成两行 */
+}
+.lbrand-mark { width: 24px; height: 24px; flex: none; }
+
+/* 品牌 + 同系产品入口整体靠左 */
+.lbrand-group {
+  display: flex; align-items: center; gap: var(--s3);
+  justify-self: start; min-width: 0;
+}
+.lbrand-sep {
+  width: 1px; height: 18px; flex: none;
+  background: currentColor; opacity: .28;
+}
+.lbrand-alts { display: flex; align-items: center; gap: 2px; }
+/* 与 StepAudio 3 Music 同字体同字号；默认稍弱，hover 提亮，读作可点的同系入口 */
+.lalt {
+  position: relative;
+  padding: 6px 11px; border-radius: var(--r-sm);
+  font-size: var(--fs-ui); font-weight: var(--fw-medium);
+  letter-spacing: -.01em; color: currentColor;
+  white-space: nowrap; opacity: .64;
+  transition: opacity var(--d-micro) var(--ease), background var(--d-micro) var(--ease);
+}
+.lalt:hover, .lalt:focus-visible { opacity: 1; background: rgba(127, 127, 127, .13); }
+/* 这两个按钮在左侧，提示气泡改为在按钮正下方左对齐 */
+.lalt .soon-tip { right: auto; left: 0; }
+/* 顶栏放不下时（右侧还有语言+CTA）先收起同系入口，只留主品牌 */
+@media (max-width: 980px) {
+  .lbrand-alts, .lbrand-sep { display: none; }
+}
+
+.lnav { display: flex; gap: 2px; justify-self: center; }
+.lnav a {
+  padding: 7px 12px; border-radius: var(--r-sm);
+  font-size: var(--fs-meta); color: currentColor; opacity: .72;
+  transition: opacity var(--d-micro) var(--ease), background var(--d-micro) var(--ease);
+}
+.lnav a:hover { opacity: 1; background: rgba(127, 127, 127, .13); }
+
+.lhead-right {
+  display: flex; align-items: center; gap: var(--s4);
+  position: absolute; top: 50%; right: var(--gutter);
+  transform: translateY(-50%);
+}
+
+/* 语言开关：深/浅两态都要看得清，所以用 currentColor 描边而不是固定色 */
+.llang { display: flex; gap: 2px; padding: 2px; border-radius: var(--r-pill);
+  border: 1px solid currentColor; opacity: .34; }
+.lhead.stuck .llang { opacity: .22; }
+.llang button {
+  padding: 4px 10px; border-radius: var(--r-pill);
+  font-size: var(--fs-micro); color: currentColor; opacity: .8;
+  transition: var(--d-micro) var(--ease);
+}
+.llang:hover { opacity: .6; }
+.llang button[aria-pressed="true"] { background: currentColor; opacity: 1; }
+/* 选中态：文字要反色。用 mix-blend 会在玻璃上出问题，所以直接给具体色 */
+.llang button[aria-pressed="true"] span { color: var(--stage); mix-blend-mode: normal; }
+.lhead.stuck .llang button[aria-pressed="true"] span { color: var(--paper); }
+
+.lhead-cta {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 34px; padding: 0 15px; border-radius: var(--r-pill);
+  font-size: var(--fs-meta); font-weight: var(--fw-medium);
+  background: var(--on-stage); color: var(--stage);
+  white-space: nowrap; flex: none;
+  transition: transform var(--d-micro) var(--ease), box-shadow var(--d-micro) var(--ease);
+}
+.lhead.stuck .lhead-cta { background: var(--ink); color: var(--ink-on-dark); }
+.lhead-cta:hover { transform: translateY(-1px); box-shadow: var(--sh-2); }
+.soon { position:relative; }
+.soon-tip { display:none; position:absolute; top:calc(100% + 8px); right:0; padding:5px 9px; border-radius:6px; background:var(--ink); color:var(--paper); font-size:11px; white-space:nowrap; }
+.soon:hover .soon-tip { display:block; }
+/* =============================================================================
+   [Intro] 首屏 —— 视频铺满，一句话居中
+   -----------------------------------------------------------------------------
+   只放两样东西：产品名和一句标语。背景是五段素材剪成的
+   无缝循环蒙太奇（1920x1080，见 tools/build_hero_video.py），画面本身是主角。
+   ============================================================================= */
+.hero {
+  position: relative;
+  min-height: 100svh;                 /* svh 而非 vh：移动端地址栏收起时不跳 */
+  display: grid; place-items: center;
+  overflow: hidden;
+  background: var(--stage);
+  color: var(--on-stage);
+}
+.hero-media {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  /* 亮度配平已在编码阶段做完（五段都在 100 上下，见 tools/build_hero_video.py），
+     所以这里**不再压暗**，只做极轻的降饱和/提对比保持质感。
+     文字可读性交给下面的暗角遮罩 + 文字自身的投影，而不是把整幅画压黑 ——
+     压黑是上一版"画面过暗"的主因。 */
+  filter: saturate(.96) contrast(1.03);
+}
+/* 文字在正中，遮罩要护住中心，但别把画面压死：
+   暗角外圈只到 .62，中心留到 .26，比上一版整体亮一档。 */
+.hero-scrim {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(112% 80% at 50% 50%,
+      rgba(14,15,18,.26) 0%, rgba(14,15,18,.44) 58%, rgba(14,15,18,.62) 100%),
+    linear-gradient(to bottom,
+      rgba(14,15,18,.40) 0%, rgba(14,15,18,.14) 30%, rgba(14,15,18,.22) 70%, var(--stage) 100%);
+}
+.hero-inner { position: relative; z-index: 1; width: 100%; }
+/* 背景不再整体压暗，所以给首屏文字加一层很轻的投影兜底。
+   数值刻意压得低（大模糊、低不透明度）：够把白字从亮画面里托出来，
+   又不会看出"描边感"。只作用于首屏，正文分区在纸色底上不需要。 */
+.hero-copy {
+  display: flex; flex-direction: column; align-items: center;
+  gap: clamp(7px, 1.806vw, 26px);
+  text-align: center; margin-inline: auto;
+}
+
+/* 产品名：大字号、重字重、紧字距，Music 使用品牌渐变。 */
+.hero-wordmark {
+  display: flex; flex-direction: column; align-items: center;
+  font-family: "Hero Brand", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(24px, 7.6vw, 104px);
+  font-weight: var(--fw-semi);
+  line-height: 1.04;
+  letter-spacing: .30em;
+  white-space: nowrap;
+  filter: blur(9px) drop-shadow(0 2px 22px rgba(0,0,0,.5));
+  transition: opacity 620ms var(--ease),
+              letter-spacing 2.4s cubic-bezier(.16,.84,.24,1),
+              filter 1.8s ease,
+              transform 2.4s cubic-bezier(.16,.84,.24,1);
+}
+.hero-wordmark.in {
+  letter-spacing: .05em;
+  filter: blur(0) drop-shadow(0 2px 22px rgba(0,0,0,.5));
+}
+.hero-wordmark-top {
+  display: block;
+  font-size: .42em;
+  color: rgba(255,255,255,.60);
+}
+.hero-wordmark-main {
+  display: block;
+  font-size: 1.10em;
+  background: linear-gradient(92deg, var(--cyan), var(--indigo) 55%, var(--purple));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.hero-sweep {
+  position: relative;
+  width: min(30vw, 420px);
+  height: 1px;
+  overflow: hidden;
+  background: rgba(255,255,255,.09);
+  opacity: 0;
+  transition: opacity 620ms var(--ease);
+}
+.hero-wordmark.in + .hero-sweep { opacity: 1; }
+.hero-sweep::after {
+  content: "";
+  position: absolute; inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, var(--cyan), var(--indigo), transparent);
+}
+.hero-wordmark.in + .hero-sweep::after {
+  animation: hero-sweep 2.1s 1.1s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes hero-sweep {
+  0% { transform: translateX(-100%); opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+.hero-slogan {
+  font-family: "Hero Slogan", var(--font-en);
+  font-size: clamp(6px, 1.6vw, 22px);
+  line-height: normal;
+  letter-spacing: .18em;
+  font-weight: 300;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  text-shadow: 0 1px 10px rgba(0,0,0,.55);
+}
+.btn-stage {
+  display: inline-flex; align-items: center; gap: 9px;
+  height: 46px; padding: 0 24px; border-radius: var(--r-pill);
+  background: var(--on-stage); color: var(--stage);
+  font-size: var(--fs-ui); font-weight: var(--fw-semi); letter-spacing: -.01em;
+  transition: transform var(--d-micro) var(--ease), box-shadow var(--d-base) var(--ease);
+}
+.btn-stage:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(0,0,0,.34); }
+.btn-stage svg { transition: transform var(--d-base) var(--ease); }
+.btn-stage:hover svg { transform: translateX(3px); }
+
+/* =============================================================================
+   分区通用
+   ============================================================================= */
+.sect { padding-block: var(--s16); }
+/* 上一段已经收尾了，紧接的分区不用再来一次顶部留白 */
+.sect-tight { padding-top: 0; }
+/* 顶栏是 fixed 64px，锚点跳转必须留出它的高度，否则标题会被压在栏下面 */
+.sect, .hero { scroll-margin-top: 64px; }
+.sect-dark { background: var(--stage); color: var(--on-stage); }
+
+/* 歌曲结构标签 —— 本页的结构装置，见文件头说明 1. */
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro); letter-spacing: .04em;
+  color: var(--bronze);
+  margin-bottom: var(--s5);
+}
+.sect-dark .tag { color: var(--bronze-lift); }
+
+.sect-head { max-width: 720px; margin-bottom: var(--s12); }
+.sect-head h2 {
+  font-size: clamp(24px, 2.5vw, 34px);
+  line-height: var(--lh-snug); letter-spacing: var(--tr-h1);
+  font-weight: var(--fw-semi); text-wrap: balance;
+}
+.sect-head p {
+  margin-top: var(--s4);
+  font-size: var(--fs-lead); line-height: var(--lh-normal); color: var(--ink-2);
+}
+.sect-dark .sect-head p { color: var(--on-stage-2); }
+
+/* =============================================================================
+   [Verse] 信号链 —— 用调音台的语汇表达模型管线
+   这是真实的处理顺序，不是四个并列的卖点卡
+   ============================================================================= */
+.chain { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.chain-step {
+  position: relative;
+  padding: var(--s6) var(--s6) var(--s6) 0;
+  border-top: 1px solid var(--rule);
+}
+/* 节点：链条上的一个焊点 */
+.chain-step::before {
+  content: ""; position: absolute; top: -4px; left: 0;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--bronze);
+}
+.chain-step:not(:first-child)::after {
+  content: "→"; position: absolute; top: -13px; left: -19px;
+  font-size: 12px; color: var(--ink-4);
+}
+.chain-step h3 {
+  font-size: var(--fs-h3); font-weight: var(--fw-semi);
+  letter-spacing: -.012em; margin-bottom: 7px;
+}
+.chain-step p { font-size: var(--fs-meta); line-height: var(--lh-normal); color: var(--ink-2); }
+.chain-step .mono {
+  display: block; margin-top: 9px;
+  font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--ink-4);
+}
+
+/* =============================================================================
+   [Bridge] 场景 —— 三条，克制成一行标题 + 一行说明
+   ============================================================================= */
+.uses { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s8); }
+.use { padding-top: var(--s5); border-top: 1px solid var(--rule); }
+.use h3 {
+  font-size: var(--fs-h3); font-weight: var(--fw-semi);
+  letter-spacing: -.012em; margin-bottom: 9px;
+}
+.use p { font-size: var(--fs-meta); line-height: var(--lh-normal); color: var(--ink-2); }
+
+/* =============================================================================
+   [Outro] 收束 —— 与首屏呼应的深色
+   ============================================================================= */
+.outro { text-align: center; padding-bottom: var(--s14); }
+.outro .tag { margin-bottom: var(--s6); }
+.outro h2 {
+  font-size: clamp(28px, 3.4vw, 46px);
+  line-height: var(--lh-snug); letter-spacing: var(--tr-h1);
+  font-weight: var(--fw-semi);
+}
+.outro .btn-stage { margin-top: var(--s10); }
+.outro-note {
+  margin-top: var(--s6);
+  font-size: var(--fs-meta); color: var(--on-stage-3);
+}
+.outro-note a { color: var(--on-stage-2); border-bottom: 1px solid var(--stage-rule); }
+.outro-note a:hover { color: var(--on-stage); }
+
+.lfoot {
+  border-top: 1px solid var(--stage-rule);
+  padding-block: var(--s6);
+  display: flex; align-items: center; gap: var(--s6); flex-wrap: wrap;
+  font-size: var(--fs-micro); color: var(--on-stage-3);
+}
+.lfoot nav { display: flex; gap: var(--s5); margin-left: auto; flex-wrap: wrap; }
+.lfoot a { color: var(--on-stage-2); }
+.lfoot a:hover { color: var(--on-stage); }
+
+/* =============================================================================
+   入场：一次编排，滚动到位才现身。不做逐元素花式动效。
+   ============================================================================= */
+[data-reveal] {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 620ms var(--ease), transform 620ms var(--ease);
+}
+[data-reveal].in { opacity: 1; transform: none; }
+
+/* 首屏不等滚动，载入即依次现身 */
+.hero [data-reveal] { transition-delay: var(--d, 0ms); }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+}
+
+/* =============================================================================
+   响应式
+   ============================================================================= */
+@media (max-width: 1080px) {
+  .landing { --gutter: 28px; }
+  .chain { grid-template-columns: repeat(2, 1fr); row-gap: var(--s8); }
+  .chain-step:nth-child(3)::after { content: none; }   /* 换行处不要悬空箭头 */
+}
+@media (max-width: 860px) {
+  .uses { grid-template-columns: 1fr; }
+  .uses { gap: var(--s6); }
+  .lnav { display: none; }
+  .sect { padding-block: var(--s14); }
+  .hero-inner { padding-block: var(--s14) var(--s12); }
+}
+@media (max-width: 560px) {
+  .landing { --gutter: 20px; }
+  /* 顶栏在 390px 下要塞下 品牌 + 语言 + CTA，全部收紧一档 */
+  .lhead { gap: var(--s3); }
+  .lbrand { font-size: var(--fs-meta); gap: 7px; }
+  .lbrand img { width: 22px; height: 22px; }
+  .llang button { padding: 4px 8px; }
+  .lhead-cta { padding: 0 12px; }
+  .chain { grid-template-columns: 1fr; }
+  .chain-step::after { content: none !important; }
+  .lfoot nav { margin-left: 0; }
+}
+@media (max-width: 640px) {
+  .hero-wordmark { letter-spacing: .18em; }
+  .hero-wordmark.in { letter-spacing: .05em; }
+}
+/* 再窄就只留 logo —— 与其把品牌名压成不可读的小字，不如把它拿掉 */
+@media (max-width: 420px) {
+  .lbrand span { display: none; }
+}
+
+/* Intro 与 Verse：完整段落，两端对齐。 */
+.model-head { max-width: none; margin-bottom: var(--s6); }
+.model-overview { margin-bottom: var(--s12); }
+
+/* [Intro] 功能演示视频：居中、比正文窄，16:9 画框 */
+.promo-embed {
+  max-width: 920px;
+  margin: 0 auto var(--s14);
+}
+.promo-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #F2F2F0;
+  box-shadow: 0 30px 80px rgba(20, 22, 26, .16), 0 4px 14px rgba(20, 22, 26, .07),
+              inset 0 0 0 1px rgba(20, 22, 26, .06);
+}
+.promo-frame iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0; display: block;
+}
+@media (max-width: 700px) {
+  .promo-embed { max-width: none; }
+  .promo-frame { border-radius: 14px; }
+}
+
+.model-overview > p, .evaluation-copy p {
+  font-size: var(--fs-lead);
+  line-height: 1.9;
+  color: var(--ink-2);
+  text-align: justify;
+  text-justify: inter-ideograph;
+}
+/* Verse：标题下方两列图表，完整说明位于图表下方。 */
+.evaluation-head { max-width: none; margin-bottom: var(--s8); }
+.evaluation-images {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+  margin-bottom: var(--s8);
+}
+.metric-figure { min-width: 0; }
+.metric-img { width: 100%; height: auto; background: transparent; }
+.metric-img-radar { width: 85%; margin-inline: auto; }
+.evaluation-copy { min-width: 0; }
+
+/* 聆听区沿用 studio 的卡片与间距，桌面每种能力一行五首。 */
+.listen-section + .listen-section { margin-top: var(--s14); }
+.listen-section .cap-head { margin: 0 0 var(--s5); }
+.listen-section .cap-head h3 { margin-top: 0; }
+.listen-section .cap-head p { max-width: none; }
+.listen-showcase .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+/* 首页没有 studio 侧栏与底部导航，只覆盖播放器的定位偏移。 */
+body.landing { --nav-cur: 0px; }
+.landing[data-playing] { padding-bottom: calc(var(--player-h) + var(--player-inset) * 2); }
+.landing .player { left: var(--player-inset); right: var(--player-inset); }
+.soon:hover .soon-tip, .soon:focus .soon-tip { display: block; }
+
+@media (max-width: 700px) {
+  .evaluation-images { grid-template-columns: 1fr; gap: var(--s6); }
+  .metric-figure { width: min(100%, 520px); margin-inline: auto; }
+  .model-overview > p, .evaluation-copy p { font-size: var(--fs-body); }
+  .listen-showcase .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5) var(--s4); }
+  .landing .player { left: 0; right: 0; bottom: env(safe-area-inset-bottom, 0px); }
+  .landing .pl-close { left: 4px; }
+  /* 展开面板在窄屏改为纵向滚动；给唱盘舞台保留真实高度，底部走带不会被歌词覆盖。 */
+  .landing .np-stage { min-height: 520px; }
+}

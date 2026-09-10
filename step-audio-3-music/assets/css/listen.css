@@ -1,0 +1,133 @@
+/* 聆听组件：取自 studio assets/css/app.css 的分组、卡片与 Toast 样式。 */
+.cap-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--s6); flex-wrap: wrap;
+  margin: var(--s14) 0 var(--s5);
+}
+.cap-head:first-child { margin-top: var(--s6); }
+.cap-head h3 {
+  font-size: var(--fs-h2); font-weight: var(--fw-semi);
+  letter-spacing: var(--tr-h2); margin-top: 10px;
+}
+.cap-head p { font-size: var(--fs-ui); color: var(--ink-2); margin-top: 6px; max-width: 54ch; }
+.cap-io {
+  font-family: var(--font-mono);
+  font-size: 12px; color: var(--ink-3);
+  white-space: nowrap;
+  display: flex; align-items: center; gap: 8px;
+}
+.cap-io b { color: var(--ink-2); font-weight: var(--fw-medium); }
+
+/* ── 卡片网格 ──────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--s5);
+}
+
+.card {
+  display: flex; flex-direction: column;
+  align-self: start;
+  width: 100%; text-align: left;
+  min-width: 0;
+}
+/* 高度由 <img> 固有比例撑开。不要在 .card-art 上写 aspect-ratio：
+   1fr 栅格列宽未定时会形成循环依赖，Chrome 把行高算小，
+   下一行封面会压住上一行标题。 */
+.card-art {
+  position: relative;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-art);
+  transition: transform var(--d-base) var(--ease), box-shadow var(--d-base) var(--ease);
+}
+.card-art img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+.card:hover .card-art { transform: translateY(-3px); box-shadow: var(--sh-3); }
+.card[aria-current="true"] .card-art { box-shadow: 0 0 0 2px var(--art), var(--sh-art); }
+
+.card-play {
+  position: absolute; right: 9px; bottom: 9px;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255, 255, 255, .93);
+  backdrop-filter: blur(8px);
+  color: var(--ink);
+  display: grid; place-items: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+  opacity: 0; transform: translateY(6px);
+  transition: var(--d-base) var(--ease);
+}
+.card:hover .card-play,
+.card:focus-visible .card-play,
+.card-play:focus-visible { opacity: 1; transform: none; }
+.card-play .icon-sm { margin-left: 1px; }
+
+.card-ref {
+  position: absolute; left: 9px; bottom: 9px;
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 26px; padding: 0 10px;
+  border-radius: var(--r-pill);
+  font-size: 11px; font-weight: var(--fw-semi);
+  background: rgba(255, 255, 255, .9);
+  backdrop-filter: blur(8px);
+  color: var(--ink-2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .16);
+  opacity: 0; transform: translateY(6px);
+  transition: var(--d-base) var(--ease);
+}
+.card:hover .card-ref, .card-ref:focus-visible { opacity: 1; transform: none; }
+
+.card-title {
+  display: flex; align-items: center; gap: 6px;
+  font-size: var(--fs-ui); font-weight: 550;
+  letter-spacing: -.008em;
+  margin-top: 11px;
+  min-width: 0;
+}
+.card-title span {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.card-meta {
+  font-size: var(--fs-meta); color: var(--ink-3);
+  margin-top: 2px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* 三格均衡器：唯一打破卡片严格重复的地方。
+   只在"正在播放"的那张卡出现 —— 全部都显示就失去了标记的意义。 */
+.eq { display: none; align-items: flex-end; gap: 2px; height: 10px; flex: none; }
+.card[aria-current="true"] .eq { display: inline-flex; }
+.eq i { width: 2px; border-radius: 1px; background: var(--art); height: 30%; }
+body[data-playing="1"] .card[aria-current="true"] .eq i {
+  animation: eqBounce .85s var(--ease-inout) infinite alternate;
+}
+.eq i:nth-child(1) { animation-delay: 0s; }
+.eq i:nth-child(2) { animation-delay: .19s; height: 100%; }
+.eq i:nth-child(3) { animation-delay: .38s; height: 60%; }
+@keyframes eqBounce { from { height: 25%; } to { height: 100%; } }
+
+.toasts {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(var(--player-h) + var(--player-inset) * 2 + 8px);
+  z-index: var(--z-toast);
+  display: flex; flex-direction: column-reverse; align-items: center; gap: var(--s2);
+  pointer-events: none;
+}
+.toast {
+  background: var(--ink); color: var(--ink-on-dark);
+  font-size: var(--fs-meta); font-weight: var(--fw-medium);
+  padding: 10px 18px; border-radius: var(--r-pill);
+  box-shadow: var(--sh-3);
+  animation: toastIn var(--d-base) var(--ease);
+  max-width: min(90vw, 460px); text-align: center;
+}
+.toast.leaving { animation: toastOut var(--d-base) var(--ease) forwards; }
+@keyframes toastIn { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes toastOut { to { opacity: 0; transform: translateY(6px) scale(.98); } }
+
+/* ── 音符粒子层 ────────────────────────────────────────────────────────── */
+#notes {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: var(--z-notes);
+}
+

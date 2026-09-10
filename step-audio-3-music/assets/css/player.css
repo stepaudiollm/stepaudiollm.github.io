@@ -1,0 +1,475 @@
+/* =============================================================================
+   player.css · 黑胶唱盘、浮动播放胶囊、展开播放面板
+   几何：viewBox 400×400，盘心 (180,200) r=150，唱臂轴心 (352,52)，臂长 215
+   ============================================================================= */
+
+/* ── 唱盘 ──────────────────────────────────────────────────────────────── */
+.tt {
+  --dia: 300px;
+  --sw: 5;                 /* 唱臂描边宽度，用户单位 */
+  --groove: 3px;
+  --p: 0;                  /* 播放进度 0–1 */
+  --down: 0;               /* 唱针是否落下 0/1 */
+  position: relative;
+  flex: none;
+  width: calc(var(--dia) / .75);
+  height: calc(var(--dia) / .75);
+}
+.tt[data-size="s"] { --dia: 48px; --sw: 22; --groove: 4px; }
+.tt[data-size="m"] { --dia: 200px; --sw: 7; }
+
+.tt-plate, .tt-sheen, .tt-rim {
+  position: absolute;
+  width: var(--dia); height: var(--dia);
+  border-radius: 50%;
+  left: calc(var(--dia) * .1);
+  top: calc(var(--dia) * .16667);
+}
+.tt-plate {
+  background:
+    repeating-radial-gradient(circle at 50% 50%,
+      rgba(255,255,255,.055) 0 1px, rgba(0,0,0,0) 1px var(--groove)),
+    radial-gradient(circle at 50% 50%,
+      #1b1d23 0 29%, var(--vinyl-base) 62%, var(--vinyl-edge) 100%);
+  animation: ttspin var(--spin-period) linear infinite;
+  animation-play-state: paused;
+  will-change: transform;
+}
+/* 曲目分隔环：真实唱片歌与歌之间有一道更宽更亮的环，给盘面"信息" */
+.tt-plate::before {
+  content: "";
+  position: absolute; inset: 0; border-radius: 50%;
+  background: repeating-radial-gradient(circle at 50% 50%,
+    rgba(0,0,0,0) 0 8.4%, rgba(255,255,255,.05) 8.4% 9%);
+}
+.tt[data-state="playing"] .tt-plate { animation-play-state: running; }
+@keyframes ttspin { to { transform: rotate(360deg); } }
+
+.tt-label {
+  position: absolute; inset: 29%;
+  border-radius: 50%; overflow: hidden; z-index: 2;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.55), 0 0 0 3px rgba(255,255,255,.07);
+  background: #23252c;
+}
+.tt-label img { width: 100%; height: 100%; object-fit: cover; background: none; }
+.tt-hole {
+  position: absolute; left: 50%; top: 50%;
+  width: 5%; height: 5%;
+  transform: translate(-50%, -50%);
+  z-index: 3; border-radius: 50%;
+  background: #050506;
+  box-shadow: 0 0 0 2px #2a2a30;
+}
+/* 生成中：唱片在转但标签空白，计时数字**不跟着转** —— 独立于旋转层 */
+.tt-center {
+  position: absolute;
+  left: calc(var(--dia) * .1); top: calc(var(--dia) * .16667);
+  width: var(--dia); height: var(--dia);
+  display: grid; place-items: center;
+  z-index: 8; pointer-events: none;
+}
+.tt-center span {
+  font-family: var(--font-mono);
+  font-size: calc(var(--dia) * .088);
+  color: #ccd0d7;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 高光是旋转层之上的**独立兄弟元素**，不参与旋转。
+   光源固定，只有盘面在动 —— 这是物理正确的做法。 */
+.tt-sheen {
+  pointer-events: none; z-index: 4;
+  background: linear-gradient(125deg,
+    rgba(0,0,0,0) 33%, rgba(255,255,255,.10) 44%,
+    rgba(255,255,255,.03) 48%, rgba(0,0,0,0) 54%);
+}
+.tt-rim {
+  pointer-events: none; z-index: 5;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.09),
+    inset 0 0 calc(var(--dia) * .05) rgba(0,0,0,.55),
+    0 calc(var(--dia) * .02) calc(var(--dia) * .07) rgba(20,22,26,.28);
+}
+
+/* ── 唱臂：角度就是播放进度 ────────────────────────────────────────────── */
+.tt-arm {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 6; overflow: visible; pointer-events: none;
+}
+.tt-arm .arm {
+  transform-box: view-box;
+  transform-origin: 352px 52px;
+  /* down=0（停/暂停）→ −8° 摆回支架；down=1（播放）→ +10° 落到外圈，再随进度内移。
+     进度项也乘 --down，这样暂停时是一次完整的 700ms 摆出、恢复时摆回原位。 */
+  rotate: calc(-8deg + 18deg * var(--down) + 22deg * var(--p) * var(--down));
+  translate: 0 calc(-9px * (1 - var(--down)));
+  transition: rotate var(--d-cue) var(--ease), translate var(--d-cue) var(--ease);
+}
+.tt-arm .tube { stroke: url(#armMetal); stroke-width: var(--sw); stroke-linecap: round;
+  stroke-linejoin: round; fill: none; }
+.tt-arm .tube-hi { stroke: rgba(255,255,255,.5); stroke-width: calc(var(--sw) * .2); stroke-linecap: round; fill: none; }
+.tt-arm .bearing-o { fill: #4a4d55; }
+.tt-arm .bearing-i { fill: var(--bronze-lift); }
+.tt-arm .cw { fill: #31343b; }
+.tt-arm .head { fill: #3a3d44; }
+.tt-arm .styl { stroke: var(--bronze-lift); stroke-width: calc(var(--sw) * .55); stroke-linecap: round; }
+/* 小尺寸省掉细节，否则 48px 上是一团糊 */
+.tt[data-detail="low"] .cw,
+.tt[data-detail="low"] .tube-hi,
+.tt[data-detail="low"] .head { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tt-plate { animation: none !important; }
+  .tt-arm .arm { transition: none !important; }
+}
+
+/* ── 浮动播放胶囊 ──────────────────────────────────────────────────────────
+   左边必须让开侧栏，否则胶囊会盖住侧栏底部的语言切换/收起/音效按钮，
+   让它们点不到。--nav-cur 跟随侧栏当前实际宽度。                      */
+body { --nav-cur: var(--nav-w); }
+body:has(.app[data-nav="mini"]) { --nav-cur: var(--nav-w-mini); }
+
+.player {
+  position: fixed;
+  left: calc(var(--nav-cur) + var(--player-inset));
+  right: var(--player-inset);
+  bottom: var(--player-inset);
+  height: var(--player-h);
+  z-index: var(--z-player);
+  display: flex; align-items: center; gap: var(--s4);
+  padding: 0 var(--s4) 0 13px;
+  border-radius: 22px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--sh-3), inset 0 0 0 1px var(--glass-border);
+  transform: translateY(calc(100% + var(--player-inset) * 2));
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--d-panel) var(--ease), opacity var(--d-base) var(--ease),
+              left var(--d-base) var(--ease);
+}
+body[data-playing] .player { transform: none; opacity: 1; pointer-events: auto; }
+/* 环境光：像唱片溢出来的光。换歌时在 600ms 内过渡到新颜色 ——
+   这是"界面无色"这个约束给出的回报。 */
+.player::before {
+  content: "";
+  position: absolute; inset: -26px -18px;
+  border-radius: 46px; z-index: -1;
+  background: radial-gradient(58% 130% at 10% 50%, var(--art-glow), rgba(0,0,0,0) 72%);
+  transition: background .6s var(--ease);
+  pointer-events: none;
+}
+
+/* 关闭按钮：压在胶囊左上角，点了停止播放并收起整条 */
+.pl-close {
+  position: absolute; left: -7px; top: -7px; z-index: 2;
+  width: 24px; height: 24px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--paper); color: var(--ink-3);
+  box-shadow: var(--sh-2);
+  opacity: 0; transform: scale(.8);
+  transition: var(--d-fast) var(--ease);
+}
+.player:hover .pl-close, .pl-close:focus-visible { opacity: 1; transform: none; }
+.pl-close:hover { color: var(--ink); }
+.pl-close .icon-sm { width: 12px; height: 12px; }
+
+/* 黑胶本身是按钮：点了展开播放面板 */
+.tt-btn { cursor: pointer; padding: 0; border: 0; background: none; }
+.tt-btn:hover .tt-rim { box-shadow:
+  inset 0 0 0 1px rgba(255,255,255,.16),
+  inset 0 0 calc(var(--dia) * .05) rgba(0,0,0,.5),
+  0 calc(var(--dia) * .03) calc(var(--dia) * .1) rgba(20,22,26,.34); }
+.tt-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 50%; }
+
+.pl-track { display: flex; align-items: center; gap: var(--s3); width: 190px; min-width: 0; }
+.pl-track .m { min-width: 0; }
+.pl-track .m b {
+  display: block; font-size: 14.5px; font-weight: var(--fw-semi);
+  letter-spacing: -.008em;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.pl-track .m small {
+  display: block; font-size: 12px; color: var(--ink-3);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.pl-transport { display: flex; align-items: center; gap: var(--s2); flex: none; }
+.pl-btn {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--ink-2);
+  transition: var(--d-micro) var(--ease);
+}
+.pl-btn:hover { color: var(--ink); background: var(--field-hover); }
+.pl-btn.liked { color: var(--art); }
+.pl-play {
+  width: 40px; height: 40px;
+  background: var(--ink); color: var(--ink-on-dark);
+}
+.pl-play:hover { background: var(--ink); color: var(--ink-on-dark); transform: scale(1.05); }
+.pl-seek { flex: 1; display: flex; align-items: center; gap: var(--s3); min-width: 0; }
+.pl-seek .t { font-size: 11.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; flex: none; }
+.pl-right { display: flex; align-items: center; gap: 2px; flex: none; }
+
+/* 峰值波形 seek 条 */
+.peaks { display: block; width: 100%; min-width: 0; cursor: pointer; height: 24px; }
+.peaks:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+
+/* 音量 */
+.vol { display: flex; align-items: center; gap: var(--s2); }
+.vol input {
+  width: 0; opacity: 0;
+  transition: width var(--d-base) var(--ease), opacity var(--d-base) var(--ease);
+  accent-color: var(--ink);
+  cursor: pointer;
+}
+.vol:hover input, .vol:focus-within input { width: 72px; opacity: 1; }
+
+@media (max-width: 1180px) {
+  body, body:has(.app[data-nav="mini"]) { --nav-cur: var(--nav-w-mini); }
+}
+@media (max-width: 900px) {
+  .pl-track { width: 150px; }
+  .pl-right .vol, .pl-right .pl-dl { display: none; }
+}
+@media (max-width: 700px) {
+  body, body:has(.app[data-nav="mini"]) { --nav-cur: 0px; }
+  .player {
+    left: 0; right: 0; bottom: 58px;
+    border-radius: 0;
+    padding: 0 var(--s3);
+    gap: var(--s3);
+  }
+  .player::before { display: none; }
+  .pl-track { width: auto; flex: 1; }
+  .pl-seek .t { display: none; }
+  .pl-seek { position: absolute; left: 0; right: 0; top: -3px; height: 6px; }
+  .peaks { height: 6px; }
+  .pl-right .pl-repeat { display: none; }
+}
+
+/* ── 展开播放面板 ──────────────────────────────────────────────────────── */
+.np-scrim {
+  position: fixed; inset: 0;
+  z-index: var(--z-scrim);
+  background: var(--scrim);
+  backdrop-filter: var(--scrim-blur);
+  -webkit-backdrop-filter: var(--scrim-blur);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--d-panel) var(--ease);
+}
+.np-scrim.on { opacity: 1; pointer-events: auto; }
+
+.np {
+  position: fixed;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(.97);
+  width: min(1080px, 100vw - 48px);
+  max-height: min(720px, 100dvh - 48px);
+  z-index: var(--z-panel);
+  border-radius: var(--r-3xl);
+  overflow: hidden;
+  background: var(--paper);
+  box-shadow: var(--sh-4);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 1.08fr);
+  grid-template-rows: minmax(0, 1fr);   /* 行被约束住，子项才可能滚动 */
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--d-panel) var(--ease), transform var(--d-panel) var(--ease);
+}
+.np.on { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+/* 背景：当前封面的大幅模糊放大版，压在白色半透明层下 —— 有色彩暗示但不抢文字 */
+.np-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.np-bg i {
+  position: absolute; inset: -20%;
+  background-size: cover; background-position: center;
+  filter: blur(60px) saturate(.55) brightness(1.15);
+  opacity: .5;
+}
+.np-bg::after { content: ""; position: absolute; inset: 0; background: rgba(255,255,255,.74); }
+
+/* 两栏都必须 min-height:0。
+   栅格子项默认 min-height:auto，内容高就撑着不缩，容器的 max-height 只会把它裁掉：
+   歌词一长，右栏不滚动而是把整行撑到 1300+px，左栏的进度条/律动/按钮被顶到
+   可视区外 —— 看起来就"只剩一张唱片"。 */
+.np-stage {
+  position: relative; z-index: 1;
+  padding: var(--s6) var(--s6) var(--s5);
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column;
+  min-width: 0; min-height: 0;
+}
+/* 唱片区可压缩，短屏幕上先让唱片变小，而不是把走带挤出去 */
+.np-tt .tt { --dia: min(232px, 26dvh); }
+
+/* 右栏是纵向栈：歌词 → 描述 → 输入音频。
+   歌词块用 flex:0 1 auto —— 内容短时按内容高、描述紧跟其下；
+   内容长时它自己被压缩并在内部滚动，描述与输入音频始终留在视区里。
+   （之前整栏一起滚动，歌词一长就把描述顶到要往下翻才看得到。） */
+.np-words {
+  position: relative; z-index: 1;
+  padding: var(--s6);
+  display: flex; flex-direction: column; gap: var(--s5);
+  overflow: hidden;
+  min-width: 0; min-height: 0;
+}
+.np-lyrics {
+  display: flex; flex-direction: column;
+  flex: 0 1 auto; min-height: 96px;
+}
+.np-lyrics-scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-height: 0;
+  padding-right: 4px;
+}
+.np-block { flex: none; }
+/* 纯音乐时「描述」是右栏第一个块 —— 上分隔线会变成一条悬空的横线，
+   而且标签会顶到右上角关闭按钮附近。第一个块去掉上边线并让出按钮位置。 */
+.np-words > .np-block:first-child { padding-top: 0; border-top: 0; }
+.np-words > .np-block:first-child > .k { padding-right: 46px; }
+.np-close {
+  position: absolute; top: 14px; right: 14px; z-index: 3;
+  width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--ink-3);
+  background: rgba(255,255,255,.72);
+  backdrop-filter: blur(10px);
+  transition: var(--d-micro) var(--ease);
+}
+.np-close:hover { color: var(--ink); background: var(--paper); }
+
+.np-title {
+  font-size: 27px; font-weight: var(--fw-semi);
+  letter-spacing: -.024em; line-height: 1.14;
+  margin-top: 10px;
+}
+.np-tags {
+  font-size: var(--fs-meta); color: var(--ink-3);
+  margin-top: 6px; font-variant-numeric: tabular-nums;
+}
+.np-tt { display: grid; place-items: center; flex: 1;
+  min-height: 0; overflow: hidden; margin: var(--s3) 0; }
+
+/* 实时律动频谱：跟着音频跳。与下面的峰值波形是两件不同的东西 ——
+   频谱是"此刻"，波形是"整首 + 位置"。 */
+.np-spectrum {
+  display: block; width: 100%; height: 46px;
+  margin-bottom: var(--s2);
+}
+.np-transport { margin-top: auto; }
+
+/* 进度条做成一条细线 —— 上方是频谱柱，两个都用柱状会打架。
+   线条 + 柱状的组合，层次更清楚。 */
+.np-line {
+  position: relative;
+  height: 22px;
+  cursor: pointer;
+  display: flex; align-items: center;
+}
+.np-line::before {
+  content: "";
+  position: absolute; left: 0; right: 0;
+  height: 3px; border-radius: 99px;
+  background: var(--pk-off);
+}
+.np-line-fill {
+  position: absolute; left: 0;
+  height: 3px; border-radius: 99px;
+  background: var(--art);
+  width: 0;
+}
+.np-line-dot {
+  position: absolute;
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--art);
+  box-shadow: 0 1px 4px rgba(20,22,26,.28);
+  transform: translateX(-50%) scale(.9);
+  left: 0;
+  transition: transform var(--d-micro) var(--ease);
+}
+.np-line:hover .np-line-dot, .np-line:focus-visible .np-line-dot { transform: translateX(-50%) scale(1.25); }
+.np-line:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
+.np-times {
+  display: flex; justify-content: space-between;
+  font-size: 12px; color: var(--ink-3);
+  font-variant-numeric: tabular-nums; margin-top: 6px;
+}
+.np-btns { display: flex; align-items: center; justify-content: center; gap: var(--s5); margin-top: var(--s4); }
+.np-big {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: var(--ink); color: var(--ink-on-dark);
+  display: grid; place-items: center;
+  box-shadow: 0 6px 20px rgba(20,22,26,.24);
+  transition: var(--d-micro) var(--ease);
+}
+.np-big:hover { transform: scale(1.05); }
+.np-acts {
+  display: flex; gap: var(--s1); justify-content: center;
+  margin-top: var(--s4); padding-top: var(--s4);
+  border-top: 1px solid var(--rule);
+}
+
+/* 歌词 */
+.np-words h4 {
+  font-size: var(--fs-eyebrow); font-weight: var(--fw-semi);
+  letter-spacing: var(--tr-eyebrow); text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: var(--s4);
+  padding-right: 46px;                     /* 让出右上角关闭按钮 */
+}
+.lyr-sec {
+  font-family: var(--font-mono);
+  font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--bronze);
+  margin: var(--s5) 0 6px;
+}
+.lyr-sec:first-of-type { margin-top: 0; }
+.lyr-line { font-size: 15.5px; line-height: var(--lh-loose); color: var(--ink); }
+.np-none { font-size: var(--fs-meta); color: var(--ink-3); }
+
+.np-block { padding-top: var(--s5); border-top: 1px solid var(--rule); }
+.np-block .k {
+  font-size: var(--fs-eyebrow); font-weight: var(--fw-semi);
+  letter-spacing: var(--tr-eyebrow); text-transform: uppercase;
+  color: var(--ink-4); margin-bottom: 7px;
+}
+.np-block .v { font-size: var(--fs-meta); line-height: 1.7; color: var(--ink-2); }
+
+/* 输入音频：有输入的能力（清唱配乐 / 歌曲翻唱）在歌词栏下方给一个播放器 */
+.np-input {
+  margin-top: var(--s3);
+  display: flex; align-items: center; gap: var(--s3);
+  background: var(--field);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+}
+.np-input .lab {
+  font-size: 11.5px; font-weight: var(--fw-semi);
+  color: var(--ink-2); white-space: nowrap;
+  display: flex; align-items: center; gap: 6px;
+}
+.np-input audio { flex: 1; min-width: 0; height: 34px; }
+
+@media (max-width: 920px) {
+  .np {
+    grid-template-columns: 1fr;
+    max-height: min(88dvh, 100dvh - 32px);
+    width: min(560px, 100vw - 32px);
+  }
+  .np-stage { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .np-words { max-height: none; }
+  .np { overflow-y: auto; }
+}
+@media (max-width: 700px) {
+  .np {
+    inset: 0; left: 0; top: 0;
+    transform: translateY(100%);
+    width: 100%; max-height: none; height: 100dvh;
+    border-radius: 0;
+  }
+  .np.on { transform: none; }
+  .np-title { font-size: 22px; }
+}

@@ -1,0 +1,21 @@
+# 接口测试产物 —— 只在本地跑 tools/ 下的测试脚本时生成，不参与部署。
+# 每首 mp3 好几 MB，提交进去只会白白拖慢 GitHub Pages 拉取。
+test/out/
+test/tasks.json
+test/shots/
+
+# 封面原图（1254×1254，共 17 MiB）。部署用的是 tools/build_covers.py 压出来的
+# assets/covers/*.webp，原图只在本地留着以便随时改尺寸重跑，不进仓库。
+assets/covers_v2/
+
+.DS_Store
+
+# 首页视频原片缓存（tools/build_hero_video.py 会按需重新下载）
+assets/video/_source/
+
+# 参考用的第三方前端交付包（stepaudio3-gen-demo，43 MiB，自带 .git）。
+# 只用来看设计，不是本站内容，绝不能部署出去。
+reference/
+
+# 本地验收截图/产物，不部署
+test/

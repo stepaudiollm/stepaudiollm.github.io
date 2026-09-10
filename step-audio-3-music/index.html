@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StepAudio 3 Music</title>
+<meta name="description" content="用一句自然语言描述风格、人声、情绪、调性与速度，StepAudio3-Music 先规划歌曲结构与编曲，再生成完整歌曲。支持歌曲生成、纯音乐、歌曲翻唱与清唱配乐。">
+<meta name="theme-color" content="#0E0F12">
+<link rel="icon" type="image/png" href="assets/logos/stepfun.png">
+
+<link rel="preload" href="assets/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<!-- 首屏海报要尽早出现：视频解码前它就是背景 -->
+<link rel="preload" href="assets/video/hero-poster.jpg" as="image">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/listen.css">
+<link rel="stylesheet" href="assets/css/player.css">
+<link rel="stylesheet" href="assets/css/landing.css">
+</head>
+
+<body class="landing">
+<a class="skip" href="#intro" data-t="skip">跳到主内容</a>
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs>
+  <linearGradient id="armMetal" gradientUnits="userSpaceOnUse" x1="340" y1="0" x2="364" y2="0">
+    <stop offset="0" stop-color="#4b4f57"/><stop offset=".3" stop-color="#9ba1ab"/>
+    <stop offset=".52" stop-color="#767d89"/><stop offset="1" stop-color="#33363d"/>
+  </linearGradient>
+  <g id="i-house"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.6V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.6"/><path d="M9.5 21v-6h5v6"/></g>
+  <g id="i-headphones"><path d="M3 15v-3a9 9 0 0 1 18 0v3"/><path d="M3 16a2 2 0 0 1 2-2h1v6H5a2 2 0 0 1-2-2Z"/><path d="M21 16a2 2 0 0 0-2-2h-1v6h1a2 2 0 0 0 2-2Z"/></g>
+  <g id="i-sliders"><path d="M3 7h12M19 7h2M3 12h4M11 12h10M3 17h10M17 17h4"/><circle cx="17" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="15" cy="17" r="2"/></g>
+  <g id="i-disc"><circle cx="12" cy="12" r="9"/><path d="M6 12a6 6 0 0 1 6-6"/><path d="M18 12a6 6 0 0 1-6 6"/><circle cx="12" cy="12" r="1.8"/></g>
+  <g id="i-mail"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.8 6.6 8.2 5.8 8.2-5.8"/></g>
+  <g id="i-file"><path d="M14 3v5h5"/><path d="M19 8.5V19a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7Z"/><path d="M9 13h6M9 17h4"/></g>
+  <g id="i-code"><path d="m8 9-3 3 3 3M16 9l3 3-3 3M13.5 5l-3 14"/></g>
+  <g id="i-music"><circle cx="7" cy="18" r="3"/><circle cx="18" cy="15.5" r="3"/><path d="M10 18V6l11-2.5v12"/></g>
+  <g id="i-panel-close"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M9.5 4v16"/><path d="m16 9.5-2 2.5 2 2.5"/></g>
+  <g id="i-panel-open"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M9.5 4v16"/><path d="m14 9.5 2 2.5-2 2.5"/></g>
+  <g id="i-play"><path d="M7.5 4.8v14.4L19.5 12 7.5 4.8Z" fill="currentColor" stroke="none"/></g>
+  <g id="i-pause"><path d="M9 5v14M15 5v14" stroke-width="2.4"/></g>
+  <g id="i-prev"><path d="M17.5 5.4v13.2L8 12l9.5-6.6Z" fill="currentColor" stroke="none"/><path d="M6 5.5v13"/></g>
+  <g id="i-next"><path d="M6.5 5.4v13.2L16 12 6.5 5.4Z" fill="currentColor" stroke="none"/><path d="M18 5.5v13"/></g>
+  <g id="i-heart"><path d="M12 20.2s-7.2-4.6-7.2-9.7A4.6 4.6 0 0 1 12 6.9a4.6 4.6 0 0 1 7.2 3.6c0 5.1-7.2 9.7-7.2 9.7Z"/></g>
+  <g id="i-download"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5M5 20h14"/></g>
+  <g id="i-repeat"><path d="m17 2.5 3.5 3.5L17 9.5"/><path d="M3.5 11.5V10a4 4 0 0 1 4-4h13"/><path d="m7 21.5-3.5-3.5L7 14.5"/><path d="M20.5 12.5V14a4 4 0 0 1-4 4h-13"/></g>
+  <g id="i-repeat-1"><path d="m17 2.5 3.5 3.5L17 9.5"/><path d="M3.5 11.5V10a4 4 0 0 1 4-4h13"/><path d="m7 21.5-3.5-3.5L7 14.5"/><path d="M20.5 12.5V14a4 4 0 0 1-4 4h-13"/><path d="M11 11.5l1.5-1v5" stroke-width="1.9"/></g>
+  <g id="i-volume"><path d="M11 5 6.2 9H3v6h3.2L11 19V5Z"/><path d="M15.4 8.6a4.8 4.8 0 0 1 0 6.8M18.4 6a8.5 8.5 0 0 1 0 12"/></g>
+  <g id="i-volume-x"><path d="M11 5 6.2 9H3v6h3.2L11 19V5Z"/><path d="m16 9.5 5 5M21 9.5l-5 5"/></g>
+  <g id="i-chev-up"><path d="m6.5 14 5.5-5.5L17.5 14"/></g>
+  <g id="i-chev-down"><path d="m6.5 10 5.5 5.5L17.5 10"/></g>
+  <g id="i-dices"><rect x="3" y="9.5" width="11.5" height="11.5" rx="2.6"/><path d="m9.8 9.4 2.6-4.9a2 2 0 0 1 2.7-.8l4.2 2.3a2 2 0 0 1 .8 2.7l-2.5 4.6"/><circle cx="7" cy="13.2" r=".9"/><circle cx="10.6" cy="17.3" r=".9"/></g>
+  <g id="i-refresh"><path d="M3.5 12a8.5 8.5 0 0 1 14.3-6.2L20.5 8"/><path d="M20.5 3.2V8h-4.8"/><path d="M20.5 12a8.5 8.5 0 0 1-14.3 6.2L3.5 16"/><path d="M3.5 20.8V16h4.8"/></g>
+  <g id="i-arrow"><path d="M5 12h13M12.5 6l6 6-6 6"/></g>
+  <g id="i-x"><path d="m6.5 6.5 11 11M17.5 6.5l-11 11"/></g>
+  <g id="i-waves"><path d="M3 12v1.5M6.5 9v6M10 5.5v13M13.5 8v8M17 10.5v3M20.5 11.5v1"/></g>
+  <g id="i-upload"><path d="M12 15.5V3.5M7.5 8 12 3.5 16.5 8M5 20h14"/></g>
+  <g id="i-check"><path d="m5 13 4.5 4.5L19 7"/></g>
+  <g id="i-alert"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.2"/></g>
+  <g id="i-trash"><path d="M4 7h16M9.5 7V4h5v3M6.5 7l1 13h9l1-13M10 11v6M14 11v6"/></g>
+  <g id="i-sparkle"><path d="M12 3.5v4M12 16.5v4M3.5 12h4M16.5 12h4M6.2 6.2l2.6 2.6M15.2 15.2l2.6 2.6M17.8 6.2l-2.6 2.6M8.8 15.2l-2.6 2.6"/></g>
+  <g id="i-key"><circle cx="7.8" cy="16.2" r="4.3"/><path d="M11 13.1 19.8 4.3"/><path d="m16.3 7.6 2.6 2.6 2.3-2.3-2.6-2.6"/></g>
+  <g id="i-eye"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12S18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.9"/></g>
+  <g id="i-eye-off"><path d="M3 3l18 18"/><path d="M10.6 6.2A9.7 9.7 0 0 1 12 6.1c6 0 9.5 5.9 9.5 5.9a18 18 0 0 1-2.6 3.3"/><path d="M6.9 7.1A17.6 17.6 0 0 0 2.5 12S6 17.9 12 17.9c1.4 0 2.8-.3 4-.9"/></g>
+</defs></svg>
+
+<!-- ══ 顶栏 ═══════════════════════════════════════════════════════════════ -->
+<header class="lhead" id="lhead">
+  <div class="lbrand-group">
+    <a class="lbrand" href="#top" aria-label="StepAudio 3 Music">
+      <!-- 内联而非 <img>：logo 用 currentColor 上色，顶栏由深转浅时自动反色 -->
+      <svg class="lbrand-mark" viewBox="0 0 20 20" fill="currentColor" fill-rule="evenodd" aria-hidden="true">
+        <path d="M10,0C4.48,0,0,4.48,0,10s4.48,10,10,10,10-4.48,10-10S15.52,0,10,0ZM7.3,16.34h-3.65v-3.65h3.65v3.65ZM11.82,16.34h-3.65v-3.65h3.65v3.65ZM11.82,11.83h-3.65v-3.66h3.65v3.66ZM11.82,7.31h-3.65v-3.65h3.65v3.65ZM16.34,7.31h-3.65v-3.66h3.65v3.66Z"/>
+      </svg>
+      <span>StepFun&nbsp; | &nbsp;StepAudio 3 Music</span>
+    </a>
+    <!-- 同系产品入口：字体/字号沿用品牌名，暂无链接则点击提示 Coming soon -->
+    <span class="lbrand-sep" aria-hidden="true"></span>
+    <nav class="lbrand-alts" aria-label="StepAudio 3 apps">
+      <button type="button" class="lalt soon" aria-describedby="soonGen">
+        <span>StepAudio 3 Gen</span>
+        <span class="soon-tip" id="soonGen" role="tooltip">Coming soon</span>
+      </button>
+      <button type="button" class="lalt soon" aria-describedby="soonRealtime">
+        <span>StepAudio 3 Realtime</span>
+        <span class="soon-tip" id="soonRealtime" role="tooltip">Coming soon</span>
+      </button>
+    </nav>
+  </div>
+  <div class="lhead-right">
+    <div class="llang" role="group" aria-label="语言 / Language">
+      <button type="button" data-lang="zh" aria-pressed="true"><span>中文</span></button>
+      <button type="button" data-lang="en" aria-pressed="false"><span>EN</span></button>
+    </div>
+    <button type="button" class="lhead-cta soon" aria-describedby="headerSoon"><span data-t="cta.experience">体验中心</span><span class="soon-tip" id="headerSoon" role="tooltip">Coming soon</span></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ══ [Intro] 首屏 ═══════════════════════════════════════════════════════ -->
+<section class="hero" id="intro" aria-labelledby="hero-slogan">
+  <video class="hero-media" id="heroVideo"
+         autoplay muted loop playsinline preload="none"
+         poster="assets/video/hero-poster.jpg" aria-hidden="true" tabindex="-1">
+    <source src="assets/video/hero.webm" type="video/webm">
+    <source src="assets/video/hero.mp4" type="video/mp4">
+  </video>
+  <div class="hero-scrim" aria-hidden="true"></div>
+
+  <div class="hero-inner landing-wrap">
+    <div class="hero-copy">
+      <p class="hero-wordmark" data-reveal style="--d:0ms">
+        <span class="hero-wordmark-top">StepAudio 3</span>
+        <span class="hero-wordmark-main">Music</span>
+      </p>
+      <div class="hero-sweep" aria-hidden="true"></div>
+      <h1 class="hero-slogan" id="hero-slogan" data-reveal style="--d:110ms">
+        MAKE YOUR IDEAS SING
+      </h1>
+    </div>
+  </div>
+</section>
+
+<!-- ══ [Intro] 模型 ═══════════════════════════════════════════════════════ -->
+<section class="sect" id="model">
+  <div class="landing-wrap">
+    <div class="sect-head model-head" data-reveal>
+      <span class="tag">[Intro]</span>
+      <h2 data-t="model.h">先把歌想清楚，再唱出来。</h2>
+    </div>
+    <div class="model-overview" data-reveal>
+      <p data-t="model.p">StepAudio 3 Music 采用 MoE 架构与 AR + DiT 生成范式，将音乐结构规划与音频生成相结合。模型借助 ABC-COT，在生成前规划歌曲结构、段落衔接与编曲层次，为完整歌曲的生成提供结构化指导。ABC-COT 将自然语言中的创作意图转化为音乐规划，使风格、人声、情绪、乐器、调性与速度等控制条件贯穿生成过程。通过结构化规划与音频生成的协同，模型能够更准确地遵循描述，在歌曲结构、演唱表现与配器细节上实现更强的可控性。</p>
+    </div>
+
+    <!-- 交互式功能演示动画：点击播放，右下角可全屏 -->
+    <div class="promo-embed" data-reveal>
+      <div class="promo-frame">
+        <iframe src="assets/video/promo.html?embed=1"
+                title="StepAudio 3 Music walkthrough"
+                allow="fullscreen; autoplay" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <div class="chain">
+      <div class="chain-step" data-reveal style="--d:0ms">
+        <h3 data-t="chain.1.h">你的描述</h3>
+        <p data-t="chain.1.p">风格、人声、音色、情绪、乐器、调性、速度，用自然语言写就行。</p>
+        <span class="mono">caption + lyrics</span>
+      </div>
+      <div class="chain-step" data-reveal style="--d:80ms">
+        <h3 data-t="chain.2.h">结构与编曲规划</h3>
+        <p data-t="chain.2.p">先定段落走向和配器分工，再进入生成。</p>
+        <span class="mono">ABC-COT</span>
+      </div>
+      <div class="chain-step" data-reveal style="--d:160ms">
+        <h3 data-t="chain.3.h">演唱与成曲</h3>
+        <p data-t="chain.3.p">按规划生成人声与伴奏，段落之间自然衔接。</p>
+        <span class="mono">AR + DiT</span>
+      </div>
+      <div class="chain-step" data-reveal style="--d:240ms">
+        <h3 data-t="chain.4.h">完整歌曲</h3>
+        <p data-t="chain.4.p">一首可直接试听、下载的成品，不是片段。</p>
+        <span class="mono">48kHz · stereo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ [Verse] 模型评估 ═══════════════════════════════════════════════════ -->
+<section class="sect sect-tight" id="eval">
+  <div class="landing-wrap">
+    <div class="sect-head evaluation-head" data-reveal>
+      <span class="tag">[Verse]</span>
+      <h2 data-t="eval.h">兼具音乐质量与可控性</h2>
+    </div>
+    <div class="evaluation-images" data-reveal>
+      <figure class="metric-figure">
+        <img class="metric-img" src="assets/data/music_aa_v3.png" alt="Music evaluation results" loading="lazy">
+      </figure>
+      <figure class="metric-figure">
+        <img class="metric-img metric-img-radar" src="assets/data/songbench_audiobox_muq_similarity.png" alt="Audiobox, MuQ-Similarity and SongBench evaluation results" loading="lazy">
+      </figure>
+    </div>
+    <div class="evaluation-copy" data-reveal>
+      <p data-t="eval.quality">StepAudio 3 Music 在衡量音乐质量的 Audiobox 和衡量可控性的 MuQ-Similarity 评测中均取得 SOTA 结果，展现出高质量音乐生成与精准遵循创作意图的能力。在评价生成歌曲审美质量的 SongBench 指标上，模型同样取得具有竞争力的结果，在音乐质量、可控性与歌曲审美之间呈现出均衡的综合表现。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ [Chorus] 真实生成案例 ═══════════════════════════════════════════════ -->
+<section class="sect sect-tight" id="caps">
+  <div class="landing-wrap">
+    <div class="sect-head" data-reveal>
+      <span class="tag">[Chorus]</span>
+      <h2 data-t="caps.h">四种功能，覆盖音乐创作多环节</h2>
+    </div>
+
+    <div id="listenShowcase" class="listen-showcase"></div>
+  </div>
+</section>
+
+<!-- ══ [Bridge] 场景 ══════════════════════════════════════════════════════ -->
+<section class="sect sect-tight" id="uses">
+  <div class="landing-wrap">
+    <div class="sect-head" data-reveal>
+      <span class="tag">[Bridge]</span>
+      <h2 data-t="uses.h">谁在用它。</h2>
+    </div>
+    <div class="uses">
+      <div class="use" data-reveal style="--d:0ms">
+        <h3 data-t="use.1.h">短视频与自媒体</h3>
+        <p data-t="use.1.p">按内容的情绪和节奏直接出背景音乐、片头与主题曲，不用再翻曲库谈授权。</p>
+      </div>
+      <div class="use" data-reveal style="--d:80ms">
+        <h3 data-t="use.2.h">词曲与 Demo</h3>
+        <p data-t="use.2.p">编曲方向先听到再决定往哪改，把灵感变成能试听的样片。</p>
+      </div>
+      <div class="use" data-reveal style="--d:160ms">
+        <h3 data-t="use.3.h">游戏与互动内容</h3>
+        <p data-t="use.3.p">围绕角色设定和剧情生成主题曲与氛围音乐，声音也能有辨识度。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ [Outro] 收束 ═══════════════════════════════════════════════════════ -->
+<section class="sect sect-dark">
+  <div class="landing-wrap outro" data-reveal>
+    <span class="tag">[Outro]</span>
+    <h2 data-t="outro.h">说一句，听一首。</h2>
+    <button type="button" class="btn-stage soon" aria-describedby="outroSoon">
+      <span data-t="cta.experience">体验中心</span><span class="soon-tip" id="outroSoon" role="tooltip">Coming soon</span>
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-arrow"/></svg>
+    </button>
+  </div>
+
+  <div class="landing-wrap">
+    <div class="lfoot">
+      <span>© StepFun · StepAudio3-Music</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══ 浮动播放胶囊 ═══════════════════════════════════════════════════════ -->
+<div class="player" id="player" aria-label="播放器">
+  <button class="pl-close" id="plClose"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-x"/></svg></button>
+  <div class="pl-track">
+    <button class="tt tt-btn" id="plTT" data-size="s" data-detail="low" data-state="idle">
+      <div class="tt-plate"><div class="tt-label"><img id="plLabel" src="assets/logos/stepfun.png" alt=""></div><span class="tt-hole"></span></div>
+      <div class="tt-sheen"></div><div class="tt-rim"></div>
+      <svg class="tt-arm" viewBox="0 0 400 400" aria-hidden="true"><g class="arm">
+        <path class="tube" d="M352 64 C352 108 330 128 330 172 C330 212 348 216 348 252"/>
+        <circle class="bearing-o" cx="352" cy="52" r="17"/><circle class="bearing-i" cx="352" cy="52" r="7"/>
+        <line class="styl" x1="348" y1="256" x2="348" y2="276"/>
+      </g></svg>
+    </button>
+    <div class="m"><b id="plTitle"></b><small id="plTags"></small></div>
+  </div>
+
+  <div class="pl-transport">
+    <button class="pl-btn" id="plPrev"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-prev"/></svg></button>
+    <button class="pl-btn pl-play" id="plPlay"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-play" id="plPlayIcon"/></svg></button>
+    <button class="pl-btn" id="plNext"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-next"/></svg></button>
+  </div>
+
+  <div class="pl-seek">
+    <span class="t" id="plCur">0:00</span>
+    <canvas class="peaks" id="plPeaks" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></canvas>
+    <span class="t" id="plDur">0:00</span>
+  </div>
+
+  <div class="pl-right">
+    <button class="pl-btn" id="plLike"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-heart"/></svg></button>
+    <button class="pl-btn pl-dl" id="plDownload"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-download"/></svg></button>
+    <button class="pl-btn pl-repeat" id="plRepeat"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-repeat" id="plRepeatIcon"/></svg></button>
+    <span class="vol">
+      <button class="pl-btn" id="plMute"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-volume" id="plMuteIcon"/></svg></button>
+      <input type="range" id="plVol" min="0" max="100" value="85">
+    </span>
+    <button class="pl-btn" id="plExpand"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#i-chev-up"/></svg></button>
+  </div>
+</div>
+
+<!-- ══ 展开播放面板 ═══════════════════════════════════════════════════════ -->
+<div class="np-scrim" id="npScrim"></div>
+<div class="np" id="np" role="dialog" aria-modal="true" aria-label="正在播放" data-mode="song">
+  <button class="np-close" id="npClose"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#i-x"/></svg></button>
+  <div class="np-bg" aria-hidden="true"><i id="npBg"></i></div>
+
+  <div class="np-stage">
+    <p class="eyebrow" id="npTask"></p>
+    <h2 class="np-title" id="npTitle"></h2>
+    <p class="np-tags tnum" id="npTags"></p>
+
+    <div class="np-tt">
+      <div class="tt" id="npTT" data-size="l" data-state="idle">
+        <div class="tt-plate"><div class="tt-label"><img id="npLabel" alt=""></div><span class="tt-hole"></span></div>
+        <div class="tt-sheen"></div><div class="tt-rim"></div>
+        <svg class="tt-arm" viewBox="0 0 400 400" aria-hidden="true"><g class="arm">
+          <line class="tube" x1="352" y1="28" x2="352" y2="48"/>
+          <rect class="cw" x="338" y="6" width="28" height="23" rx="11"/>
+          <!-- S 形臂管：中段向左鼓出再收回，唱针仍落在轴心正下方，
+               这样 §几何 的三个角度（−8/+10/+32）不用重算 -->
+          <path class="tube" d="M352 64 C352 108 330 128 330 172 C330 212 348 216 348 250"/>
+          <path class="tube-hi" d="M349 76 C349 112 327 130 327 172 C327 208 345 212 345 240"/>
+          <circle class="bearing-o" cx="352" cy="52" r="12"/><circle class="bearing-i" cx="352" cy="52" r="5"/>
+          <path class="head" d="M339 248h18l-2 20a4 4 0 0 1-4 3h-6a4 4 0 0 1-4-3Z"/>
+          <line class="styl" x1="348" y1="271" x2="348" y2="279"/>
+        </g></svg>
+      </div>
+    </div>
+
+    <div class="np-transport">
+      <canvas class="np-spectrum" id="npSpectrum" aria-hidden="true"></canvas>
+      <div class="np-line" id="npLine" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <i class="np-line-fill"></i><i class="np-line-dot"></i>
+      </div>
+      <div class="np-times"><span id="npCur">0:00</span><span id="npDur">0:00</span></div>
+      <div class="np-btns">
+        <button class="pl-btn" id="npPrev"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-prev"/></svg></button>
+        <button class="np-big" id="npPlay"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-play" id="npPlayIcon"/></svg></button>
+        <button class="pl-btn" id="npNext"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-next"/></svg></button>
+      </div>
+      <div class="np-acts">
+        <button class="pl-btn" id="npLike"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-heart"/></svg></button>
+        <button class="pl-btn" id="npDownload"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-download"/></svg></button>
+        <button class="pl-btn" id="npRepeat"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-repeat" id="npRepeatIcon"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="np-words" id="npWords"></div>
+</div>
+
+<canvas id="notes" aria-hidden="true"></canvas>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+<audio id="audio" preload="metadata" playsinline></audio>
+
+<script type="module" src="assets/js/landing.js"></script>
+</body>
+</html>
