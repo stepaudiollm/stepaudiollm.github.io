@@ -2244,7 +2244,7 @@ body::after,
 .voice-orb-stage {
   position: relative;
   height: 350px;
-  overflow: hidden;
+  overflow: clip;
   isolation: isolate;
   touch-action: pan-y;
   user-select: none;
