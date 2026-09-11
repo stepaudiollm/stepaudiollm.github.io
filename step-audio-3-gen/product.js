@@ -1,5 +1,5 @@
 import { initVocalCards } from './vocal-cards.js?v=20260911-stacked-scenes-7'
-import { initTtsShowcase } from './tts-showcase.js?v=20260911-tts-pagination-2'
+import { initTtsShowcase } from './tts-showcase.js?v=20260911-voice-scroll-12'
 import WaveSurfer from './vendor/wavesurfer.esm.js'
 import { vibePeaks } from './vibe-peaks.js?v=20260911-stacked-scenes-7'
 import { sceneMusicalPeaks } from './scene-musical-peaks.js?v=20260828-1'

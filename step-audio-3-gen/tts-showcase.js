@@ -7,20 +7,15 @@ export function initTtsShowcase({ playerController, getCopy }) {
   const buttons = [...root.querySelectorAll('[data-tts-select]')]
   const panels = [...root.querySelectorAll('[data-tts-result]')]
   if (!list || !buttons.length || !panels.length) return
-  const pageSize = 6
   const caseTrack = root.querySelector('.tts-case-track')
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
   const scrollToPage = (track, index, smooth = true) => track.scrollTo({ left: index * track.clientWidth, behavior: smooth && !reduced.matches ? 'smooth' : 'instant' })
-  const referencePager = root.querySelector('[data-tts-reference-pager]')
   const casePager = root.querySelector('[data-tts-case-pager]')
-  const referencePrev = root.querySelector('[data-tts-reference-prev]')
-  const referenceNext = root.querySelector('[data-tts-reference-next]')
   const casePrev = root.querySelector('[data-tts-case-prev]')
   const caseNext = root.querySelector('[data-tts-case-next]')
   const flow = initVoiceOrbFlow(root, panels)
   const preparing = new WeakSet()
   let ordered = buttons
-  let page = 0
   let selected = null
   let activePanel = null
   let activeCases = []
@@ -52,15 +47,6 @@ export function initTtsShowcase({ playerController, getCopy }) {
   }
   const syncPagination = () => {
     const copy = getCopy()
-    const pageCount = Math.ceil(ordered.length / pageSize)
-    referencePager.hidden = pageCount <= 1
-    referencePrev.disabled = page === 0
-    referenceNext.disabled = page === pageCount - 1
-    referencePrev.setAttribute('aria-label', copy.ttsPreviousPage)
-    referenceNext.setAttribute('aria-label', copy.ttsNextPage)
-    const referenceStatus = root.querySelector('[data-tts-reference-status]')
-    referenceStatus.textContent = `${page + 1} / ${pageCount}`
-    referenceStatus.setAttribute('aria-label', `${copy.ttsPageLabel} ${page + 1} / ${pageCount}`)
     casePager.hidden = activeCases.length <= 1
     root.querySelector('.tts-output-pane').classList.toggle('has-case-pagination', activeCases.length > 1)
     casePrev.disabled = caseIndex === 0
@@ -94,22 +80,20 @@ export function initTtsShowcase({ playerController, getCopy }) {
     syncPagination()
     sync()
   }
-  const syncReferencePages = () => {
-    list.querySelectorAll('.tts-reference-page').forEach((group, index) => {
-      group.inert = index !== page
-      group.setAttribute('aria-hidden', String(index !== page))
-    })
-    syncPagination()
+  const revealSelected = () => {
+    if (!selected) return
+    const bounds = list.getBoundingClientRect()
+    const row = selected.parentElement.getBoundingClientRect()
+    const top = row.top - bounds.top + list.scrollTop
+    if (top < list.scrollTop) list.scrollTop = top
+    else if (top + row.height > list.scrollTop + list.clientHeight) {
+      list.scrollTop = top + row.height - list.clientHeight
+    }
   }
   const select = (button) => {
     const changed = selected !== button
     if (changed) playerController.pauseAll()
     selected = button
-    const nextPage = Math.floor(ordered.indexOf(button) / pageSize)
-    if (page !== nextPage) {
-      page = nextPage
-      scrollToPage(list, page)
-    }
     ordered.forEach(item => {
       const active = item === button
       item.setAttribute('aria-pressed', String(active))
@@ -120,54 +104,28 @@ export function initTtsShowcase({ playerController, getCopy }) {
     panel => panel.querySelector('.tts-transcript').lang)
     activeCases.forEach(panel => caseTrack.append(panel))
     showCase(changed ? 0 : Math.max(0, activeCases.indexOf(activePanel)), false)
-    syncReferencePages()
-  }
-  const changePage = (offset) => {
-    const next = page + offset
-    if (next < 0 || next >= Math.ceil(ordered.length / pageSize)) return
-    page = next
-    // Browsing references keeps the selected voice and its generated speech.
-    scrollToPage(list, page)
-    syncReferencePages()
+    revealSelected()
   }
   const resetLanguage = () => {
     playerController.pauseAll()
     ordered = preferLanguage(buttons, button => button.dataset.ttsLanguage)
-    const groups = []
-    ordered.forEach((button, index) => {
-      if (index % pageSize === 0) {
-        const group = document.createElement('div')
-        group.className = 'tts-reference-page'
-        groups.push(group)
-      }
-      groups.at(-1).append(button.parentElement)
-    })
-    list.replaceChildren(...groups)
-    page = 0
-    scrollToPage(list, 0, false)
+    list.replaceChildren(...ordered.map(button => button.parentElement))
+    list.scrollTop = 0
     selected = null
     select(ordered[0])
-  }
-  const settleReferences = () => {
-    if (!list.clientWidth) return
-    page = Math.max(0, Math.min(Math.ceil(ordered.length / pageSize) - 1, Math.round(list.scrollLeft / list.clientWidth)))
-    syncReferencePages()
   }
   const settleCases = () => {
     if (!caseTrack.clientWidth) return
     const next = Math.round(caseTrack.scrollLeft / caseTrack.clientWidth)
     if (next !== caseIndex) showCase(next, false, false)
   }
-  list.addEventListener('scrollend', settleReferences)
   caseTrack.addEventListener('scrollend', settleCases)
   const resize = new ResizeObserver(() => {
-    scrollToPage(list, page, false)
+    revealSelected()
     scrollToPage(caseTrack, caseIndex, false)
   })
   resize.observe(list)
   resize.observe(caseTrack)
-  referencePrev.addEventListener('click', () => changePage(-1))
-  referenceNext.addEventListener('click', () => changePage(1))
   casePrev.addEventListener('click', () => showCase(caseIndex - 1))
   caseNext.addEventListener('click', () => showCase(caseIndex + 1))
   // Cancel other in-flight playback before a new player starts, preserving
@@ -189,7 +147,7 @@ export function initTtsShowcase({ playerController, getCopy }) {
       const index = ordered.indexOf(button)
       const next = ordered[event.key === 'Home' ? 0 : event.key === 'End' ? ordered.length - 1 : (index + offset + ordered.length) % ordered.length]
       select(next)
-      next.focus()
+      next.focus({ preventScroll: true })
     })
   })
   window.addEventListener('stepaudio3:product-language-change', resetLanguage)

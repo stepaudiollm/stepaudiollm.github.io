@@ -4481,11 +4481,11 @@ body[data-language="en"] .hero-slogan {
 .voice-design-copy > p:last-child,
 .sound-library-intro-copy { align-self: end; margin: 0; }
 
-/* Native horizontal paging, matching the reference widget's scroll behavior. */
+/* Scroll all voice names vertically; output examples retain their own paging. */
 .tts-reference-library { padding-bottom: 0; }
-.tts-reference-list { display: flex; gap: 0; height: 319px; flex: 0 0 319px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
-.tts-reference-list::-webkit-scrollbar, .tts-case-track::-webkit-scrollbar { display: none; }
-.tts-reference-page { display: grid; grid-template-rows: repeat(6, 49px); gap: 5px; align-content: start; flex: 0 0 100%; min-width: 0; scroll-snap-align: start; }
+.tts-reference-list { display: flex; flex-direction: column; gap: 5px; height: 414px; flex: 0 0 414px; overflow-x: hidden; overflow-y: auto; scrollbar-width: thin; scrollbar-gutter: stable; overscroll-behavior-y: contain; }
+.tts-case-track::-webkit-scrollbar { display: none; }
+.tts-reference-list > .tts-reference-row { flex: 0 0 auto; }
 .tts-output-pane { position: relative; padding-bottom: 44px; }
 .tts-case-track { position: relative; display: flex; height: 382px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
 .tts-case-track > .tts-result { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; }
