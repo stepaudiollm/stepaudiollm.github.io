@@ -42,7 +42,7 @@ const productCopy = Object.freeze({
     ttsReference: "音色",
 
     ttsEloTitle: "评测表现",
-    ttsEloComparison: "在盲测两两对比评估中，StepAudio 3 Gen 在 TTS 与 Voice Design 两项任务上均取得 SOTA 表现，分别以 1755.33 和 1668.5 的 Elo 分数排名第一，总体胜率达 82.0% 和 71.4%，展现出在语音真人感与音色设计能力上的一致领先优势。",
+    ttsEloComparison: "在盲测两两对比评估中，StepAudio 3 Gen 在 TTS 与 Voice Design 两项任务上，分别以 1755.3 和 1668.5 的 Elo 分数位列图示参评模型第一，图示对阵的总体胜率分别为 82.0% 和 75.5%，展现出在语音真人感与音色设计方面的领先表现。",
     ttsEloZh: "中文真人感",
     ttsEloModel: "模型",
     ttsEloHigher: "越高越好",
@@ -146,7 +146,7 @@ const productCopy = Object.freeze({
     ttsReference: "Voice",
 
     ttsEloTitle: "Benchmark results",
-    ttsEloComparison: "In blind pairwise evaluations, StepAudio 3 Gen achieves state-of-the-art performance in both TTS and Voice Design, ranking first with Elo scores of 1755.33 and 1668.5 and overall win rates of 82.0% and 71.4%, respectively, demonstrating consistent leadership in speech human-likeness and voice design.",
+    ttsEloComparison: "In blind pairwise evaluations, StepAudio 3 Gen ranks first among the models shown in both TTS and Voice Design, with Elo scores of 1755.3 and 1668.5 and win rates of 82.0% and 75.5% across the respective matchups shown, demonstrating strong performance in speech human-likeness and voice design.",
     ttsEloZh: "Chinese human-likeness",
     ttsEloModel: "Model",
     ttsEloHigher: "Higher is better",
