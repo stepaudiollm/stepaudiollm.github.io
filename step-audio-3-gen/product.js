@@ -29,7 +29,6 @@ const presets = {
   overpassCall: {"title": "天桥夜话", "kind": "全要素声场", "duration": "01:04", "src": "./audio/vibespeech/vibespeech-overpass-night-call.wav?v=20260911-selected-full-scenes-2"},
   oldBuilding: {"title": "旧楼往事", "kind": "全要素声场", "duration": "01:03", "src": "./audio/vibespeech/vibespeech-old-building-reckoning.wav?v=20260911-selected-full-scenes-2"},
   vocalMom: {"title": "家书", "kind": "歌声 Vocal", "duration": "00:08", "src": "./audio/vocal-showcase/vocal-home-is-fine.wav"},
-  englishShyBoy: {"title": "羞涩少年", "kind": "音色设计", "duration": "00:05", "src": "./audio/vd-showcase/vd-shy-boy.wav"},
   englishBrightGirl: {"title": "元气少女", "kind": "音色设计", "duration": "00:06", "src": "./audio/vd-showcase/vd-bright-young-voice.wav"},
   ttsResult1: {"title": "清隽女声", "kind": "TTS", "duration": "00:26", "src": "./audio/tts-showcase/tts-softspoken-generated.wav"},
   ttsResult2: {"title": "轻熟女声", "kind": "TTS", "duration": "00:44", "src": "./audio/tts-showcase/tts-poise-generated.wav"},

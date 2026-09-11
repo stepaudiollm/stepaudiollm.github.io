@@ -7,7 +7,7 @@ Live page: https://stepaudiollm.github.io/step-audio-3-gen/
 ## Showcase
 
 - Text to speech: 11 voices, with voice names on the left and generated speech on the right.
-- Voice design: six examples in a voice carousel.
+- Voice design: five examples in a voice carousel.
 - Vocal generation: four separately playable songs with illustrated album covers, immediately below Voice Design.
 - Full-scene audio: six scenes, including a synchronized teahouse crosstalk video.
 

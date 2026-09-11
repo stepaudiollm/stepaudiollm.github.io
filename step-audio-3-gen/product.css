@@ -4587,3 +4587,6 @@ body[data-language="zh"] .model-prose .model-lead {
 /* Distinct TTS colors; SVG fallback and WebGL share the same ramps. */
 [data-orb-palette="amber"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#amber"); }
 [data-orb-palette="lilac"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#lilac"); }
+
+/* Keep the longer sound heading on two lines in narrow desktop windows. */
+@media (max-width: 1000px) { .sound-library-intro h2 { font-size: clamp(30px, 4vw, 40px); } }
