@@ -314,7 +314,16 @@ img { display: block; }
   transition: box-shadow 240ms var(--ease);
 }
 .ta-box.focus { box-shadow: inset 0 0 0 1.6px var(--ink); }
-.ta-box.lyrics { min-height: 132px; font-variant-numeric: tabular-nums; }
+.ta-box.lyrics {
+  height: 132px; min-height: 132px; flex: none;
+  overflow-y: auto; scrollbar-gutter: stable;
+  font-variant-numeric: tabular-nums;
+}
+.ta-box.lyrics::-webkit-scrollbar { width: 8px; }
+.ta-box.lyrics::-webkit-scrollbar-track { background: var(--field); border-radius: 8px; }
+.ta-box.lyrics::-webkit-scrollbar-thumb {
+  background: var(--ink-4); border: 2px solid var(--field); border-radius: 8px;
+}
 .ta-input { min-height: 46px; }
 
 .caret {
@@ -439,6 +448,11 @@ img { display: block; }
   opacity: 0; transform: translateX(72px);
   transition: opacity 700ms var(--ease), transform 900ms var(--ease-soft);
 }
+/* 翻唱多一个上传字段：收紧间距，为上传栏、歌词和底部按钮保留空间。 */
+#compose2 > * { flex-shrink: 0; }
+#compose2:has(.upload-field:not([hidden])) { gap: 12px; }
+#compose2:has(.upload-field:not([hidden])) .field { gap: 8px; }
+#compose2:has(.upload-field:not([hidden])) .promptbox .ta { min-height: 52px; }
 #compose2.in { opacity: 1; transform: none; }
 #compose2.out {
   opacity: 0; transform: translateX(72px);

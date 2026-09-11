@@ -94,10 +94,12 @@ async function flash(el, inMs, holdMs) {
  * 在 30fps 下会比设计时长慢一倍，整片节奏全乱。
  */
 async function type(el, text, { cps = 34, start = 180, box = null, count = null } = {}) {
-  const base = 1000 / cps;
+  // Intro 的演示节奏需要更紧凑；提高有效字符速度，同时保留标点停顿。
+  const base = 1000 / (cps * 1.5625); // 在已有 1.25 倍速度上再加快 25%。
   if (box) box.classList.add('focus');
   el.classList.remove('ph');
   el.textContent = '';
+  el.scrollTop = 0;
   const tn = document.createTextNode('');
   const caret = document.createElement('i');
   caret.className = 'caret';
@@ -125,6 +127,7 @@ async function type(el, text, { cps = 34, start = 180, box = null, count = null 
       while (i < times.length && times[i] <= t) i++;
       if (i !== was) {
         tn.nodeValue = text.slice(0, i);                   // 只改文本节点，不重排 HTML
+        if (el.classList.contains('lyrics')) el.scrollTop = el.scrollHeight;
         if (count) count.textContent = String(i);
         // 每敲几个可见字符，从光标附近冒一个音符
         const ch = text[i - 1];
@@ -333,6 +336,25 @@ const COPY = {
   }
 };
 
+// 提前解码所有会出现在黑胶唱片中心的封面。只设置 src 会把解码推迟到
+// 播放栏出现之后，造成短暂的黑色唱片；decode() 完成后再展示播放栏。
+const COVER_READY = new Map();
+function preloadCover(src) {
+  if (!COVER_READY.has(src)) {
+    const img = new Image();
+    img.src = src;
+    COVER_READY.set(src, new Promise(resolve => {
+      if (img.complete) { Promise.resolve(img.decode?.()).catch(() => {}).finally(resolve); return; }
+      img.onload = () => Promise.resolve(img.decode?.()).catch(() => {}).finally(resolve);
+      img.onerror = resolve;
+    }));
+  }
+  return COVER_READY.get(src);
+}
+for (const src of [COPY.s2a.cover, COPY.s2b.cover, COPY.s3.cover1, COPY.s3.cover2, COPY.s3.cover3]) {
+  preloadCover(src);
+}
+
 /* ── ABC-COT 三个版本 ──────────────────────────────────────────────────────
    格式与真实推理产物一致：header + % 段落注释 + 带和弦标记的旋律。
    为了在一屏里读得清，这里是 12 小节的精简版。                            */
@@ -436,7 +458,7 @@ async function typeABCLine(baseLines, idx, newText, { cps = 24 } = {}) {
   if (!line) return;
   line.classList.add('man');
 
-  const base = 1000 / cps;
+  const base = 1000 / (cps * 1.25);
   const times = [];
   let acc = 260;
   for (const ch of newText) {
@@ -832,6 +854,8 @@ async function scene2() {
 
   // 播放面板从左边推进来，占满左半边
   $('create2').classList.remove('busy');
+  $('ttLabel').src = COPY.s2a.cover;
+  await preloadCover(COPY.s2a.cover);
   on($('playerCard'), 'in');
   await wait(760);
   startPlayer(COPY.s2a);
@@ -872,6 +896,8 @@ async function scene2() {
   // 点 create 后播放栏重新出现
   $('create2').classList.remove('busy');
   off($('playerCard'), 'out');
+  $('ttLabel').src = COPY.s2b.cover;
+  await preloadCover(COPY.s2b.cover);
   on($('playerCard'), 'in');
   await wait(760);
   startPlayer(COPY.s2b);
