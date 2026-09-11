@@ -1,0 +1,78 @@
+/* Shared StepAudio typography, aligned with the StepAudio 3 launch page. */
+@font-face {
+  font-family: "Hero Brand";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./fonts/Roboto-Medium-brand.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Hero Slogan";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("./fonts/MiSans-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./fonts/instrument-sans-latin-wght-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "MiSans";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("./fonts/MiSans-ExtraLight.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "MiSans";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("./fonts/MiSans-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "MiSans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/MiSans-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "MiSans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/MiSans-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "StepAudio Brand Fallback";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./fonts/Roboto-Medium.woff2") format("woff2");
+}
+
+:root {
+  --font-content: "MiSans", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-brand: "StepAudio Brand Fallback", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-content);
+  font-synthesis: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}

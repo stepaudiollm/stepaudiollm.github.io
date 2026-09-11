@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f5f3" />
+    <meta name="description" content="StepAudio 3 Gen，用一句描述统一生成多角色对白、环境声、音效与音乐，构成完整声音世界。" />
+    <title>StepAudio 3 Gen</title>
+    <link rel="icon" href="./stepfun-favicon.svg?v=20260910-favicon-cutout-1" />
+    <link rel="stylesheet" href="./brand-fonts.css?v=20260904-hero-type-1" />
+    <link rel="stylesheet" href="./product.css?v=20260911-benchmark-readable-1" />
+    <link rel="preload" href="./fonts/Roboto-Medium-brand.woff" as="font" type="font/woff" crossorigin />
+    <link rel="preload" href="./fonts/MiSans-Light.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <script src="./product-copy.js?v=20260911-tts-voice-names-1"></script>
+  </head>
+  <body class="product-page">
+    <svg class="vibe-player-icons" width="0" height="0" aria-hidden="true"><defs>
+      <symbol id="vibe-i-prev" viewBox="0 0 24 24"><path d="M17.5 5.4v13.2L8 12l9.5-6.6Z" fill="currentColor" stroke="none"/><path d="M6 5.5v13" fill="none"/></symbol>
+      <symbol id="vibe-i-next" viewBox="0 0 24 24"><path d="M6.5 5.4 17 12 6.5 18.6Z" fill="currentColor" stroke="none"/><path d="M18 5.5v13" fill="none"/></symbol>
+    </defs></svg>
+    <header class="site-header" data-header>
+      <div class="header-brand-group">
+      <a class="brand" href="https://www.stepfun.com/" aria-label="StepFun 官网">
+        <svg class="brand-mark" viewBox="0 0 20 20" fill="currentColor" fill-rule="evenodd" aria-hidden="true">
+          <path d="M10,0C4.48,0,0,4.48,0,10s4.48,10,10,10,10-4.48,10-10S15.52,0,10,0ZM7.3,16.34h-3.65v-3.65h3.65v3.65ZM11.82,16.34h-3.65v-3.65h3.65v3.65ZM11.82,11.83h-3.65v-3.66h3.65v3.66ZM11.82,7.31h-3.65v-3.65h3.65v3.65ZM16.34,7.31h-3.65v-3.66h3.65v3.66Z" />
+        </svg>
+        <span>StepFun&nbsp; | &nbsp;StepAudio 3 Gen</span>
+      </a>
+      <nav class="product-family-nav" aria-label="StepAudio 3 products">
+        <div class="product-family-entry"><a href="https://stepaudiollm.github.io/step-audio-3-music/">StepAudio 3 Music</a></div>
+        <div class="product-family-entry"><a href="https://stepaudiollm.github.io/step-audio-3-realtime/">StepAudio 3 Realtime</a></div>
+      </nav>
+      </div>
+      <div class="header-tools">
+        <div class="product-language-toggle" id="product-language-toggle" data-language="en" role="group" aria-label="语言 / Language">
+          <button type="button" data-product-language="zh" aria-pressed="false"><span>中文</span></button>
+          <button type="button" data-product-language="en" aria-pressed="true"><span>EN</span></button>
+        </div>
+        <div class="experience-entry header-experience"><a class="header-action" role="link" tabindex="0" aria-disabled="true" aria-describedby="header-experience-status" data-coming-soon><span class="experience-entry-label" data-product-i18n="startCreating">体验中心</span></a><span class="experience-entry-status" role="tooltip" id="header-experience-status" data-product-i18n="experienceStatus">即将开放</span></div>
+      </div>
+    </header>
+
+    <div class="hero-stage" aria-hidden="true">
+      <video class="hero-video" data-hero-video autoplay muted loop playsinline preload="auto" poster="./video/stepaudio3-gen-hero-showcase.jpg" aria-hidden="true">
+        <source src="./video/gen-hero-overview.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-video-shade" aria-hidden="true"></div>
+      <div class="hero-halo" aria-hidden="true"></div>
+    </div>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-model-title">
+        <div class="hero-copy">
+          <h1 class="hero-model" id="hero-model-title"><span class="hero-model-top">StepAudio 3</span><span class="hero-model-main">Gen</span></h1>
+          <i class="hero-wordmark-rule" aria-hidden="true"></i>
+          <p class="hero-slogan" id="hero-title" data-product-i18n="heroTitle">TURN IMAGINATION INTO SOUND</p>
+        </div>
+      </section>
+
+
+
+      <section class="showreel is-cases-first" id="showreel">
+        <i class="overview-light-sentinel is-case-light-sentinel" data-light-header-sentinel aria-hidden="true"></i>
+
+        <section class="model-introduction model-content" id="model-introduction" aria-labelledby="model-introduction-title">
+          <header class="model-overview-heading">
+            <p class="model-overview-label" data-product-i18n="modelKicker">模型介绍</p>
+            <h2 id="model-introduction-title" data-product-i18n-html="modelTitle">Speech that feels human.</h2>
+            <p class="model-overview-summary" data-product-i18n-html="modelSummary"></p>
+          </header>
+          <div class="model-prose">
+            <p class="model-lead" data-product-i18n-html="modelLead"></p>
+            <p class="model-detail" data-product-i18n-html="modelDetail"></p>
+          </div>
+        </section>
+        <article class="proof proof-zero" id="proof-zero">
+          <div class="proof-copy" data-reveal>
+            <p class="proof-kind">全要素生成</p>
+            <h3>写下整个场景，<br />直接听见成片。</h3>
+            <p>人物、动作、空间与音乐不再分开制作。模型理解一段完整描述，并在同一条时间线上完成组织。</p>
+          </div>
+
+          <div class="vibespeech-carousel is-cases-ready" id="featured-cases" data-vibe-carousel data-reveal tabindex="0" role="region" aria-label="语音、音色、全要素、音效与音乐示例">
+            <section class="tts-showcase" id="tts-showcase" aria-labelledby="tts-showcase-title">
+              <header class="tts-showcase-heading">
+                <p class="section-kicker"><img src="./assets/sound-grid-icons/equalizer.svg" alt="" aria-hidden="true" /><span data-product-i18n="ttsKicker">真人感TTS</span></p>
+                <h2 id="tts-showcase-title" data-product-i18n-html="ttsTitle">像真人一样，<span>自然表达。</span></h2>
+                <p data-product-i18n="ttsDescription">从轻声倾诉到生动讲述，细腻呈现语气、停顿与情绪。</p>
+              </header>
+              <div class="tts-showcase-surface">
+                <div class="tts-workbench">
+                  <div class="tts-reference-library">
+                    <div class="tts-reference-list" role="group" aria-label="REFERENCE AUDIO">
+<div class="tts-reference-row is-selected" data-inline-player="ttsRef1" data-orb-palette="teal">
+                    <button class="tts-reference-select" type="button" data-tts-select="1" aria-pressed="true" aria-controls="tts-result-1"><img src="./assets/voice-orbs/purple.png" alt="" /><span data-product-i18n="ttsVoice1">Softspoken</span></button>
+                    <button class="tts-reference-preview" type="button" data-player-toggle aria-label="Play Softspoken reference"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
+                    <div hidden><span data-player-waveform></span><time data-player-time></time></div><audio preload="none"></audio>
+                  </div>
+<div class="tts-reference-row" data-inline-player="ttsRef2" data-orb-palette="ink">
+                    <button class="tts-reference-select" type="button" data-tts-select="2" aria-pressed="false" aria-controls="tts-result-2"><img src="./assets/voice-orbs/dark.png" alt="" /><span data-product-i18n="ttsVoice2">Poise</span></button>
+                    <button class="tts-reference-preview" type="button" data-player-toggle aria-label="Play Poise reference"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
+                    <div hidden><span data-player-waveform></span><time data-player-time></time></div><audio preload="none"></audio>
+                  </div>
+<div class="tts-reference-row" data-inline-player="ttsRef3" data-orb-palette="mist">
+                    <button class="tts-reference-select" type="button" data-tts-select="3" aria-pressed="false" aria-controls="tts-result-3"><img src="./assets/voice-orbs/orange.png" alt="" /><span data-product-i18n="ttsVoice3">Candid</span></button>
+                    <button class="tts-reference-preview" type="button" data-player-toggle aria-label="Play Everyday male voice reference"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
+                    <div hidden><span data-player-waveform></span><time data-player-time></time></div><audio preload="none"></audio>
+                  </div>
+<div class="tts-reference-row" data-inline-player="ttsRef4" data-orb-palette="mint">
+                    <button class="tts-reference-select" type="button" data-tts-select="4" aria-pressed="false" aria-controls="tts-result-4"><img src="./assets/voice-orbs/sage.png" alt="" /><span data-product-i18n="ttsVoice4">Warmth</span></button>
+                    <button class="tts-reference-preview" type="button" data-player-toggle aria-label="Play Conversational voice reference"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
+                    <div hidden><span data-player-waveform></span><time data-player-time></time></div><audio preload="none"></audio>
+                  </div>
+<div class="tts-reference-row" data-inline-player="ttsRef5" data-orb-palette="frost">
+                    <button class="tts-reference-select" type="button" data-tts-select="5" aria-pressed="false" aria-controls="tts-result-5"><img src="./assets/voice-orbs/sage.png" alt="" /><span data-product-i18n="ttsVoice5">Lilt</span></button>
+                    <button class="tts-reference-preview" type="button" data-player-toggle aria-label="Play Lisa reference"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
+                    <div hidden><span data-player-waveform></span><time data-player-time></time></div><audio preload="none"></audio>
+                  </div>
+<div class="tts-reference-row" data-inline-player="ttsRef6" data-orb-palette="lagoon">
+                    <button class="tts-reference-select" type="button" data-tts-select="6" aria-pressed="false" aria-controls="tts-result-6"><img src="./assets/voice-orbs/purple.png" alt="" /><span data-product-i18n="ttsVoice6">American Ease</span></button>
+                    <button class="tts-reference-preview" type="button" data-player-toggle aria-label="Play Dacey reference"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
+                    <div hidden><span data-player-waveform></span><time data-player-time></time></div><audio preload="none"></audio>
+                  </div>
+                    </div>
+                  </div>
+                  <div class="tts-output-pane">
+<div class="tts-result is-active" id="tts-result-1" data-tts-result="1" data-inline-player="ttsResult1" data-orb-palette="teal">
+                    <button class="tts-result-orb" type="button" data-player-toggle aria-label="Play A forgetful moment">
+                      <span class="voice-orb-material"><img class="voice-orb-texture" src="./assets/voice-orbs/purple.png" width="512" height="512" alt="" /><span class="voice-orb-grain-layer" aria-hidden="true"><span class="voice-orb-grain"></span></span></span>
+                      <span class="tts-orb-control"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    </button>
+                    <div class="tts-result-copy"><span class="tts-result-name" data-product-i18n="ttsCase1">A forgetful moment</span><p tabindex="0" class="tts-transcript" lang="zh">我最近记性是真不行了，昨天想跟你说那个电影来着，就那个，主角是叫，叫什么来着，周星……哦不对不对，是沈腾，沈腾演的那个，哎呀真的是名字到嘴边了就是说不出来。呃，对了，马丽也演了。你说我这才三十就这样，等六十那还得了，钥匙估计都得，都得挂脖子上。</p></div>
+                    <div hidden aria-hidden="true"><span data-player-waveform></span><time data-player-time></time></div><audio preload="none"></audio>
+                  </div>
+<div class="tts-result" id="tts-result-2" data-tts-result="2" data-inline-player="ttsResult2" data-orb-palette="ink" hidden>
+                    <button class="tts-result-orb" type="button" data-player-toggle aria-label="Play Homework frustrations">
+                      <span class="voice-orb-material"><img class="voice-orb-texture" src="./assets/voice-orbs/dark.png" width="512" height="512" alt="" /><span class="voice-orb-grain-layer" aria-hidden="true"><span class="voice-orb-grain"></span></span></span>
+                      <span class="tts-orb-control"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    </button>
+                    <div class="tts-result-copy"><span class="tts-result-name" data-product-i18n="ttsCase2">Homework frustrations</span><p tabindex="0" class="tts-transcript" lang="zh">哎跟你说！我刚才辅导作业，本来好好的在那写作业呢，孩子突然情绪直接大爆发，我都懵了。但我还不能吼他，只能蹲那儿哄，跟他讲道理安抚半天，好不容易给哄好了。好家伙，他没事了，我快憋出内伤了！有时候我都怀疑，我到底是妈还是情绪垃圾桶啊！完了我还得不停给自己洗脑，要做情绪稳定的家长。我天啊外人看着可能说不就辅导个作业嘛，实际上可太耗人了。我现在就瘫沙发上缓缓神，也就找你吐槽下，辅导作业这破活真的谁干谁知道！</p></div>
+                    <div hidden aria-hidden="true"><span data-player-waveform></span><time data-player-time></time></div><audio preload="none"></audio>
+                  </div>
+<div class="tts-result" id="tts-result-3" data-tts-result="3" data-inline-player="ttsResult3" data-orb-palette="mist" hidden>
+                    <button class="tts-result-orb" type="button" data-player-toggle aria-label="Play Proud of my cooking">
+                      <span class="voice-orb-material"><img class="voice-orb-texture" src="./assets/voice-orbs/orange.png" width="512" height="512" alt="" /><span class="voice-orb-grain-layer" aria-hidden="true"><span class="voice-orb-grain"></span></span></span>
+                      <span class="tts-orb-control"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    </button>
+                    <div class="tts-result-copy"><span class="tts-result-name" data-product-i18n="ttsCase3">Proud of my cooking</span><p tabindex="0" class="tts-transcript" lang="zh">我跟你说啊你别不信,我今天那个红烧肉真做成了!糖色都炒对了,一点没糊。我给我妈拍了照发过去,她说,她说看着倒是挺像样。我自己就,就着这个吃了三碗饭。下回你来,我给你做,保证不比外头差我跟你说。</p></div>
+                    <div hidden aria-hidden="true"><span data-player-waveform></span><time data-player-time></time></div><audio preload="none"></audio>
+                  </div>
+<div class="tts-result" id="tts-result-4" data-tts-result="4" data-inline-player="ttsResult4" data-orb-palette="mint" hidden>
+                    <button class="tts-result-orb" type="button" data-player-toggle aria-label="Play Caring for an aging pet">
+                      <span class="voice-orb-material"><img class="voice-orb-texture" src="./assets/voice-orbs/sage.png" width="512" height="512" alt="" /><span class="voice-orb-grain-layer" aria-hidden="true"><span class="voice-orb-grain"></span></span></span>
+                      <span class="tts-orb-control"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    </button>
+                    <div class="tts-result-copy"><span class="tts-result-name" data-product-i18n="ttsCase4">Caring for an aging pet</span><p tabindex="0" class="tts-transcript" lang="zh">家里那狗，今年，嗯，十三了。以前我一开门它就冲过来，现在，呃，现在得叫两声它才慢慢起来。前两天带它去检查，医生说各项指标还行，就是老了。我回来抱着它，唉，我就想我，我怎么就没多带它出去玩几次。</p></div>
+                    <div hidden aria-hidden="true"><span data-player-waveform></span><time data-player-time></time></div><audio preload="none"></audio>
+                  </div>
+<div class="tts-result" id="tts-result-5" data-tts-result="5" data-inline-player="ttsResult5" data-orb-palette="frost" hidden>
+                    <button class="tts-result-orb" type="button" data-player-toggle aria-label="Play A gentle reminder">
+                      <span class="voice-orb-material"><img class="voice-orb-texture" src="./assets/voice-orbs/sage.png" width="512" height="512" alt="" /><span class="voice-orb-grain-layer" aria-hidden="true"><span class="voice-orb-grain"></span></span></span>
+                      <span class="tts-orb-control"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    </button>
+                    <div class="tts-result-copy"><span class="tts-result-name" data-product-i18n="ttsCase5">On hold with another AI</span><p tabindex="0" class="tts-transcript" lang="en">I called customer support yesterday and realized I was talking to another AI. We were both being extremely polite, neither of us understood the problem, and somehow the call lasted twenty-three minutes. So… pretty human, actually.</p></div>
+                    <div hidden aria-hidden="true"><span data-player-waveform></span><time data-player-time></time></div><audio preload="none"></audio>
+                  </div>
+<div class="tts-result" id="tts-result-6" data-tts-result="6" data-inline-player="ttsResult6" data-orb-palette="lagoon" hidden>
+                    <button class="tts-result-orb" type="button" data-player-toggle aria-label="Play My budget folded first">
+                      <span class="voice-orb-material"><img class="voice-orb-texture" src="./assets/voice-orbs/purple.png" width="512" height="512" alt="" /><span class="voice-orb-grain-layer" aria-hidden="true"><span class="voice-orb-grain"></span></span></span>
+                      <span class="tts-orb-control"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    </button>
+                    <div class="tts-result-copy"><span class="tts-result-name" data-product-i18n="ttsCase6">My budget folded first</span><p tabindex="0" class="tts-transcript" lang="en">Apple finally showed us a foldable iPhone… and at over two thousand dollars，oh...my budget folded first.</p></div>
+                    <div hidden aria-hidden="true"><span data-player-waveform></span><time data-player-time></time></div><audio preload="none"></audio>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="voice-design-feature" id="voice-design" data-reveal aria-labelledby="voice-design-title">
+              <div class="voice-design-copy">
+                <p class="section-kicker"><img src="./assets/sound-grid-icons/equalizer.svg" alt="" aria-hidden="true" /><span data-product-i18n="voiceKicker">音色与歌声</span></p>
+                <h2 id="voice-design-title" data-product-i18n-html="voiceTitle">从说话到歌唱，<br /><span>让声音有个性。</span></h2>
+                <p data-product-i18n="voiceDescription">设定音色与情绪，塑造角色声音；描述曲风与唱法，生成动人歌声。</p>
+              </div>
+
+              <div class="voice-design-gallery" data-voice-orb-carousel data-initial-index="4" aria-label="音色设计与歌声试听样例">
+                <div class="voice-orb-stage" data-voice-orb-stage aria-label="六个音色设计与三个歌声试听案例">
+                  <article class="voice-design-sample voice-orb-slide inline-player is-away" style="--voice-slide-x: calc(var(--voice-orb-step) * -2.2222222222222223)" data-inline-player="vocalFinalGoodbye" data-orb-palette="slate" data-voice-orb-slide data-orb-state="loading">
+                    <button class="voice-design-toggle" type="button" data-player-toggle aria-label="播放告别余温">
+                      <span class="voice-orb-material" aria-hidden="true">
+                        <img class="voice-orb-texture" data-voice-orb-texture src="./assets/voice-orbs/dark.png?v=20260907-restored-1" width="512" height="512" alt="" loading="eager" decoding="async" />
+                        <span class="voice-orb-grain-layer"><span class="voice-orb-grain"></span></span>
+                      </span>
+                      <span class="voice-orb-status" data-voice-orb-status aria-live="polite"></span>
+                      <span class="voice-design-toggle-control" aria-hidden="true">
+                        <img class="is-play" src="./assets/icons/play-fill.svg" alt="" />
+                        <img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" />
+                      </span>
+                    </button>
+                    <div class="voice-design-player-line" hidden>
+                      <div class="voice-design-wave" data-player-waveform aria-label="告别余温音频波形"></div>
+                      <time data-player-time>00:00 / 00:14</time>
+                    </div>
+                    <audio preload="metadata"></audio>
+                  </article>
+
+                  <article class="voice-design-sample voice-orb-slide inline-player is-away" style="--voice-slide-x: calc(var(--voice-orb-step) * -2.2222222222222223)" data-inline-player="vocalBossa" data-orb-palette="mint" data-voice-orb-slide data-orb-state="loading">
+                    <button class="voice-design-toggle" type="button" data-player-toggle aria-label="播放椰风午后">
+                      <span class="voice-orb-material" aria-hidden="true">
+                        <img class="voice-orb-texture" data-voice-orb-texture src="./assets/voice-orbs/sage.png?v=20260907-restored-1" width="512" height="512" alt="" loading="eager" decoding="async" />
+                        <span class="voice-orb-grain-layer"><span class="voice-orb-grain"></span></span>
+                      </span>
+                      <span class="voice-orb-status" data-voice-orb-status aria-live="polite"></span>
+                      <span class="voice-design-toggle-control" aria-hidden="true">
+                        <img class="is-play" src="./assets/icons/play-fill.svg" alt="" />
+                        <img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" />
+                      </span>
+                    </button>
+                    <div class="voice-design-player-line" hidden>
+                      <div class="voice-design-wave" data-player-waveform aria-label="椰风午后音频波形"></div>
+                      <time data-player-time>00:00 / 00:13</time>
+                    </div>
+                    <audio preload="metadata"></audio>
+                  </article>
+
+                  <article class="voice-design-sample voice-orb-slide inline-player is-far-prev" style="--voice-slide-x: calc(var(--voice-orb-step) * -1.719298245614035)" data-inline-player="vocalMom" data-orb-palette="frost" data-voice-orb-slide data-orb-state="loading">
+                    <button class="voice-design-toggle" type="button" data-player-toggle aria-label="播放家书">
+                      <span class="voice-orb-material" aria-hidden="true">
+                        <img class="voice-orb-texture" data-voice-orb-texture src="./assets/voice-orbs/purple.png?v=20260907-restored-1" width="512" height="512" alt="" loading="eager" decoding="async" />
+                        <span class="voice-orb-grain-layer"><span class="voice-orb-grain"></span></span>
+                      </span>
+                      <span class="voice-orb-status" data-voice-orb-status aria-live="polite"></span>
+                      <span class="voice-design-toggle-control" aria-hidden="true">
+                        <img class="is-play" src="./assets/icons/play-fill.svg" alt="" />
+                        <img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" />
+                      </span>
+                    </button>
+                    <div class="voice-design-player-line" hidden>
+                      <div class="voice-design-wave" data-player-waveform aria-label="家书音频波形"></div>
+                      <time data-player-time>00:00 / 00:08</time>
+                    </div>
+                    <audio preload="metadata"></audio>
+                  </article>
+
+                  <article class="voice-design-sample voice-orb-slide inline-player is-prev" style="--voice-slide-x: calc(var(--voice-orb-step) * -1)" data-inline-player="child" data-orb-palette="teal" data-voice-orb-slide data-orb-state="loading">
+                    <button class="voice-design-toggle" type="button" data-player-toggle aria-label="播放童真男孩">
+                      <span class="voice-orb-material" aria-hidden="true">
+                        <img class="voice-orb-texture" data-voice-orb-texture src="./assets/voice-orbs/orange.png?v=20260907-restored-1" width="512" height="512" alt="" loading="eager" decoding="async" />
+                        <span class="voice-orb-grain-layer"><span class="voice-orb-grain"></span></span>
+                      </span>
+                      <span class="voice-orb-status" data-voice-orb-status aria-live="polite"></span>
+                      <span class="voice-design-toggle-control" aria-hidden="true">
+                        <img class="is-play" src="./assets/icons/play-fill.svg" alt="" />
+                        <img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" />
+                      </span>
+                    </button>
+                    <div class="voice-design-player-line" hidden>
+                      <div class="voice-design-wave" data-player-waveform aria-label="童真男孩音频波形"></div>
+                      <time data-player-time>00:00 / 00:26</time>
+                    </div>
+                    <audio preload="metadata"></audio>
+                  </article>
+
+                  <article class="voice-design-sample voice-orb-slide inline-player is-active" style="--voice-slide-x: calc(var(--voice-orb-step) * 0)" data-inline-player="elder" data-orb-palette="ink" data-voice-orb-slide data-orb-state="loading">
+                    <button class="voice-design-toggle" type="button" data-player-toggle aria-label="播放病榻老人">
+                      <span class="voice-orb-material" aria-hidden="true">
+                        <img class="voice-orb-texture" data-voice-orb-texture src="./assets/voice-orbs/dark.png?v=20260907-restored-1" width="512" height="512" alt="" loading="eager" decoding="async" />
+                        <span class="voice-orb-grain-layer"><span class="voice-orb-grain"></span></span>
+                      </span>
+                      <span class="voice-orb-status" data-voice-orb-status aria-live="polite"></span>
+                      <span class="voice-design-toggle-control" aria-hidden="true">
+                        <img class="is-play" src="./assets/icons/play-fill.svg" alt="" />
+                        <img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" />
+                      </span>
+                    </button>
+                    <div class="voice-design-player-line" hidden>
+                      <div class="voice-design-wave" data-player-waveform aria-label="病榻老人音频波形"></div>
+                      <time data-player-time>00:00 / 00:30</time>
+                    </div>
+                    <audio preload="metadata"></audio>
+                  </article>
+
+                  <article class="voice-design-sample voice-orb-slide inline-player is-next" style="--voice-slide-x: calc(var(--voice-orb-step) * 1)" data-inline-player="velvetFemale" data-orb-palette="mist" data-voice-orb-slide data-orb-state="loading">
+                    <button class="voice-design-toggle" type="button" data-player-toggle aria-label="播放温柔女中音">
+                      <span class="voice-orb-material" aria-hidden="true">
+                        <img class="voice-orb-texture" data-voice-orb-texture src="./assets/voice-orbs/purple.png?v=20260907-restored-1" width="512" height="512" alt="" loading="eager" decoding="async" />
+                        <span class="voice-orb-grain-layer"><span class="voice-orb-grain"></span></span>
+                      </span>
+                      <span class="voice-orb-status" data-voice-orb-status aria-live="polite"></span>
+                      <span class="voice-design-toggle-control" aria-hidden="true">
+                        <img class="is-play" src="./assets/icons/play-fill.svg" alt="" />
+                        <img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" />
+                      </span>
+                    </button>
+                    <div class="voice-design-player-line" hidden>
+                      <div class="voice-design-wave" data-player-waveform aria-label="温柔女中音音频波形"></div>
+                      <time data-player-time>00:00 / 00:10</time>
+                    </div>
+                    <audio preload="metadata"></audio>
+                  </article>
+
+                  <article class="voice-design-sample voice-orb-slide inline-player is-far-next" style="--voice-slide-x: calc(var(--voice-orb-step) * 1.719298245614035)" data-inline-player="nightRadio" data-orb-palette="lagoon" data-voice-orb-slide data-orb-state="loading">
+                    <button class="voice-design-toggle" type="button" data-player-toggle aria-label="播放深夜电台">
+                      <span class="voice-orb-material" aria-hidden="true">
+                        <img class="voice-orb-texture" data-voice-orb-texture src="./assets/voice-orbs/dark.png?v=20260907-restored-1" width="512" height="512" alt="" loading="eager" decoding="async" />
+                        <span class="voice-orb-grain-layer"><span class="voice-orb-grain"></span></span>
+                      </span>
+                      <span class="voice-orb-status" data-voice-orb-status aria-live="polite"></span>
+                      <span class="voice-design-toggle-control" aria-hidden="true">
+                        <img class="is-play" src="./assets/icons/play-fill.svg" alt="" />
+                        <img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" />
+                      </span>
+                    </button>
+                    <div class="voice-design-player-line" hidden>
+                      <div class="voice-design-wave" data-player-waveform aria-label="深夜电台音频波形"></div>
+                      <time data-player-time>00:00 / 00:27</time>
+                    </div>
+                    <audio preload="metadata"></audio>
+                  </article>
+
+                  <article class="voice-design-sample voice-orb-slide inline-player is-away" style="--voice-slide-x: calc(var(--voice-orb-step) * 2.2222222222222223)" data-inline-player="englishShyBoy" data-orb-palette="sage" data-voice-orb-slide data-orb-state="loading">
+                    <button class="voice-design-toggle" type="button" data-player-toggle aria-label="播放羞涩少年">
+                      <span class="voice-orb-material" aria-hidden="true">
+                        <img class="voice-orb-texture" data-voice-orb-texture src="./assets/voice-orbs/sage.png?v=20260907-restored-1" width="512" height="512" alt="" loading="eager" decoding="async" />
+                        <span class="voice-orb-grain-layer"><span class="voice-orb-grain"></span></span>
+                      </span>
+                      <span class="voice-orb-status" data-voice-orb-status aria-live="polite"></span>
+                      <span class="voice-design-toggle-control" aria-hidden="true">
+                        <img class="is-play" src="./assets/icons/play-fill.svg" alt="" />
+                        <img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" />
+                      </span>
+                    </button>
+                    <div class="voice-design-player-line" hidden>
+                      <div class="voice-design-wave" data-player-waveform aria-label="羞涩少年音频波形"></div>
+                      <time data-player-time>00:00 / 00:05</time>
+                    </div>
+                    <audio preload="metadata"></audio>
+                  </article>
+
+                  <article class="voice-design-sample voice-orb-slide inline-player is-away" style="--voice-slide-x: calc(var(--voice-orb-step) * 2.2222222222222223)" data-inline-player="englishBrightGirl" data-orb-palette="aqua" data-voice-orb-slide data-orb-state="loading">
+                    <button class="voice-design-toggle" type="button" data-player-toggle aria-label="播放元气少女">
+                      <span class="voice-orb-material" aria-hidden="true">
+                        <img class="voice-orb-texture" data-voice-orb-texture src="./assets/voice-orbs/orange.png?v=20260907-restored-1" width="512" height="512" alt="" loading="eager" decoding="async" />
+                        <span class="voice-orb-grain-layer"><span class="voice-orb-grain"></span></span>
+                      </span>
+                      <span class="voice-orb-status" data-voice-orb-status aria-live="polite"></span>
+                      <span class="voice-design-toggle-control" aria-hidden="true">
+                        <img class="is-play" src="./assets/icons/play-fill.svg" alt="" />
+                        <img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" />
+                      </span>
+                    </button>
+                    <div class="voice-design-player-line" hidden>
+                      <div class="voice-design-wave" data-player-waveform aria-label="元气少女音频波形"></div>
+                      <time data-player-time>00:00 / 00:06</time>
+                    </div>
+                    <audio preload="metadata"></audio>
+                  </article>
+                </div>
+                <div class="voice-orb-captions">
+                  <div class="voice-orb-caption-viewport" data-orb-caption-viewport></div>
+                  <span class="visually-hidden" data-orb-announcement aria-live="polite"></span>
+                  <button class="voice-orb-caption-arrow" type="button" data-voice-orb-prev aria-label="上一个声音"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 7-5 5 5 5" /></svg></button>
+                  <button class="voice-orb-caption-arrow" type="button" data-voice-orb-next aria-label="下一个声音"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 7 5 5-5 5" /></svg></button>
+                </div>
+              </div>
+            </section>
+            <section class="case-portal" aria-labelledby="case-portal-title">
+              <div class="case-portal-copy">
+                <p class="section-kicker"><img src="./assets/sound-grid-icons/equalizer.svg" alt="" aria-hidden="true" /><span data-product-i18n="caseKicker">全要素生成</span></p>
+                <h4 id="case-portal-title" data-product-i18n-html="caseTitle">一个模型，<br /><span>生成全声场。</span></h4>
+                <div>
+                  <p data-product-i18n="caseDescription">用自然语言描述，即可生成人声、歌声、音效与音乐。</p>
+                  <p data-product-i18n="caseDescriptionSecondary">将多种声音编排在同一段音频中，呈现完整的听觉场景。</p>
+                </div>
+              </div>
+              <div class="case-portal-gallery">
+                <div class="case-coverflow" data-vibe-coverflow aria-label="真实场景封面"><span class="case-cover is-previous" data-boot-cover aria-hidden="true"><span class="case-cover-media"></span></span><span class="case-cover is-active" data-boot-cover aria-hidden="true"><span class="case-cover-media"></span></span><span class="case-cover is-next" data-boot-cover aria-hidden="true"><span class="case-cover-media"></span></span></div>
+                <p class="visually-hidden" data-vibe-title aria-live="polite">清晨煎饼摊</p>
+              </div>
+            </section>
+            <section class="sound-library" id="sound-library" data-reveal aria-labelledby="sound-library-title">
+              <header class="sound-library-intro">
+                  <p class="section-kicker">
+                    <img src="./assets/sound-grid-icons/equalizer.svg" alt="" aria-hidden="true" />
+                    <span data-product-i18n="soundKicker">音效与音乐</span>
+                  </p>
+                  <h2 id="sound-library-title" data-product-i18n-html="soundTitle">用一句描述，<br /><span>创作音效与音乐。</span></h2>
+                <p class="sound-library-intro-copy" data-product-i18n="soundDescription">描述声音的材质、节奏与氛围，生成所需的音效与音乐。</p>
+              </header>
+              <div class="sound-library-grid" aria-label="音效与音乐试听示例">
+                <article class="sound-library-item inline-player" data-inline-player="forest">
+                  <button class="sound-library-button" type="button" data-player-toggle aria-label="播放森林鸟鸣音效示例">
+                    <img class="sound-library-background" src="./assets/sound-monet-forest-birds-v1.jpg" alt="" aria-hidden="true" />
+                    <span class="sound-library-icon"><img src="./assets/sound-grid-icons/bird.svg" alt="" aria-hidden="true" /></span>
+                    <span class="sound-library-state" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    <span class="sound-library-copy"><small>音效 · 自然</small><strong>森林鸟鸣</strong></span>
+                    <time data-player-time>00:00 / 00:05</time>
+                    <span class="sound-library-wave" data-player-waveform aria-label="森林鸟鸣音频波形"></span>
+                  </button>
+                  <audio preload="metadata"></audio>
+                </article>
+                <article class="sound-library-item inline-player" data-inline-player="sfxRain">
+                  <button class="sound-library-button" type="button" data-player-toggle aria-label="播放棚顶落雨音效示例">
+                    <img class="sound-library-background" src="./assets/sound-monet-rain-roof-v1.jpg" alt="" aria-hidden="true" />
+                    <span class="sound-library-icon"><img src="./assets/sound-grid-icons/cloud-rain.svg" alt="" aria-hidden="true" /></span>
+                    <span class="sound-library-state" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    <span class="sound-library-copy"><small>音效 · 环境</small><strong>棚顶落雨</strong></span>
+                    <time data-player-time>00:00 / 00:06</time>
+                    <span class="sound-library-wave" data-player-waveform aria-label="棚顶落雨音频波形"></span>
+                  </button>
+                  <audio preload="metadata"></audio>
+                </article>
+                <article class="sound-library-item inline-player" data-inline-player="sfxStream">
+                  <button class="sound-library-button" type="button" data-player-toggle aria-label="播放林间溪流音效示例">
+                    <img class="sound-library-background" src="./assets/sound-monet-forest-stream-v1.jpg" alt="" aria-hidden="true" />
+                    <span class="sound-library-icon"><img src="./assets/sound-grid-icons/waves.svg" alt="" aria-hidden="true" /></span>
+                    <span class="sound-library-state" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    <span class="sound-library-copy"><small>音效 · 水流</small><strong>林间溪流</strong></span>
+                    <time data-player-time>00:00 / 00:06</time>
+                    <span class="sound-library-wave" data-player-waveform aria-label="林间溪流音频波形"></span>
+                  </button>
+                  <audio preload="metadata"></audio>
+                </article>
+                <article class="sound-library-item inline-player" data-inline-player="sfxTrees">
+                  <button class="sound-library-button" type="button" data-player-toggle aria-label="播放风穿树梢音效示例">
+                    <img class="sound-library-background" src="./assets/sound-monet-wind-trees-v1.jpg" alt="" aria-hidden="true" />
+                    <span class="sound-library-icon"><img src="./assets/sound-grid-icons/gear.svg" alt="" aria-hidden="true" /></span>
+                    <span class="sound-library-state" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    <span class="sound-library-copy"><small>音效 · 空间</small><strong>风穿树梢</strong></span>
+                    <time data-player-time>00:00 / 00:05</time>
+                    <span class="sound-library-wave" data-player-waveform aria-label="风穿树梢音频波形"></span>
+                  </button>
+                  <audio preload="metadata"></audio>
+                </article>
+                <article class="sound-library-item inline-player" data-inline-player="sfxImpact">
+                  <button class="sound-library-button" type="button" data-player-toggle aria-label="播放重物坠地音效示例">
+                    <img class="sound-library-background" src="./assets/sound-monet-heavy-impact-v1.jpg" alt="" aria-hidden="true" />
+                    <span class="sound-library-icon"><img src="./assets/sound-grid-icons/hammer.svg" alt="" aria-hidden="true" /></span>
+                    <span class="sound-library-state" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    <span class="sound-library-copy"><small>音效 · 冲击</small><strong>重物坠地</strong></span>
+                    <time data-player-time>00:00 / 00:01</time>
+                    <span class="sound-library-wave" data-player-waveform aria-label="重物坠地音频波形"></span>
+                  </button>
+                  <audio preload="metadata"></audio>
+                </article>
+                <article class="sound-library-item inline-player" data-inline-player="lofi">
+                  <button class="sound-library-button" type="button" data-player-toggle aria-label="播放午夜 Lo-fi 音乐示例">
+                    <img class="sound-library-background" src="./assets/music-monet-midnight-lofi-v1.jpg" alt="" aria-hidden="true" />
+                    <span class="sound-library-icon"><img src="./assets/sound-grid-icons/vinyl.svg" alt="" aria-hidden="true" /></span>
+                    <span class="sound-library-state" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    <span class="sound-library-copy"><small>音乐 · Lo-fi</small><strong>午夜 Lo-fi</strong></span>
+                    <time data-player-time>00:00 / 00:32</time>
+                    <span class="sound-library-wave" data-player-waveform aria-label="午夜 Lo-fi 音频波形"></span>
+                  </button>
+                  <audio preload="metadata"></audio>
+                </article>
+                <article class="sound-library-item inline-player" data-inline-player="musicCyberpunk">
+                  <button class="sound-library-button" type="button" data-player-toggle aria-label="播放霓虹追逐音乐示例">
+                    <img class="sound-library-background" src="./assets/music-monet-neon-chase-v1.jpg" alt="" aria-hidden="true" />
+                    <span class="sound-library-icon"><img src="./assets/sound-grid-icons/headphones.svg" alt="" aria-hidden="true" /></span>
+                    <span class="sound-library-state" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    <span class="sound-library-copy"><small>音乐 · 电子</small><strong>霓虹追逐</strong></span>
+                    <time data-player-time>00:00 / 00:49</time>
+                    <span class="sound-library-wave" data-player-waveform aria-label="霓虹追逐音频波形"></span>
+                  </button>
+                  <audio preload="metadata"></audio>
+                </article>
+                <article class="sound-library-item inline-player" data-inline-player="musicDesert">
+                  <button class="sound-library-button" type="button" data-player-toggle aria-label="播放沙漠商队音乐示例">
+                    <img class="sound-library-background" src="./assets/music-monet-desert-caravan-v1.jpg" alt="" aria-hidden="true" />
+                    <span class="sound-library-icon"><img src="./assets/sound-grid-icons/guitar.svg" alt="" aria-hidden="true" /></span>
+                    <span class="sound-library-state" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    <span class="sound-library-copy"><small>音乐 · 世界</small><strong>沙漠商队</strong></span>
+                    <time data-player-time>00:00 / 00:40</time>
+                    <span class="sound-library-wave" data-player-waveform aria-label="沙漠商队音频波形"></span>
+                  </button>
+                  <audio preload="metadata"></audio>
+                </article>
+                <article class="sound-library-item inline-player" data-inline-player="musicPiano">
+                  <button class="sound-library-button" type="button" data-player-toggle aria-label="播放旧日钢琴音乐示例">
+                    <img class="sound-library-background" src="./assets/music-monet-old-piano-v1.jpg" alt="" aria-hidden="true" />
+                    <span class="sound-library-icon"><img src="./assets/sound-grid-icons/piano-keys.svg" alt="" aria-hidden="true" /></span>
+                    <span class="sound-library-state" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    <span class="sound-library-copy"><small>音乐 · 钢琴</small><strong>旧日钢琴</strong></span>
+                    <time data-player-time>00:00 / 00:23</time>
+                    <span class="sound-library-wave" data-player-waveform aria-label="旧日钢琴音频波形"></span>
+                  </button>
+                  <audio preload="metadata"></audio>
+                </article>
+                <article class="sound-library-item inline-player" data-inline-player="musicTango">
+                  <button class="sound-library-button" type="button" data-player-toggle aria-label="播放午夜探戈音乐示例">
+                    <img class="sound-library-background" src="./assets/music-monet-midnight-tango-v1.jpg" alt="" aria-hidden="true" />
+                    <span class="sound-library-icon"><img src="./assets/sound-grid-icons/music-note.svg" alt="" aria-hidden="true" /></span>
+                    <span class="sound-library-state" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+                    <span class="sound-library-copy"><small>音乐 · 探戈</small><strong>午夜探戈</strong></span>
+                    <time data-player-time>00:00 / 00:21</time>
+                    <span class="sound-library-wave" data-player-waveform aria-label="午夜探戈音频波形"></span>
+                  </button>
+                  <audio preload="metadata"></audio>
+                </article>
+              </div>
+            </section>
+            <div class="vibe-carousel-stage" data-vibe-stage hidden aria-hidden="true">
+            <article class="vibe-card has-background-video" data-vibe-card id="vibe-case-breakfast" aria-label="清晨煎饼摊">
+              <div class="vibe-card-media is-breakfast" aria-hidden="true">
+                <video muted loop playsinline preload="none" poster="./video/showcase-breakfast.jpg" data-vibe-video data-src="./video/vibespeech-breakfast-stall-preview.mp4"></video>
+              </div>
+              <div class="vibe-card-head">
+                <div><h4>清晨煎饼摊</h4></div>
+                <span>沙哑声线 / 连续煎锅声 / 熟客关系</span>
+              </div>
+              <div class="vibe-spec-grid">
+                <section class="vibe-spec vibe-role-spec">
+                  <h5>ROLE</h5>
+                  <dl class="vibe-role-list">
+                    <div><dt>女摊主</dt><dd>四十多岁，嗓门敞亮带沙哑，语速麻利，热络爽快。</dd></div>
+                    <div><dt>上班族男性</dt><dd>二十五六岁，声音困倦发闷，语速偏急。</dd></div>
+                  </dl>
+                </section>
+                <div class="vibe-spec-column">
+                  <section class="vibe-spec vibe-director-spec">
+                    <h5>DIRECTOR</h5>
+                    <p>清晨六点的街边早餐摊。煎锅滋啦声与车流声贯穿全程，忙碌又温暖。</p>
+                  </section>
+                  <section class="vibe-spec vibe-script-spec">
+                    <h5>SCRIPT</h5>
+                    <div class="vibe-script-lines">
+                      <p><strong>女摊主</strong><span>来啦小伙子！老样子加俩蛋不放葱是吧？</span></p>
+                      <p><strong>SFX</strong><span>鸡蛋磕进煎锅，滋啦声瞬间扬起。</span></p>
+                      <p><strong>上班族</strong><span>对，阿姨麻烦快点，我赶八点的地铁。</span></p>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="inline-player vibe-player" data-inline-player="breakfastStall">
+                <div class="vibe-player-transport" aria-label="播放控制">
+                  <button class="vibe-player-step" type="button" data-vibe-player-prev aria-label="播放上一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-prev"/></svg></button>
+                  <button class="inline-play" type="button" data-player-toggle aria-label="播放清晨煎饼摊"><span></span></button>
+                  <button class="vibe-player-step" type="button" data-vibe-player-next aria-label="播放下一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-next"/></svg></button>
+                </div>
+                <div class="inline-player-body">
+                  <div class="inline-waveform" data-player-waveform aria-label="清晨煎饼摊音频波形"></div>
+                </div>
+                <time class="vibe-player-time" data-player-time>00:00 / 00:21</time>
+                <audio preload="metadata"></audio>
+              </div>
+            </article>
+
+            <article class="vibe-card has-background-video" data-vibe-card id="vibe-case-night-food" aria-label="夏夜大排档">
+              <div class="vibe-card-media is-night-food" aria-hidden="true">
+                <video muted loop playsinline preload="none" poster="./video/showcase-night-food.jpg" data-vibe-video data-src="./video/vibespeech-summer-night-food-stall-preview.mp4"></video>
+              </div>
+              <div class="vibe-card-head">
+                <div><h4>夏夜大排档</h4></div>
+                <span>微醺状态 / 爆炒声 / 江湖气</span>
+              </div>
+              <div class="vibe-spec-grid">
+                <section class="vibe-spec vibe-role-spec">
+                  <h5>ROLE</h5>
+                  <dl class="vibe-role-list">
+                    <div><dt>大排档老板</dt><dd>四十岁上下，嗓门粗豪爽朗，语速快而利落。</dd></div>
+                    <div><dt>男顾客</dt><dd>二十七八岁，带三分醉意，语气松散拖沓。</dd></div>
+                  </dl>
+                </section>
+                <div class="vibe-spec-column">
+                  <section class="vibe-spec vibe-director-spec">
+                    <h5>DIRECTOR</h5>
+                    <p>夏夜街边露天大排档临近打烊，灶台爆炒声与零散客人交谈声交织。</p>
+                  </section>
+                  <section class="vibe-spec vibe-script-spec">
+                    <h5>SCRIPT</h5>
+                    <div class="vibe-script-lines">
+                      <p><strong>男顾客</strong><span>老板，再来盘毛豆花生！这夜还长着呢！</span></p>
+                      <p><strong>SFX</strong><span>铁锅重重颠起，火苗窜起，爆炒声骤响。</span></p>
+                      <p><strong>老板</strong><span>想得通就好！这盘我请，吃饱了明天再战！</span></p>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="inline-player vibe-player" data-inline-player="nightFoodStall">
+                <div class="vibe-player-transport" aria-label="播放控制">
+                  <button class="vibe-player-step" type="button" data-vibe-player-prev aria-label="播放上一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-prev"/></svg></button>
+                  <button class="inline-play" type="button" data-player-toggle aria-label="播放夏夜大排档"><span></span></button>
+                  <button class="vibe-player-step" type="button" data-vibe-player-next aria-label="播放下一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-next"/></svg></button>
+                </div>
+                <div class="inline-player-body">
+                  <div class="inline-waveform" data-player-waveform aria-label="夏夜大排档音频波形"></div>
+                </div>
+                <time class="vibe-player-time" data-player-time>00:00 / 00:25</time>
+                <audio preload="metadata"></audio>
+              </div>
+            </article>
+
+            <article class="vibe-card has-background-video" data-vibe-card id="vibe-case-apron" aria-label="夜间停机坪">
+              <div class="vibe-card-media is-night-apron" aria-hidden="true">
+                <video muted loop playsinline preload="none" poster="./video/showcase-night-apron.jpg" data-vibe-video data-src="./video/vibespeech-night-apron-preview.mp4"></video>
+              </div>
+              <div class="vibe-card-head">
+                <div><h4>夜间停机坪</h4></div>
+                <span>无线电压缩 / 引擎轰鸣 / 三角色</span>
+              </div>
+              <div class="vibe-spec-grid">
+                <section class="vibe-spec vibe-role-spec">
+                  <h5>ROLE</h5>
+                  <dl class="vibe-role-list">
+                    <div><dt>地勤</dt><dd>三十岁男性，干练利落，略提高音量盖过引擎。</dd></div>
+                    <div><dt>机长</dt><dd>中年男性，无线电话音，沉稳职业。</dd></div>
+                    <div><dt>塔台</dt><dd>年轻女性，字正腔圆，冷静下达指令。</dd></div>
+                  </dl>
+                </section>
+                <div class="vibe-spec-column">
+                  <section class="vibe-spec vibe-director-spec">
+                    <h5>DIRECTOR</h5>
+                    <p>夜间停机坪进行起飞前检查。APU 高频呜鸣与牵引车低沉引擎声持续存在。</p>
+                  </section>
+                  <section class="vibe-spec vibe-script-spec">
+                    <h5>SCRIPT</h5>
+                    <div class="vibe-script-lines">
+                      <p><strong>地勤</strong><span>左发进气口检查完毕，轮挡已撤，可以推出。</span></p>
+                      <p><strong>机长</strong><span>收到，请求后推许可，目视地面信号。</span></p>
+                      <p><strong>塔台</strong><span>同意后推，跑道两三右，地面风零九零三节。</span></p>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="inline-player vibe-player" data-inline-player="nightApron">
+                <div class="vibe-player-transport" aria-label="播放控制">
+                  <button class="vibe-player-step" type="button" data-vibe-player-prev aria-label="播放上一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-prev"/></svg></button>
+                  <button class="inline-play" type="button" data-player-toggle aria-label="播放夜间停机坪"><span></span></button>
+                  <button class="vibe-player-step" type="button" data-vibe-player-next aria-label="播放下一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-next"/></svg></button>
+                </div>
+                <div class="inline-player-body">
+                  <div class="inline-waveform" data-player-waveform aria-label="夜间停机坪音频波形"></div>
+                </div>
+                <time class="vibe-player-time" data-player-time>00:00 / 00:29</time>
+                <audio preload="metadata"></audio>
+              </div>
+            </article>
+
+            <article class="vibe-card has-background-video" data-vibe-card id="vibe-case-run" aria-label="江边晨跑">
+              <div class="vibe-card-media is-riverside-run" aria-hidden="true">
+                <video muted loop playsinline preload="none" poster="./video/showcase-riverside-run.jpg" data-vibe-video data-src="./video/vibespeech-riverside-morning-run-preview.mp4"></video>
+              </div>
+              <div class="vibe-card-head">
+                <div><h4>江边晨跑</h4></div>
+                <span>边跑边说 / 喘息变化 / 持续风噪</span>
+              </div>
+              <div class="vibe-spec-grid">
+                <section class="vibe-spec vibe-role-spec">
+                  <h5>ROLE</h5>
+                  <dl class="vibe-role-list">
+                    <div><dt>晨跑青年</dt><dd>二十七八岁，阳光有活力，因奔跑微微发喘，语速偏快。</dd></div>
+                  </dl>
+                </section>
+                <div class="vibe-spec-column">
+                  <section class="vibe-spec vibe-director-spec">
+                    <h5>DIRECTOR</h5>
+                    <p>清晨江边绿道，他边跑边拍 vlog。低沉风噪持续掠过麦克风，呼吸随运动自然变化。</p>
+                  </section>
+                  <section class="vibe-spec vibe-script-spec">
+                    <h5>SCRIPT</h5>
+                    <div class="vibe-script-lines">
+                      <p><strong>晨跑青年</strong><span>早啊各位！今天六点半准时打卡。</span></p>
+                      <p><strong>晨跑青年</strong><span>最难的从来不是跑，是把鞋穿上出门这一步。</span></p>
+                      <p><strong>晨跑青年</strong><span>先舒服地跑完全程，习惯养成了，速度自然会来。</span></p>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="inline-player vibe-player" data-inline-player="riversideRun">
+                <div class="vibe-player-transport" aria-label="播放控制">
+                  <button class="vibe-player-step" type="button" data-vibe-player-prev aria-label="播放上一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-prev"/></svg></button>
+                  <button class="inline-play" type="button" data-player-toggle aria-label="播放江边晨跑"><span></span></button>
+                  <button class="vibe-player-step" type="button" data-vibe-player-next aria-label="播放下一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-next"/></svg></button>
+                </div>
+                <div class="inline-player-body">
+                  <div class="inline-waveform" data-player-waveform aria-label="江边晨跑音频波形"></div>
+                </div>
+                <time class="vibe-player-time" data-player-time>00:00 / 00:40</time>
+                <audio preload="metadata"></audio>
+              </div>
+            </article>
+
+            <article class="vibe-card has-background-video" data-vibe-card id="vibe-case-market" aria-label="暴雨菜市场">
+              <div class="vibe-card-media is-rain-market" aria-hidden="true">
+                <video muted loop playsinline preload="none" poster="./video/showcase-rain-market.jpg" data-vibe-video data-src="./video/vibespeech-rainy-market-preview.mp4"></video>
+              </div>
+              <div class="vibe-card-head">
+                <div><h4>暴雨菜市场</h4></div>
+                <span>本地口音 / 对讲机 / 持续暴雨</span>
+              </div>
+              <div class="vibe-spec-grid">
+                <section class="vibe-spec vibe-role-spec">
+                  <h5>ROLE</h5>
+                  <dl class="vibe-role-list">
+                    <div><dt>记者</dt><dd>青年男性，沉稳清晰，现场连线语气紧迫。</dd></div>
+                    <div><dt>摊主</dt><dd>五十多岁女性，嗓音沙哑，带本地口音。</dd></div>
+                    <div><dt>调度员</dt><dd>青年男性，对讲机话音，专业干脆。</dd></div>
+                  </dl>
+                </section>
+                <div class="vibe-spec-column">
+                  <section class="vibe-spec vibe-director-spec">
+                    <h5>DIRECTOR</h5>
+                    <p>暴雨后的老菜市场入口。雨点持续砸在铁皮棚上，落水声与对讲机底噪贯穿现场。</p>
+                  </section>
+                  <section class="vibe-spec vibe-script-spec">
+                    <h5>SCRIPT</h5>
+                    <div class="vibe-script-lines">
+                      <p><strong>记者</strong><span>暴雨导致市场内部大面积积水，商户正在转移货物。</span></p>
+                      <p><strong>摊主</strong><span>这水来得太急，我这一筐菜全泡汤了。</span></p>
+                      <p><strong>调度员</strong><span>排水班组已出发，先做临时导流。</span></p>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="inline-player vibe-player" data-inline-player="rainMarket">
+                <div class="vibe-player-transport" aria-label="播放控制">
+                  <button class="vibe-player-step" type="button" data-vibe-player-prev aria-label="播放上一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-prev"/></svg></button>
+                  <button class="inline-play" type="button" data-player-toggle aria-label="播放暴雨菜市场"><span></span></button>
+                  <button class="vibe-player-step" type="button" data-vibe-player-next aria-label="播放下一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-next"/></svg></button>
+                </div>
+                <div class="inline-player-body">
+                  <div class="inline-waveform" data-player-waveform aria-label="暴雨菜市场音频波形"></div>
+                </div>
+                <time class="vibe-player-time" data-player-time>00:00 / 00:39</time>
+                <audio preload="metadata"></audio>
+              </div>
+            </article>
+
+            <article class="vibe-card has-background-video" data-vibe-card id="vibe-case-musical" aria-label="音乐剧首演前">
+              <div class="vibe-card-media is-musical" aria-hidden="true">
+                <video muted loop playsinline preload="none" poster="./video/showcase-musical.jpg" data-vibe-video data-src="./video/vibespeech-before-the-musical-premiere-preview.mp4"></video>
+              </div>
+              <div class="vibe-card-head">
+                <div><h4>音乐剧首演前</h4></div>
+                <span>后台化妆间 / 情绪铺垫 / 试唱</span>
+              </div>
+              <div class="vibe-spec-grid">
+                <section class="vibe-spec vibe-role-spec">
+                  <h5>ROLE</h5>
+                  <dl class="vibe-role-list">
+                    <div><dt>导演</dt><dd>四十多岁的女性，声音干练有威严，语速明快，说话带着不容置疑的专业判断。</dd></div>
+                    <div><dt>主演</dt><dd>二十多岁的女性，说话时声音清亮略带紧张，演唱时音色通透、感染力极强，情绪充沛。</dd></div>
+                    <div><dt>声乐指导</dt><dd>五十多岁的男性，声音温厚沉稳，语速舒缓，说话循循善诱。</dd></div>
+                  </dl>
+                </section>
+                <div class="vibe-spec-column">
+                  <section class="vibe-spec vibe-director-spec">
+                    <h5>DIRECTOR</h5>
+                    <p>音乐剧首演前的后台化妆间，导演和声乐指导为主演做上台前最后的情绪铺垫。</p>
+                  </section>
+                  <section class="vibe-spec vibe-script-spec">
+                    <h5>SCRIPT</h5>
+                    <div class="vibe-script-lines">
+                      <p><strong>导演</strong><span>别慌，你准备了整整一年，今晚这个舞台就是为你留的。</span></p>
+                      <p><strong>主演</strong><span>导演，我怕我一上台，那句最高音又破了……</span></p>
+                      <p><strong>声乐指导</strong><span>别用嗓子顶，气沉下去，把它托上去。来，跟我走一遍这句。</span></p>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="inline-player vibe-player" data-inline-player="sceneMusical">
+                <div class="vibe-player-transport" aria-label="播放控制">
+                  <button class="vibe-player-step" type="button" data-vibe-player-prev aria-label="播放上一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-prev"/></svg></button>
+                  <button class="inline-play" type="button" data-player-toggle aria-label="播放音乐剧首演前"><span></span></button>
+                  <button class="vibe-player-step" type="button" data-vibe-player-next aria-label="播放下一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-next"/></svg></button>
+                </div>
+                <div class="inline-player-body">
+                  <div class="inline-waveform" data-player-waveform aria-label="音乐剧首演前音频波形"></div>
+                </div>
+                <time class="vibe-player-time" data-player-time>00:00 / 00:41</time>
+                <audio preload="metadata"></audio>
+              </div>
+            </article>
+            </div>
+          </div>
+
+        </article>
+        <section class="overview" id="overview" hidden>
+
+        <div class="overview-intro" data-reveal>
+          <h2>全要素生成，也要真人感。<br /><span>时序可控，覆盖全场景。</span></h2>
+        </div>
+
+        <div class="sound-sentence" data-reveal aria-label="人声、音效，连同环境与音乐，一次生成，完成整个声场">
+          <span class="sentence-clause">
+            <span class="sentence-part" data-sentence="voice">人声、音效</span>
+            <span class="sentence-join">连同环境与音乐</span>
+          </span>
+          <span class="sentence-clause sentence-clause-result">
+            <span class="sentence-part" data-sentence="space">一次生成</span>
+            <span class="sentence-join">完成</span>
+            <span class="sentence-part" data-sentence="time">整个声场</span>
+          </span>
+          <div class="sentence-line" aria-hidden="true"><i></i></div>
+        </div>
+
+        <div class="overview-facts" data-reveal aria-label="四项核心亮点">
+          <div>
+            <strong>全场景</strong>
+            <span>音色设计、音效与音乐<br />人声 Vocal、多要素声场全面覆盖</span>
+          </div>
+          <div>
+            <strong>全要素生成</strong>
+            <span>人物、对白、环境、音效与音乐<br />一次生成成为完整声场</span>
+          </div>
+          <div>
+            <strong>真人感</strong>
+            <span>音色与表演都可控制<br />口音、情绪与停顿自然可信</span>
+          </div>
+          <div>
+            <strong>时序可控</strong>
+            <span>对白、音效、环境与音乐<br />在正确时刻自然衔接</span>
+          </div>
+        </div>
+
+      </section>
+        <article class="proof proof-scenes" id="proof-scenes" hidden>
+          <header class="capability-heading" data-reveal>
+            <p class="proof-kind">全场景</p>
+            <h3>五种声音能力，<br /><span>共用一套模型。</span></h3>
+            <p>从单一音色、音效和音乐，到带有对白、环境与表演的完整声场。选择一种能力，直接查看对应说明与真实音频。</p>
+          </header>
+
+          <div class="capability-editorial" data-capability-editorial aria-label="全场景能力，选择能力查看说明与文档示例">
+            <div class="capability-index" role="tablist" aria-label="声音能力">
+              <button class="capability-index-item is-active" type="button" role="tab" data-capability-node aria-controls="capability-panel-voice" aria-selected="true"><strong>音色设计</strong><span>塑造角色音色</span></button>
+              <button class="capability-index-item" type="button" role="tab" data-capability-node aria-controls="capability-panel-sfx" aria-selected="false" tabindex="-1"><strong>音效</strong><span>材质与空间</span></button>
+              <button class="capability-index-item" type="button" role="tab" data-capability-node aria-controls="capability-panel-music" aria-selected="false" tabindex="-1"><strong>音乐</strong><span>风格与配器</span></button>
+              <button class="capability-index-item" type="button" role="tab" data-capability-node aria-controls="capability-panel-vocal" aria-selected="false" tabindex="-1"><strong>人声 Vocal</strong><span>唱法与声线</span></button>
+              <button class="capability-index-item" type="button" role="tab" data-capability-node aria-controls="capability-panel-vibe" aria-selected="false" tabindex="-1"><strong>多要素声场</strong><span>一次生成成品</span></button>
+            </div>
+
+            <div class="capability-stage">
+              <div class="capability-visuals" aria-hidden="true">
+                <figure class="capability-visual is-active" data-capability-visual><img src="./assets/kids-playing-DldrpYjW.jpg" loading="lazy" decoding="async" alt="" /><figcaption>音色设计</figcaption></figure>
+                <figure class="capability-visual" data-capability-visual><img src="./assets/forest-birds-DWSz9AJV.jpg" loading="lazy" decoding="async" alt="" /><figcaption>音效</figcaption></figure>
+                <figure class="capability-visual" data-capability-visual><img src="./assets/old-piano-se5tsoSo.jpg" loading="lazy" decoding="async" alt="" /><figcaption>音乐</figcaption></figure>
+                <figure class="capability-visual" data-capability-visual><img src="./assets/male-singer-booth-DIsgxEq8.jpg" loading="lazy" decoding="async" alt="" /><figcaption>人声 Vocal</figcaption></figure>
+                <figure class="capability-visual" data-capability-visual><img src="./assets/theater-backstage-B73ei1FY.jpg" loading="lazy" decoding="async" alt="" /><figcaption>多要素声场</figcaption></figure>
+              </div>
+
+              <div class="capability-detail" aria-live="polite">
+                <article class="capability-panel is-active" id="capability-panel-voice" role="tabpanel" data-capability-panel>
+                  <span>VOICE DESIGN</span>
+                  <h4>把声音写成一个角色。</h4>
+                  <p>年龄、声线、质感与表达状态都能通过自然语言直接指定。</p>
+                  <div class="capability-source"><b>文档示例</b><strong>小男孩奇想</strong><p>年幼男童，声音奶乎乎脆生生的，带着满满都雀跃感，天真烂漫。</p></div>
+                </article>
+                <article class="capability-panel" id="capability-panel-sfx" role="tabpanel" data-capability-panel aria-hidden="true" inert>
+                  <span>SOUND EFFECT</span>
+                  <h4>从材质，到空间远近。</h4>
+                  <p>直接描述需要的声源、动作和听觉距离，生成独立音效。</p>
+                  <div class="capability-source"><b>文档示例</b><strong>森林鸟鸣</strong><p>小型森林中，多种鸟类的清脆鸣叫声此起彼伏，带有远近层次。</p></div>
+                </article>
+                <article class="capability-panel" id="capability-panel-music" role="tabpanel" data-capability-panel aria-hidden="true" inert>
+                  <span>MUSIC</span>
+                  <h4>把风格和配器写清楚。</h4>
+                  <p>曲风、乐器、速度、情绪与空间质感在一次描述中共同成立。</p>
+                  <div class="capability-source"><b>文档示例</b><strong>午夜 Lo-fi</strong><p>低保真学习节拍，温暖独奏钢琴，刷鼓，雨声环境音，黑胶裂纹质感，缓慢电影感律动，轻柔远景合成器，有机自然暖意，舒适午夜氛围，舒缓放松专注。</p></div>
+                </article>
+                <article class="capability-panel" id="capability-panel-vocal" role="tabpanel" data-capability-panel aria-hidden="true" inert>
+                  <span>VOCAL</span>
+                  <h4>唱法、声线和歌词一起生成。</h4>
+                  <p>演唱风格与角色音色不再分开选择，而是在同一段描述里共同确定。</p>
+                  <div class="capability-source"><b>文档示例</b><strong>偷偷说生日快乐</strong><p>带有轻微颤音，降B大调，演唱轻柔亲密。一个男声，音色温暖柔和、充满倾诉感。</p></div>
+                </article>
+                <article class="capability-panel" id="capability-panel-vibe" role="tabpanel" data-capability-panel aria-hidden="true" inert>
+                  <span>MULTI-ELEMENT SOUNDSCAPE</span>
+                  <h4>把所有声音放进同一个世界。</h4>
+                  <p>角色、对白、环境、动作音效与音乐共享同一条生成时间线。</p>
+                  <div class="capability-source"><b>文档示例</b><strong>清晨煎饼摊</strong><p>清晨六点多的街边早餐摊，天刚蒙蒙亮，女摊主正给赶着上班的熟客现做煎饼。</p></div>
+                </article>
+              </div>
+
+              <div class="capability-demos" aria-live="polite" aria-label="当前能力的真实音频示例">
+                <article class="capability-demo is-active" data-capability-demo>
+                  <div class="inline-player capability-demo-player" data-inline-player="child" data-orb-palette="teal">
+                    <button class="inline-play" type="button" data-player-toggle aria-label="播放小男孩奇想音色设计示例"><span></span></button>
+                    <div class="inline-player-body"><div class="inline-player-meta"><strong>小男孩奇想</strong><time data-player-time>00:00 / 00:26</time></div><div class="inline-waveform" data-player-waveform aria-label="小男孩奇想音频波形"></div></div>
+                    <audio preload="metadata"></audio>
+                  </div>
+                </article>
+                <article class="capability-demo" data-capability-demo aria-hidden="true" inert>
+                  <div class="inline-player capability-demo-player" data-inline-player="forest">
+                    <button class="inline-play" type="button" data-player-toggle aria-label="播放森林鸟鸣音效示例"><span></span></button>
+                    <div class="inline-player-body"><div class="inline-player-meta"><strong>森林鸟鸣</strong><time data-player-time>00:00 / 00:05</time></div><div class="inline-waveform" data-player-waveform aria-label="森林鸟鸣音频波形"></div></div>
+                    <audio preload="metadata"></audio>
+                  </div>
+                </article>
+                <article class="capability-demo" data-capability-demo aria-hidden="true" inert>
+                  <div class="inline-player capability-demo-player" data-inline-player="lofi">
+                    <button class="inline-play" type="button" data-player-toggle aria-label="播放午夜 Lo-fi 音乐示例"><span></span></button>
+                    <div class="inline-player-body"><div class="inline-player-meta"><strong>午夜 Lo-fi</strong><time data-player-time>00:00 / 00:32</time></div><div class="inline-waveform" data-player-waveform aria-label="午夜 Lo-fi 音频波形"></div></div>
+                    <audio preload="metadata"></audio>
+                  </div>
+                </article>
+                <article class="capability-demo" data-capability-demo aria-hidden="true" inert>
+                  <div class="inline-player capability-demo-player" data-inline-player="vocalBirthday">
+                    <button class="inline-play" type="button" data-player-toggle aria-label="播放偷偷说生日快乐人声示例"><span></span></button>
+                    <div class="inline-player-body"><div class="inline-player-meta"><strong>偷偷说生日快乐</strong><time data-player-time>00:00 / 00:20</time></div><div class="inline-waveform" data-player-waveform aria-label="偷偷说生日快乐音频波形"></div></div>
+                    <audio preload="metadata"></audio>
+                  </div>
+                </article>
+                <article class="capability-demo" data-capability-demo aria-hidden="true" inert>
+                  <div class="inline-player capability-demo-player" data-inline-player="breakfastStall">
+                    <button class="inline-play" type="button" data-player-toggle aria-label="播放清晨煎饼摊多要素声场示例"><span></span></button>
+                    <div class="inline-player-body"><div class="inline-player-meta"><strong>清晨煎饼摊</strong><time data-player-time>00:00 / 00:21</time></div><div class="inline-waveform" data-player-waveform aria-label="清晨煎饼摊音频波形"></div></div>
+                    <audio preload="metadata"></audio>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </article>
+
+
+
+        <article class="proof proof-control" id="proof-control" hidden>
+          <div class="performance-stage" data-reveal data-voice-orbit tabindex="0" aria-label="角色音色圆环，滚动页面或使用上下方向键循环切换角色">
+            <div class="voice-orbit">
+              <div class="voice-card-deck">
+              <article class="voice-card voice-design-card voice-card-child is-active" data-orbit-card data-orbit-name="小男孩">
+                <figure class="voice-card-portrait" aria-hidden="true">
+                  <img src="./assets/voice-portrait-child-v2.png" alt="" loading="lazy" />
+                </figure>
+                <div class="voice-card-copy">
+                  <span>年龄与音色</span>
+                  <h4>小男孩</h4>
+                  <p>年幼男童 / 奶甜清脆 / 雀跃天真</p>
+                </div>
+                <div class="inline-player voice-card-player" data-inline-player="child" data-orb-palette="teal">
+                  <button class="inline-play" type="button" data-player-toggle aria-label="播放小男孩角色音频"><span></span></button>
+                  <div class="inline-player-body">
+                    <div class="inline-player-meta"><strong>年龄与音色控制</strong><time data-player-time>00:00 / 00:26</time></div>
+                    <div class="inline-waveform" data-player-waveform aria-label="小男孩角色音频波形"></div>
+                  </div>
+                  <audio preload="metadata"></audio>
+                </div>
+              </article>
+              <article class="voice-card voice-design-card voice-card-dialect" data-orbit-card data-orbit-name="东北青年">
+                <figure class="voice-card-portrait" aria-hidden="true">
+                  <img src="./assets/young-man-DLp8uPK4.jpg" alt="" loading="lazy" />
+                </figure>
+                <div class="voice-card-copy">
+                  <span>地域与口音</span>
+                  <h4>东北青年</h4>
+                  <p>二十多岁 / 东北口音 / 松弛随性</p>
+                </div>
+                <div class="inline-player voice-card-player" data-inline-player="dialect">
+                  <button class="inline-play" type="button" data-player-toggle aria-label="播放东北青年角色音频"><span></span></button>
+                  <div class="inline-player-body">
+                    <div class="inline-player-meta"><strong>地域与口音控制</strong><time data-player-time>00:00 / 00:08</time></div>
+                    <div class="inline-waveform" data-player-waveform aria-label="东北青年角色音频波形"></div>
+                  </div>
+                  <audio preload="metadata"></audio>
+                </div>
+              </article>
+              <article class="voice-card voice-design-card voice-card-elder" data-orbit-card data-orbit-name="病榻老人">
+                <figure class="voice-card-portrait" aria-hidden="true">
+                  <img src="./assets/elderly-man-C2DhzKYT.jpg" alt="" loading="lazy" />
+                </figure>
+                <div class="voice-card-copy">
+                  <span>年龄与状态</span>
+                  <h4>病榻老人</h4>
+                  <p>高龄男性 / 虚弱沙哑 / 气息短促</p>
+                </div>
+                <div class="inline-player voice-card-player" data-inline-player="elder" data-orb-palette="ink">
+                  <button class="inline-play" type="button" data-player-toggle aria-label="播放病榻老人角色音频"><span></span></button>
+                  <div class="inline-player-body">
+                    <div class="inline-player-meta"><strong>年龄与气息控制</strong><time data-player-time>00:00 / 00:31</time></div>
+                    <div class="inline-waveform" data-player-waveform aria-label="病榻老人角色音频波形"></div>
+                  </div>
+                  <audio preload="metadata"></audio>
+                </div>
+              </article>
+              </div>
+            </div>
+          </div>
+          <div class="proof-copy proof-copy-control" data-reveal>
+            <p class="proof-kind">Voice Design · 音色设计</p>
+            <h3>不是选择声音，<br />而是塑造角色。</h3>
+            <p>三段真实的 Voice Design 素材，分别呈现童声、地域口音与高龄气息。年龄、声线和说话状态都能用自然语言直接指定，并保留真实的呼吸、停顿与情绪转折。</p>
+          </div>
+        </article>
+
+        <article class="proof proof-timeline" id="proof-timeline" hidden>
+          <div class="proof-copy" data-reveal>
+            <p class="proof-kind">可控时序编排</p>
+            <h3>声音按顺序进入，<br />不抢同一个时刻。</h3>
+            <p>对白、提示音、列车声与持续环境并不是同时堆叠。每个声音都有进入、停留和退出的位置，状态变化也沿时间自然推进。</p>
+            <div class="proof-detail-list" aria-label="时序编排包含的控制维度">
+              <span>进入时刻</span>
+              <span>持续长度</span>
+              <span>先后关系</span>
+              <span>状态切换</span>
+            </div>
+          </div>
+          <div class="sound-assembly proof-sound-assembly" data-sound-assembly data-reveal aria-label="一段完整描述被拆分成人声、音效、环境和音乐，并沿时间轴组成完整声场">
+            <div class="proof-assembly-header">
+              <span data-assembly-status aria-live="polite">等待展示声音结构</span>
+              <time>00:36</time>
+            </div>
+            <div class="assembly-timeline">
+              <div class="assembly-ruler" aria-hidden="true"><span>00:00</span><span>00:18</span><span>00:36</span></div>
+              <div class="assembly-track"><b>人声</b><div><span class="assembly-cue cue-voice" style="--cue-left: 0%; --cue-width: 32%; --cue-delay: 220ms">角色对白</span><span class="assembly-cue cue-voice" style="--cue-left: 45%; --cue-width: 24%; --cue-delay: 380ms">回应</span><span class="assembly-cue cue-voice" style="--cue-left: 76%; --cue-width: 22%; --cue-delay: 520ms">旁白</span></div></div>
+              <div class="assembly-track"><b>音效</b><div><span class="assembly-cue cue-effect" style="--cue-left: 14%; --cue-width: 27%; --cue-delay: 680ms">关键动作</span><span class="assembly-cue cue-effect" style="--cue-left: 62%; --cue-width: 23%; --cue-delay: 820ms">转场提示</span></div></div>
+              <div class="assembly-track"><b>环境</b><div><span class="assembly-cue cue-ambience" style="--cue-left: 0%; --cue-width: 100%; --cue-delay: 980ms">空间环境持续存在</span></div></div>
+              <div class="assembly-track"><b>音乐</b><div><span class="assembly-cue cue-music" style="--cue-left: 48%; --cue-width: 50%; --cue-delay: 1180ms">情绪音乐进入</span></div></div>
+              <i class="assembly-playhead" aria-hidden="true"></i>
+            </div>
+            <div class="assembly-outcome"><span>一次生成</span><strong>四层声音，合成一个完整世界。</strong></div>
+          </div>
+        </article>
+
+
+      </section>
+
+      <section class="use-cases" aria-labelledby="use-cases-title" hidden>
+        <div class="use-case-heading" data-reveal>
+          <h2 id="use-cases-title">进入不同生产节奏，<br /><span>不改变同一种创作方式。</span></h2>
+        </div>
+        <div class="use-case-lines" data-reveal>
+          <article>
+            <div><p>专业制作</p><h3>影视、游戏、动画、广播剧</h3></div>
+            <p>用一条指令统一生成角色配音、环境音、音效与音乐，减少跨工种协作和后期拼接。</p>
+          </article>
+          <article>
+            <div><p>快速表达</p><h3>短视频、自媒体、有声内容</h3></div>
+            <p>无需专业音频软件，从描述直接得到与内容匹配的配音、背景音乐和声音素材。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="workflow" id="workflow" hidden>
+        <div class="workflow-intro" data-reveal>
+          <h2>一个输入，<br /><span>完成整个声音世界。</span></h2>
+        </div>
+
+        <div class="workflow-unified" data-reveal>
+          <div class="workflow-unified-copy">
+            <p>UNIFIED SOUND DIRECTION</p>
+            <h3>从场景与人物出发，<br />沿时间线编排声音。</h3>
+            <p>统一组织场景、人物与声音事件，让对白、音效与音乐沿时间线协同发生。</p>
+            <div><span>场景设定</span><span>人物塑造</span><span>对白调度</span><span>音效铺陈</span><span>音乐编排</span></div>
+          </div>
+
+          <div class="workflow-composer" aria-label="统一创作输入示意">
+            <div class="composer-editor" aria-label="场景、角色与声音配置示意">
+              <p class="composer-brief">深夜电台直播间，窗外持续细雨，近距离收音。两人保持自然停顿，钢琴只在段落间轻轻进入。</p>
+              <div class="composer-lines">
+                <p><span class="composer-tag tag-role">role</span><strong>主持人</strong><i aria-hidden="true"></i><span>青年女性，声音温柔清晰，语速舒缓</span></p>
+                <p><span class="composer-tag tag-role">role</span><strong>嘉宾</strong><i aria-hidden="true"></i><span>青年男性，声音略带沙哑，语速自然</span></p>
+                <p><span class="composer-tag tag-transcript">transcript</span><strong>主持人</strong><i aria-hidden="true"></i><span>（温柔）晚上好，欢迎回到今天的深夜电台。</span></p>
+                <p><span class="composer-tag tag-sfx">sfx</span><span>窗外细雨持续落在玻璃上</span></p>
+                <p><span class="composer-tag tag-transcript">transcript</span><strong>嘉宾</strong><i aria-hidden="true"></i><span>（轻声回忆）我第一次离开家，也是在这样的雨夜。</span></p>
+                <p><span class="composer-tag tag-sfx">sfx</span><span>很轻的钢琴在停顿后进入</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="model-benchmark tts-elo-section benchmark-redesign" id="tts-evaluation" aria-labelledby="tts-elo-title">
+        <div class="model-content">
+          <header class="benchmark-heading">
+            <h2 id="tts-elo-title" data-product-i18n="ttsEloTitle">评测表现</h2>
+            <div class="benchmark-analysis">
+              <p data-product-i18n-html="ttsEloComparison">在盲测两两对比评估中，StepAudio 3 Gen 在 TTS 与 Voice Design 两项任务上均取得 SOTA 表现，分别以 1755.33 和 1668.5 的 Elo 分数排名第一，总体胜率达 82.0% 和 71.4%，展现出在语音真人感与音色设计能力上的一致领先优势。</p>
+            </div>
+          </header>
+<div class="benchmark-paper-figures">
+            <figure class="benchmark-paper-figure" id="benchmark-tts">
+              <figcaption class="benchmark-paper-caption">
+                <h3 id="paper-tts-caption" data-product-i18n="bmkTts">Human-like TTS</h3>
+              </figcaption>
+              <a href="./assets/tts-elo-chinese.png" target="_blank" rel="noopener" aria-labelledby="paper-tts-caption"><img src="./assets/tts-elo-chinese.png?v=20260910-combined-1" width="6400" height="2200" loading="lazy" decoding="async" alt="Chinese Human-Likeness Arena: StepAudio 3 Gen Elo 1755.3, ranked first among the six models shown, 211.1 points ahead of the next shown model. Head-to-head results across the five opponents shown: 410 wins, 39 ties and 51 losses over 500 trials, for an 82.0% win rate including ties in the denominator. StepAudio 3 Gen win rates: Qwen 73%, StepAudio 2.5 TTS 78%, Doubao 79%, Inworld 90%, MiniMax 90%." /></a>
+            </figure>
+            <figure class="benchmark-paper-figure" id="evaluation">
+              <figcaption class="benchmark-paper-caption">
+                <h3 id="paper-vd-caption" data-product-i18n="bmkVd">Voice Design</h3>
+              </figcaption>
+              <a href="./assets/vd-arena.png" target="_blank" rel="noopener" aria-labelledby="paper-vd-caption"><img src="./assets/vd-arena.png?v=20260910-vd-arena-1" width="6400" height="2200" loading="lazy" decoding="async" alt="Voice Design Arena: StepAudio 3 Gen Elo 1668.5, ranked first among the six models shown; lead over the next shown model 56.3 points. Head-to-head results across five shown opponents: 175 wins, 11 ties and 59 losses in 245 trials, with 49 trials per opponent. Overall win rate 71.4%, counting ties in the denominator. StepAudio 3 Gen win rates: Breeze-TTS-2 55.1%, Qwen3-TTS-VD 65.3%, MOSS-Voice-Generator 71.4%, Ming-Omni-TTS 79.6%, VoiceSculptor 85.7%." /></a>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing" id="closing" aria-labelledby="closing-title">
+        <div class="closing-copy" data-reveal>
+          <h2 id="closing-title" data-product-i18n-html="closingTitle">准备好<span>开始创作</span>了吗？</h2>
+          <div class="experience-entry closing-experience">
+          <a role="link" tabindex="0" aria-disabled="true" aria-describedby="closing-experience-status" data-coming-soon><span class="experience-entry-label" data-product-i18n="startCreating">体验中心</span><svg class="closing-action-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></a>
+          <span class="experience-entry-status" role="tooltip" id="closing-experience-status" data-product-i18n="experienceStatus">即将开放</span>
+          </div>
+        </div>
+        <footer class="site-footer" aria-label="页面信息">
+          <div class="footer-copyright"><span>© 2026 StepFun</span><i aria-hidden="true">·</i><strong>StepAudio 3 Gen</strong></div>
+          <a href="#top" data-product-i18n="backToTop">回到顶部</a>
+        </footer>
+      </section>
+    </main>
+
+    <script>window.stepAudioProductCopy.applyInitial()</script>
+    <script src="./vendor/gsap.min.js"></script>
+    <script src="./vendor/ScrollTrigger.min.js"></script>
+    <script type="module" src="./product.js?v=20260911-media-normalization-1"></script>
+  </body>
+</html>
