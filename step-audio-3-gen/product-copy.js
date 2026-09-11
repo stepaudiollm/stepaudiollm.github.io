@@ -99,7 +99,7 @@ const productCopy = Object.freeze({
     preparingAudio: '准备音频',
     loadFailed: '加载失败 · 点击重试',
     loadTimeout: '载入超时 · 点击重试',
-    vocalKicker: "歌声生成",
+    vocalKicker: "VOCAL",
     vocalTitle: "让旋律，<br /><span>唱出情绪。</span>",
     vocalDescription: "描述唱法、音色与情绪，聆听不同风格的歌声。",
 
@@ -203,7 +203,7 @@ const productCopy = Object.freeze({
     preparingAudio: 'Preparing audio',
     loadFailed: 'Could not load · Click to retry',
     loadTimeout: 'Loading timed out · Click to retry',
-    vocalKicker: "VOCAL GENERATION",
+    vocalKicker: "VOCAL",
     vocalTitle: "Let melody<br /><span>carry emotion.</span>",
     vocalDescription: "Describe the singing style, voice, and emotion. Hear them come to life.",
 
