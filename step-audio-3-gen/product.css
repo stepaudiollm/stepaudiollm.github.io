@@ -4433,12 +4433,13 @@ body[data-language="en"] .hero-slogan {
 .benchmark-redesign { padding-block: 88px 96px; }
 .benchmark-redesign .benchmark-analysis { margin-top: 24px; }
 .benchmark-paper-figures { display: grid; gap: 48px; width: min(1600px, calc(100vw - 64px)); margin-top: 48px; margin-left: 50%; transform: translateX(-50%); }
-.benchmark-paper-figure { min-width: 0; margin: 0; }
+.benchmark-paper-figure { min-width: 0; margin: 0; background: var(--case-surface-color, #efefec); isolation: isolate; }
 .benchmark-paper-caption { margin-bottom: 18px; }
 .benchmark-paper-caption h3 { margin: 0; color: #176b73; font-size: 26px; font-weight: 600; line-height: 1.35; letter-spacing: 0; }
-.benchmark-paper-figure a { display: block; overflow: hidden; background: #fff; border: 1px solid rgb(23 25 29 / 8%); border-radius: 16px; cursor: zoom-in; }
+.benchmark-paper-figure a { display: block; background: transparent; border: 0; border-radius: 0; cursor: zoom-in; }
 .benchmark-paper-figure a:focus-visible { outline: 2px solid #137e8f; outline-offset: -3px; }
-.benchmark-paper-figure img { display: block; width: 100%; height: auto; }
+/* Blend the original white image background into the section without changing chart pixels. */
+.benchmark-paper-figure img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
 
 /* Original VD aqua/ink/mist/mint palette, extended within the same cool family. */
 [data-orb-palette="teal"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#teal"); }
