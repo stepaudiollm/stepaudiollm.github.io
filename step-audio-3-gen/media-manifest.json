@@ -1,434 +1,367 @@
 [
   {
-    "old": "audio/tts-showcase/wenrou-reference.wav",
     "new": "audio/tts-showcase/tts-softspoken-reference.wav",
     "bytes": 697006,
     "sha256": "78c7d458b26c8048e2176f3b64f3d126ff2c0df59a5f60a9b7e6108c7f078d43",
-    "previous_sha256": "78c7d458b26c8048e2176f3b64f3d126ff2c0df59a5f60a9b7e6108c7f078d43",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/tts-showcase/memory-wenrou.wav",
     "new": "audio/tts-showcase/tts-softspoken-generated.wav",
     "bytes": 1282604,
     "sha256": "34d1b9e8e4407ce76eb1137ba72b456be022b15244e6a5c93a0b6254c3dda03c",
-    "previous_sha256": "34d1b9e8e4407ce76eb1137ba72b456be022b15244e6a5c93a0b6254c3dda03c",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/tts-showcase/wj-reference.wav",
     "new": "audio/tts-showcase/tts-poise-reference.wav",
     "bytes": 1075164,
     "sha256": "a97eee98e0d4a0184338bd6c77a63c5c39e0512e87e383a3ee2cbe69a41a8500",
-    "previous_sha256": "a97eee98e0d4a0184338bd6c77a63c5c39e0512e87e383a3ee2cbe69a41a8500",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/tts-showcase/homework-wj.wav",
     "new": "audio/tts-showcase/tts-poise-generated.wav",
     "bytes": 2123564,
     "sha256": "b0383bd9b850f1794f86f18831514911be35cb480c86c160d52f74b95ca1854c",
-    "previous_sha256": "b0383bd9b850f1794f86f18831514911be35cb480c86c160d52f74b95ca1854c",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/tts-showcase/cooking-reference.wav",
     "new": "audio/tts-showcase/tts-candid-reference.wav",
     "bytes": 442446,
     "sha256": "55124e22bcf3556d88877159f39364116ac39d27e03761998919b4b78cd300d6",
-    "previous_sha256": "55124e22bcf3556d88877159f39364116ac39d27e03761998919b4b78cd300d6",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/tts-showcase/cooking-male.wav",
     "new": "audio/tts-showcase/tts-candid-generated.wav",
     "bytes": 875564,
     "sha256": "a9c985769959cadf7ae287a7586fb5d45fcaa93001b9e98d7a8198e1d1662ccd",
-    "previous_sha256": "a9c985769959cadf7ae287a7586fb5d45fcaa93001b9e98d7a8198e1d1662ccd",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/tts-showcase/pet-reference.wav",
     "new": "audio/tts-showcase/tts-warmth-reference.wav",
     "bytes": 3055694,
     "sha256": "202635fbf1b911fc32e58bd47d8d08b44bdeb146d281982a6da438f7a9ead547",
-    "previous_sha256": "202635fbf1b911fc32e58bd47d8d08b44bdeb146d281982a6da438f7a9ead547",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/tts-showcase/aging-pet.wav",
     "new": "audio/tts-showcase/tts-warmth-generated.wav",
     "bytes": 1274924,
     "sha256": "1ad367d6261dd8946f869a7c51fd590d9c6919d663ce67432db244e4483c066c",
-    "previous_sha256": "1ad367d6261dd8946f869a7c51fd590d9c6919d663ce67432db244e4483c066c",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/tts-showcase/lisa-reference.wav",
     "new": "audio/tts-showcase/tts-lilt-reference.wav",
     "bytes": 1178538,
     "sha256": "93078efaa2c6e0f47a87a61625b2b6a606fad99c8cff4b6c96a539709ac63ad7",
-    "previous_sha256": "93078efaa2c6e0f47a87a61625b2b6a606fad99c8cff4b6c96a539709ac63ad7",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/tts-showcase/support-lisa.wav",
     "new": "audio/tts-showcase/tts-lilt-generated.wav",
-    "bytes": 768044,
-    "sha256": "0cb32c838f1729ad52a5d66b6f5f4639020cebe04e89edf89627de865673fe87",
-    "previous_sha256": "0cb32c838f1729ad52a5d66b6f5f4639020cebe04e89edf89627de865673fe87",
-    "content_changed": false,
-    "kind": "audio"
+    "bytes": 1056044,
+    "sha256": "96089a076a870c6b49e169b072cc2c73034faa081f5d867b8a8da5b645da0348",
+    "kind": "audio",
+    "previous_path": "audio/tts-showcase/tts-lilt-generated.wav",
+    "duration": 22.0,
+    "updated": "2026-09-11"
   },
   {
-    "old": "audio/tts-showcase/reminder-lisa.wav",
     "new": "audio/tts-showcase/tts-lilt-reminder.wav",
     "bytes": 361004,
     "sha256": "f479a8e05904c021efb1008314a66bed0475c12c4a8e720f7cecc75f6d05c3a9",
-    "previous_sha256": "f479a8e05904c021efb1008314a66bed0475c12c4a8e720f7cecc75f6d05c3a9",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/tts-showcase/dacey-reference.wav",
-    "new": "audio/tts-showcase/tts-american-ease-reference.wav",
-    "bytes": 627724,
-    "sha256": "56353409e4f5931f9b27c3f2277fe4f68360966b31cbc536f5137a07fc3625a5",
-    "previous_sha256": "56353409e4f5931f9b27c3f2277fe4f68360966b31cbc536f5137a07fc3625a5",
-    "content_changed": false,
-    "kind": "audio"
+    "new": "audio/tts-showcase/tts-jake-reference.wav",
+    "bytes": 813004,
+    "sha256": "d4836a1e68747051a98533768f83e5f866b568b37f55e794b9a2f813ab59b7c6",
+    "kind": "audio",
+    "previous_path": "audio/tts-showcase/tts-american-ease-reference.wav",
+    "duration": 8.468333,
+    "updated": "2026-09-11"
   },
   {
-    "old": "audio/tts-showcase/foldable-dacey.wav",
-    "new": "audio/tts-showcase/tts-american-ease-generated.wav",
-    "bytes": 349484,
-    "sha256": "ae91c8282179884fdcfe3702514c0a2f3f8ca55e1f9422424c18b82c91177ea6",
-    "previous_sha256": "ae91c8282179884fdcfe3702514c0a2f3f8ca55e1f9422424c18b82c91177ea6",
-    "content_changed": false,
-    "kind": "audio"
+    "new": "audio/tts-showcase/tts-jake-generated.wav",
+    "bytes": 860204,
+    "sha256": "d909868827d7002406aea477cf0d72b10948413710f25b63d70824a5a74fb6bc",
+    "kind": "audio",
+    "previous_path": "audio/tts-showcase/tts-american-ease-generated.wav",
+    "duration": 17.92,
+    "updated": "2026-09-11"
   },
   {
-    "old": "audio/vd-showcase/child.wav",
     "new": "audio/vd-showcase/vd-playful-boy.wav",
     "bytes": 1255724,
     "sha256": "820f0ed40a5c890e2b05bdf65739ff64c514c71b456fead38f9bbeebe4cc45fe",
-    "previous_sha256": "820f0ed40a5c890e2b05bdf65739ff64c514c71b456fead38f9bbeebe4cc45fe",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vd-showcase/dialect.wav",
     "new": "audio/vd-showcase/vd-northeastern-voice.wav",
     "bytes": 364844,
     "sha256": "ef6be9c2ab4bd57cb39af3e6688c96a3d32056ca04cc25518e5754f9f7c192dd",
-    "previous_sha256": "ef6be9c2ab4bd57cb39af3e6688c96a3d32056ca04cc25518e5754f9f7c192dd",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vd-showcase/elder.wav",
     "new": "audio/vd-showcase/vd-frail-elder.wav",
     "bytes": 1474604,
     "sha256": "2ec4f51c75ed65dbbd10f616fd2b66a073169bcc6d938495746adb7dab6bae0f",
-    "previous_sha256": "2ec4f51c75ed65dbbd10f616fd2b66a073169bcc6d938495746adb7dab6bae0f",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vd-showcase/velvetFemale.wav",
     "new": "audio/vd-showcase/vd-gentle-alto.wav",
     "bytes": 503084,
     "sha256": "43ea9c747e079a853d29b2d0826df0bfdb1e054e806010296ab19cec1d248d80",
-    "previous_sha256": "43ea9c747e079a853d29b2d0826df0bfdb1e054e806010296ab19cec1d248d80",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vd-showcase/nightRadio.wav",
     "new": "audio/vd-showcase/vd-late-night-radio.wav",
     "bytes": 1328684,
     "sha256": "f3eb325de89282d84035198e947b5c880a157393bc1c179433ea13dc9a3a310a",
-    "previous_sha256": "f3eb325de89282d84035198e947b5c880a157393bc1c179433ea13dc9a3a310a",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vd-showcase/wearyElder.wav",
     "new": "audio/vd-showcase/vd-weary-monologue.wav",
     "bytes": 376364,
     "sha256": "38f358a1b37cb4b7fd1d2b7220682c46b79e8dcdd58f6eb0f28c197738c3a50b",
-    "previous_sha256": "38f358a1b37cb4b7fd1d2b7220682c46b79e8dcdd58f6eb0f28c197738c3a50b",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vd-showcase/english-shy-boy.wav",
     "new": "audio/vd-showcase/vd-shy-boy.wav",
     "bytes": 261164,
     "sha256": "eef221e38753be49d8130c7a5c88e2d9d683b92912b2a8e92530de009d7145d6",
-    "previous_sha256": "eef221e38753be49d8130c7a5c88e2d9d683b92912b2a8e92530de009d7145d6",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vd-showcase/english-bright-girl.wav",
     "new": "audio/vd-showcase/vd-bright-young-voice.wav",
     "bytes": 314924,
     "sha256": "0db888973bbd71f0508b010638498a3ae96ec3e1be5600e2b1427243b1bc3d72",
-    "previous_sha256": "0db888973bbd71f0508b010638498a3ae96ec3e1be5600e2b1427243b1bc3d72",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vocal-showcase/mom.wav",
     "new": "audio/vocal-showcase/vocal-home-is-fine.wav",
     "bytes": 430124,
     "sha256": "89ccb480b4308f075c5d22107ae1307d06b84127be1821cbeee50a0d0ce39390",
-    "previous_sha256": "89ccb480b4308f075c5d22107ae1307d06b84127be1821cbeee50a0d0ce39390",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vocal-showcase/final-goodbye-download5.mp3",
     "new": "audio/vocal-showcase/vocal-warmth-of-goodbye.mp3",
     "bytes": 115629,
     "sha256": "58c4bd55b436e852ff1a4acc36aa5fc4ce3a262ad1168c2ba37ad63b28caa077",
-    "previous_sha256": "58c4bd55b436e852ff1a4acc36aa5fc4ce3a262ad1168c2ba37ad63b28caa077",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "assets/vocal-bossa-CJawI8FT.wav",
     "new": "audio/vocal-showcase/vocal-coconut-afternoon.wav",
     "bytes": 625964,
     "sha256": "7d364620a7fb5a6f510e960892d5b7ae0d6a529777b1cebcf9222df45e02dea1",
-    "previous_sha256": "7d364620a7fb5a6f510e960892d5b7ae0d6a529777b1cebcf9222df45e02dea1",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/demos/vocal-birthday.wav",
     "new": "audio/vocal-showcase/vocal-whispered-happy-birthday.wav",
     "bytes": 971564,
     "sha256": "659dd5a33132969e29206850872cee8c716b3f7dfadd060d61a3afd6696a2a99",
-    "previous_sha256": "659dd5a33132969e29206850872cee8c716b3f7dfadd060d61a3afd6696a2a99",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/demos/forest-birds.wav",
     "new": "audio/sound-effects/sfx-forest-birds.wav",
     "bytes": 238124,
     "sha256": "e25b7a3df2419695c298da34ed0b77e1ac858e6fa624356200ba12aede1c768c",
-    "previous_sha256": "e25b7a3df2419695c298da34ed0b77e1ac858e6fa624356200ba12aede1c768c",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/demos/midnight-lofi.wav",
     "new": "audio/music/music-midnight-lofi.wav",
     "bytes": 1551404,
     "sha256": "6566d058fd4fabc4a4c124d2b866b3b25d4a973c8616ba12ba2f8eca956eb2aa",
-    "previous_sha256": "6566d058fd4fabc4a4c124d2b866b3b25d4a973c8616ba12ba2f8eca956eb2aa",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "assets/sfx-rain-shed-B72xgXFg.wav",
     "new": "audio/sound-effects/sfx-roof-rain.wav",
     "bytes": 288044,
     "sha256": "2f783178e623796272964159ee6e379b53805302ab99a06a5dd4f4299a474dc3",
-    "previous_sha256": "2f783178e623796272964159ee6e379b53805302ab99a06a5dd4f4299a474dc3",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "assets/sfx-stream-BKS0S0IM.wav",
     "new": "audio/sound-effects/sfx-forest-stream.wav",
     "bytes": 288044,
     "sha256": "7227d17f42e5e88eda4f8c354d1434d4288a3ae78bcbf91f86a49c7d87f84d56",
-    "previous_sha256": "7227d17f42e5e88eda4f8c354d1434d4288a3ae78bcbf91f86a49c7d87f84d56",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "assets/sfx-trees-CjkxEi55.wav",
     "new": "audio/sound-effects/sfx-wind-in-trees.wav",
     "bytes": 253484,
     "sha256": "9d33929b468f124df6001345a1cc16c36bd4cc868b102c3b715c52498fbf6969",
-    "previous_sha256": "9d33929b468f124df6001345a1cc16c36bd4cc868b102c3b715c52498fbf6969",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "assets/sfx-heavy-drop-5cNn_APP.wav",
     "new": "audio/sound-effects/sfx-heavy-impact.wav",
     "bytes": 49964,
     "sha256": "b728c8a12b8a10f8377733d3319fb9b19e6057452bf7033601695e55071db8ef",
-    "previous_sha256": "b728c8a12b8a10f8377733d3319fb9b19e6057452bf7033601695e55071db8ef",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "assets/music-cyberpunk-CpaSvoOW.wav",
     "new": "audio/music/music-neon-chase.wav",
     "bytes": 2396204,
     "sha256": "ab56be595427b4d025a22a14d1e5fa426fb11ab3c5d95c5658c6eb6a593ba019",
-    "previous_sha256": "ab56be595427b4d025a22a14d1e5fa426fb11ab3c5d95c5658c6eb6a593ba019",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "assets/music-desert-D-ylZyhq.wav",
     "new": "audio/music/music-desert-caravan.wav",
     "bytes": 1923884,
     "sha256": "390c207b389dfadabccedef3e69e2ad356a99c4838c36e67e65902ceadc2b72c",
-    "previous_sha256": "390c207b389dfadabccedef3e69e2ad356a99c4838c36e67e65902ceadc2b72c",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "assets/music-piano-memory-Bfwp46ZD.wav",
     "new": "audio/music/music-old-piano.wav",
     "bytes": 1129004,
     "sha256": "26f48bfd53bc74391a9d3394cfee77c877498bf79a91073e40e7931d13573322",
-    "previous_sha256": "26f48bfd53bc74391a9d3394cfee77c877498bf79a91073e40e7931d13573322",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "assets/music-tango-DOVuMTRz.wav",
     "new": "audio/music/music-midnight-tango.wav",
     "bytes": 1009964,
     "sha256": "63c77cad2081e906861459b942e27edec8c15267bf9066f9a71232ee455c2ec5",
-    "previous_sha256": "63c77cad2081e906861459b942e27edec8c15267bf9066f9a71232ee455c2ec5",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vibespeech/breakfast-stall.wav",
     "new": "audio/vibespeech/vibespeech-breakfast-stall.wav",
     "bytes": 1021484,
     "sha256": "c86f0d7940b9857b752d6ddf07659e5fa1e89ad655e4de546cccb2354f176a5e",
-    "previous_sha256": "c86f0d7940b9857b752d6ddf07659e5fa1e89ad655e4de546cccb2354f176a5e",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vibespeech/night-food-stall.wav",
-    "new": "audio/vibespeech/vibespeech-summer-night-food-stall.wav",
-    "bytes": 1221164,
-    "sha256": "28af687590049ab1a3c89986bbf58831d1f1cf250374602c4d34547f3d1b8b3d",
-    "previous_sha256": "1e9e5c2fdc7ba96d38667c6ac2bd0de255958f7cfbd477257fec9de69ddfaf10",
-    "content_changed": true,
-    "kind": "audio"
-  },
-  {
-    "old": "audio/vibespeech/night-apron.wav",
     "new": "audio/vibespeech/vibespeech-night-apron.wav",
     "bytes": 1428524,
     "sha256": "eae28d1c12c6cfe37407470b9d22673059db3474cc5784a9a2e0000d89e5f80b",
-    "previous_sha256": "eae28d1c12c6cfe37407470b9d22673059db3474cc5784a9a2e0000d89e5f80b",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vibespeech/riverside-run.mp3",
     "new": "audio/vibespeech/vibespeech-riverside-morning-run.mp3",
     "bytes": 238797,
     "sha256": "3f04f819f9b6dcecbe4841c3db6dba744210c770e52d79a3867e782b92f66808",
-    "previous_sha256": "3f04f819f9b6dcecbe4841c3db6dba744210c770e52d79a3867e782b92f66808",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vibespeech/rain-market.mp3",
     "new": "audio/vibespeech/vibespeech-rainy-market.mp3",
     "bytes": 210837,
     "sha256": "21254dcfebaad3b24cc439f04aeb6c041b2de7c0c6097eac51c4891331382ba2",
-    "previous_sha256": "21254dcfebaad3b24cc439f04aeb6c041b2de7c0c6097eac51c4891331382ba2",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "audio/vibespeech/scene-musical.mp3",
     "new": "audio/vibespeech/vibespeech-before-the-musical-premiere.mp3",
     "bytes": 275901,
     "sha256": "8ba68ac2a444d49ff47c9a511de6d864a66a3bb4f7fa3414d7348f4e8fbd7578",
-    "previous_sha256": "8ba68ac2a444d49ff47c9a511de6d864a66a3bb4f7fa3414d7348f4e8fbd7578",
-    "content_changed": false,
     "kind": "audio"
   },
   {
-    "old": "video/stepaudio3-gen-hero-showcase-no-airport.mp4",
     "new": "video/gen-hero-overview.mp4",
     "bytes": 3684206,
     "sha256": "5b92455e09cec33f90f4ac3906651e3398c4092c211449b167fff652bfe34b64",
-    "previous_sha256": "5b92455e09cec33f90f4ac3906651e3398c4092c211449b167fff652bfe34b64",
-    "content_changed": false,
     "kind": "video"
   },
   {
-    "old": "video/showcase-breakfast.mp4",
     "new": "video/vibespeech-breakfast-stall-preview.mp4",
     "bytes": 2240140,
     "sha256": "04557ac79fe1be5dcaa5eebd98b6176af76116c46579a83cba14f43d23308306",
-    "previous_sha256": "04557ac79fe1be5dcaa5eebd98b6176af76116c46579a83cba14f43d23308306",
-    "content_changed": false,
-    "kind": "video"
+    "kind": "video",
+    "usage": "legacy_not_in_full_scene_showcase"
   },
   {
-    "old": "video/showcase-night-food.mp4",
-    "new": "video/vibespeech-summer-night-food-stall-preview.mp4",
-    "bytes": 3032017,
-    "sha256": "46b33c32d5a884296f4ec2000e6dc1b10c913b01a5304f1afacce97a46a9d216",
-    "previous_sha256": "46b33c32d5a884296f4ec2000e6dc1b10c913b01a5304f1afacce97a46a9d216",
-    "content_changed": false,
-    "kind": "video"
-  },
-  {
-    "old": "video/showcase-night-apron.mp4",
     "new": "video/vibespeech-night-apron-preview.mp4",
     "bytes": 1957663,
     "sha256": "154fb0594fb9de3450248af7b1c522ee653c8a40c228792e458c92f06f04161c",
-    "previous_sha256": "154fb0594fb9de3450248af7b1c522ee653c8a40c228792e458c92f06f04161c",
-    "content_changed": false,
-    "kind": "video"
+    "kind": "video",
+    "usage": "legacy_not_in_full_scene_showcase"
   },
   {
-    "old": "video/showcase-riverside-run.mp4",
     "new": "video/vibespeech-riverside-morning-run-preview.mp4",
     "bytes": 1229154,
     "sha256": "5f374f41721f1f9821f86e7716848c63ed03681715941a42450fb5fa51669d40",
-    "previous_sha256": "5f374f41721f1f9821f86e7716848c63ed03681715941a42450fb5fa51669d40",
-    "content_changed": false,
-    "kind": "video"
+    "kind": "video",
+    "usage": "legacy_not_in_full_scene_showcase"
   },
   {
-    "old": "video/showcase-rain-market.mp4",
     "new": "video/vibespeech-rainy-market-preview.mp4",
     "bytes": 3256332,
     "sha256": "e5dee8fbad663d6b49b1c5c2a31eb79cb5ba45cd90665ae0625a281234f74336",
-    "previous_sha256": "e5dee8fbad663d6b49b1c5c2a31eb79cb5ba45cd90665ae0625a281234f74336",
-    "content_changed": false,
-    "kind": "video"
+    "kind": "video",
+    "usage": "legacy_not_in_full_scene_showcase"
   },
   {
-    "old": "video/showcase-musical.mp4",
     "new": "video/vibespeech-before-the-musical-premiere-preview.mp4",
     "bytes": 1324694,
     "sha256": "bf6b206a8933af41beed660e0af73ffaa9c2f024fdd03d79fde8478e60873032",
-    "previous_sha256": "bf6b206a8933af41beed660e0af73ffaa9c2f024fdd03d79fde8478e60873032",
-    "content_changed": false,
-    "kind": "video"
+    "kind": "video",
+    "usage": "legacy_not_in_full_scene_showcase"
+  },
+  {
+    "new": "audio/vibespeech/vibespeech-summer-night-food-stall.wav",
+    "bytes": 1221164,
+    "sha256": "28af687590049ab1a3c89986bbf58831d1f1cf250374602c4d34547f3d1b8b3d",
+    "kind": "audio",
+    "usage": "selected_full_scene"
+  },
+  {
+    "new": "video/vibespeech-summer-night-food-stall-preview.mp4",
+    "bytes": 2337860,
+    "sha256": "26702ecae1f6ccfda68dd9ab7388201c3d02b85ad54e85a80a89771b348083ea",
+    "kind": "video",
+    "source": "https://coverr.co/videos/shrimps-on-the-barbecue-u272et3p7l",
+    "usage": "selected_full_scene"
+  },
+  {
+    "new": "audio/vibespeech/vibespeech-old-building-reckoning.wav",
+    "bytes": 3034832,
+    "sha256": "50e3ee4a3d60df046ec60f8f7e47f913c7b2c7501842f171064bdc689777d52a",
+    "kind": "audio",
+    "usage": "selected_full_scene"
+  },
+  {
+    "new": "video/vibespeech-old-building-reckoning-preview.mp4",
+    "bytes": 2438395,
+    "sha256": "8ae32a113e12c102942d0a2a1c379aeff1b6832c88f61e1d453b23dda1a79a45",
+    "kind": "video",
+    "source": "https://coverr.co/videos/inside-an-abandoned-house-qejybzofid",
+    "usage": "selected_full_scene"
+  },
+  {
+    "new": "audio/vibespeech/vibespeech-overpass-night-call.wav",
+    "bytes": 3052844,
+    "sha256": "04cc4c07d09f58277ff5e5ca72a152c042f8aed9d4b15e6863978671a577d4cd",
+    "kind": "audio",
+    "usage": "selected_full_scene"
+  },
+  {
+    "new": "video/vibespeech-overpass-night-call-preview.mp4",
+    "bytes": 625640,
+    "sha256": "75390c4631d96a183b470ee38bfe601c99abe1cd4dce16531a008e3ecb71f5b6",
+    "kind": "video",
+    "source": "https://coverr.co/videos/cars-driving-at-night-6y0qt4ji1t",
+    "usage": "selected_full_scene"
+  },
+  {
+    "new": "audio/vibespeech/vibespeech-big-wave-surfing-final.wav",
+    "bytes": 2108204,
+    "sha256": "9a3d8081c27b6edbf2b304244d0f2a92afb5394dec9a022fc645b73c6756366d",
+    "kind": "audio",
+    "usage": "selected_full_scene"
+  },
+  {
+    "new": "video/vibespeech-big-wave-surfing-final-preview.mp4",
+    "bytes": 2170180,
+    "sha256": "42101a7600c2196482f8b9ab301f1a34472ecd29e8079ad62134110fda67dd76",
+    "kind": "video",
+    "source": "https://coverr.co/videos/surfing-in-the-sea-tvdtkwv66f",
+    "usage": "selected_full_scene"
+  },
+  {
+    "new": "audio/vibespeech/vibespeech-new-york-roommate-podcast.wav",
+    "bytes": 2269484,
+    "sha256": "87f370378299465a1ee2d01e3b3b980853266fdac28d6e66cbb2976f30587418",
+    "kind": "audio",
+    "usage": "selected_full_scene"
+  },
+  {
+    "new": "video/vibespeech-new-york-roommate-podcast-preview.mp4",
+    "bytes": 1038648,
+    "sha256": "c571fe2f030613c2426c3d3259ae113aa7ae191f947182232a6f73ed1b3f80f8",
+    "kind": "video",
+    "source": "https://coverr.co/videos/microphone-near-a-laptop-jruztp1pnk",
+    "usage": "selected_full_scene"
   }
 ]

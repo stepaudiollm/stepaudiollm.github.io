@@ -1,6 +1,6 @@
 import { initTtsShowcase } from './tts-showcase.js?v=20260911-cool-orbs-1'
 import WaveSurfer from './vendor/wavesurfer.esm.js'
-import { vibePeaks } from './vibe-peaks.js?v=20260911-media-normalization-1'
+import { vibePeaks } from './vibe-peaks.js?v=20260911-selected-full-scenes-2'
 import { sceneMusicalPeaks } from './scene-musical-peaks.js?v=20260828-1'
 import { initVoiceOrbCarousel } from './voice-orbs.js?v=20260911-cool-orbs-1'
 import { createSceneVideoPlayback } from './scene-video.js?v=20260909-case-video-recovery-1'
@@ -14,6 +14,10 @@ if (gsap && ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
 document.body.classList.add('is-ready')
 
 const presets = {
+  roommatePodcast: {"title": "纽约室友播客", "kind": "全要素声场", "duration": "00:47", "src": "./audio/vibespeech/vibespeech-new-york-roommate-podcast.wav?v=20260911-selected-full-scenes-2"},
+  surfingFinal: {"title": "巨浪决赛", "kind": "全要素声场", "duration": "00:44", "src": "./audio/vibespeech/vibespeech-big-wave-surfing-final.wav?v=20260911-selected-full-scenes-2"},
+  overpassCall: {"title": "天桥夜话", "kind": "全要素声场", "duration": "01:04", "src": "./audio/vibespeech/vibespeech-overpass-night-call.wav?v=20260911-selected-full-scenes-2"},
+  oldBuilding: {"title": "旧楼往事", "kind": "全要素声场", "duration": "01:03", "src": "./audio/vibespeech/vibespeech-old-building-reckoning.wav?v=20260911-selected-full-scenes-2"},
   vocalMom: {"title": "家书", "kind": "歌声 Vocal", "duration": "00:08", "src": "./audio/vocal-showcase/vocal-home-is-fine.wav"},
   englishShyBoy: {"title": "羞涩少年", "kind": "音色设计", "duration": "00:05", "src": "./audio/vd-showcase/vd-shy-boy.wav"},
   englishBrightGirl: {"title": "元气少女", "kind": "音色设计", "duration": "00:06", "src": "./audio/vd-showcase/vd-bright-young-voice.wav"},
@@ -26,9 +30,9 @@ const presets = {
   ttsRef4: {"title": "暖叙", "kind": "TTS", "duration": "00:17", "src": "./audio/tts-showcase/tts-warmth-reference.wav"},
   ttsResult4: {"title": "心疼宠物", "kind": "TTS", "duration": "00:26", "src": "./audio/tts-showcase/tts-warmth-generated.wav"},
   ttsRef5: {"title": "轻甜", "kind": "TTS", "duration": "00:08", "src": "./audio/tts-showcase/tts-lilt-reference.wav"},
-  ttsResult5: {"title": "AI客服趣谈", "kind": "TTS", "duration": "00:16", "src": "./audio/tts-showcase/tts-lilt-generated.wav"},
-  ttsRef6: {"title": "美式漫谈", "kind": "TTS", "duration": "00:06", "src": "./audio/tts-showcase/tts-american-ease-reference.wav"},
-  ttsResult6: {"title": "折叠屏与钱包", "kind": "TTS", "duration": "00:07", "src": "./audio/tts-showcase/tts-american-ease-generated.wav"},
+  ttsResult5: {"title": "陪你坐一会儿", "kind": "TTS", "duration": "00:22", "src": "./audio/tts-showcase/tts-lilt-generated.wav?v=20260911-english-tts-refresh-1"},
+  ttsRef6: {"title": "漫谈", "kind": "TTS", "duration": "00:08", "src": "./audio/tts-showcase/tts-jake-reference.wav"},
+  ttsResult6: {"title": "为姐姐操心", "kind": "TTS", "duration": "00:18", "src": "./audio/tts-showcase/tts-jake-generated.wav"},
   lofi: { title: '午夜 Lo-fi', kind: '音乐', duration: '00:32', src: './audio/music/music-midnight-lofi.wav' },
   forest: { title: '森林鸟鸣', kind: '音效', duration: '00:05', src: './audio/sound-effects/sfx-forest-birds.wav' },
   sfxRain: { title: '棚顶落雨', kind: '音效', duration: '00:06', src: './audio/sound-effects/sfx-roof-rain.wav' },
@@ -43,7 +47,7 @@ const presets = {
   vocalBossa: { title: '椰风午后', kind: '歌声 Vocal', duration: '00:13', src: './audio/vocal-showcase/vocal-coconut-afternoon.wav' },
   vocalBirthday: { title: '偷偷说生日快乐', kind: '人声 Vocal', duration: '00:20', src: './audio/vocal-showcase/vocal-whispered-happy-birthday.wav' },
   breakfastStall: { title: '清晨煎饼摊', kind: '市井双人对话', duration: '00:21', src: './audio/vibespeech/vibespeech-breakfast-stall.wav' },
-  nightFoodStall: { title: '夏夜大排档', kind: '情绪化多人表演', duration: '00:25', src: './audio/vibespeech/vibespeech-summer-night-food-stall.wav' },
+  nightFoodStall: {"title": "夏夜大排档", "kind": "全要素声场", "duration": "00:25", "src": "./audio/vibespeech/vibespeech-summer-night-food-stall.wav?v=20260911-selected-full-scenes-2"},
   nightApron: { title: '夜间停机坪', kind: '专业媒介与空间层次', duration: '00:29', src: './audio/vibespeech/vibespeech-night-apron.wav' },
   riversideRun: { title: '江边晨跑', kind: '运动状态与真实呼吸', duration: '00:40', src: './audio/vibespeech/vibespeech-riverside-morning-run.mp3' },
   rainMarket: { title: '暴雨菜市场', kind: '写实现场连线', duration: '00:39', src: './audio/vibespeech/vibespeech-rainy-market.mp3' },
@@ -105,7 +109,7 @@ const applyProductLanguage = () => {
   })
   document.querySelectorAll('[data-product-i18n-html]').forEach((element) => {
     const value = copy[element.dataset.productI18nHtml]
-    if (value) element.innerHTML = value
+    if (typeof value === 'string') element.innerHTML = value
   })
 
   const toggle = document.querySelector('#product-language-toggle')
@@ -900,7 +904,7 @@ const initVibeCarousel = (playerController) => {
   }) : []
   const coverVideos = covers.map((cover) => cover.querySelector('[data-case-cover-video]'))
 
-  let activeIndex = Math.max(0, cards.findIndex(card => card.id === 'vibe-case-musical'))
+  let activeIndex = 0
   let pointerId = null
   let pointerStart = 0
   let pointerScrollStart = 0
