@@ -4576,3 +4576,10 @@ body[data-language="en"] .hero-slogan {
   line-height: 1.5;
   min-height: 3em;
 }
+
+/* Keep Chinese overview clauses intact at desktop line endings. */
+body[data-language="zh"] .model-overview-summary,
+body[data-language="zh"] .model-prose .model-lead {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
