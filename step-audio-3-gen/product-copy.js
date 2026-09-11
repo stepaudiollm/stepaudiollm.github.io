@@ -101,7 +101,7 @@ const productCopy = Object.freeze({
     loadTimeout: '载入超时 · 点击重试',
     vocalKicker: "人声清唱",
     vocalTitle: "人声清唱，<br /><span>让情绪被听见。</span>",
-    vocalDescription: "描述唱法、音色与情绪，生成不含伴奏的纯人声清唱。",
+    vocalDescription: "描述唱法、音色与情绪，生成人声清唱。",
 
   },
   en: {
@@ -205,7 +205,7 @@ const productCopy = Object.freeze({
     loadTimeout: 'Loading timed out · Click to retry',
     vocalKicker: "VOCAL",
     vocalTitle: "Vocals that<br /><span>move you.</span>",
-    vocalDescription: "Describe the singing style, voice, and emotion to generate a cappella vocals without instrumental accompaniment.",
+    vocalDescription: "Describe the singing style, voice, and emotion to generate a cappella vocals.",
 
   },
 })
