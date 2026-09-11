@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>StepAudio 3 · StepFun</title>
+<title>Step-Audio 3 Realtime · StepFun</title>
 <link rel="icon" type="image/svg+xml" href="assets/brand/step-favicon.svg">
-<meta name="description" content="StepAudio 3 — 为自然交谈而生">
+<meta name="description" content="Step-Audio 3 Realtime brings natural, full-duplex voice conversation together with adaptive reasoning and agent capabilities.">
 <style>
   /* ---------- 字体 ----------
      MiSans（小米，免费商用），子集化到本页实际用到的字符。
@@ -87,9 +87,9 @@
   }
   #stage.playing{opacity:1}
   #stage video{width:100%;height:100%;object-fit:cover;display:block}
-  /* 字标背景再压一层暗：幕5 是户外天光（蓝天 + 亮衣服），不压的话渐变字标读不出来。
-     字标背景现在是**循环播放的幕5**，所以这层从**字标浮现那一刻**就挂上并一直留着
-     （.ended 由 revealMark() 添加），前四幕播放中不加，素材该亮就亮。 */
+  /* 字标背景再压一层暗：A23 与后续完整轮播里都有明亮画面，不压的话渐变字标读不出来。
+     这层从**字标浮现那一刻**就挂上并一直留着（.ended 由 revealMark() 添加），
+     首轮前两段播放中不加，素材该亮就亮。 */
   #stage .endscrim{
     position:absolute;inset:0;pointer-events:none;opacity:0;
     transition:opacity 1.2s ease;
@@ -249,7 +249,7 @@
        1440 及以上仍是 22px 上限，电脑端一个像素没动。 */
     font-size:clamp(6px,1.6vw,22px);font-weight:300;letter-spacing:.18em;
     /* 副标走**纯白**（和上行对调，见 .wm-top 的注释）。
-       历程是 text-3 → text-2 → #FFF：幕5 是户外天光，text-3 当初就太淡读不出；
+       历程是 text-3 → text-2 → #FFF：循环背景里有明亮天光，text-3 当初就太淡读不出；
        现在既要凸显它、又刚好帮到 6px 那一档的可读性，纯白是同一个方向。
        字影保留 —— 白字压在亮画面上仍需要一层压边。 */
     color:var(--text);text-transform:uppercase;
@@ -312,30 +312,21 @@
   .topbar.solid .lang b{color:#15171C}
   /* 公司商标：从第一帧就在（品牌锚点），颜色走 currentColor，
      所以顶栏翻浅色时它自己就变深了。 */
-  .brand-lockup{display:flex;align-items:center;gap:11px;color:var(--text)}
-  .brand-div{width:1px;height:15px;background:currentColor;opacity:.28;flex:none}
-  /* 和商标字标同一字体、同一字重，视觉上连成一个锁定。
-     字号是量出来的：4 倍截图逐行扫墨迹边界，商标里 "StepFun" 墨高 14.25px，
-     产品名在 15px 时正好也是 14.25px。（换字体要重量：Archivo 时是 16px，
-     Roboto 的 cap/em 更大所以变成 15px；SF Pro 的 cap 比例与 Roboto 很近，
-     两个平台都对得上。）
-     **字重 650 + 负字距 −0.025em 是照 stepaudio3-gen-demo 的顶栏字标对齐的**
-     （i-mouzhenwei/stepaudio3-gen-demo，`.brand`：15px / 650 / −0.025em）。
-     那个页面「看起来更官方」不是因为用了什么定制字体 —— 它整站没有一个字体文件，
-     字体栈和我们的 --font-brand 一样都是 -apple-system → SF Pro；
-     差别只在**字重更粗一档、字距收紧成负值**，也就是苹果官网那种紧排。
-     **注意跨平台差异**：苹果上 650 会取到真 SF Pro Semibold；
-     其余平台只有 BrandFallback 一个字重文件（Roboto-Medium），
-     650 与 600 渲染几乎相同 —— 所以实际变化主要来自负字距。 */
-  .brand-prod{display:inline-flex;align-items:center;gap:11px;
-              font-family:var(--font-brand);font-size:15px;font-weight:650;
-              letter-spacing:-.025em;white-space:nowrap;opacity:.92}
-  .brand-prod a{color:inherit;text-decoration-line:underline;
-                text-decoration-thickness:0.5px;text-underline-offset:4px;
-                text-decoration-color:currentColor;transition:opacity .2s ease}
-  .brand-prod a:hover{opacity:.56}
+  /* 顶栏品牌锁定沿用 StepAudio 3 Gen 的格式：StepFun | 产品名 | 产品名。 */
+  .brand-lockup{display:flex;align-items:center;gap:7px;color:var(--text)}
+  .brand-div{color:currentColor;opacity:.34;flex:none;font:400 13px/1 var(--font-brand)}
+  .brand-div-main{opacity:.88;font-weight:700}
+  .brand-prod{display:inline-flex;align-items:center;gap:3px;
+              font-family:var(--font-brand);font-size:14px;font-weight:600;
+              line-height:1.55;letter-spacing:-.01em;white-space:nowrap}
+  .brand-prod a{display:inline-flex;align-items:center;min-height:30px;padding:3px 7px;
+                border-radius:7px;color:inherit;text-decoration:none;opacity:.56;
+                background:transparent;transition:opacity .2s ease,background-color .2s ease}
+  .brand-prod a[aria-current="page"]{opacity:1}
+  .brand-prod a:hover{opacity:1;background:rgba(255,255,255,.14)}
+  .topbar.solid .brand-prod a:hover{background:rgba(21,23,28,.08)}
   .brand-prod a:focus-visible{outline:1px solid currentColor;outline-offset:4px}
-  @media (max-width:680px){ .brand-div,.brand-prod{display:none} }
+  @media (max-width:900px){ .brand-lockup > .brand-div,.brand-prod{display:none} }
   .brand{display:block;color:inherit;opacity:.92;transition:opacity .3s ease}
   .brand:hover{opacity:1}
   .brand svg{display:block;height:22px;width:auto}
@@ -530,24 +521,54 @@
   .section-heading .lede{max-width:500px}
 
 
-  /* 评测数据未交付前保留完整信息结构，但不展示推测数字。 */
+  /* 评测结果：数据来自 stepaudio3-report-all@2de8582，并按
+     ~/uploads/render_results.py 的 3+3+3+3 图表口径转换成页面原生图表。 */
   .benchmark-band{width:100%;background-color:var(--page-alt);background-image:linear-gradient(90deg,rgba(23,25,29,.055) 1px,transparent 1px);background-size:calc(100% / 6) 100%}
   .benchmark-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.48fr);gap:96px;align-items:end;margin-bottom:64px}
   .benchmark-head .display-title{font-size:56px}
   .benchmark-copy .lede{max-width:500px}
   .benchmark-status{display:inline-flex;align-items:center;gap:8px;margin-top:18px;color:var(--accent);font-size:11px;font-weight:650}
   .benchmark-status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-  .benchmark-table-wrap{overflow-x:auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.28)}
-  .benchmark-table{width:100%;min-width:820px;border-collapse:collapse;table-layout:fixed}
-  .benchmark-table th,.benchmark-table td{height:64px;padding:0 20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
-  .benchmark-table tr:last-child td{border-bottom:0}
-  .benchmark-table th:last-child,.benchmark-table td:last-child{border-right:0}
-  .benchmark-table thead th{height:74px;color:var(--text-3);font-size:12px;font-weight:560}
-  .benchmark-table th:first-child,.benchmark-table td:first-child{width:230px;text-align:left}
-  .benchmark-table tbody td:first-child{color:var(--text-2);font-size:13px;font-weight:500}
-  .benchmark-table .ours{background:rgba(23,108,112,.075);color:var(--accent);font-weight:680}
-  .benchmark-table .pending{color:rgba(23,25,29,.28);font:400 15px var(--mono)}
-  .benchmark-group td{height:42px!important;background:rgba(23,25,29,.035);color:var(--text-4)!important;font-size:10px!important;font-weight:650!important;text-transform:uppercase}
+  .benchmark-results{display:flex;flex-direction:column;gap:42px}
+  .benchmark-section-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .benchmark-section-head h3{margin:0;color:var(--text);font-size:19px;font-weight:650;line-height:1.2;white-space:nowrap}
+  .benchmark-section-head .rule{height:1px;flex:1;background:var(--line)}
+  .benchmark-metric{color:var(--text-3);font-size:11px;font-weight:420;white-space:nowrap}
+  .benchmark-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .benchmark-chart{min-width:0;padding:18px 17px 14px;border:1px solid var(--line);
+                   border-radius:13px;background:rgba(255,255,255,.68);
+                   box-shadow:0 8px 28px rgba(23,25,29,.035)}
+  .benchmark-chart-head{display:flex;align-items:start;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .benchmark-chart h4{min-width:0;margin:0;color:var(--text);font-size:14px;font-weight:650;line-height:1.35}
+  .benchmark-tag{flex:none;margin-top:1px;color:var(--text-3);font-size:9px;font-weight:600;text-transform:uppercase}
+  .benchmark-models{display:flex;flex-direction:column;gap:3px}
+  .benchmark-model-row{min-width:0;padding:6px 7px;border-radius:7px}
+  .benchmark-model-row.ours{background:rgba(23,108,112,.075)}
+  .benchmark-model-line{display:flex;align-items:center;gap:7px;min-width:0;margin-bottom:5px}
+  .benchmark-model-mark{display:grid;place-items:center;width:18px;height:18px;flex:none;
+                        border:1px solid var(--line);border-radius:50%;background-color:rgba(255,255,255,.82);
+                        background-repeat:no-repeat;background-position:center;background-size:13px 13px;
+                        color:var(--text-3);font:650 7px/1 var(--font)}
+  .benchmark-model-row.ours .benchmark-model-mark{border-color:transparent;background:var(--accent);color:#fff}
+  .benchmark-model-mark.has-icon{border-color:transparent;color:transparent}
+  .benchmark-model-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+                        color:var(--text-3);font-size:10.5px;font-weight:420}
+  .benchmark-model-row.ours .benchmark-model-name{color:var(--text);font-weight:650}
+  .benchmark-value{margin-left:auto;flex:none;color:var(--text-2);font:500 11px/1 var(--mono)}
+  .benchmark-model-row.ours .benchmark-value{color:var(--accent);font-weight:700}
+  .benchmark-bar-track{position:relative;height:8px;overflow:hidden;border-radius:999px;background:rgba(23,25,29,.075)}
+  .benchmark-bar{height:100%;min-width:2px;border-radius:inherit;background:rgba(23,25,29,.17)}
+  .benchmark-model-row.ours .benchmark-bar{background:linear-gradient(90deg,var(--accent),var(--accent-bright))}
+  .benchmark-model-row.pending .benchmark-bar-track{border:1px dashed rgba(23,108,112,.34);background:transparent}
+  .benchmark-model-row.pending .benchmark-bar{display:none}
+  /* 坐标轴必须和柱条轨道同起点；原来左边多留了 25px，导致 0/65 等基线数字
+     看起来悬在柱条右侧。卡片内边距 17px + 行内边距 7px，正好与轨道一致。 */
+  .benchmark-axis{display:flex;justify-content:space-between;margin:5px 7px 0 7px;
+                  color:var(--text-4);font:400 8px/1 var(--mono)}
+  .benchmark-footnote{display:flex;justify-content:space-between;gap:36px;margin-top:28px;padding-top:18px;
+                      border-top:1px solid var(--line);color:var(--text-3);font-size:10.5px;line-height:1.65}
+  .benchmark-footnote span:first-child{max-width:790px}
+  .benchmark-source{flex:none;text-align:right;white-space:nowrap}
 
   .tbd{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:0;color:#7A551A;border:1px solid rgba(122,85,26,.35);border-radius:3px;padding:2px 6px;white-space:nowrap}
 
@@ -593,6 +614,7 @@
     .section-heading .display-title,.benchmark-head .display-title{font-size:44px}
     .closing-band .display-title{font-size:44px}
     .product-points{max-width:620px}
+    .benchmark-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   }
 
   @media (max-width:560px){
@@ -607,7 +629,15 @@
     .product-point{grid-template-columns:30px 104px 1fr;gap:10px;padding:18px 0}
     .product-point strong{font-size:13px}
     .product-point span:last-child{font-size:11px}
-    .benchmark-table th:first-child,.benchmark-table td:first-child{width:190px}
+    .benchmark-results{gap:34px}
+    .benchmark-section-head{align-items:flex-start;flex-wrap:wrap;gap:8px 12px}
+    .benchmark-section-head h3{min-width:0;white-space:normal}
+    .benchmark-section-head .rule{display:none}
+    .benchmark-metric{width:100%}
+    .benchmark-grid{grid-template-columns:1fr;gap:10px}
+    .benchmark-chart{padding:16px 14px 12px}
+    .benchmark-footnote{flex-direction:column;gap:8px}
+    .benchmark-source{text-align:left;white-space:normal}
   }
 
   /* 窄屏只压**动画起点**（.30em→.18em，小字号下 .30em 会散成一排孤字）；
@@ -643,7 +673,7 @@
   @media (max-aspect-ratio:4/5){
     #stage video{object-fit:contain;object-position:center;background:var(--bg-0)}
   }
-  /* 无障碍：关掉动效偏好时不演开屏，直接落到可读状态 */
+  /* 无障碍：减少动态效果只关闭字标动画；开屏视频仍按产品要求静音自动播放。 */
   @media (prefers-reduced-motion:reduce){
     #stage .endscrim{transition:none}
     /* 不演动画，直接给**落定值**（要和 #reveal.on 的 .05em 一致，别各写各的） */
@@ -655,13 +685,10 @@
 <body>
 
 <div class="topbar">
-  <!-- 公司商标。官方文件是纯黑单色版（assets/brand/stepfun-logo.svg），
-       这里内联的是把 fill 换成 currentColor 的版本，好让它跟着顶栏深/浅翻色自动变，
-       不用维护两个文件。深色底上等于反白使用。 -->
-  <!-- 公司商标 + 产品名的组合锁定。商标链到公司站；产品名只是文字，不做链接
-       （产品名指向公司站会让人误解）。窄屏隐藏产品名，否则顶栏会挤爆。 -->
+  <!-- StepFun 公司标志跳转公司首页；右侧三项分别链接 Realtime / Gen / Music 产品页。
+       排列格式与 StepAudio 3 Gen 顶栏一致，窄屏隐藏产品导航以免与右侧控件重叠。 -->
   <div class="brand-lockup">
-    <a class="brand" href="https://www.stepfun.com" target="_blank" rel="noopener">
+    <a class="brand" href="https://www.stepfun.com/" aria-label="StepFun 官网">
       <svg aria-label="StepFun" role="img" viewBox="0 0 135 36" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M18 0C8.05758 0 0 8.05758 0 18C0 27.9424 8.05758 36 18 36C27.9424 36 36 27.9424 36 18C36 8.05758 27.9424 0 18 0ZM13.1431 29.4208H6.56393V22.8417H13.1431V29.4208ZM21.2769 29.4208H14.6977V22.8417H21.2769V29.4208ZM21.2769 21.2921H14.6977V14.713H21.2769V21.2921ZM21.2769 13.1634H14.6977V6.58425H21.2769V13.1634ZM29.4107 13.1583H22.8315V6.57917H29.4107V13.1583Z" fill="currentColor"/>
           <path d="M59.7221 21.5618C59.7221 24.5695 57.4461 26.8607 53.0769 26.8607C49.3682 26.8607 46.4266 24.9302 46.2793 21.4755H49.2056C49.3936 23.3552 50.9533 24.3713 53.209 24.3713C55.4647 24.3713 56.8212 23.1977 56.8212 21.6889C56.8212 20.3324 55.8051 19.5195 53.2192 18.7574L51.6341 18.3104C48.6468 17.4518 46.8026 16.1309 46.8026 13.4331C46.8026 10.4052 49.5867 8.42383 53.2344 8.42383C56.8822 8.42383 59.4478 10.5068 59.5646 13.5297H56.6942C56.4605 11.9039 55.1853 10.9082 53.143 10.9082C51.1006 10.9082 49.7188 11.9141 49.7188 13.4077C49.7188 14.7033 50.8314 15.4552 53.0973 16.1105L54.4791 16.5017C57.9237 17.5077 59.7221 18.9403 59.7221 21.5669V21.5618ZM65.3767 22.7456V15.8565H67.8254V13.3061H65.3767V10.3646H62.6129V13.3061H60.4232V15.8565H62.6129V22.7761C62.6129 25.7786 64.4927 26.6474 66.2708 26.7388C67.1599 26.7845 68.0744 26.6626 68.0744 26.6626V24.3866C67.7645 24.4018 67.5663 24.4272 67.1853 24.4272C66.5147 24.4272 65.3716 24.3053 65.3716 22.7456H65.3767ZM95.1328 20.2409C95.1328 24.3561 92.2725 26.8455 88.9398 26.8455C87.5426 26.8455 86.0693 26.3527 85.0735 25.4535V31.4128H82.3098V13.7227H85.0735V14.9471C86.0693 14.0479 87.5426 13.5551 88.9398 13.5551C92.115 13.5551 95.1328 16.1359 95.1328 20.2409ZM92.3894 20.2003C92.3894 17.467 90.8348 15.9683 88.9194 15.9683C87.0041 15.9683 85.0685 17.467 85.0685 20.2003C85.0685 22.9336 87.0041 24.4323 88.9194 24.4323C90.8348 24.4323 92.3894 22.9336 92.3894 20.2003Z" fill="currentColor"/>
@@ -673,14 +700,14 @@
           <path d="M122.703 26.8932V14.1515H125.457V15.0863C126.097 14.2633 127.362 13.6993 129.409 13.8213C131.457 13.9432 134.302 15.5334 134.302 19.0694V26.8932H131.548V19.3488C131.548 17.4131 130.248 16.392 128.693 16.392C127.138 16.392 125.457 17.4639 125.457 20.06V26.8932H122.703Z" fill="currentColor"/>
           </svg>
     </a>
-    <span class="brand-div"></span>
-    <span class="brand-prod">
-      <span>StepAudio&nbsp;3</span>
-      <!-- Gen / Music 暂时回到当前页；正式 demo 地址确定后只替换 href。 -->
-      <a href="./" aria-current="page">Realtime</a>
-      <a href="./">Gen</a>
-      <a href="./">Music</a>
-    </span>
+    <span class="brand-div brand-div-main" aria-hidden="true">|</span>
+    <nav class="brand-prod" aria-label="StepAudio 产品页面">
+      <a href="./" aria-current="page">StepAudio 3 Realtime</a>
+      <span class="brand-div" aria-hidden="true">|</span>
+      <a href="https://stepaudiollm.github.io/step-audio-3-gen/">StepAudio 3 Gen</a>
+      <span class="brand-div" aria-hidden="true">|</span>
+      <a href="https://stepaudiollm.github.io/step-audio-3-music/">StepAudio 3 Music</a>
+    </nav>
   </div>
   <div class="ctrls">
     <div class="llang" id="langBtn" role="group" aria-label="语言 / Language">
@@ -700,9 +727,9 @@
 
 <!-- 素材 -->
 <div id="stage">
-  <video id="hero" muted playsinline preload="auto" poster="assets/hero-first.jpg?v=5743d373">
-    <source src="assets/hero-720.mp4?v=ec45fb9f" type="video/mp4" media="(max-width: 820px)">
-    <source src="assets/hero.mp4?v=f249b0fd" type="video/mp4">
+  <video id="hero" autoplay muted playsinline webkit-playsinline preload="auto" poster="assets/hero-first.jpg?v=b5b2681b">
+    <source src="assets/hero-720.mp4?v=2257b3b7" type="video/mp4" media="(max-width: 820px)">
+    <source src="assets/hero.mp4?v=37c74f6a" type="video/mp4">
   </video>
   <div class="endscrim"></div>
   <div class="veil"></div>
@@ -767,7 +794,11 @@
             <p class="benchmark-status" id="benchmarkStatus"></p>
           </div>
         </div>
-        <div class="benchmark-table-wrap" id="benchmarkTable"></div>
+        <div class="benchmark-results" id="benchmarkResults"></div>
+        <div class="benchmark-footnote">
+          <span id="benchmarkNote"></span>
+          <span class="benchmark-source" id="benchmarkSource"></span>
+        </div>
       </div>
     </section>
 
@@ -805,83 +836,178 @@
 const COPY = {
   zh: {
     htmlLang:"zh-CN",
+    pageTitle:"Step-Audio 3 Realtime · 阶跃星辰",
+    pageDescription:"Step-Audio 3 Realtime：像真人一样聊，也能边想边做，带来自然、低延迟的全双工语音交互。",
     revealSub:"为自然交谈而生",
     skip:"跳过",
-    introKicker:"实时语音模型",
-    introTitle:["让对话，回到","它本来的样子。"],
-    introLede:"StepAudio 3 Realtime 面向自然实时交互而生。它持续聆听、理解语境并组织回应，"
-             +"让接话、停顿、附和与打断不再是需要绕开的边界，而成为交流本身。",
+    introKicker:"Step-Audio 3 Realtime",
+    introTitle:["像真人一样聊，","也能边想边做。"],
+    introLede:"和 Step-Audio 3 Realtime 对话，就像和一个懂你的真人伙伴聊天。它听得懂话里的情绪与言外之意，也接得住停顿、附和和打断；日常闲聊自然流畅，遇到复杂问题还能边想边说，把你的意图一步步变成结果。",
     productPoints:[
-      {t:"全双工实时",d:"边听、边想、边说"},
-      {t:"自然轮替",d:"接话、停顿与打断"},
-      {t:"真实语气",d:"语速、重音与情绪随内容变化"},
-      {t:"多场景交互",d:"面向助手、陪伴与角色对话"},
+      {t:"自然交谈",d:"接话自然、节奏松弛，越聊越像真实交流"},
+      {t:"听懂话外之音",d:"迟疑、轻笑和话里的情绪，它都能接住"},
+      {t:"真正全双工",d:"随时附和、补充或打断，不必等它说完"},
+      {t:"边想边说",d:"简单问题快速回应，复杂问题也能边聊边理清"},
+      {t:"把事情做完",d:"聊清楚你的意图后，继续调用工具完成任务"},
     ],
-    galleryKicker:"案例演示",
+    galleryKicker:"Demo 演示",
     galleryTitle:["自然交谈，","应该毫不费力。"],
-    galleryLede:"三段真实场景影片，展示 StepAudio 3 Realtime 在对话中的表现。",
+    galleryLede:"聊起日常小事，它接话自然、语气松弛；话题热起来，你也可以随时附和、补充或打断。极低的响应延迟和丝滑的全双工交互，让每一次停顿、接话和话轮转换都自然流畅，仿佛在和真人交谈。",
     galleryDemos:[
-      {no:"01",src:"assets/demo/realtime-main.mp4?v=740cc9",t:"完整样片 · 五个场景",d:"从轻声回应到热烈交谈，模型的表达始终跟随人物、关系与当下情境。"},
-      {no:"02",src:"assets/demo/quiet-reply.mp4?v=02edcd",t:"轻声回应，也有分寸",d:"在安静的个人场景里，回应不必填满每一秒。停顿和轻声本身就是交流的一部分。"},
-      {no:"03",src:"assets/demo/lively-exchange.mp4?v=c26a6f",t:"话题热起来，语气也跟上",d:"更快的轮替、更鲜明的重音，以及随现场关系变化的说话节奏。"},
+      {no:"01",src:"assets/demo/realtime-main.mp4?v=740cc9",t:"自然对话 · 完整演示",d:"完整呈现自然接话、低延迟响应与自由交流。"},
+      {no:"02",src:"assets/demo/quiet-reply.mp4?v=02edcd",t:"日常闲聊 · 轻声回应",d:"停顿、语气与回应都保留自然分寸。"},
+      {no:"03",src:"assets/demo/lively-exchange.mp4?v=c26a6f",t:"全双工 · 自由交谈",d:"节奏加快时，依然自然接话、附和与让出话轮。"},
     ],
     benchmarkKicker:"模型评测",
-    benchmarkTitle:["与主流实时模型，","放在同一把尺子上。"],
-    benchmarkLede:"对比模型为内部评测框架已接入的 GPT Realtime、Gemini Live 与 Doubao Realtime，覆盖音频理解、推理和口语对话公开评测集。",
-    benchmarkStatus:"本轮评测中，数据待回填",
-    benchmarkModels:["StepAudio 3","GPT Realtime","Gemini Live","Doubao Realtime"],
-    benchmarkGroups:[
-      {name:"音频理解与推理",rows:["MMAU","MMSU","MMAR","Big-Bench-Audio"]},
-      {name:"口语对话",rows:["WildSpeech","SpokenMQA","MTalk-Bench","TOEFL Listening"]},
-    ],
-    ey3:"体验",
-    h2c:"不如直接说一句",
-    lede3:"体验中心是贴近真实产品的可操作界面。服务接入后，在这里直接开口说一句。",
+    benchmarkTitle:["从听懂，到实时协作，","关键能力放在同一张图上。"],
+    benchmarkLede:"评测覆盖音频理解、全双工交互、通用推理、Voice Agent 与语音识别。每张图均保留对应评测中的模型版本与原始分数。",
+    benchmarkStatus:"12 项评测 · 44 个已报告分数",
+    benchmarkSections:{audio:"音频理解",interaction:"交互智能",general:"通用文本",asr:"语音识别 · StepAudio 3 ASR Max"},
+    benchmarkMetrics:{higher:"得分（%）· 越高越好 ↑",asr:"错误率（%）· 越低越好 ↓"},
+    benchmarkTags:{dialogue:"对话",duplex:"全双工",agentic:"Voice Agent"},
+    benchmarkNote:"不同图表使用各自标注的模型版本与坐标范围；坐标非零起点时会在图中明确显示。TBD 表示该项尚未完成，不参与比较。",
+    benchmarkSource:"数据源：StepAudio 3 技术报告评测表",
+    ey3:"体验中心",
+    h2c:"像真人一样聊，也能把事情做完。",
+    lede3:"像平常聊天一样开口，它会理解你的语气和意图，知道什么时候接话、什么时候停下；从轻松闲聊到复杂任务，都能自然地陪你聊下去，并在需要时调用工具，把事情继续做下去。",
     ctaMain:"打开体验中心",
-    notWired:"未接入",
+    notWired:"即将开放",
     expNav:"体验中心",
     legal:"Copyright © 2026 上海阶跃星辰智能科技股份有限公司",
   },
   en: {
     htmlLang:"en",
+    pageTitle:"Step-Audio 3 Realtime · StepFun",
+    pageDescription:"Step-Audio 3 Realtime combines natural, low-latency, full-duplex voice conversation with adaptive reasoning and agent capabilities.",
     revealSub:"Born for natural conversation",
     skip:"SKIP",
-    introKicker:"Realtime voice model",
-    introTitle:["Conversation,","as it should feel."],
-    introLede:"StepAudio 3 Realtime is built for natural, live interaction. It keeps listening, understands context, and shapes its response as the conversation unfolds, treating pauses, backchannels, and interruptions as part of the exchange.",
+    introKicker:"Step-Audio 3 Realtime",
+    introTitle:["Talk like a person.","Think and act in real time."],
+    introLede:"Talking with Step-Audio 3 Realtime feels like speaking with someone who truly understands you. It picks up on emotion and meaning beyond the words, follows pauses, backchannels, and interruptions, and keeps everyday conversation flowing naturally. When a question gets harder, it can think as it speaks and help turn your intent into results.",
     productPoints:[
-      {t:"Full-duplex",d:"Listen, think, and speak in realtime"},
-      {t:"Natural turns",d:"Respond to pauses and interruptions"},
-      {t:"Expressive delivery",d:"Pace, emphasis, and emotion follow meaning"},
-      {t:"Across scenarios",d:"For assistants, companions, and characters"},
+      {t:"Natural conversation",d:"Relaxed turn-taking that feels more human as you talk"},
+      {t:"Meaning beyond words",d:"It catches hesitation, laughter, and the emotion in your voice"},
+      {t:"True full duplex",d:"Chime in, add a thought, or interrupt without waiting"},
+      {t:"Think while speaking",d:"Quick on simple questions, thoughtful on harder ones"},
+      {t:"Complete the task",d:"Once it understands your intent, it can use tools to finish the job"},
     ],
-    galleryKicker:"Demo Reels",
+    galleryKicker:"Demo",
     galleryTitle:["Natural conversation","should feel effortless."],
-    galleryLede:"Three real-scene clips showcasing StepAudio 3 Realtime across different conversational contexts.",
+    galleryLede:"In everyday conversation, it picks up naturally and responds with a relaxed, human cadence. When the exchange gets lively, you can chime in, add a thought, or interrupt whenever you want. Extremely low latency and smooth full-duplex interaction make every pause, response, and turn feel fluid and natural, more like talking with another person.",
     galleryDemos:[
-      {no:"01",src:"assets/demo/realtime-main.mp4?v=740cc9",t:"Full film · Five scenes",d:"From quiet replies to lively exchanges, every delivery follows the people, their relationship, and the moment they are in."},
-      {no:"02",src:"assets/demo/quiet-reply.mp4?v=02edcd",t:"A quiet reply, with room to breathe",d:"In a personal moment, a response does not need to fill every second. A pause and a softer voice carry meaning too."},
-      {no:"03",src:"assets/demo/lively-exchange.mp4?v=c26a6f",t:"When energy rises, delivery follows",d:"Faster turns, clearer emphasis, and a speaking rhythm that moves with the relationship in the scene."},
+      {no:"01",src:"assets/demo/realtime-main.mp4?v=740cc9",t:"Natural conversation · Full demo",d:"Natural turn-taking, low-latency response, and open conversation."},
+      {no:"02",src:"assets/demo/quiet-reply.mp4?v=02edcd",t:"Everyday chat · A quiet reply",d:"Pauses, tone, and understated responses all retain their place."},
+      {no:"03",src:"assets/demo/lively-exchange.mp4?v=c26a6f",t:"Full duplex · Free-flowing talk",d:"Respond, acknowledge, and yield naturally as the pace picks up."},
     ],
     benchmarkKicker:"Model evaluation",
-    benchmarkTitle:["Leading realtime models,","measured on the same scale."],
-    benchmarkLede:"The comparison covers GPT Realtime, Gemini Live, and Doubao Realtime as integrated in our internal evaluation framework, across public audio understanding, reasoning, and spoken-dialogue suites.",
-    benchmarkStatus:"Evaluation in progress, scores pending",
-    benchmarkModels:["StepAudio 3","GPT Realtime","Gemini Live","Doubao Realtime"],
-    benchmarkGroups:[
-      {name:"Audio understanding & reasoning",rows:["MMAU","MMSU","MMAR","Big-Bench-Audio"]},
-      {name:"Spoken dialogue",rows:["WildSpeech","SpokenMQA","MTalk-Bench","TOEFL Listening"]},
-    ],
-    ey3:"Try it",
-    h2c:"Easier to just say something",
-    lede3:"The experience center is a hands-on interface. Once the service is wired up, "
-         +"you can simply start talking.",
-    ctaMain:"Open the experience center",
-    notWired:"not wired up",
-    expNav:"Experience center",
+    benchmarkTitle:["From understanding to live collaboration,","the core capabilities on one canvas."],
+    benchmarkLede:"The evaluation spans audio understanding, full-duplex interaction, general reasoning, Voice Agent performance, and speech recognition. Every chart preserves the reported model variants and scores for that benchmark.",
+    benchmarkStatus:"12 benchmarks · 44 reported scores",
+    benchmarkSections:{audio:"Audio Understanding",interaction:"Interactive Intelligence",general:"General Text",asr:"Speech Recognition · StepAudio 3 ASR Max"},
+    benchmarkMetrics:{higher:"Score (%) · Higher is better ↑",asr:"Error rate (%) · Lower is better ↓"},
+    benchmarkTags:{dialogue:"Dialogue",duplex:"Full Duplex",agentic:"Voice Agent"},
+    benchmarkNote:"Each chart uses the model variants and axis range shown. Non-zero baselines are labeled explicitly. TBD means the evaluation is pending and is not included in the comparison.",
+    benchmarkSource:"Source: StepAudio 3 technical report evaluation tables",
+    ey3:"Experience Center",
+    h2c:"A natural conversation that gets things done.",
+    lede3:"Start just as you would with another person. It understands your tone and intent, knows when to respond and when to pause, and keeps the conversation natural from casual chat to complex tasks. When needed, it can use tools and carry the work forward.",
+    ctaMain:"Open the Experience Center",
+    notWired:"Coming soon",
+    expNav:"Experience Center",
     legal:"Copyright © 2026 StepFun Intelligence Co., Ltd.",
   }
 };
+
+/* 评测数据来自 stepaudio3-report-all@2de8582 的技术报告表格；选项、聚合方式和
+   坐标范围与 ~/uploads/render_results.py 生成的 3+3+3+3 图保持一致。 */
+const BENCHMARK_DATA = [
+  {
+    key:"audio", metric:"higher", charts:[
+      {title:"AudioMultiChallenge",domain:[0,100],names:["StepAudio 3 Realtime","Doubao 2.0 Lite","Gemini 3 Flash","Gemini 3.1 Pro"],values:[49.3,48.5,56.6,67.0]},
+      {title:"MMSU",domain:[65,95],names:["StepAudio 3 Realtime","Doubao 2.0 Lite","Gemini 3 Flash","Gemini 3.1 Pro"],values:[90.6,80.0,77.0,83.6]},
+      {title:"MMAR",domain:[65,90],names:["StepAudio 3 Realtime","Doubao 2.0 Lite","Gemini 3 Flash","Gemini 3.1 Pro"],values:[86.5,75.9,75.4,81.7]},
+    ]
+  },
+  {
+    key:"interaction", metric:"higher", charts:[
+      {title:"StepAudioChat",tag:"dialogue",domain:[65,80],names:["StepAudio 3 Realtime (Real-time)","Doubao 2.0 Lite (Reasoning)","DeepSeek-V4-Flash (Reasoning)","Kimi K3 (Reasoning)"],values:[null,70.5,71.4,77.1]},
+      {title:"AA Full-Duplex Bench",tag:"duplex",domain:[90,100],names:["StepAudio 3 Realtime","GPT-realtime-2 (High)","Qwen Audio 3.0 Realtime Plus","Grok Voice Think Fast 2.0 high"],values:[98.9,95.3,98.4,95.1]},
+      {title:"τ-Voice",tag:"agentic",domain:[0,100],names:["StepAudio 3 Realtime","Grok Voice Think Fast 2.0 High","Qwen Audio 3.0 Realtime Plus","GPT-Realtime-2.1 High"],values:[56.0,56.5,54.6,45.7]},
+    ]
+  },
+  {
+    key:"general", metric:"higher", charts:[
+      {title:"HMMT 2026 Feb",domain:[60,90],names:["StepAudio 3 Realtime","Doubao 2.0 Lite","Gemini 3 Flash"],values:[86.8,73.9,85.9]},
+      {title:"GPQA Diamond",domain:[0,100],names:["StepAudio 3 Realtime","Doubao 2.0 Lite","Gemini 3 Flash"],values:[83.0,82.4,90.3]},
+      {title:"MultiChallenge",domain:[0,100],names:["StepAudio 3 Realtime","Doubao 2.0 Lite","Gemini 3 Flash"],values:[59.7,60.8,68.1]},
+    ]
+  },
+  {
+    key:"asr", metric:"asr", decimals:2, charts:[
+      {title:"LibriSpeech clean",domain:[0,4],names:["StepAudio 3 ASR Max","Doubao 2.0 ASR","Seed 2.0 Lite","HY3.0 ASR Preview"],values:[1.18,2.94,1.47,1.38]},
+      {title:"WenetSpeech meeting",domain:[0,6],names:["StepAudio 3 ASR Max","Doubao 2.0 ASR","Seed 2.0 Lite","HY3.0 ASR Preview"],values:[4.35,5.09,4.80,4.12]},
+      {title:"AISHELL-1",domain:[0,6],names:["StepAudio 3 ASR Max","Doubao 2.0 ASR","Seed 2.0 Lite","HY3.0 ASR Preview"],values:[0.49,2.07,1.66,1.22]},
+    ]
+  }
+];
+
+const BENCHMARK_BRANDS = [
+  ["StepAudio","S3","stepfun-icon.png"],["Doubao","DB","doubao-color.svg"],["Seed","DB","doubao-color.svg"],
+  ["Gemini","G","gemini-color.svg"],["DeepSeek","DS","deepseek-color.svg"],
+  ["Kimi","K","kimi.svg"],["GPT","O","openai.svg"],["Qwen","Q","qwen-color.svg"],
+  ["Grok","X","xai.svg"],["HY","HY","hunyuan-color.svg"]
+];
+
+function benchmarkBrand(name){
+  const [,label,icon] = BENCHMARK_BRANDS.find(([prefix]) => name.startsWith(prefix)) || ["","·",null];
+  return {label, icon};
+}
+
+function formatBenchmarkValue(value, decimals){
+  return value == null ? "TBD" : Number(value).toFixed(decimals);
+}
+
+function renderBenchmarks(c){
+  $("benchmarkResults").innerHTML = BENCHMARK_DATA.map(section => `
+    <section class="benchmark-result-section" aria-labelledby="benchmark-${section.key}">
+      <div class="benchmark-section-head">
+        <h3 id="benchmark-${section.key}">${c.benchmarkSections[section.key]}</h3>
+        <span class="rule" aria-hidden="true"></span>
+        <span class="benchmark-metric">${c.benchmarkMetrics[section.metric]}</span>
+      </div>
+      <div class="benchmark-grid">
+        ${section.charts.map(chart => {
+          const [lo, hi] = chart.domain;
+          const decimals = section.decimals || 1;
+          return `<article class="benchmark-chart">
+            <div class="benchmark-chart-head">
+              <h4>${chart.title}</h4>
+              ${chart.tag ? `<span class="benchmark-tag">${c.benchmarkTags[chart.tag]}</span>` : ""}
+            </div>
+            <div class="benchmark-models">
+              ${chart.names.map((name, index) => {
+                const value = chart.values[index];
+                const ours = name.startsWith("StepAudio");
+                const brand = benchmarkBrand(name);
+                const width = value == null ? 0 : Math.max(0, Math.min(100, (value - lo) / (hi - lo) * 100));
+                return `<div class="benchmark-model-row${ours ? " ours" : ""}${value == null ? " pending" : ""}">
+                  <div class="benchmark-model-line">
+                    <span class="benchmark-model-mark${brand.icon ? " has-icon" : ""}" aria-hidden="true"${brand.icon ? ` style="background:transparent url('assets/benchmark-icons/${brand.icon}') center / 13px 13px no-repeat"` : ""}>${brand.icon ? "" : brand.label}</span>
+                    <span class="benchmark-model-name" title="${name}">${name}</span>
+                    <span class="benchmark-value">${formatBenchmarkValue(value, decimals)}</span>
+                  </div>
+                  <div class="benchmark-bar-track" aria-hidden="true"><div class="benchmark-bar" style="width:${width.toFixed(2)}%"></div></div>
+                </div>`;
+              }).join("")}
+            </div>
+            <div class="benchmark-axis" aria-label="Axis ${lo} to ${hi}"><span>${lo}</span><span>${hi}</span></div>
+          </article>`;
+        }).join("")}
+      </div>
+    </section>`).join("");
+  $("benchmarkNote").textContent = c.benchmarkNote;
+  $("benchmarkSource").textContent = c.benchmarkSource;
+}
 
 /* 站内链接。TODO: 换成正式对外域名后统一改这里。 */
 const LINKS = {
@@ -889,7 +1015,7 @@ const LINKS = {
 };
 
 /* 节奏（毫秒） */
-const T_SAFETY = 7000; // 素材迟迟不动时的兜底，别把用户永远锁在首屏
+const T_SAFETY = 7000; // 素材迟迟不动时的兜底，别让用户永远停在静态封面
 
 const qsLang = new URLSearchParams(location.search).get("lang");
 /* **默认英文**（按要求）。以前是跟随 navigator.language，
@@ -905,6 +1031,8 @@ function renderCopy(){
   const c = COPY[lang];
   const titleMarkup = parts => `${parts[0]}<br><span class="accent">${parts[1]}</span>`;
   document.documentElement.lang = c.htmlLang;
+  document.title = c.pageTitle;
+  document.querySelector('meta[name="description"]').content = c.pageDescription;
   $("langBtn").querySelectorAll("button").forEach(btn => {
     btn.setAttribute("aria-pressed", btn.dataset.lang === lang ? "true" : "false");
   });
@@ -930,18 +1058,7 @@ function renderCopy(){
   $("benchmarkTitle").innerHTML = titleMarkup(c.benchmarkTitle);
   $("benchmarkLede").textContent = c.benchmarkLede;
   $("benchmarkStatus").textContent = c.benchmarkStatus;
-  const pendingCells = c.benchmarkModels.map((model, index) =>
-    `<td class="pending ${index === 0 ? "ours" : ""}" aria-label="${model}: ${c.benchmarkStatus}">--</td>`
-  ).join("");
-  $("benchmarkTable").innerHTML = `
-    <table class="benchmark-table" aria-label="${c.benchmarkKicker}">
-      <thead><tr><th scope="col">Benchmark</th>${c.benchmarkModels.map((model, index) =>
-        `<th scope="col" class="${index === 0 ? "ours" : ""}">${model}</th>`).join("")}</tr></thead>
-      <tbody>${c.benchmarkGroups.map(group => `
-        <tr class="benchmark-group"><td colspan="5">${group.name}</td></tr>
-        ${group.rows.map(row => `<tr><td>${row}</td>${pendingCells}</tr>`).join("")}`
-      ).join("")}</tbody>
-    </table>`;
+  renderBenchmarks(c);
 
   $("ey3").textContent = c.ey3;  $("h2c").textContent = c.h2c;
   $("lede3").textContent = c.lede3;
@@ -1116,23 +1233,22 @@ let timers = [], finished = false, revealed = false, looping = false;
 /* ============================================================
    循环回绕：接在**视频文件里做好的那次交叉转场**上
    ------------------------------------------------------------
-   循环的范围是**只循环最后一幕**（幕5），不是整段轮播 —— 幕5 播到卷发女生侧脸
-   向左的那一瞬（落点）后，回到幕5 开头再演一遍。
+   循环范围现在是**完整三段**：原第四幕 → A03 → A23，然后回到第一段继续。
    为什么不是别的做法（都试过、都被否）：
      · `video.loop=true`  —— 回绕是一次真实 seek（pause→ended→seeking→waiting→seeked），
        本地无网络延迟都实测 27ms 停顿 + 掉帧；且回到 0 是硬切。
-     · 盖一张静图去溶接缝 —— 跳变没了，但画面「定」住近 0.8s，
+     · 盖一张静图去溶接缝 —— 跳变没了，但画面会短暂停住，
        换来的是更明显的卡顿感（用户反馈的就是这个）。
      · 两路 video 交叉 —— 视觉最好，但同页两个 video 对同一 URL 不共享媒体缓冲，
        首次加载要多下整片一遍（实测 16MB → 31MB），交叉时双解码帧间隔涨到 52.8ms。
        对远程访问反而更卡，所以放弃。
-   现在的做法：**build_hero 已经把「正片末尾 → 幕5 干净起点」做成了一次正常的交叉转场**
+   现在的做法：**build_hero 已经把「A23 末尾 → 第一段开头」做成了一次正常的交叉转场**
    （和镜头之间的切换同一种转场，写进文件里）。所以页面只需在播完时 seek 到 LOOP_BACK。
    单路、零额外带宽、画面全程在动。
    ============================================================ */
-/* 必须和 build_hero.py 打印出来的 LOOP_BACK 一致（= 幕5 干净起点 + LOOP_XF，
+/* 必须和 build_hero.py 打印出来的 LOOP_BACK 一致（= 第一段开头 + LOOP_XF，
    且是 1/FPS 的整数倍，并在那里钉了关键帧）。改剪辑后照着脚本输出改这里。 */
-const LOOP_BACK = 19.78;
+const LOOP_BACK = 0.48;
 
 function loopBack(){
   try { video.currentTime = LOOP_BACK; } catch (e) {}
@@ -1140,10 +1256,8 @@ function loopBack(){
   if (p && p.catch) p.catch(() => {});
 }
 
-/* 字标浮现 + 放开滚动。**由 revealWatch 在幕5 出现的那一刻触发**（REVEAL_AT）——
-   要的效果是：最后一幕一出现，字标就同时浮起、字距展开定形，
-   画面继续演一小会（含那位转头过去），然后才开始循环。
-   所以这一步不碰 video，只管字标与压暗。 */
+/* 字标浮现。现在由 start() 在开屏第一帧直接触发，与视频淡入同时开始；
+   这一步不碰 video，只管字标、压暗和正文可见状态。 */
 function revealMark(fast){
   if (revealed) return;
   revealed = true;
@@ -1162,13 +1276,12 @@ function revealMark(fast){
                          reduceMotion ? 0 : (fast ? 700 : 1900)));
 }
 
-/* 正片放完（落点已经出现、字标也定住了）→ 开始**只循环幕5**。
+/* 正片放完（字标已经定住）→ 开始**完整循环三段素材**。
    hero 靠 'ended' 触发，所以到这一步才回绕 —— 提前设 video.loop 就永远不会 ended。 */
 function startSceneLoop(){
   if (looping) return;
   looping = true;
   stopRevealWatch();                // 定形之后不用再逐帧盯 currentTime
-  if (reduceMotion){ video.pause(); return; }
   // 两种入口：正常播完（video.ended，立刻接回转场点继续）
   // 或点了跳过 / autoplay 被拦（视频还在中间，让它继续播，到 ended 时自然回绕）。
   if (video.ended) loopBack();
@@ -1190,30 +1303,16 @@ function flashPending(el){
   setTimeout(() => el.classList.remove("hint"), 620);
 }
 
-/* 盯着 video.currentTime，到点就让字标浮起来。
-   **必须按 video.currentTime 而不是 setTimeout**：素材缓冲卡一下，字标也跟着等，
-   不会提前跑到还在放幕4 的画面上。
-   （这个 rAF 以前还兼着渲染素材上的中央闪字，闪字已按要求整段删掉，只剩这一件事。） */
+/* Logo / slogan 必须等视频真正进入 `playing` 后再开始浮现，不能只等 canplay 或 play() Promise。
+   `playing` 表示首帧已经开始向前推进；Safari 首次缓冲时，canplay 到 playing 之间可能仍会停一下。 */
 let revealRaf = 0;
-/* 字标浮现的时刻 = **幕5 起点 + 2s**（按要求让最后一幕先演 2 秒再浮字标，
-   不再和幕5 同时出现）。幕5 起点是 20.0s（5s 幕1 + 5s×3），所以这里是 22.0。
-   改剪辑后按 build_hero.py 打印的 REVEAL_AT 加上这 2s 的延迟。
-   之后的节奏：字距展开 2.4s、光带扫到 3.2s → 约 25.2s **完全定形**；
-   幕5 演到 26.97s 是落点（卷发女生侧脸向左），27.77s 正片结束进入循环。
-   REVEAL_MIN_TAIL 是兜底：万一剪辑改短了，至少留这么多时间给动画演完
-   （27.8 - 3.2 = 24.6 > 22.0，所以正常情况下取的是 22.0）。 */
-const REVEAL_AT = 20.5;
-const REVEAL_MIN_TAIL = 3.2;
-/* **滚动驱动字标浮现的阈值。** 8px 足够躲开触控板/回弹带来的 1~2px 抖动，
-   又小到「手一划就出来」。时间驱动（REVEAL_AT）保留做兜底：不滚的用户到点照样看到字标。 */
+const REVEAL_AT = 0.0;
+/* 8px 阈值只用于顶栏/语言控件的滚动态；滚动不再触发 Logo 与 slogan。 */
 const SCROLL_REVEAL_AT = 8;
 
 function revealWatch(){
   if (looping){ revealRaf = 0; return; }
-  const t = video.currentTime;
-  const d = video.duration || 0;
-  // 幕5 一出现就让字标浮起来（早于正片结束，不是等 ended）
-  if (d && t >= Math.min(REVEAL_AT, d - REVEAL_MIN_TAIL)){ revealMark(); revealRaf = 0; return; }
+  if (!video.paused && video.currentTime > 0){ revealMark(); revealRaf = 0; return; }
   revealRaf = requestAnimationFrame(revealWatch);
 }
 
@@ -1222,14 +1321,19 @@ function stopRevealWatch(){
   revealRaf = 0;
 }
 
-/* 起播。素材还没缓冲好就等 canplay —— 在空 buffer 上硬 play 会静默失败，
-   第一镜就又被吃掉了。autoplay 被浏览器拦掉时直接落到结束卡，
-   别让人对着静止的第一帧发呆。 */
+/* `<video autoplay>` 负责原生起播。这里是兼容兜底：素材还没缓冲好就等 canplay，
+   再补一次静音 play；不能在空 buffer 上反复 pause/play。 */
 function startVideo(){
   const go = () => {
+    // Safari 对自动播放的判定会同时看属性与 DOM attribute；两边都明确设为静音自动播放。
+    video.autoplay = true;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.setAttribute("muted", "");
     const p = video.play();
-    if (p && p.catch) p.catch(() => { if (!finished) finish(); });
-    if (!revealRaf && !reduceMotion) revealRaf = requestAnimationFrame(revealWatch);
+    if (p && p.catch) p.catch(() => {});
+    // 与 playing 事件互为兜底，但只有 currentTime 真正开始推进才会 reveal。
+    if (!revealed && !revealRaf) revealRaf = requestAnimationFrame(revealWatch);
   };
   if (video.readyState >= 3) go();
   else video.addEventListener("canplay", go, {once:true});
@@ -1253,26 +1357,35 @@ function start(){
   stopRevealWatch();
   $("main").classList.add("live");
 
-  if (reduceMotion){ stage.classList.add("playing"); finish(); return; }
-
-  video.pause();
-  try { video.currentTime = 0; } catch (e) {}
-
-  // 下一帧再加 .playing，让 opacity 从 0 真正过渡过去（同帧改会没有淡入）
+  // `<video autoplay>` 已经从 0 开始起播；这里不要再 pause→play 打断原生 autoplay。
+  // 真实 Safari 会把这组相反操作视为一次启动竞态，表现为停在 poster。
+  // 下一帧先让画面进入淡入并尝试起播；Logo 与 slogan 由 playing 事件触发。
   requestAnimationFrame(() => {
     stage.classList.add("playing");
     startVideo();
   });
 
-  // 兜底：autoplay 被拦或素材加载不出来时，别把人锁死在首屏
+  // 缓冲较久时只重试起播，绝不在时间轴尚未推进时提前显示 Logo / slogan。
   timers.push(setTimeout(() => {
-    if (video.paused || !video.duration) finish();
+    if (video.paused && !video.error) startVideo();
   }, T_SAFETY));
 }
 
-// 第一次播完 → 进最终态；之后每次播完 → 回绕到转场点继续
+// 第一次播完 → 进最终态；之后每次播完 → 回到三段轮播的第一段继续
 video.addEventListener("ended", () => { looping ? loopBack() : finish(); });
 video.addEventListener("error", () => setTimeout(finish, 600));
+video.addEventListener("playing", () => revealMark(), {once:true});
+// Safari 从后台恢复或通过前进/后退缓存回到页面时可能保留 paused 状态；
+// 页面重新可见时补一次静音 play，不重置 currentTime，也不破坏回环位置。
+function resumeHero(){
+  if (document.hidden || !video.paused || video.ended) return;
+  video.muted = true;
+  video.defaultMuted = true;
+  const p = video.play();
+  if (p && p.catch) p.catch(() => {});
+}
+addEventListener("pageshow", () => requestAnimationFrame(resumeHero));
+document.addEventListener("visibilitychange", resumeHero);
 $("expBtn").addEventListener("click", () => {
   const sp = $("expBtn").querySelector("span");
   const c = COPY[lang];
@@ -1294,9 +1407,6 @@ function onScroll(){
   // 还在第一屏顶上时不要写 inline opacity —— 否则会盖掉字标浮现那条 transition，
   // 淡入演到一半被硬拉到 1，看着像跳帧。
   const bar = document.querySelector(".topbar");
-  // **一有下滑就让字标浮起来**（按要求：不必等视频演完）。时间驱动仍然保留在
-  // revealWatch() 里做兜底 —— 用户不滚的话，到 REVEAL_AT 照样浮现。
-  if (top > SCROLL_REVEAL_AT && !revealed) revealMark(true);
   // `body.scrolled` 管右下角语言按钮的显现，阈值很小；
   // `body.lightzone` / `.topbar.solid`（1.3 屏）是翻色，两者无关。
   document.body.classList.toggle("scrolled", top > SCROLL_REVEAL_AT);
@@ -1310,7 +1420,9 @@ function onScroll(){
   // 素材层**不再淡出**：让浅色区那段透明→浅色的渐变自己盖上去，
   // 亮度就从「照片」直接走到「白页」，中间不再凹一段黑。
   // 字标则要提前淡完（0→38vh），否则会被溶解区洗成一团糊字。
-  reveal.style.opacity = Math.max(0, 1 - top / (h * .38)).toFixed(3);
+  reveal.style.opacity = revealed
+    ? Math.max(0, 1 - top / (h * .38)).toFixed(3)
+    : "0";
   // 详情纸面在首屏末端前 380px 开始溶入，接近铺满顶栏时再翻成深色控件。
   const light = top > Math.max(h * .62, h - 150);
   bar.classList.toggle("solid", light);
