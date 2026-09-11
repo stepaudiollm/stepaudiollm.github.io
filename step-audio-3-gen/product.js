@@ -1,6 +1,7 @@
-import { initTtsShowcase } from './tts-showcase.js?v=20260911-cool-orbs-1'
+import { initVocalCards } from './vocal-cards.js?v=20260911-stacked-scenes-7'
+import { initTtsShowcase } from './tts-showcase.js?v=20260911-tts-pagination-2'
 import WaveSurfer from './vendor/wavesurfer.esm.js'
-import { vibePeaks } from './vibe-peaks.js?v=20260911-selected-full-scenes-2'
+import { vibePeaks } from './vibe-peaks.js?v=20260911-stacked-scenes-7'
 import { sceneMusicalPeaks } from './scene-musical-peaks.js?v=20260828-1'
 import { initVoiceOrbCarousel } from './voice-orbs.js?v=20260911-cool-orbs-1'
 import { createSceneVideoPlayback } from './scene-video.js?v=20260909-case-video-recovery-1'
@@ -14,6 +15,15 @@ if (gsap && ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
 document.body.classList.add('is-ready')
 
 const presets = {
+  teahouseCrosstalk: {"title": "茶馆相声", "kind": "全要素声场", "duration": "00:49", "src": "./audio/vibespeech/vibespeech-teahouse-crosstalk.wav?v=20260911-full-scene-6"},
+  vocalBeWell: { title: '你要好好的', kind: '歌声 Vocal', duration: '00:07', src: './audio/vocal-showcase/vocal-be-well.mp3' },
+  ttsResult3: {"title": "清朗男声", "kind": "TTS", "duration": "00:18", "src": "./audio/tts-showcase/tts-candid-generated.wav"},
+  ttsResult4: {"title": "温暖男声", "kind": "TTS", "duration": "00:26", "src": "./audio/tts-showcase/tts-warmth-generated.wav"},
+  ttsResult11: {"title": "Mellow Lady", "kind": "TTS", "duration": "00:14", "src": "./audio/tts-showcase/tts-mellow-lady-generated.wav"},
+  ttsResult10: {"title": "Noble Cast", "kind": "TTS", "duration": "00:22", "src": "./audio/tts-showcase/tts-noble-cast-generated.wav"},
+  ttsResult9: {"title": "Lively Girl", "kind": "TTS", "duration": "00:15", "src": "./audio/tts-showcase/tts-lively-generated.wav"},
+  ttsResult7: {"title": "Nick", "kind": "TTS", "duration": "00:22", "src": "./audio/tts-showcase/tts-nick-generated.wav"},
+  ttsResult8: {"title": "Dacey", "kind": "TTS", "duration": "00:16", "src": "./audio/tts-showcase/tts-dacey-generated.wav"},
   roommatePodcast: {"title": "纽约室友播客", "kind": "全要素声场", "duration": "00:47", "src": "./audio/vibespeech/vibespeech-new-york-roommate-podcast.wav?v=20260911-selected-full-scenes-2"},
   surfingFinal: {"title": "巨浪决赛", "kind": "全要素声场", "duration": "00:44", "src": "./audio/vibespeech/vibespeech-big-wave-surfing-final.wav?v=20260911-selected-full-scenes-2"},
   overpassCall: {"title": "天桥夜话", "kind": "全要素声场", "duration": "01:04", "src": "./audio/vibespeech/vibespeech-overpass-night-call.wav?v=20260911-selected-full-scenes-2"},
@@ -21,18 +31,10 @@ const presets = {
   vocalMom: {"title": "家书", "kind": "歌声 Vocal", "duration": "00:08", "src": "./audio/vocal-showcase/vocal-home-is-fine.wav"},
   englishShyBoy: {"title": "羞涩少年", "kind": "音色设计", "duration": "00:05", "src": "./audio/vd-showcase/vd-shy-boy.wav"},
   englishBrightGirl: {"title": "元气少女", "kind": "音色设计", "duration": "00:06", "src": "./audio/vd-showcase/vd-bright-young-voice.wav"},
-  ttsRef1: {"title": "柔语", "kind": "TTS", "duration": "00:07", "src": "./audio/tts-showcase/tts-softspoken-reference.wav"},
-  ttsResult1: {"title": "吐槽记性", "kind": "TTS", "duration": "00:26", "src": "./audio/tts-showcase/tts-softspoken-generated.wav"},
-  ttsRef2: {"title": "知言", "kind": "TTS", "duration": "00:11", "src": "./audio/tts-showcase/tts-poise-reference.wav"},
-  ttsResult2: {"title": "辅导作业", "kind": "TTS", "duration": "00:44", "src": "./audio/tts-showcase/tts-poise-generated.wav"},
-  ttsRef3: {"title": "清朗", "kind": "TTS", "duration": "00:02", "src": "./audio/tts-showcase/tts-candid-reference.wav"},
-  ttsResult3: {"title": "炫耀手艺进步", "kind": "TTS", "duration": "00:18", "src": "./audio/tts-showcase/tts-candid-generated.wav"},
-  ttsRef4: {"title": "暖叙", "kind": "TTS", "duration": "00:17", "src": "./audio/tts-showcase/tts-warmth-reference.wav"},
-  ttsResult4: {"title": "心疼宠物", "kind": "TTS", "duration": "00:26", "src": "./audio/tts-showcase/tts-warmth-generated.wav"},
-  ttsRef5: {"title": "轻甜", "kind": "TTS", "duration": "00:08", "src": "./audio/tts-showcase/tts-lilt-reference.wav"},
-  ttsResult5: {"title": "陪你坐一会儿", "kind": "TTS", "duration": "00:22", "src": "./audio/tts-showcase/tts-lilt-generated.wav?v=20260911-english-tts-refresh-1"},
-  ttsRef6: {"title": "漫谈", "kind": "TTS", "duration": "00:08", "src": "./audio/tts-showcase/tts-jake-reference.wav"},
-  ttsResult6: {"title": "为姐姐操心", "kind": "TTS", "duration": "00:18", "src": "./audio/tts-showcase/tts-jake-generated.wav"},
+  ttsResult1: {"title": "清隽女声", "kind": "TTS", "duration": "00:26", "src": "./audio/tts-showcase/tts-softspoken-generated.wav"},
+  ttsResult2: {"title": "轻熟女声", "kind": "TTS", "duration": "00:44", "src": "./audio/tts-showcase/tts-poise-generated.wav"},
+  ttsResult5: {"title": "Lisa", "kind": "TTS", "duration": "00:22", "src": "./audio/tts-showcase/tts-lilt-generated.wav?v=20260911-english-tts-refresh-1"},
+  ttsResult6: {"title": "Jake", "kind": "TTS", "duration": "00:18", "src": "./audio/tts-showcase/tts-jake-generated.wav"},
   lofi: { title: '午夜 Lo-fi', kind: '音乐', duration: '00:32', src: './audio/music/music-midnight-lofi.wav' },
   forest: { title: '森林鸟鸣', kind: '音效', duration: '00:05', src: './audio/sound-effects/sfx-forest-birds.wav' },
   sfxRain: { title: '棚顶落雨', kind: '音效', duration: '00:06', src: './audio/sound-effects/sfx-roof-rain.wav' },
@@ -144,6 +146,12 @@ const applyProductLanguage = () => {
       if (detail) detail.textContent = presetText(id, 'detail')
     }
     card.querySelector(':scope > img')?.setAttribute('alt', productLanguage === 'en' ? `${title} character portrait` : `${title}角色形象`)
+  })
+
+  document.querySelectorAll('.vocal-card').forEach(card => {
+    const id = card.dataset.inlinePlayer
+    card.querySelector('[data-vocal-title]').textContent = presetText(id)
+    card.querySelector('[data-vocal-meta]').textContent = presetText(id, 'meta')
   })
 
   document.querySelectorAll('.sound-library-item[data-inline-player]').forEach((card) => {
@@ -331,6 +339,7 @@ const initReveals = () => {
   // Keep each heading/description lockup together, followed by its visual panel.
   add('.case-portal-copy, .voice-design-copy, .sound-library-intro, .closing-copy')
   add('.case-portal-gallery, .voice-design-gallery', 90, 24)
+  document.querySelectorAll('.vocal-card').forEach((element, index) => { targets.set(element, { delay: index * 65, distance: 16 }) })
   document.querySelectorAll('.sound-library-item').forEach((element, index) => {
     if (element.getClientRects().length) targets.set(element, { delay: (index % 4) * 55, distance: 20 })
   })
@@ -945,14 +954,54 @@ const initVibeCarousel = (playerController) => {
     syncCoverLabel(cover, index)
   }
 
+  // The supplied visual loops with the complete scene audio and follows its playback position.
+  const pairedVideos = new Map()
+  cards.forEach((card, index) => {
+    if (!card.hasAttribute('data-vibe-sync-audio')) return
+    const audio = card.querySelector('audio')
+    for (const video of [backgroundVideos[index], coverVideos[index]].filter(Boolean)) {
+      video.loop = true
+      pairedVideos.set(video, { audio, index })
+    }
+  })
+  const syncPairedVideos = () => {
+    pairedVideos.forEach(({ audio, index }, video) => {
+      const visible = index === activeIndex && !document.hidden && (
+        (stageVisible && video === backgroundVideos[index]) ||
+        (coverflowVisible && video === coverVideos[index])
+      )
+      if (!visible) { video.pause(); return }
+      if (!video.getAttribute('src') && video.dataset.src) video.src = video.dataset.src
+      video.muted = true
+      const visualTime = Number.isFinite(video.duration) && video.duration > 0
+        ? audio.currentTime % video.duration : 0
+      if (video.readyState > 0 && Math.abs(video.currentTime - visualTime) > .18) {
+        video.currentTime = visualTime
+      }
+      if (!audio.paused && !audio.ended && video.paused) video.play().catch(() => {})
+      else if (audio.paused || audio.ended) video.pause()
+    })
+  }
+  const pairedAudio = [...new Set([...pairedVideos.values()].map(({ audio }) => audio))]
+  const pairedEvents = ['play', 'pause', 'seeking', 'seeked', 'timeupdate', 'ended']
+  pairedAudio.forEach(audio => pairedEvents.forEach(event => audio.addEventListener(event, syncPairedVideos)))
+  pairedVideos.forEach((_, video) => video.addEventListener('loadedmetadata', syncPairedVideos))
+  window.addEventListener('pagehide', () => {
+    pairedAudio.forEach(audio => pairedEvents.forEach(event => audio.removeEventListener(event, syncPairedVideos)))
+    pairedVideos.forEach((_, video) => { video.pause(); video.removeEventListener('loadedmetadata', syncPairedVideos) })
+  }, { once: true })
+
   const sceneVideoPlayback = createSceneVideoPlayback({
-    videos: [...backgroundVideos, ...coverVideos],
+    videos: [...backgroundVideos, ...coverVideos].filter(video => !pairedVideos.has(video)),
     shouldPlay: video => !document.hidden && !reducedMotion && (
       (stageVisible && video === backgroundVideos[activeIndex]) ||
       (coverflowVisible && video === coverVideos[activeIndex])
     ),
   })
-  const syncSceneVideos = (options) => sceneVideoPlayback.sync(options)
+  const syncSceneVideos = (options) => {
+    sceneVideoPlayback.sync(options)
+    syncPairedVideos()
+  }
 
   const render = ({ prime = true } = {}) => {
     cards.forEach((card, index) => {
@@ -1241,6 +1290,7 @@ initCapabilityEditorial()
 initSoundAssembly()
 const playerController = initInlinePlayers()
 initTtsShowcase({ playerController, getCopy: copyFor })
+initVocalCards({ getCopy: copyFor, getTitle: presetText })
 initVoiceOrbit(playerController?.pauseAll)
 initVoiceOrbCarousel({
   pausePlayers: playerController?.pauseAll,

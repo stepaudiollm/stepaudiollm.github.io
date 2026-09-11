@@ -44,6 +44,7 @@ const createFlow = (image, anchor) => {
     if (texture) gl.deleteTexture(texture)
     if (empty) gl.deleteTexture(empty)
     if (buffer) gl.deleteBuffer(buffer)
+    gl.getExtension('WEBGL_lose_context')?.loseContext()
   }
   try {
     const makeProgram = (fragment) => {
@@ -188,6 +189,11 @@ export const initVoiceOrbFlow = (root, slides) => {
   }, { once: true })
 
   return {
+    release(slide) {
+      instances.get(slide)?.renderer?.destroy()
+      instances.delete(slide)
+      wake()
+    },
     holdTransition() {
       const revision = ++transitionRevision
       transitioning = true

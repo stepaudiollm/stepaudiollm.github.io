@@ -298,10 +298,10 @@
   },
   {
     "new": "video/vibespeech-summer-night-food-stall-preview.mp4",
-    "bytes": 2337860,
-    "sha256": "26702ecae1f6ccfda68dd9ab7388201c3d02b85ad54e85a80a89771b348083ea",
+    "bytes": 3032017,
+    "sha256": "46b33c32d5a884296f4ec2000e6dc1b10c913b01a5304f1afacce97a46a9d216",
     "kind": "video",
-    "source": "https://coverr.co/videos/shrimps-on-the-barbecue-u272et3p7l",
+    "source": "Previously published showcase-night-food.mp4",
     "usage": "selected_full_scene"
   },
   {
@@ -363,5 +363,75 @@
     "kind": "video",
     "source": "https://coverr.co/videos/microphone-near-a-laptop-jruztp1pnk",
     "usage": "selected_full_scene"
+  },
+  {
+    "new": "video/vibespeech-teahouse-crosstalk-preview.mp4",
+    "bytes": 1044628,
+    "sha256": "844f4c811538060baa62a618c67256dd9ce368adbea15b577bcd324d8f958bea",
+    "kind": "video",
+    "source": "User-provided generated scene video",
+    "usage": "selected_full_scene"
+  },
+  {
+    "new": "audio/vibespeech/vibespeech-teahouse-crosstalk.wav",
+    "bytes": 2373164,
+    "sha256": "97d6c49256aaa4337bdf85243631535de425568f3ac80ce5e941163e225ec65e",
+    "kind": "audio",
+    "source": "Original full-scene recording",
+    "usage": "selected_full_scene"
+  },
+  {
+    "new": "assets/vocal-covers/warmth-of-goodbye.jpg",
+    "bytes": 254722,
+    "sha256": "3ecd6d01445b2351ced7ba8c64d8488fcc20231daee7ccf2015c691e0ee2a28f",
+    "kind": "image",
+    "source": "Original cover artwork",
+    "usage": "vocal_showcase"
+  },
+  {
+    "new": "assets/vocal-covers/coconut-afternoon.jpg",
+    "bytes": 305620,
+    "sha256": "cae904b8042254489743f04d4e8fc9242ac9358a6d15cb85dbf563733a844e0d",
+    "kind": "image",
+    "source": "Original cover artwork",
+    "usage": "vocal_showcase"
+  },
+  {
+    "new": "assets/vocal-covers/home-is-fine.jpg",
+    "bytes": 256042,
+    "sha256": "0f52c89b2f9b9203dbe81cf4da96f170689e5703fdcfc305758a68168687efe3",
+    "kind": "image",
+    "source": "Original cover artwork",
+    "usage": "vocal_showcase"
+  },
+  {
+    "new": "assets/vocal-covers/be-well.jpg",
+    "bytes": 167902,
+    "sha256": "c1e321bbafce0379749fc2cf7447b8b9511e5b22bf46197e0e24d139ce560143",
+    "kind": "image",
+    "source": "Original cover artwork",
+    "usage": "vocal_showcase"
+  },
+  {
+    "new": "audio/vocal-showcase/vocal-be-well.mp3",
+    "bytes": 59373,
+    "sha256": "eae45547f95607969f9e4a23062fd68d112903f19f7a12312929d911b7653314",
+    "kind": "audio",
+    "source": "Selected vocal recording",
+    "usage": "vocal_showcase"
+  },
+  {
+    "new": "audio/tts-showcase/tts-mellow-lady-generated.wav",
+    "bytes": 695084,
+    "sha256": "519c81c62e00b06351665b6d7a9283e626c810b67f0f76405c414d1780bbb7a3",
+    "kind": "audio",
+    "usage": "tts_showcase"
+  },
+  {
+    "new": "audio/tts-showcase/tts-noble-cast-generated.wav",
+    "bytes": 1079084,
+    "sha256": "9105c18fdf3f7f0e9d59f5ddff9bd686d2fc83c3a8a3b446e26a7c9b04f985ba",
+    "kind": "audio",
+    "usage": "tts_showcase"
   }
 ]

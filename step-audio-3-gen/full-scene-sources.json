@@ -1,6 +1,6 @@
 [
   {
-    "code": "A3",
+    "code": "A-original",
     "key": "nightFoodStall",
     "stem": "summer-night-food-stall",
     "title": "夏夜大排档",
@@ -9,13 +9,13 @@
     "audio": "audio/vibespeech/vibespeech-summer-night-food-stall.wav",
     "video": "video/vibespeech-summer-night-food-stall-preview.mp4",
     "poster": "video/vibespeech-summer-night-food-stall-poster.jpg",
-    "videoSource": "https://coverr.co/videos/shrimps-on-the-barbecue-u272et3p7l",
+    "videoSource": "Previously published showcase-night-food.mp4",
     "width": 1280,
     "height": 720,
-    "videoDuration": 18.25,
+    "videoDuration": 16.166667,
     "audioStreams": 0,
-    "webVideoBytes": 2337860,
-    "webPosterBytes": 37633
+    "webVideoBytes": 3032017,
+    "webPosterBytes": 55522
   },
   {
     "code": "B3",
@@ -88,5 +88,25 @@
     "audioStreams": 0,
     "webVideoBytes": 1038648,
     "webPosterBytes": 19325
+  },
+  {
+    "code": "F",
+    "key": "teahouseCrosstalk",
+    "stem": "teahouse-crosstalk",
+    "title": "茶馆相声",
+    "titleEn": "Teahouse Crosstalk",
+    "duration": 49.44,
+    "audio": "audio/vibespeech/vibespeech-teahouse-crosstalk.wav",
+    "video": "video/vibespeech-teahouse-crosstalk-preview.mp4",
+    "poster": "video/vibespeech-teahouse-crosstalk-poster.jpg",
+    "videoSource": "User-provided generated scene video",
+    "width": 1280,
+    "height": 720,
+    "videoDuration": 12,
+    "audioStreams": 0,
+    "webVideoBytes": 1044628,
+    "webPosterBytes": 91027,
+    "syncAudio": true,
+    "videoPlayback": "loop-with-complete-scene-audio"
   }
 ]

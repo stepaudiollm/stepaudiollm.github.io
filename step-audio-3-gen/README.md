@@ -1,17 +1,23 @@
 # StepAudio 3 Gen
 
-Bilingual product showcase for StepAudio 3 Gen, with human-like TTS, voice design, singing, full-scene audio generation, sound effects, music, and benchmark results.
+Bilingual product showcase for StepAudio 3 Gen: speech synthesis, voice design, vocal generation, full-scene audio, sound effects, music, and benchmark results.
 
 Live page: https://stepaudiollm.github.io/step-audio-3-gen/
 
-## Preview locally
+## Showcase
 
-From the repository root, run `python3 -m http.server 4191` and open http://localhost:4191/step-audio-3-gen/. No build step is required. Use HTTP because the page loads JavaScript modules.
+- Text to speech: 11 voices, with voice names on the left and generated speech on the right.
+- Voice design: six examples in a voice carousel.
+- Vocal generation: four separately playable songs with illustrated album covers, immediately below Voice Design.
+- Full-scene audio: six scenes, including a synchronized teahouse crosstalk video.
+
+The page uses relative asset paths and JavaScript modules, with no build step. Serve this directory over HTTP. For video seeking, use a static server that supports HTTP byte-range requests (such as nginx or a current Node static-file server).
 
 ## Files
 
-- `index.html`, `product.css`, `product.js`, and `product-copy.js`: page structure, styles, interactions, and bilingual copy.
+- `index.html`, `product.css`, `product.js`, and `product-copy.js`: page structure, styling, interactions, and bilingual copy.
+- `tts-showcase.js` and `vocal-cards.js`: voice selection, paging, and vocal player controls.
 - `audio/`, `video/`, `assets/`, `fonts/`, and `vendor/`: bundled media and runtime dependencies.
-- `MEDIA_ASSETS.md` and `media-manifest.json`: audio/video naming conventions, paths, and checksums.
+- `MEDIA_ASSETS.md`, `media-manifest.json`, and `full-scene-sources.json`: media conventions, checksums, and scene credits.
 
-The page uses relative asset paths and is served from the repository's `main` branch by GitHub Pages. Music and Realtime navigation links point to the sibling product pages. The Experience Center is marked Coming soon; this directory contains the static showcase.
+Music and Realtime navigation links point to sibling product pages. The Experience Center is marked Coming soon on this static showcase.
