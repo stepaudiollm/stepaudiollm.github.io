@@ -100,8 +100,8 @@ const productCopy = Object.freeze({
     loadFailed: '加载失败 · 点击重试',
     loadTimeout: '载入超时 · 点击重试',
     vocalKicker: "VOCAL",
-    vocalTitle: "让旋律，<br /><span>唱出情绪。</span>",
-    vocalDescription: "描述唱法、音色与情绪，聆听不同风格的歌声。",
+    vocalTitle: "Vocal 清唱，<br /><span>让情绪被听见。</span>",
+    vocalDescription: "描述唱法、音色与情绪，生成不含伴奏的纯人声清唱。",
 
   },
   en: {
@@ -204,8 +204,8 @@ const productCopy = Object.freeze({
     loadFailed: 'Could not load · Click to retry',
     loadTimeout: 'Loading timed out · Click to retry',
     vocalKicker: "VOCAL",
-    vocalTitle: "Let melody<br /><span>carry emotion.</span>",
-    vocalDescription: "Describe the singing style, voice, and emotion. Hear them come to life.",
+    vocalTitle: "Pure vocals.<br /><span>Let emotion sing.</span>",
+    vocalDescription: "Describe the singing style, voice, and emotion to generate a cappella vocals without instrumental accompaniment.",
 
   },
 })
