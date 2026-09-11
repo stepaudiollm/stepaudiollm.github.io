@@ -4557,3 +4557,22 @@ body[data-language="en"] .hero-slogan {
  .case-portal .case-cover.is-previous { --case-x: -290px; }
  .case-portal .case-cover.is-next { --case-x: 290px; }
 }
+
+/* Keep compact desktop cards readable in both interface languages. */
+@media (min-width: 1001px) and (max-width: 1200px) {
+  .sound-library-copy { left: 18px; right: 16px; }
+  .sound-library-copy strong { font-size: 20px; }
+  .sound-library-copy small { font-size: 11px; }
+}
+
+/* Long scene titles and descriptions remain complete without orphaned words. */
+.case-cover-copy { grid-template-columns: auto minmax(0, 1fr); }
+.case-cover-copy strong { font-size: clamp(22px, 2vw, 27px); text-wrap: balance; }
+.case-cover-copy > span {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  text-wrap: pretty;
+  line-height: 1.5;
+  min-height: 3em;
+}
