@@ -329,7 +329,7 @@ const COPY = {
     desc: 'Cinematic indie-folk, female vocal, fingerpicked nylon guitar with strings, hopeful, C minor, 92 BPM.',
     lyrics: '[Verse]\nI counted every quiet street\n\n[Chorus]\nAnd every road leads back to you',
     title: 'Every Road',
-    chat: 'Lift the chorus — raise the melody a fourth and turn it to the relative major.',
+    chat: 'Make the chorus feel a little brighter and more uplifting.',
     cover1: '../covers/cover-s01-minimal-01.webp',
     cover2: '../covers/cover-abstract-03.jpg',
     cover3: '../covers/cover-dawn-02.jpg'
@@ -596,7 +596,8 @@ const Score = {
     const cur = $('scoreCursor');
     cur.classList.add('on');
 
-    const ctx = Audio.ctx;
+    // Intro 默认保持静音；乐谱只展示游标和进度，不创建或播放 Web Audio。
+    const ctx = null;
     let t0 = performance.now() / 1000;
     if (ctx) {
       this.ctx = ctx;
@@ -682,21 +683,6 @@ const Score = {
 };
 
 const fmtTime = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
-
-/* ── Web Audio 解锁：首个手势之前不出声，但画面照跑 ─────────────────────── */
-const Audio = {
-  ctx: null,
-  unlock() {
-    if (this.ctx) return;
-    try {
-      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-      this.ctx.resume();
-      $('soundHint').hidden = true;
-    } catch (e) { console.warn('[promo] audio', e); }
-  }
-};
-['pointerdown', 'keydown'].forEach(ev =>
-  addEventListener(ev, () => Audio.unlock(), { once: false, passive: true }));
 
 /* ═══════════════════════════════════════════════════════════════════════════
    7 · 分镜
@@ -989,13 +975,10 @@ async function scene3() {
   await flash($('hl3'), 1100, 2200);
   await wait(700);
 
-  // 编辑栏先居中亮相，再让位给右侧
+  // 编辑栏从左侧切入后固定在左侧，不再二次横移。
   const c3 = $('compose3');
-  c3.style.setProperty('--tx', '440px');
   on(c3, 'in');
-  await wait(1400);
-  c3.style.setProperty('--tx', '0px');
-  await wait(1100);
+  await wait(2500);
   beat('s3-compose');
 
   await fillCompose(
@@ -1211,7 +1194,6 @@ const COMPRESS_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
 const PLAY_SVG = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>';
 
 function embedPlay() {
-  Audio.unlock();
   if (!embedStarted) {                       // 第一次播放才真正开跑
     embedStarted = true;
     $('embedPoster').classList.add('hide');

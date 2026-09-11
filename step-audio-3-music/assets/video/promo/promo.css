@@ -701,13 +701,13 @@ img { display: block; }
 #compose3 {
   left: 90px; top: 96px; width: 520px; height: 888px;
   opacity: 0;
-  /* --tx 由 JS 控制：先居中亮相，再滑到左侧 */
-  transform: translate(var(--tx, 0px), 18px) scale(.98);
+  /* 从左侧切入后停在固定位置，与第二幕编辑栏保持一致。 */
+  transform: translateX(-72px);
   transition: opacity 760ms var(--ease), transform 1000ms var(--ease-soft);
 }
-#compose3.in { opacity: 1; transform: translateX(var(--tx, 0px)); }
+#compose3.in { opacity: 1; transform: none; }
 #compose3.out {
-  opacity: 0; transform: translate(var(--tx, 0px), -18px) scale(.98);
+  opacity: 0; transform: translateX(-72px);
   transition: opacity 560ms var(--ease-inout), transform 640ms var(--ease-inout);
 }
 .compose-head { display: flex; flex-direction: column; gap: 7px; padding-bottom: 4px;
