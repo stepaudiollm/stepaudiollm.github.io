@@ -1,4 +1,4 @@
-import { initVoiceOrbFlow } from './voice-orb-flow.js?v=20260911-tts-pagination-2'
+import { initVoiceOrbFlow } from './voice-orb-flow.js?v=20260911-tts-distinct-colors-15'
 
 export function initTtsShowcase({ playerController, getCopy }) {
   const root = document.querySelector('#tts-showcase')
@@ -21,8 +21,7 @@ export function initTtsShowcase({ playerController, getCopy }) {
   let activeCases = []
   let caseIndex = 0
   const language = () => document.body.dataset.language === 'zh' ? 'zh' : 'en'
-  const preferLanguage = (items, getLanguage) => [...items].sort((a, b) =>
-    Number(getLanguage(b) === language()) - Number(getLanguage(a) === language()))
+  const preferLanguage = (items, getLanguage) => window.stepAudioProductCopy.preferLanguage(items, getLanguage, language())
   const prepare = async (panel) => {
     if (preparing.has(panel)) return
     preparing.add(panel)

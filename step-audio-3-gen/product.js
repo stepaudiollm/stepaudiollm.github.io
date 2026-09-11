@@ -1,5 +1,5 @@
 import { initVocalCards } from './vocal-cards.js?v=20260911-stacked-scenes-7'
-import { initTtsShowcase } from './tts-showcase.js?v=20260911-voice-scroll-12'
+import { initTtsShowcase } from './tts-showcase.js?v=20260911-tts-distinct-colors-15'
 import WaveSurfer from './vendor/wavesurfer.esm.js'
 import { vibePeaks } from './vibe-peaks.js?v=20260911-stacked-scenes-7'
 import { sceneMusicalPeaks } from './scene-musical-peaks.js?v=20260828-1'
@@ -376,7 +376,7 @@ const initReveals = () => {
   targets.forEach(({ distance }, element) => {
     const rect = element.getBoundingClientRect()
     // Deep links and restored scroll positions render immediately, without flashing.
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
+    if (rect.top < window.innerHeight) {
       element.dataset.scrollEnter = 'done'
     } else {
       element.style.setProperty('--scroll-enter-distance', `${distance}px`)
@@ -859,55 +859,18 @@ const initVibeCarousel = (playerController) => {
   const playPlayer = playerController?.playPlayer
   const togglePlayer = playerController?.togglePlayer
   const backgroundVideos = cards.map((card) => card.querySelector('[data-vibe-video]'))
-  coverflow?.querySelectorAll('[data-boot-cover]').forEach(cover => cover.remove())
   const covers = coverflow ? cards.map((card, index) => {
     const sceneTitle = card.getAttribute('aria-label') || `${productLanguage === 'en' ? 'Scene' : '场景'} ${index + 1}`
     const sceneDetail = card.querySelector('.vibe-card-head > span')?.textContent?.trim() || (productLanguage === 'en' ? 'Full-scene audio' : '全要素声场')
     const media = card.querySelector('.vibe-card-media video, .vibe-card-media img')
     const source = media?.tagName === 'VIDEO' ? media.getAttribute('poster') : media?.getAttribute('src')
     const videoSource = media?.tagName === 'VIDEO' ? media.dataset.src || media.getAttribute('src') : ''
-    const cover = document.createElement('button')
-    const mediaFrame = document.createElement('span')
-    const visual = document.createElement(videoSource ? 'video' : 'img')
-    const shade = document.createElement('span')
-    const copy = document.createElement('span')
-    const number = document.createElement('small')
-    const heading = document.createElement('strong')
-    const detail = document.createElement('span')
-    const play = document.createElement('i')
-
-    cover.type = 'button'
-    cover.className = 'case-cover'
-    cover.dataset.vibeCover = String(index)
-    cover.setAttribute('aria-label', actionLabel(copyFor().switchTo, sceneTitle))
-    if (visual instanceof HTMLVideoElement) {
-      visual.muted = true
-      visual.defaultMuted = true
-      visual.loop = true
-      visual.playsInline = true
-      visual.preload = 'metadata'
-      visual.poster = source || ''
-      visual.dataset.caseCoverVideo = ''
-      visual.dataset.src = videoSource
-      visual.disablePictureInPicture = true
-      visual.setAttribute('aria-hidden', 'true')
-    } else {
-      visual.src = source || ''
-      visual.alt = ''
-      visual.loading = index < 3 ? 'eager' : 'lazy'
-      visual.decoding = 'async'
-    }
-    mediaFrame.className = 'case-cover-media'
-    shade.className = 'case-cover-shade'
-    copy.className = 'case-cover-copy'
-    number.textContent = String(index + 1).padStart(2, '0')
-    heading.textContent = sceneTitle
-    detail.textContent = sceneDetail
-    play.className = 'case-cover-play'
-    play.setAttribute('aria-hidden', 'true')
-    mediaFrame.append(visual, shade)
-    copy.append(number, heading, detail)
-    cover.append(mediaFrame, copy, play)
+    const cover = coverflow.querySelector(`[data-vibe-cover="${index}"]`) ||
+      window.stepAudioProductCopy.createSceneCover({ index, sceneTitle, sceneDetail, source, videoSource })
+    cover.removeAttribute('data-boot-cover')
+    cover.removeAttribute('aria-hidden')
+    cover.removeAttribute('aria-busy')
+    cover.disabled = false
     coverflow.append(cover)
     return cover
   }) : []

@@ -256,6 +256,53 @@ const presetCopy = Object.freeze({
   nightRadio: {"title": ["深夜电台", "Late-night Radio"], "orbHeading": ["音色 · 深夜电台", "Voice · Late-night Radio"], "orbDescription": ["低沉醇厚的男声贴近话筒，温柔克制地念一封来信。", "A deep, mellow host reading a late-night letter close to the mic."], "card": ["音色设计", "VOICE DESIGN"], "detail": ["低沉醇厚的男声贴近话筒，温柔克制地念一封来信。", "A deep, mellow host reading a late-night letter close to the mic."]},
   wearyElder: {"title": ["疲惫独白", "Weary Monologue"], "orbHeading": ["疲惫独白", "Weary Monologue"], "orbDescription": ["沙哑低沉的英文老年男声，节奏拖慢，带着疲惫叹息。", "An older American English voice, slow and raspy, with weary sighs."], "card": ["音色设计", "VOICE DESIGN"], "detail": ["沙哑低沉的英文老年男声，节奏拖慢，带着疲惫叹息。", "An older American English voice, slow and raspy, with weary sighs."]},
 })
+const preferLanguage = (items, getLanguage, language) => [...items].sort((a, b) =>
+  Number(getLanguage(b) === language) - Number(getLanguage(a) === language))
+const createSceneCover = ({ index, sceneTitle, sceneDetail, source, videoSource }) => {
+    const cover = document.createElement('button')
+    const mediaFrame = document.createElement('span')
+    const visual = document.createElement(videoSource ? 'video' : 'img')
+    const shade = document.createElement('span')
+    const copy = document.createElement('span')
+    const number = document.createElement('small')
+    const heading = document.createElement('strong')
+    const detail = document.createElement('span')
+    const play = document.createElement('i')
+
+    cover.type = 'button'
+    cover.className = 'case-cover'
+    cover.dataset.vibeCover = String(index)
+    cover.setAttribute('aria-label', sceneTitle)
+    if (visual instanceof HTMLVideoElement) {
+      visual.muted = true
+      visual.defaultMuted = true
+      visual.loop = true
+      visual.playsInline = true
+      visual.preload = 'metadata'
+      visual.poster = source || ''
+      visual.dataset.caseCoverVideo = ''
+      visual.dataset.src = videoSource
+      visual.disablePictureInPicture = true
+      visual.setAttribute('aria-hidden', 'true')
+    } else {
+      visual.src = source || ''
+      visual.alt = ''
+      visual.loading = index < 3 ? 'eager' : 'lazy'
+      visual.decoding = 'async'
+    }
+    mediaFrame.className = 'case-cover-media'
+    shade.className = 'case-cover-shade'
+    copy.className = 'case-cover-copy'
+    number.textContent = String(index + 1).padStart(2, '0')
+    heading.textContent = sceneTitle
+    detail.textContent = sceneDetail
+    play.className = 'case-cover-play'
+    play.setAttribute('aria-hidden', 'true')
+    mediaFrame.append(visual, shade)
+    copy.append(number, heading, detail)
+    cover.append(mediaFrame, copy, play)
+    return cover
+}
 let stopInitialHeader = () => {}
 const applyInitial = () => {
   let language = 'en'
@@ -289,6 +336,50 @@ const applyInitial = () => {
     card.querySelector('[data-vocal-title]').textContent = entry.title[index]
     card.querySelector('[data-vocal-meta]').textContent = entry.meta[index]
   })
+  // Match the interactive default before deferred modules arrive.
+  const list = document.querySelector('.tts-reference-list')
+  const buttons = preferLanguage([...document.querySelectorAll('[data-tts-select]')], item => item.dataset.ttsLanguage, language)
+  const selected = buttons[0]
+  if (list && selected) {
+    list.replaceChildren(...buttons.map(button => button.parentElement))
+    buttons.forEach(button => {
+      const active = button === selected
+      button.setAttribute('aria-pressed', String(active))
+      button.parentElement.classList.toggle('is-selected', active)
+    })
+    const panels = [...document.querySelectorAll('[data-tts-result]')]
+    const cases = preferLanguage(panels.filter(panel => (panel.dataset.ttsVoice || panel.dataset.ttsResult) === selected.dataset.ttsSelect), panel => panel.querySelector('.tts-transcript').lang, language)
+    cases.forEach(panel => document.querySelector('.tts-case-track').append(panel))
+    panels.forEach(panel => {
+      panel.hidden = !cases.includes(panel)
+      panel.inert = panel !== cases[0]
+      panel.setAttribute('aria-hidden', String(panel !== cases[0]))
+      panel.classList.toggle('is-active', panel === cases[0])
+    })
+    if (cases[0]) selected.setAttribute('aria-controls', cases[0].id)
+    document.querySelector('[data-tts-case-pager]').hidden = cases.length <= 1
+    document.querySelector('.tts-output-pane').classList.toggle('has-case-pagination', cases.length > 1)
+  }
+  const sceneCards = [...document.querySelectorAll('[data-vibe-card]')]
+  const coverflow = document.querySelector('[data-vibe-coverflow]')
+  if (coverflow && sceneCards.length) {
+    coverflow.replaceChildren()
+    ;[sceneCards.length - 1, 0, 1].forEach((sceneIndex, slot) => {
+      const card = sceneCards[sceneIndex]
+      const entry = presetCopy[card.querySelector('[data-inline-player]').dataset.inlinePlayer]
+      const media = card.querySelector('.vibe-card-media video, .vibe-card-media img')
+      const cover = createSceneCover({ index: sceneIndex, sceneTitle: entry.title[index], sceneDetail: entry.detail[index], source: media.getAttribute('poster') || media.getAttribute('src'), videoSource: media.dataset.src || '' })
+      cover.classList.add(['is-previous', 'is-active', 'is-next'][slot])
+      cover.dataset.bootCover = ''
+      cover.disabled = true
+      cover.setAttribute('aria-busy', 'true')
+      coverflow.append(cover)
+    })
+  }
+  document.querySelectorAll('[data-voice-orb-slide]').forEach(slide => {
+    slide.querySelector('[data-voice-orb-status]').textContent = copy.orbLoading
+    slide.querySelector('[data-player-toggle]').setAttribute('aria-busy', 'true')
+  })
   const captions = document.querySelector('[data-orb-caption-viewport]')
   document.querySelectorAll('[data-voice-orb-slide]').forEach((slide, i) => {
     if (!captions) return
@@ -314,5 +405,5 @@ const applyInitial = () => {
   window.addEventListener('scroll', syncHeader, { passive: true })
   stopInitialHeader = () => window.removeEventListener('scroll', syncHeader)
 }
-window.stepAudioProductCopy = Object.freeze({ productCopy, presetCopy, applyInitial, finishInitial: () => stopInitialHeader() })
+window.stepAudioProductCopy = Object.freeze({ productCopy, presetCopy, preferLanguage, createSceneCover, applyInitial, finishInitial: () => stopInitialHeader() })
 })()
