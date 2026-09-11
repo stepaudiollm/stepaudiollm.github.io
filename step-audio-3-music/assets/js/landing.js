@@ -92,7 +92,7 @@ const DICT = {
 };
 
 /* ── 语言 ──────────────────────────────────────────────────────────────── */
-let lang = 'zh';
+let lang = 'en';
 try {
   const saved = localStorage.getItem(LS_KEY);
   if (saved === 'zh' || saved === 'en') lang = saved;
