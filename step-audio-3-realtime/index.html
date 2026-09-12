@@ -349,7 +349,7 @@
             height:34px;padding:0 15px;border-radius:999px;
             background:var(--text);color:var(--bg-0);
             border-color:transparent;font-size:12px;font-weight:500;
-            letter-spacing:normal;white-space:nowrap;
+            letter-spacing:normal;white-space:nowrap;text-decoration:none;
             transition:transform .24s cubic-bezier(.16,1,.3,1),background .24s ease}
   .chip.nav:hover{background:var(--text);color:var(--bg-0);
                   border-color:transparent;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.18)}
@@ -588,13 +588,11 @@
   .btn.ghost:hover{border-color:var(--line-3);color:var(--text);
                    background:var(--card)}
   .btn .arw{font-family:var(--mono);opacity:.7}
-  /* 结尾主按钮：浅色区里的黑底白字（和顶栏那颗同一套反色逻辑）。
-     服务未接入所以不可跳转，但外观是正常按钮 —— 点击时才提示。 */
-  .btn.solid{background:#15171C;color:#FFFFFF;cursor:not-allowed;
+  /* 结尾主按钮：浅色区里的黑底白字（和顶栏那颗同一套反色逻辑）。 */
+  .btn.solid{background:#15171C;color:#FFFFFF;cursor:pointer;
              box-shadow:0 10px 30px -16px rgba(21,23,28,.7)}
   .btn.solid:hover{transform:translateY(-1px);background:#15171C;color:#FFFFFF}
   .btn.solid .arw-ne{width:13px;height:13px;opacity:.9}
-  .btn.solid.hint{animation:nudge .5s ease}
   .closing-band .display-title{font-size:56px;margin-bottom:24px}
   .closing-band .lede{max-width:560px}
   @keyframes nudge{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}
@@ -714,12 +712,14 @@
       <button type="button" data-lang="zh" aria-pressed="true"><span>中文</span></button>
       <button type="button" data-lang="en" aria-pressed="false"><span>EN</span></button>
     </div>
-    <!-- 体验中心导航。服务未接入，所以**不跳转**：aria-disabled + 不给 href，
-         点了只提示一下，别做成看着能点其实 404 的死链。 -->
-    <button class="chip nav" id="expBtn" aria-disabled="true"><span></span><svg
+    <a class="chip nav" id="apiBtn" href="#" target="_blank" rel="noopener"><span></span><svg
       class="arw-ne" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.6 8.4 8.4 3.6M8.4 3.6H4.9M8.4 3.6V7.1"
       stroke="currentColor" stroke-width="1.5" fill="none"
-      stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a class="chip nav" id="expBtn" href="#" target="_blank" rel="noopener"><span></span><svg
+      class="arw-ne" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.6 8.4 8.4 3.6M8.4 3.6H4.9M8.4 3.6V7.1"
+      stroke="currentColor" stroke-width="1.5" fill="none"
+      stroke-linecap="round" stroke-linejoin="round"/></svg></a>
   </div>
 </div>
 
@@ -870,9 +870,10 @@ const COPY = {
     ey3:"体验中心",
     h2c:"像真人一样聊，也能把事情做完。",
     lede3:"像平常聊天一样开口，它会理解你的语气和意图，知道什么时候接话、什么时候停下；从轻松闲聊到复杂任务，都能自然地陪你聊下去，并在需要时调用工具，把事情继续做下去。",
-    ctaMain:"打开体验中心",
-    notWired:"即将开放",
+    apiNav:"API",
+    apiHref:"https://platform.stepfun.com/docs/zh/guides/models/stepaudio-3-realtime",
     expNav:"体验中心",
+    expHref:"https://www.stepfun.com/studio/audio",
     legal:"Copyright © 2026 上海阶跃星辰智能科技股份有限公司",
   },
   en: {
@@ -911,9 +912,10 @@ const COPY = {
     ey3:"Experience Center",
     h2c:"A natural conversation that gets things done.",
     lede3:"Start just as you would with another person. It understands your tone and intent, knows when to respond and when to pause, and keeps the conversation natural from casual chat to complex tasks. When needed, it can use tools and carry the work forward.",
-    ctaMain:"Open the Experience Center",
-    notWired:"Coming soon",
-    expNav:"Experience Center",
+    apiNav:"API",
+    apiHref:"https://platform.stepfun.ai/docs/en/guides/models/stepduio-3-realtime",
+    expNav:"Voice Studio",
+    expHref:"https://audio.stepfun.ai/",
     legal:"Copyright © 2026 StepFun Intelligence Co., Ltd.",
   }
 };
@@ -1036,8 +1038,12 @@ function renderCopy(){
   $("langBtn").querySelectorAll("button").forEach(btn => {
     btn.setAttribute("aria-pressed", btn.dataset.lang === lang ? "true" : "false");
   });
+  $("apiBtn").querySelector("span").textContent = c.apiNav;
+  $("apiBtn").href = c.apiHref;
+  $("apiBtn").title = c.apiNav;
   $("expBtn").querySelector("span").textContent = c.expNav;
-  $("expBtn").title = c.notWired;
+  $("expBtn").href = c.expHref;
+  $("expBtn").title = c.expNav;
   $("revealSub").textContent = c.revealSub;
   $("introKicker").textContent = c.introKicker;
   $("introTitle").innerHTML = titleMarkup(c.introTitle);
@@ -1064,22 +1070,13 @@ function renderCopy(){
   $("lede3").textContent = c.lede3;
   initDemoVideos();
 
-  /* 体验中心还没接服务，所以主按钮做成不可跳转的占位（button 而不是 a），
-     旁边挂「未接入」徽章说清状态；两个展示页是本地真实页面，保持可跳。 */
-  /* 只留体验中心一个入口。服务未接入，所以是不可跳转的 button 而不是 a，
-     旁边挂「未接入」徽章说清状态，别做成看着能点其实 404 的死链。 */
-  /* 黑底白字 + 右上箭头。服务未接入，所以仍是不可跳转的 button；
-     「未接入」字样按要求去掉了，改为点击时就地闪一下，不做无声失败。 */
+  /* 黑底白字 + 右上箭头；底部入口与右上角体验中心使用同一套
+     中英文名称和链接。 */
   $("cta").innerHTML = `
-    <button class="btn solid" id="ctaExp" aria-disabled="true"><span>${c.ctaMain}</span><svg
-      class="arw-ne" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.6 8.4 8.4 3.6M8.4 3.6H4.9M8.4 3.6V7.1"
-      stroke="currentColor" stroke-width="1.5" fill="none"
-      stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
-  $("ctaExp").addEventListener("click", () => {
-    const el = $("ctaExp"), sp = el.querySelector("span"), c2 = COPY[lang];
-    flashPending(el); sp.textContent = c2.notWired;
-    setTimeout(() => { sp.textContent = c2.ctaMain; }, 1100);
-  });
+    <a class="btn solid" id="ctaExp" href="${c.expHref}" target="_blank" rel="noopener"><span>${c.expNav}</span><svg
+     class="arw-ne" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.6 8.4 8.4 3.6M8.4 3.6H4.9M8.4 3.6V7.1"
+     stroke="currentColor" stroke-width="1.5" fill="none"
+      stroke-linecap="round" stroke-linejoin="round"/></svg></a>`;
 
   $("legal").textContent = c.legal;
 }
@@ -1097,6 +1094,36 @@ function initGalleryCarousel(demos){
   let current = 0;
   const total = demos.length;
   let swipeX = 0, swipeY = 0, swiped = false;
+
+  /* 笔记本触控板的横向滑动会以 wheel(deltaX) 事件到达，而不是 pointer 拖拽。
+     每个明确的横向事件只翻一页；翻页后固定冷却一小段时间，冷却期间的
+     惯性事件全部忽略。这里不累计位移，也不判断连续事件是否属于同一手势。 */
+  if (container.__trackpadWheelCleanup) container.__trackpadWheelCleanup();
+  let wheelLockedUntil = 0;
+  // .gallery-card 的 transform 动画是 0.6s；冷却覆盖完整动画，避免动画
+  // 尚未结束时又被下一帧惯性事件触发。
+  const WHEEL_PAGE_GAP = 600;
+  const onTrackpadWheel = event => {
+    if (event.ctrlKey) return;
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerWidth : 1;
+    const dx = event.deltaX * unit;
+    const dy = event.deltaY * unit;
+    if (!dx || Math.abs(dx) <= Math.abs(dy) * 1.12) return;
+
+    event.preventDefault();
+    const now = performance.now();
+    if (now < wheelLockedUntil) return;
+
+    // 与鼠标/触摸拖拽保持同一方向：向左滑（负向 deltaX）切下一张，
+    // 向右滑（正向 deltaX）切回上一张。
+    goTo(current + (dx < 0 ? 1 : -1));
+    wheelLockedUntil = now + WHEEL_PAGE_GAP;
+  };
+  container.addEventListener("wheel", onTrackpadWheel, {passive:false});
+  container.__trackpadWheelCleanup = () => {
+    container.removeEventListener("wheel", onTrackpadWheel);
+    delete container.__trackpadWheelCleanup;
+  };
 
   // Drag/swipe 翻页
   container.addEventListener("pointerdown", e => {
@@ -1297,12 +1324,6 @@ function finish(){
   startSceneLoop();
 }
 
-/* 未接入的入口被点时，就地闪一下「未接入」，不做无声失败也不假跳转。 */
-function flashPending(el){
-  el.classList.add("hint");
-  setTimeout(() => el.classList.remove("hint"), 620);
-}
-
 /* Logo / slogan 必须等视频真正进入 `playing` 后再开始浮现，不能只等 canplay 或 play() Promise。
    `playing` 表示首帧已经开始向前推进；Safari 首次缓冲时，canplay 到 playing 之间可能仍会停一下。 */
 let revealRaf = 0;
@@ -1386,12 +1407,6 @@ function resumeHero(){
 }
 addEventListener("pageshow", () => requestAnimationFrame(resumeHero));
 document.addEventListener("visibilitychange", resumeHero);
-$("expBtn").addEventListener("click", () => {
-  const sp = $("expBtn").querySelector("span");
-  const c = COPY[lang];
-  $("expBtn").classList.add("hint"); sp.textContent = c.notWired;
-  setTimeout(() => { $("expBtn").classList.remove("hint"); sp.textContent = c.expNav; }, 1100);
-});
 $("langBtn").addEventListener("click", () => {
   lang = lang === "zh" ? "en" : "zh";
   renderCopy();
