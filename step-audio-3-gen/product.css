@@ -4151,7 +4151,7 @@ body[data-language="en"] .hero-slogan {
   }
 }
 
-/* Standalone public preview: the experience center is not yet available. */
+/* The English Voice Studio entry remains a coming-soon preview. */
 [data-coming-soon] { cursor: default; }
 .header-action:is([data-coming-soon], [data-experience-preview]):hover,
 .closing-copy a:is([data-coming-soon], [data-experience-preview]):hover,

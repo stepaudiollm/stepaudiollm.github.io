@@ -128,6 +128,37 @@ const applyProductLanguage = () => {
     })
   }
 
+  const apiLink = document.querySelector('#header-api-link')
+  if (apiLink) {
+    apiLink.href = copy.apiHref
+    apiLink.setAttribute('aria-label', copy.apiLabel)
+  }
+
+  // The Chinese Voice Studio entry is live; the English entry intentionally
+  // remains a non-link and exposes the localized Coming Soon status.
+  const experienceAvailable = productLanguage === 'zh' && Boolean(copy.experienceHref)
+  ;[
+    ['#header-experience-link', '#header-experience-status'],
+    ['#closing-experience-link', '#closing-experience-status'],
+  ].forEach(([linkSelector, statusSelector]) => {
+    const link = document.querySelector(linkSelector)
+    const status = document.querySelector(statusSelector)
+    if (!link) return
+    if (experienceAvailable) {
+      link.href = copy.experienceHref
+      link.removeAttribute('aria-disabled')
+      link.removeAttribute('data-coming-soon')
+      link.removeAttribute('tabindex')
+      if (status) status.hidden = true
+    } else {
+      link.removeAttribute('href')
+      link.setAttribute('aria-disabled', 'true')
+      link.setAttribute('data-coming-soon', '')
+      link.setAttribute('tabindex', '0')
+      if (status) status.hidden = false
+    }
+  })
+
   document.querySelector('.tts-reference-list')?.setAttribute('aria-label', copy.ttsReferenceList)
   document.querySelector('.brand')?.setAttribute('aria-label', copy.brandHome)
   document.querySelector('[data-vibe-carousel]')?.setAttribute('aria-label', copy.featuredRegion)
