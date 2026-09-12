@@ -565,6 +565,7 @@
      看起来悬在柱条右侧。卡片内边距 17px + 行内边距 7px，正好与轨道一致。 */
   .benchmark-axis{display:flex;justify-content:space-between;margin:5px 7px 0 7px;
                   color:var(--text-4);font:400 8px/1 var(--mono)}
+  .benchmark-chart-note{margin:8px 7px 0;color:var(--text-4);font:400 9px/1.35 var(--mono)}
   .benchmark-footnote{display:flex;justify-content:space-between;gap:36px;margin-top:28px;padding-top:18px;
                       border-top:1px solid var(--line);color:var(--text-3);font-size:10.5px;line-height:1.65}
   .benchmark-footnote span:first-child{max-width:790px}
@@ -861,7 +862,7 @@ const COPY = {
     benchmarkKicker:"模型评测",
     benchmarkTitle:["从听懂，到实时协作，","关键能力放在同一张图上。"],
     benchmarkLede:"评测覆盖音频理解、全双工交互、通用推理、Voice Agent 与语音识别。每张图均保留对应评测中的模型版本与原始分数。",
-    benchmarkStatus:"12 项评测 · 44 个已报告分数",
+    benchmarkStatus:"12 项评测 · 45 个已报告分数",
     benchmarkSections:{audio:"音频理解",interaction:"交互智能",general:"通用文本",asr:"语音识别 · StepAudio 3 ASR Max"},
     benchmarkMetrics:{higher:"得分（%）· 越高越好 ↑",asr:"错误率（%）· 越低越好 ↓"},
     benchmarkTags:{dialogue:"对话",duplex:"全双工",agentic:"Voice Agent"},
@@ -903,7 +904,7 @@ const COPY = {
     benchmarkKicker:"Model evaluation",
     benchmarkTitle:["From understanding to live collaboration,","the core capabilities on one canvas."],
     benchmarkLede:"The evaluation spans audio understanding, full-duplex interaction, general reasoning, Voice Agent performance, and speech recognition. Every chart preserves the reported model variants and scores for that benchmark.",
-    benchmarkStatus:"12 benchmarks · 44 reported scores",
+    benchmarkStatus:"12 benchmarks · 45 reported scores",
     benchmarkSections:{audio:"Audio Understanding",interaction:"Interactive Intelligence",general:"General Text",asr:"Speech Recognition · StepAudio 3 ASR Max"},
     benchmarkMetrics:{higher:"Score (%) · Higher is better ↑",asr:"Error rate (%) · Lower is better ↓"},
     benchmarkTags:{dialogue:"Dialogue",duplex:"Full Duplex",agentic:"Voice Agent"},
@@ -932,7 +933,7 @@ const BENCHMARK_DATA = [
   },
   {
     key:"interaction", metric:"higher", charts:[
-      {title:"StepAudioChat",tag:"dialogue",domain:[65,80],names:["StepAudio 3 Realtime (Real-time)","Doubao 2.0 Lite (Reasoning)","DeepSeek-V4-Flash (Reasoning)","Kimi K3 (Reasoning)"],values:[null,70.5,71.4,77.1]},
+      {title:"StepAudioChat",tag:"dialogue",domain:[65,80],note:"* Realtime mode test.",names:["StepAudio 3 Realtime (Interactive)*","Doubao 2.0 Lite (Reasoning)","DeepSeek-V4-Flash (Reasoning)","Kimi K3 (Reasoning)"],values:[70.4,70.5,71.4,77.1]},
       {title:"AA Full-Duplex Bench",tag:"duplex",domain:[90,100],names:["StepAudio 3 Realtime","GPT-realtime-2 (High)","Qwen Audio 3.0 Realtime Plus","Grok Voice Think Fast 2.0 high"],values:[98.9,95.3,98.4,95.1]},
       {title:"τ-Voice",tag:"agentic",domain:[0,100],names:["StepAudio 3 Realtime","Grok Voice Think Fast 2.0 High","Qwen Audio 3.0 Realtime Plus","GPT-Realtime-2.1 High"],values:[56.0,56.5,54.6,45.7]},
     ]
@@ -1003,6 +1004,7 @@ function renderBenchmarks(c){
               }).join("")}
             </div>
             <div class="benchmark-axis" aria-label="Axis ${lo} to ${hi}"><span>${lo}</span><span>${hi}</span></div>
+            ${chart.note ? `<p class="benchmark-chart-note">${chart.note}</p>` : ""}
           </article>`;
         }).join("")}
       </div>
