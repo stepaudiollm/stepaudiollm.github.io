@@ -9,7 +9,7 @@ const DICT = {
     'skip': '跳到主内容',
     'nav.model': '模型', 'nav.caps': '能力', 'nav.uses': '场景',
     'nav.listen': '聆听示例', 'nav.create': '创作',
-    'cta.start': '开始创作', 'cta.experience': '体验中心',
+    'cta.start': '开始创作', 'cta.api': 'API', 'cta.experience': '体验中心', 'cta.comingSoon': '即将开放',
     'model.h': '先把歌想清楚，再唱出来。',
     "model.p": "StepAudio 3 Music 采用 MoE 架构与 AR + DiT 生成范式，将音乐结构规划与音频生成相结合。模型借助 ABC-COT，在生成前规划歌曲结构、段落衔接与编曲层次，为完整歌曲的生成提供结构化指导。ABC-COT 将自然语言中的创作意图转化为音乐规划，使风格、人声、情绪、乐器、调性与速度等控制条件贯穿生成过程。通过结构化规划与音频生成的协同，模型能够更准确地遵循描述，在歌曲结构、演唱表现与配器细节上实现更强的可控性。",
     "eval.h": "兼具音乐质量与可控性",
@@ -51,7 +51,7 @@ const DICT = {
     'skip': 'Skip to content',
     'nav.model': 'Model', 'nav.caps': 'Capabilities', 'nav.uses': 'Use cases',
     'nav.listen': 'Examples', 'nav.create': 'Create',
-    'cta.start': 'Start creating', 'cta.experience': 'Experience center',
+    'cta.start': 'Start creating', 'cta.api': 'API', 'cta.experience': 'Voice Studio', 'cta.comingSoon': 'Coming Soon',
     'model.h': 'Plan the song first. Then sing it.',
     "model.p": "StepAudio 3 Music combines a MoE architecture with an AR + DiT generation framework, connecting musical planning with audio synthesis. Using ABC-COT, it plans song structure, transitions and arrangement before generation, providing structured guidance for a complete song. ABC-COT translates natural-language intent into a musical plan, carrying controls for style, vocals, mood, instruments, key and tempo through the generation process. This coordination between planning and synthesis enables closer adherence to the description, with greater control over song structure, vocal expression and instrumentation.",
     "eval.h": "Music quality meets controllability",
@@ -99,6 +99,11 @@ try {
 } catch { /* 隐私模式下会抛，用默认值 */ }
 
 const t = k => DICT[lang][k] ?? DICT.zh[k] ?? '';
+const API_HREF = {
+  zh: 'https://platform.stepfun.com/docs/zh/guides/models/stepaudio-3-music',
+  en: 'https://platform.stepfun.ai/docs/en/guides/models/stepduio-3-music',
+};
+const EXPERIENCE_HREF = 'https://www.stepfun.com/studio/audio';
 
 function applyLang() {
   document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
@@ -109,6 +114,30 @@ function applyLang() {
   }
   for (const b of document.querySelectorAll('.llang button')) {
     b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
+  }
+
+  const api = document.getElementById('headerApi');
+  if (api) api.href = API_HREF[lang];
+
+  const experienceAvailable = lang === 'zh';
+  for (const [linkId, statusId] of [['headerExperience', 'headerSoon'], ['outroExperience', 'outroSoon']]) {
+    const link = document.getElementById(linkId);
+    const status = document.getElementById(statusId);
+    if (!link) continue;
+    link.classList.toggle('soon', !experienceAvailable);
+    if (experienceAvailable) {
+      link.href = EXPERIENCE_HREF;
+      link.removeAttribute('aria-disabled');
+      link.removeAttribute('data-coming-soon');
+      link.removeAttribute('aria-describedby');
+      if (status) status.hidden = true;
+    } else {
+      link.removeAttribute('href');
+      link.setAttribute('aria-disabled', 'true');
+      link.setAttribute('data-coming-soon', '');
+      link.setAttribute('aria-describedby', statusId);
+      if (status) status.hidden = false;
+    }
   }
 }
 

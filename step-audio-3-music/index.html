@@ -89,7 +89,8 @@
       <button type="button" data-lang="zh" aria-pressed="false"><span>中文</span></button>
       <button type="button" data-lang="en" aria-pressed="true"><span>EN</span></button>
     </div>
-    <button type="button" class="lhead-cta soon" aria-describedby="headerSoon"><span data-t="cta.experience">体验中心</span><span class="soon-tip" id="headerSoon" role="tooltip">Coming soon</span></button>
+    <a class="lhead-cta lhead-api" id="headerApi" href="https://platform.stepfun.ai/docs/en/guides/models/stepduio-3-music" target="_blank" rel="noopener"><span data-t="cta.api">API</span></a>
+    <a class="lhead-cta lhead-experience soon" id="headerExperience" aria-disabled="true" aria-describedby="headerSoon" data-coming-soon><span data-t="cta.experience">Voice Studio</span><span class="soon-tip" id="headerSoon" role="tooltip" data-t="cta.comingSoon">Coming Soon</span></a>
   </div>
 </header>
 
@@ -226,10 +227,10 @@
   <div class="landing-wrap outro" data-reveal>
     <span class="tag">[Outro]</span>
     <h2 data-t="outro.h">说一句，听一首。</h2>
-    <button type="button" class="btn-stage soon" aria-describedby="outroSoon">
-      <span data-t="cta.experience">体验中心</span><span class="soon-tip" id="outroSoon" role="tooltip">Coming soon</span>
+    <a class="btn-stage soon" id="outroExperience" aria-disabled="true" aria-describedby="outroSoon" data-coming-soon>
+      <span data-t="cta.experience">Voice Studio</span><span class="soon-tip" id="outroSoon" role="tooltip" data-t="cta.comingSoon">Coming Soon</span>
       <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-arrow"/></svg>
-    </button>
+    </a>
   </div>
 
   <div class="landing-wrap">

@@ -173,9 +173,10 @@ body.landing {
   height: 34px; padding: 0 15px; border-radius: var(--r-pill);
   font-size: var(--fs-meta); font-weight: var(--fw-medium);
   background: var(--on-stage); color: var(--stage);
-  white-space: nowrap; flex: none;
+  white-space: nowrap; flex: none; text-decoration: none; cursor: pointer;
   transition: transform var(--d-micro) var(--ease), box-shadow var(--d-micro) var(--ease);
 }
+.lhead-experience[aria-disabled="true"] { cursor: default; }
 .lhead.stuck .lhead-cta { background: var(--ink); color: var(--ink-on-dark); }
 .lhead-cta:hover { transform: translateY(-1px); box-shadow: var(--sh-2); }
 .soon { position:relative; }
@@ -296,6 +297,7 @@ body.landing {
   height: 46px; padding: 0 24px; border-radius: var(--r-pill);
   background: var(--on-stage); color: var(--stage);
   font-size: var(--fs-ui); font-weight: var(--fw-semi); letter-spacing: -.01em;
+  text-decoration: none; cursor: pointer;
   transition: transform var(--d-micro) var(--ease), box-shadow var(--d-base) var(--ease);
 }
 .btn-stage:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(0,0,0,.34); }
