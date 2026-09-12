@@ -1,5 +1,5 @@
-import { initVocalCards } from './vocal-cards.js?v=20260911-stacked-scenes-7'
-import { initTtsShowcase } from './tts-showcase.js?v=20260911-tts-distinct-colors-15'
+import { initVocalCards } from './vocal-cards.js?v=20260912-vocal-details-27'
+import { initTtsShowcase } from './tts-showcase.js?v=20260912-tts-language-groups-25'
 import WaveSurfer from './vendor/wavesurfer.esm.js'
 import { vibePeaks } from './vibe-peaks.js?v=20260911-stacked-scenes-7'
 import { sceneMusicalPeaks } from './scene-musical-peaks.js?v=20260828-1'
@@ -18,7 +18,7 @@ const presets = {
   teahouseCrosstalk: {"title": "茶馆相声", "kind": "全要素声场", "duration": "00:49", "src": "./audio/vibespeech/vibespeech-teahouse-crosstalk.wav?v=20260911-full-scene-6"},
   vocalBeWell: { title: '你要好好的', kind: '歌声 Vocal', duration: '00:07', src: './audio/vocal-showcase/vocal-be-well.mp3' },
   ttsResult3: {"title": "清朗男声", "kind": "TTS", "duration": "00:18", "src": "./audio/tts-showcase/tts-candid-generated.wav"},
-  ttsResult4: {"title": "温暖男声", "kind": "TTS", "duration": "00:26", "src": "./audio/tts-showcase/tts-warmth-generated.wav"},
+  ttsResult4: {"title": "温暖女声", "kind": "TTS", "duration": "00:26", "src": "./audio/tts-showcase/tts-warmth-generated.wav"},
   ttsResult11: {"title": "Mellow Lady", "kind": "TTS", "duration": "00:14", "src": "./audio/tts-showcase/tts-mellow-lady-generated.wav"},
   ttsResult10: {"title": "Noble Cast", "kind": "TTS", "duration": "00:22", "src": "./audio/tts-showcase/tts-noble-cast-generated.wav"},
   ttsResult9: {"title": "Lively Girl", "kind": "TTS", "duration": "00:15", "src": "./audio/tts-showcase/tts-lively-generated.wav"},
@@ -1252,7 +1252,7 @@ initCapabilityEditorial()
 initSoundAssembly()
 const playerController = initInlinePlayers()
 initTtsShowcase({ playerController, getCopy: copyFor })
-initVocalCards({ getCopy: copyFor, getTitle: presetText })
+initVocalCards({ getCopy: copyFor, playerController })
 initVoiceOrbit(playerController?.pauseAll)
 initVoiceOrbCarousel({
   pausePlayers: playerController?.pauseAll,

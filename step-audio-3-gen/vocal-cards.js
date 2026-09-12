@@ -1,7 +1,21 @@
-// Album cards share the product audio controller and exclusive playback.
-export const initVocalCards = ({ getCopy } = {}) => {
-  const cleanups = [...document.querySelectorAll('.vocal-card')].map(card => {
+// Selection shows the written input; only the dedicated transport starts audio.
+export const initVocalCards = ({ getCopy, playerController } = {}) => {
+  const cards = [...document.querySelectorAll('.vocal-card')]
+  const syncDetails = () => window.stepAudioProductCopy.syncVocalDetails()
+  const select = card => {
+    cards.forEach(item => item.classList.toggle('is-selected', item === card))
+    syncDetails()
+  }
+  const cleanups = cards.map(card => {
     const status = card.querySelector('[data-vocal-status]')
+    const onClick = event => {
+      // The capture phase selects the card before the audio controller handles play.
+      if (!card.classList.contains('is-selected')) {
+        playerController.pauseAll()
+        select(card)
+      }
+    }
+    card.addEventListener('click', onClick, true)
     const sync = () => {
       const copy = getCopy()
       const message = card.classList.contains('is-error') ? copy.loadFailed
@@ -14,8 +28,14 @@ export const initVocalCards = ({ getCopy } = {}) => {
     sync()
     return () => {
       observer.disconnect()
+      card.removeEventListener('click', onClick, true)
       window.removeEventListener('stepaudio3:product-language-change', sync)
     }
   })
-  window.addEventListener('pagehide', () => cleanups.forEach(cleanup => cleanup()), { once: true })
+  window.addEventListener('stepaudio3:product-language-change', syncDetails)
+  syncDetails()
+  window.addEventListener('pagehide', () => {
+    cleanups.forEach(cleanup => cleanup())
+    window.removeEventListener('stepaudio3:product-language-change', syncDetails)
+  }, { once: true })
 }

@@ -4591,3 +4591,46 @@ body[data-language="zh"] .model-prose .model-lead {
 
 /* Keep the longer sound heading on two lines in narrow desktop windows. */
 @media (max-width: 1000px) { .sound-library-intro h2 { font-size: clamp(30px, 4vw, 40px); } }
+
+/* Filter TTS samples by language while keeping the workbench height stable. */
+.tts-language-groups { display: flex; gap: 4px; flex: 0 0 40px; padding: 3px; margin-bottom: 12px; border-radius: 10px; background: #eae9e6; }
+.tts-language-groups button { flex: 1; min-width: 0; border: 0; border-radius: 7px; background: transparent; color: #727772; font: inherit; font-size: 14px; cursor: pointer; }
+.tts-language-groups button[aria-pressed="true"] { background: #faf9f6; color: #176b73; font-weight: 600; box-shadow: 0 1px 3px rgb(0 0 0 / 5%); }
+.tts-language-groups button:focus-visible { outline: 2px solid #137e8f; outline-offset: -2px; }
+.tts-reference-list { height: 362px; flex-basis: 362px; }
+.tts-reference-row[hidden] { display: none; }
+
+/* The selected cover opens its liner notes on the shared page surface. */
+.vocal-artwork-wrap { position: relative; }
+.vocal-card.is-selected .vocal-artwork { outline: 2px solid #188e9d; outline-offset: 4px; }
+.vocal-card-control { padding: 0; border: 0; cursor: pointer; }
+.vocal-card-control:hover { transform: scale(1.08); }
+.vocal-card-control:focus-visible { outline: 2px solid #188e9d; outline-offset: 4px; }
+.vocal-card-caption { margin-top: 18px; cursor: pointer; }
+.vocal-card-caption > strong { display: block; margin-bottom: 5px; font-size: 18px; font-weight: 600; line-height: 1.45; }
+.vocal-card.is-selected .vocal-card-caption > strong { color: #176b73; }
+.vocal-details { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 64px; min-height: 254px; margin-top: 36px; padding-top: 28px; border-top: 1px solid rgb(23 25 29 / 16%); }
+.vocal-details h4 { margin: 0 0 18px; color: #176b73; font-size: 14px; font-weight: 600; line-height: 1.5; }
+.vocal-details p { margin: 0; white-space: pre-line; }
+.vocal-prompt-column p { max-width: 440px; text-wrap: pretty; }
+.vocal-lyrics-column { border-left: 1px solid rgb(23 25 29 / 12%); padding-left: 48px; }
+/* Match the section description in both the prompt and lyric columns. */
+.vocal-showcase-copy > p:last-child,
+.vocal-prompt-column p,
+.vocal-lyrics-column p {
+  font-family: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.8;
+  letter-spacing: 0;
+  color: rgb(23 25 29 / 74%);
+}
+@media (max-width: 1100px) {
+  .vocal-details { gap: 30px; }
+  .vocal-lyrics-column { padding-left: 30px; }
+}
+@media (max-width: 720px) {
+  .vocal-details { grid-template-columns: minmax(0, 1fr); }
+  .vocal-lyrics-column { border: 0; padding-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .vocal-card-control { transition: none; } }

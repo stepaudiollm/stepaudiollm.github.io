@@ -8,11 +8,11 @@
     <title>StepAudio 3 Gen</title>
     <link rel="icon" href="./stepfun-favicon.svg?v=20260910-favicon-cutout-1" />
     <link rel="stylesheet" href="./brand-fonts.css?v=20260904-hero-type-1" />
-    <link rel="stylesheet" href="./product.css?v=20260911-benchmark-blend-24" />
+    <link rel="stylesheet" href="./product.css?v=20260912-vocal-type-match-30" />
     <link rel="preload" href="./fonts/Roboto-Medium-brand.woff" as="font" type="font/woff" crossorigin />
     <link rel="preload" href="./fonts/MiSans-Light.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="./fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <script src="./product-copy.js?v=20260911-benchmark-23"></script>
+    <script src="./product-copy.js?v=20260912-warm-lady-29"></script>
   </head>
   <body class="product-page">
     <svg class="vibe-player-icons" width="0" height="0" aria-hidden="true"><defs>
@@ -91,7 +91,11 @@
               <div class="tts-showcase-surface">
                 <div class="tts-workbench">
                   <div class="tts-reference-library">
-                    <div class="tts-reference-list" role="group" aria-label="Voices">
+                    <div class="tts-language-groups" role="group" aria-label="Sample language" data-tts-language-groups>
+                      <button type="button" data-tts-language-group="zh" aria-pressed="true" aria-controls="tts-reference-list">中文</button>
+                      <button type="button" data-tts-language-group="en" aria-pressed="false" aria-controls="tts-reference-list">英文</button>
+                    </div>
+                    <div class="tts-reference-list" id="tts-reference-list" role="group" aria-label="Voices">
 <div class="tts-reference-row is-selected" data-orb-palette="teal">
                     <button class="tts-reference-select" type="button" data-tts-select="1" data-tts-language="zh" aria-pressed="true" aria-controls="tts-result-1"><img src="./assets/voice-orbs/purple.png" alt="" /><span data-product-i18n="ttsVoice1">清隽女声</span></button>
                   </div>
@@ -102,7 +106,7 @@
                     <button class="tts-reference-select" type="button" data-tts-select="3" data-tts-language="zh" aria-pressed="false" aria-controls="tts-result-3"><img src="./assets/voice-orbs/orange.png" alt="" /><span data-product-i18n="ttsVoice3">清朗男声</span></button>
                   </div>
 <div class="tts-reference-row" data-orb-palette="mint">
-                    <button class="tts-reference-select" type="button" data-tts-select="4" data-tts-language="zh" aria-pressed="false" aria-controls="tts-result-4"><img src="./assets/voice-orbs/sage.png" alt="" /><span data-product-i18n="ttsVoice4">温暖男声</span></button>
+                    <button class="tts-reference-select" type="button" data-tts-select="4" data-tts-language="zh" aria-pressed="false" aria-controls="tts-result-4"><img src="./assets/voice-orbs/sage.png" alt="" /><span data-product-i18n="ttsVoice4">温暖女声</span></button>
                   </div>
 <div class="tts-reference-row" data-orb-palette="frost">
                     <button class="tts-reference-select" type="button" data-tts-select="5" data-tts-language="en" aria-pressed="false" aria-controls="tts-result-5"><img src="./assets/voice-orbs/sage.png" alt="" /><span data-product-i18n="ttsVoice5">Lisa</span></button>
@@ -347,54 +351,59 @@
     <h2 id="vocal-showcase-title" data-product-i18n-html="vocalTitle">Vocals that<br /><span>move you.</span></h2>
     <p data-product-i18n="vocalDescription">Describe the singing style, voice, and emotion to generate a cappella vocals.</p>
   </div>
-  <div class="vocal-card-grid"><article class="vocal-card" data-inline-player="vocalFinalGoodbye">
-  <button class="vocal-card-button" type="button" data-player-toggle aria-label="Play The Warmth of Goodbye">
-    <span class="vocal-artwork"><img src="./assets/vocal-covers/warmth-of-goodbye.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" />
-      <span class="vocal-card-control" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+  <div class="vocal-card-grid"><article class="vocal-card is-selected" data-inline-player="vocalFinalGoodbye">
+    <div class="vocal-artwork-wrap">
+      <button class="vocal-card-button" type="button" data-vocal-select aria-pressed="true" aria-controls="vocal-details" aria-label="View lyrics for The Warmth of Goodbye">
+        <span class="vocal-artwork"><img src="./assets/vocal-covers/warmth-of-goodbye.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" /></span>
+      </button>
+      <button class="vocal-card-control" type="button" data-player-toggle aria-label="Play The Warmth of Goodbye"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
       <span class="vocal-card-status" data-vocal-status role="status"></span>
-    </span>
-    <strong data-vocal-title>The Warmth of Goodbye</strong>
-    <span class="vocal-card-meta"><span data-vocal-meta>Pop ballad · Male · Chinese</span></span>
-  </button>
-
-  <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:14</time></div><audio preload="none"></audio>
-</article>
+    </div>
+    <div class="vocal-card-caption"><strong data-vocal-title>The Warmth of Goodbye</strong><span class="vocal-card-meta" data-vocal-meta>Pop ballad · Male · Chinese</span></div>
+    <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:14</time></div><audio preload="none"></audio>
+  </article>
 <article class="vocal-card" data-inline-player="vocalBossa">
-  <button class="vocal-card-button" type="button" data-player-toggle aria-label="Play Coconut Afternoon">
-    <span class="vocal-artwork"><img src="./assets/vocal-covers/coconut-afternoon.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" />
-      <span class="vocal-card-control" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+    <div class="vocal-artwork-wrap">
+      <button class="vocal-card-button" type="button" data-vocal-select aria-pressed="false" aria-controls="vocal-details" aria-label="View lyrics for Coconut Afternoon">
+        <span class="vocal-artwork"><img src="./assets/vocal-covers/coconut-afternoon.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" /></span>
+      </button>
+      <button class="vocal-card-control" type="button" data-player-toggle aria-label="Play Coconut Afternoon"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
       <span class="vocal-card-status" data-vocal-status role="status"></span>
-    </span>
-    <strong data-vocal-title>Coconut Afternoon</strong>
-    <span class="vocal-card-meta"><span data-vocal-meta>Bossa Nova · Female · English</span></span>
-  </button>
-
-  <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:13</time></div><audio preload="none"></audio>
-</article>
+    </div>
+    <div class="vocal-card-caption"><strong data-vocal-title>Coconut Afternoon</strong><span class="vocal-card-meta" data-vocal-meta>Bossa Nova · Female · English</span></div>
+    <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:13</time></div><audio preload="none"></audio>
+  </article>
 <article class="vocal-card" data-inline-player="vocalMom">
-  <button class="vocal-card-button" type="button" data-player-toggle aria-label="Play Home Is Fine">
-    <span class="vocal-artwork"><img src="./assets/vocal-covers/home-is-fine.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" />
-      <span class="vocal-card-control" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+    <div class="vocal-artwork-wrap">
+      <button class="vocal-card-button" type="button" data-vocal-select aria-pressed="false" aria-controls="vocal-details" aria-label="View lyrics for Home Is Fine">
+        <span class="vocal-artwork"><img src="./assets/vocal-covers/home-is-fine.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" /></span>
+      </button>
+      <button class="vocal-card-control" type="button" data-player-toggle aria-label="Play Home Is Fine"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
       <span class="vocal-card-status" data-vocal-status role="status"></span>
-    </span>
-    <strong data-vocal-title>Home Is Fine</strong>
-    <span class="vocal-card-meta"><span data-vocal-meta>Pop ballad · Female · English</span></span>
-  </button>
-
-  <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:08</time></div><audio preload="none"></audio>
-</article>
+    </div>
+    <div class="vocal-card-caption"><strong data-vocal-title>Home Is Fine</strong><span class="vocal-card-meta" data-vocal-meta>Pop ballad · Female · English</span></div>
+    <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:08</time></div><audio preload="none"></audio>
+  </article>
 <article class="vocal-card" data-inline-player="vocalBeWell">
-  <button class="vocal-card-button" type="button" data-player-toggle aria-label="Play Be Well">
-    <span class="vocal-artwork"><img src="./assets/vocal-covers/be-well.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" />
-      <span class="vocal-card-control" aria-hidden="true"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></span>
+    <div class="vocal-artwork-wrap">
+      <button class="vocal-card-button" type="button" data-vocal-select aria-pressed="false" aria-controls="vocal-details" aria-label="View lyrics for Be Well">
+        <span class="vocal-artwork"><img src="./assets/vocal-covers/be-well.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" /></span>
+      </button>
+      <button class="vocal-card-control" type="button" data-player-toggle aria-label="Play Be Well"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
       <span class="vocal-card-status" data-vocal-status role="status"></span>
-    </span>
-    <strong data-vocal-title>Be Well</strong>
-    <span class="vocal-card-meta"><span data-vocal-meta>Slow ballad · Female · Chinese</span></span>
-  </button>
-
-  <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:07</time></div><audio preload="none"></audio>
-</article></div>
+    </div>
+    <div class="vocal-card-caption"><strong data-vocal-title>Be Well</strong><span class="vocal-card-meta" data-vocal-meta>Slow ballad · Female · Chinese</span></div>
+    <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:07</time></div><audio preload="none"></audio>
+  </article></div>
+  <div class="vocal-details" id="vocal-details" role="region" aria-labelledby="vocal-detail-title">
+    <h3 class="visually-hidden" id="vocal-detail-title" data-vocal-detail-title>The Warmth of Goodbye</h3>
+    <div class="vocal-prompt-column"><h4 data-vocal-prompt-label>Vocal prompt</h4><p data-vocal-prompt>A male voice in his mid-twenties, low and gentle with a hint of rasp and restrained delivery.
+A heartfelt pop ballad with a sincere tone and a relaxed, natural rhythm.</p></div>
+    <div class="vocal-lyrics-column"><h4 data-vocal-lyrics-label>Lyrics</h4><p data-vocal-lyrics lang="zh-CN">再见说了千百遍，
+这次终于是真的。
+你转过的那个弯，
+把我的春天也带走了。</p></div>
+  </div>
 </section>
 <section class="case-portal" aria-labelledby="case-portal-title">
               <div class="case-portal-copy">
@@ -406,7 +415,7 @@
               </div>
               <div class="case-portal-gallery">
                 <div class="case-coverflow" data-vibe-coverflow aria-label="真实场景封面"><span class="case-cover is-previous" data-boot-cover aria-hidden="true"><span class="case-cover-media"></span></span><span class="case-cover is-active" data-boot-cover aria-hidden="true"><span class="case-cover-media"></span></span><span class="case-cover is-next" data-boot-cover aria-hidden="true"><span class="case-cover-media"></span></span></div>
-                <p class="visually-hidden" data-vibe-title aria-live="polite">夏夜大排档</p>
+                <p class="visually-hidden" data-vibe-title aria-live="polite">天桥夜话</p>
               </div>
             </section>
             <section class="sound-library" id="sound-library" data-reveal aria-labelledby="sound-library-title">
@@ -532,6 +541,42 @@
               </div>
             </section>
             <div class="vibe-carousel-stage" data-vibe-stage hidden aria-hidden="true">
+<article class="vibe-card has-background-video" data-vibe-card id="vibe-case-overpass-night-call" aria-label="天桥夜话">
+              <div class="vibe-card-media is-selected-scene" aria-hidden="true">
+                <video muted loop playsinline preload="none" poster="./video/vibespeech-overpass-night-call-poster.jpg" data-vibe-video data-src="./video/vibespeech-overpass-night-call-preview.mp4?v=20260911-selected-full-scenes-2"></video>
+              </div>
+              <div class="vibe-card-head">
+                <div><h4>天桥夜话</h4></div>
+                <span>电话音色 / 城市车流 / 轻快对话</span>
+              </div>
+              <div class="vibe-spec-grid">
+                <section class="vibe-spec vibe-role-spec">
+                  <h5>ROLE</h5>
+                  <dl class="vibe-role-list"><div><dd><p>小满：二十二三岁女生，嗓音清亮通透，说话语速偏快，情绪上来音调会不自觉拔高，笑点低，容易开心大笑。</p><p>发小：二十二三岁女生，声音经由电话传输，带有窄频轻微失真感，平时语气松弛懒散，说话爱带点调侃打趣的味道。</p></dd></div></dl>
+                </section>
+                <div class="vibe-spec-column">
+                  <section class="vibe-spec vibe-director-spec">
+                    <h5>DIRECTOR</h5><p>晚上八点的城市人行天桥，下方是双向车流。全程有持续的车流声，车辆由远及近驶过桥下再远去，间或有货车经过的低频轰鸣。氛围轻快，是刚在陌生城市落下脚的那种兴奋。</p></section>
+                  <section class="vibe-spec vibe-script-spec">
+                    <h5>SCRIPT</h5>
+                    <div class="vibe-script-lines"><p>[持续城市车流声，一辆车由远及近驶过天桥下方，声响慢慢消散远去]</p><p>&lt;小满&gt;（情绪高涨，语速轻快）小彤，猜猜我现在在哪？我站天桥上呢！底下密密麻麻全是车，一眼望不到头！</p><p>&lt;发小&gt;（电话音，窄频失真，懒懒的调调）…… 你大半夜打电话过来，就为跟我说这个？</p><p>&lt;小满&gt;（兴冲冲）才不是！我今天租好房子了！</p><p>&lt;发小&gt;（瞬间提起兴致）多少钱？</p><p>&lt;小满&gt;（藏不住的得意）两千一，还带阳台。</p><p>[货车从桥底呼啸驶过，低频轰鸣]</p><p>&lt;发小&gt;（模糊）喂？刚刚没听清。</p><p>&lt;小满&gt;（稍稍抬高音量喊）两千一！带阳台！</p><p>&lt;发小&gt;（被逗笑）行行行，小点声，这下马路对面都听见了。</p><p>&lt;小满&gt;（跟着笑起来）…… 对了，我今天还买了口锅。</p><p>&lt;发小&gt;（愣住了一下，疑惑）你买锅干什么？</p><p>&lt;小满&gt; 打算自己做饭啊。我妈总念叨，说我在外头肯定天天点外卖凑合。</p><p>&lt;发小&gt;（打趣调侃）就你？你还会做饭？</p><p>&lt;小满&gt;（理直气壮）煮面我总没问题吧。</p><p>&lt;发小&gt;（打趣调侃）好好好，我等着吃你做的饭。</p><p>&lt;小满&gt;（语气兴奋，嗓音依旧清亮，带着期待）说真的，你什么时候过来找我玩？我家有阳台，咱们可以一起吹着晚风，吃好吃的。</p><p>&lt;发小&gt;（轻笑）知道你有一个大阳台啦，等着，明天我就找你去！</p><p>&lt;小满&gt;（开心，笑出声）好诶！</p><p>[又一波车流由远驶来，掠过桥下，声音缓缓退向远方]</p></div>
+                  </section>
+                </div>
+              </div>
+              <div class="inline-player vibe-player" data-inline-player="overpassCall">
+                <div class="vibe-player-transport" aria-label="播放控制">
+                  <button class="vibe-player-step" type="button" data-vibe-player-prev aria-label="播放上一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-prev"/></svg></button>
+                  <button class="inline-play" type="button" data-player-toggle aria-label="播放天桥夜话"><span></span></button>
+                  <button class="vibe-player-step" type="button" data-vibe-player-next aria-label="播放下一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-next"/></svg></button>
+                </div>
+                <div class="inline-player-body">
+                  <div class="inline-waveform" data-player-waveform aria-label="天桥夜话音频波形"></div>
+                </div>
+                <time class="vibe-player-time" data-player-time>00:00 / 01:04</time>
+                <audio preload="metadata"></audio>
+              </div>
+            </article>
+
 <article class="vibe-card has-background-video" data-vibe-card id="vibe-case-summer-night-food-stall" aria-label="夏夜大排档">
               <div class="vibe-card-media is-selected-scene" aria-hidden="true">
                 <video muted loop playsinline preload="none" poster="./video/vibespeech-summer-night-food-stall-poster.jpg?v=20260911-food-stall-restore-1" data-vibe-video data-src="./video/vibespeech-summer-night-food-stall-preview.mp4?v=20260911-food-stall-restore-1"></video>
@@ -600,42 +645,6 @@
                   <div class="inline-waveform" data-player-waveform aria-label="旧楼往事音频波形"></div>
                 </div>
                 <time class="vibe-player-time" data-player-time>00:00 / 01:03</time>
-                <audio preload="metadata"></audio>
-              </div>
-            </article>
-
-<article class="vibe-card has-background-video" data-vibe-card id="vibe-case-overpass-night-call" aria-label="天桥夜话">
-              <div class="vibe-card-media is-selected-scene" aria-hidden="true">
-                <video muted loop playsinline preload="none" poster="./video/vibespeech-overpass-night-call-poster.jpg" data-vibe-video data-src="./video/vibespeech-overpass-night-call-preview.mp4?v=20260911-selected-full-scenes-2"></video>
-              </div>
-              <div class="vibe-card-head">
-                <div><h4>天桥夜话</h4></div>
-                <span>电话音色 / 城市车流 / 轻快对话</span>
-              </div>
-              <div class="vibe-spec-grid">
-                <section class="vibe-spec vibe-role-spec">
-                  <h5>ROLE</h5>
-                  <dl class="vibe-role-list"><div><dd><p>小满：二十二三岁女生，嗓音清亮通透，说话语速偏快，情绪上来音调会不自觉拔高，笑点低，容易开心大笑。</p><p>发小：二十二三岁女生，声音经由电话传输，带有窄频轻微失真感，平时语气松弛懒散，说话爱带点调侃打趣的味道。</p></dd></div></dl>
-                </section>
-                <div class="vibe-spec-column">
-                  <section class="vibe-spec vibe-director-spec">
-                    <h5>DIRECTOR</h5><p>晚上八点的城市人行天桥，下方是双向车流。全程有持续的车流声，车辆由远及近驶过桥下再远去，间或有货车经过的低频轰鸣。氛围轻快，是刚在陌生城市落下脚的那种兴奋。</p></section>
-                  <section class="vibe-spec vibe-script-spec">
-                    <h5>SCRIPT</h5>
-                    <div class="vibe-script-lines"><p>[持续城市车流声，一辆车由远及近驶过天桥下方，声响慢慢消散远去]</p><p>&lt;小满&gt;（情绪高涨，语速轻快）小彤，猜猜我现在在哪？我站天桥上呢！底下密密麻麻全是车，一眼望不到头！</p><p>&lt;发小&gt;（电话音，窄频失真，懒懒的调调）…… 你大半夜打电话过来，就为跟我说这个？</p><p>&lt;小满&gt;（兴冲冲）才不是！我今天租好房子了！</p><p>&lt;发小&gt;（瞬间提起兴致）多少钱？</p><p>&lt;小满&gt;（藏不住的得意）两千一，还带阳台。</p><p>[货车从桥底呼啸驶过，低频轰鸣]</p><p>&lt;发小&gt;（模糊）喂？刚刚没听清。</p><p>&lt;小满&gt;（稍稍抬高音量喊）两千一！带阳台！</p><p>&lt;发小&gt;（被逗笑）行行行，小点声，这下马路对面都听见了。</p><p>&lt;小满&gt;（跟着笑起来）…… 对了，我今天还买了口锅。</p><p>&lt;发小&gt;（愣住了一下，疑惑）你买锅干什么？</p><p>&lt;小满&gt; 打算自己做饭啊。我妈总念叨，说我在外头肯定天天点外卖凑合。</p><p>&lt;发小&gt;（打趣调侃）就你？你还会做饭？</p><p>&lt;小满&gt;（理直气壮）煮面我总没问题吧。</p><p>&lt;发小&gt;（打趣调侃）好好好，我等着吃你做的饭。</p><p>&lt;小满&gt;（语气兴奋，嗓音依旧清亮，带着期待）说真的，你什么时候过来找我玩？我家有阳台，咱们可以一起吹着晚风，吃好吃的。</p><p>&lt;发小&gt;（轻笑）知道你有一个大阳台啦，等着，明天我就找你去！</p><p>&lt;小满&gt;（开心，笑出声）好诶！</p><p>[又一波车流由远驶来，掠过桥下，声音缓缓退向远方]</p></div>
-                  </section>
-                </div>
-              </div>
-              <div class="inline-player vibe-player" data-inline-player="overpassCall">
-                <div class="vibe-player-transport" aria-label="播放控制">
-                  <button class="vibe-player-step" type="button" data-vibe-player-prev aria-label="播放上一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-prev"/></svg></button>
-                  <button class="inline-play" type="button" data-player-toggle aria-label="播放天桥夜话"><span></span></button>
-                  <button class="vibe-player-step" type="button" data-vibe-player-next aria-label="播放下一个案例"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#vibe-i-next"/></svg></button>
-                </div>
-                <div class="inline-player-body">
-                  <div class="inline-waveform" data-player-waveform aria-label="天桥夜话音频波形"></div>
-                </div>
-                <time class="vibe-player-time" data-player-time>00:00 / 01:04</time>
                 <audio preload="metadata"></audio>
               </div>
             </article>
@@ -1065,6 +1074,6 @@
     <script>window.stepAudioProductCopy.applyInitial()</script>
     <script src="./vendor/gsap.min.js"></script>
     <script src="./vendor/ScrollTrigger.min.js"></script>
-    <script type="module" src="./product.js?v=20260911-showcase-copy-18"></script>
+    <script type="module" src="./product.js?v=20260912-warm-lady-29"></script>
   </body>
 </html>

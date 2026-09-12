@@ -2,7 +2,7 @@
 const productCopy = Object.freeze({
   zh: {
     ttsVoice3: "清朗男声",
-    ttsVoice4: "温暖男声",
+    ttsVoice4: "温暖女声",
     ttsVoice11: "Mellow Lady",
     ttsVoice10: "Noble Cast",
 
@@ -106,7 +106,7 @@ const productCopy = Object.freeze({
   },
   en: {
     ttsVoice3: "Bright Gentleman",
-    ttsVoice4: "Warm Gentleman",
+    ttsVoice4: "Warm Lady",
     ttsVoice11: "Mellow Lady",
     ttsVoice10: "Noble Cast",
 
@@ -223,7 +223,7 @@ const presetCopy = Object.freeze({
   ttsResult5: {"title": ["Lisa生成结果", "Lisa generated speech"]},
   ttsResult7: {"title": ["Nick生成结果", "Nick generated speech"]},
   ttsResult3: {"title": ["清朗男声生成结果", "Bright Gentleman generated speech"]},
-  ttsResult4: {"title": ["温暖男声生成结果", "Warm Gentleman generated speech"]},
+  ttsResult4: {"title": ["温暖女声生成结果", "Warm Lady generated speech"]},
   ttsResult11: {"title": ["Mellow Lady生成结果", "Mellow Lady generated speech"]},
   ttsResult10: {"title": ["Noble Cast生成结果", "Noble Cast generated speech"]},
   ttsResult9: {"title": ["Lively Girl生成结果", "Lively Girl generated speech"]},
@@ -255,8 +255,79 @@ const presetCopy = Object.freeze({
   nightRadio: {"title": ["深夜电台", "Late-night Radio"], "orbHeading": ["深夜电台", "Late-night Radio"], "orbDescription": ["低沉醇厚的男声贴近话筒，温柔克制地念一封来信。", "A deep, mellow host reading a late-night letter close to the mic."], "card": ["音色设计", "VOICE DESIGN"], "detail": ["低沉醇厚的男声贴近话筒，温柔克制地念一封来信。", "A deep, mellow host reading a late-night letter close to the mic."]},
   wearyElder: {"title": ["疲惫独白", "Weary Monologue"], "orbHeading": ["疲惫独白", "Weary Monologue"], "orbDescription": ["沙哑低沉的英文老年男声，节奏拖慢，带着疲惫叹息。", "An older American English voice, slow and raspy, with weary sighs."], "card": ["音色设计", "VOICE DESIGN"], "detail": ["沙哑低沉的英文老年男声，节奏拖慢，带着疲惫叹息。", "An older American English voice, slow and raspy, with weary sighs."]},
 })
+const vocalDetails = {
+  "vocalFinalGoodbye": {
+    "prompt": [
+      "二十五六岁男生，音色低沉温柔带一点沙哑，唱得克制。\n抒情流行，满含倾诉感，语气真挚，节奏舒缓自然。",
+      "A male voice in his mid-twenties, low and gentle with a hint of rasp and restrained delivery.\nA heartfelt pop ballad with a sincere tone and a relaxed, natural rhythm."
+    ],
+    "lyrics": "再见说了千百遍，\n这次终于是真的。\n你转过的那个弯，\n把我的春天也带走了。",
+    "lang": "zh-CN"
+  },
+  "vocalBossa": {
+    "prompt": [
+      "清甜柔软的年轻女声。\nBossa nova 风味，中慢速，演唱轻盈慵懒。",
+      "A sweet, soft young female voice.\nBossa nova feel, mid-slow tempo, light languid delivery."
+    ],
+    "lyrics": "The sea breeze crinkles my skirt,\nyou hum a tune off-key,\nan afternoon inside a coconut shell,\nslow like sugar that never melts",
+    "lang": "en"
+  },
+  "vocalMom": {
+    "prompt": [
+      "温柔醇厚、带岁月感的女声。\n抒情流行，慢速，深情饱满。",
+      "A gentle, mellow female voice touched by time.\nPop ballad, slow tempo, deeply full of feeling."
+    ],
+    "lyrics": "A few more white hairs on Mom.\nThe phone always says home is fine.",
+    "lang": "en"
+  },
+  "vocalBeWell": {
+    "prompt": [
+      "四十岁左右的女声，声线略带沙哑质感，情感厚重，咬字沉稳。\n抒情慢歌，情感真挚饱满，气息控制稳定，整体温柔缱绻。",
+      "A female voice around forty, slightly raspy, emotionally rich, with steady diction.\nA slow ballad with heartfelt, full emotion, steady breath control, and a tender delivery."
+    ],
+    "lyrics": "我把再见咽下去，\n换成一句你要好好的。",
+    "lang": "zh-CN"
+  }
+}
+const syncVocalDetails = () => {
+  const region = document.querySelector('#vocal-details')
+  if (!region) return
+  const index = document.body.dataset.language === 'zh' ? 0 : 1
+  const cards = [...document.querySelectorAll('.vocal-card')]
+  const selected = cards.find(card => card.classList.contains('is-selected')) || cards[0]
+  const entry = vocalDetails[selected.dataset.inlinePlayer]
+  cards.forEach(card => {
+    const active = card === selected
+    card.classList.toggle('is-selected', active)
+    const button = card.querySelector('[data-vocal-select]')
+    button.setAttribute('aria-pressed', String(active))
+    button.setAttribute('aria-label', (index === 0 ? '查看演唱描述与歌词：' : 'View vocal prompt and lyrics for ') + presetCopy[card.dataset.inlinePlayer].title[index])
+  })
+  region.querySelector('[data-vocal-detail-title]').textContent = presetCopy[selected.dataset.inlinePlayer].title[index]
+  region.querySelector('[data-vocal-prompt-label]').textContent = index === 0 ? '演唱描述' : 'Vocal prompt'
+  region.querySelector('[data-vocal-lyrics-label]').textContent = index === 0 ? '歌词' : 'Lyrics'
+  region.querySelector('[data-vocal-prompt]').textContent = entry.prompt[index]
+  const lyrics = region.querySelector('[data-vocal-lyrics]')
+  lyrics.textContent = entry.lyrics
+  lyrics.lang = entry.lang
+  region.dataset.vocalDetail = selected.dataset.inlinePlayer
+}
 const preferLanguage = (items, getLanguage, language) => [...items].sort((a, b) =>
   Number(getLanguage(b) === language) - Number(getLanguage(a) === language))
+// Share sample-language filtering between the initial render and interactive player.
+const setTtsLanguageGroup = (buttons, group, uiLanguage) => {
+  buttons.forEach(button => { button.parentElement.hidden = button.dataset.ttsLanguage !== group })
+  const controls = document.querySelector('[data-tts-language-groups]')
+  if (controls) {
+    controls.setAttribute('aria-label', uiLanguage === 'zh' ? '试听语言' : 'Sample language')
+    controls.querySelectorAll('[data-tts-language-group]').forEach(button => {
+      const code = button.dataset.ttsLanguageGroup
+      button.textContent = uiLanguage === 'zh' ? (code === 'zh' ? '中文' : '英文') : (code === 'zh' ? 'Chinese' : 'English')
+      button.setAttribute('aria-pressed', String(code === group))
+    })
+  }
+  return buttons.filter(button => button.dataset.ttsLanguage === group)
+}
 const createSceneCover = ({ index, sceneTitle, sceneDetail, source, videoSource }) => {
     const cover = document.createElement('button')
     const mediaFrame = document.createElement('span')
@@ -335,12 +406,14 @@ const applyInitial = () => {
     card.querySelector('[data-vocal-title]').textContent = entry.title[index]
     card.querySelector('[data-vocal-meta]').textContent = entry.meta[index]
   })
+  syncVocalDetails()
   // Match the interactive default before deferred modules arrive.
   const list = document.querySelector('.tts-reference-list')
   const buttons = preferLanguage([...document.querySelectorAll('[data-tts-select]')], item => item.dataset.ttsLanguage, language)
   const selected = buttons[0]
   if (list && selected) {
     list.replaceChildren(...buttons.map(button => button.parentElement))
+    setTtsLanguageGroup(buttons, language, language)
     buttons.forEach(button => {
       const active = button === selected
       button.setAttribute('aria-pressed', String(active))
@@ -362,6 +435,8 @@ const applyInitial = () => {
   const sceneCards = [...document.querySelectorAll('[data-vibe-card]')]
   const coverflow = document.querySelector('[data-vibe-coverflow]')
   if (coverflow && sceneCards.length) {
+    const firstScene = presetCopy[sceneCards[0].querySelector('[data-inline-player]').dataset.inlinePlayer]
+    document.querySelector('[data-vibe-title]').textContent = firstScene.title[index]
     coverflow.replaceChildren()
     ;[sceneCards.length - 1, 0, 1].forEach((sceneIndex, slot) => {
       const card = sceneCards[sceneIndex]
@@ -404,5 +479,5 @@ const applyInitial = () => {
   window.addEventListener('scroll', syncHeader, { passive: true })
   stopInitialHeader = () => window.removeEventListener('scroll', syncHeader)
 }
-window.stepAudioProductCopy = Object.freeze({ productCopy, presetCopy, preferLanguage, createSceneCover, applyInitial, finishInitial: () => stopInitialHeader() })
+window.stepAudioProductCopy = Object.freeze({ productCopy, presetCopy, syncVocalDetails, preferLanguage, setTtsLanguageGroup, createSceneCover, applyInitial, finishInitial: () => stopInitialHeader() })
 })()

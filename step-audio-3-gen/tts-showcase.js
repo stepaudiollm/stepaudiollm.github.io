@@ -93,7 +93,7 @@ export function initTtsShowcase({ playerController, getCopy }) {
     const changed = selected !== button
     if (changed) playerController.pauseAll()
     selected = button
-    ordered.forEach(item => {
+    buttons.forEach(item => {
       const active = item === button
       item.setAttribute('aria-pressed', String(active))
       item.parentElement.classList.toggle('is-selected', active)
@@ -105,14 +105,19 @@ export function initTtsShowcase({ playerController, getCopy }) {
     showCase(changed ? 0 : Math.max(0, activeCases.indexOf(activePanel)), false)
     revealSelected()
   }
-  const resetLanguage = () => {
+  const selectLanguageGroup = (group) => {
     playerController.pauseAll()
-    ordered = preferLanguage(buttons, button => button.dataset.ttsLanguage)
-    list.replaceChildren(...ordered.map(button => button.parentElement))
+    ordered = window.stepAudioProductCopy.setTtsLanguageGroup(buttons, group, language())
     list.scrollTop = 0
     selected = null
     select(ordered[0])
   }
+  const resetLanguage = () => selectLanguageGroup(language())
+  root.querySelectorAll('[data-tts-language-group]').forEach(button => {
+    button.addEventListener('click', () => {
+      if (button.getAttribute('aria-pressed') !== 'true') selectLanguageGroup(button.dataset.ttsLanguageGroup)
+    })
+  })
   const settleCases = () => {
     if (!caseTrack.clientWidth) return
     const next = Math.round(caseTrack.scrollLeft / caseTrack.clientWidth)
