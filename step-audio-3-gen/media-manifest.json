@@ -449,5 +449,35 @@
     "kind": "audio",
     "duration": 17.36,
     "updated": "2026-09-12"
+  },
+  {
+    "new": "audio/vocal-showcase/vocal-aria-of-fury.wav",
+    "bytes": 775724,
+    "sha256": "9e3765bb3853bca6844279e178c426a95ed5f547775d40ca8d8c344bffbb9252",
+    "kind": "audio",
+    "updated": "2026-09-12",
+    "duration": 16.16
+  },
+  {
+    "new": "audio/vocal-showcase/vocal-neon-afterglow.wav",
+    "bytes": 1447724,
+    "sha256": "9bde8dbc0009140ea4104c9f4465e452d7bde8cac5f13e99d6bf1a0ab9cf5522",
+    "kind": "audio",
+    "updated": "2026-09-12",
+    "duration": 30.16
+  },
+  {
+    "new": "assets/vocal-covers/aria-of-fury.jpg",
+    "bytes": 223616,
+    "sha256": "a06f24cbc707005604bdadd51b49fb9f43fdaf46ff13bf2bfd30f1ffbae1762e",
+    "kind": "image",
+    "updated": "2026-09-12"
+  },
+  {
+    "new": "assets/vocal-covers/neon-afterglow.jpg",
+    "bytes": 245406,
+    "sha256": "b00a47b3ef58b90470ef74e9b72c3a74f88a2c80bd695fb71ad4656f42bd3d11",
+    "kind": "image",
+    "updated": "2026-09-12"
   }
 ]

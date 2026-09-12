@@ -1,4 +1,4 @@
-import { initVocalCards } from './vocal-cards.js?v=20260912-vocal-details-27'
+import { initVocalCards } from './vocal-cards.js?v=20260912-vocal-no-arrows-38'
 import { initTtsShowcase } from './tts-showcase.js?v=20260912-tts-male-additions-31'
 import WaveSurfer from './vendor/wavesurfer.esm.js'
 import { vibePeaks } from './vibe-peaks.js?v=20260911-stacked-scenes-7'
@@ -15,6 +15,9 @@ if (gsap && ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
 document.body.classList.add('is-ready')
 
 const presets = {
+  vocalOpera: {"title": "怒焰咏叹", "kind": "歌声 Vocal", "duration": "00:16", "src": "./audio/vocal-showcase/vocal-aria-of-fury.wav"},
+  vocalNeon: {"title": "霓虹未眠", "kind": "歌声 Vocal", "duration": "00:30", "src": "./audio/vocal-showcase/vocal-neon-afterglow.wav"},
+
   ttsResult12: {"title": "自然男声", "kind": "TTS", "duration": "00:23", "src": "./audio/tts-showcase/tts-natural-male-generated.wav"},
   ttsResult13: {"title": "宿舍男声", "kind": "TTS", "duration": "00:17", "src": "./audio/tts-showcase/tts-dorm-male-generated.wav"},
 
@@ -341,7 +344,7 @@ const initReveals = () => {
   // Keep each heading/description lockup together, followed by its visual panel.
   add('.case-portal-copy, .voice-design-copy, .sound-library-intro, .closing-copy')
   add('.case-portal-gallery, .voice-design-gallery', 90, 24)
-  document.querySelectorAll('.vocal-card').forEach((element, index) => { targets.set(element, { delay: index * 65, distance: 16 }) })
+  add('.vocal-card-grid', 90, 16)
   document.querySelectorAll('.sound-library-item').forEach((element, index) => {
     if (element.getClientRects().length) targets.set(element, { delay: (index % 4) * 55, distance: 20 })
   })

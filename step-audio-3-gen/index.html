@@ -8,11 +8,11 @@
     <title>StepAudio 3 Gen</title>
     <link rel="icon" href="./stepfun-favicon.svg?v=20260910-favicon-cutout-1" />
     <link rel="stylesheet" href="./brand-fonts.css?v=20260904-hero-type-1" />
-    <link rel="stylesheet" href="./product.css?v=20260912-orb-first-paint-33" />
+    <link rel="stylesheet" href="./product.css?v=20260912-vocal-no-arrows-38" />
     <link rel="preload" href="./fonts/Roboto-Medium-brand.woff" as="font" type="font/woff" crossorigin />
     <link rel="preload" href="./fonts/MiSans-Light.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="./fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <script src="./product-copy.js?v=20260912-tts-male-chinese-names-32"></script>
+    <script src="./product-copy.js?v=20260912-vocal-coverflow-36"></script>
   </head>
   <body class="product-page">
     <svg class="voice-palette-definitions" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;pointer-events:none"><defs>
@@ -388,9 +388,9 @@
     <h2 id="vocal-showcase-title" data-product-i18n-html="vocalTitle">Vocals that<br /><span>move you.</span></h2>
     <p data-product-i18n="vocalDescription">Describe the singing style, voice, and emotion to generate a cappella vocals.</p>
   </div>
-  <div class="vocal-card-grid"><article class="vocal-card is-selected" data-inline-player="vocalFinalGoodbye">
+  <div class="vocal-card-grid"><article class="vocal-card" data-inline-player="vocalFinalGoodbye" data-vocal-position="2" aria-hidden="false">
     <div class="vocal-artwork-wrap">
-      <button class="vocal-card-button" type="button" data-vocal-select aria-pressed="true" aria-controls="vocal-details" aria-label="View lyrics for The Warmth of Goodbye">
+      <button class="vocal-card-button" type="button" data-vocal-select aria-pressed="false" aria-controls="vocal-details" aria-label="View lyrics for The Warmth of Goodbye">
         <span class="vocal-artwork"><img src="./assets/vocal-covers/warmth-of-goodbye.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" /></span>
       </button>
       <button class="vocal-card-control" type="button" data-player-toggle aria-label="Play The Warmth of Goodbye"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
@@ -399,18 +399,7 @@
     <div class="vocal-card-caption"><strong data-vocal-title>The Warmth of Goodbye</strong><span class="vocal-card-meta" data-vocal-meta>Pop ballad · Male · Chinese</span></div>
     <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:14</time></div><audio preload="none"></audio>
   </article>
-<article class="vocal-card" data-inline-player="vocalBossa">
-    <div class="vocal-artwork-wrap">
-      <button class="vocal-card-button" type="button" data-vocal-select aria-pressed="false" aria-controls="vocal-details" aria-label="View lyrics for Coconut Afternoon">
-        <span class="vocal-artwork"><img src="./assets/vocal-covers/coconut-afternoon.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" /></span>
-      </button>
-      <button class="vocal-card-control" type="button" data-player-toggle aria-label="Play Coconut Afternoon"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
-      <span class="vocal-card-status" data-vocal-status role="status"></span>
-    </div>
-    <div class="vocal-card-caption"><strong data-vocal-title>Coconut Afternoon</strong><span class="vocal-card-meta" data-vocal-meta>Bossa Nova · Female · English</span></div>
-    <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:13</time></div><audio preload="none"></audio>
-  </article>
-<article class="vocal-card" data-inline-player="vocalMom">
+<article class="vocal-card" data-inline-player="vocalMom" data-vocal-position="hidden" inert aria-hidden="true">
     <div class="vocal-artwork-wrap">
       <button class="vocal-card-button" type="button" data-vocal-select aria-pressed="false" aria-controls="vocal-details" aria-label="View lyrics for Home Is Fine">
         <span class="vocal-artwork"><img src="./assets/vocal-covers/home-is-fine.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" /></span>
@@ -421,7 +410,7 @@
     <div class="vocal-card-caption"><strong data-vocal-title>Home Is Fine</strong><span class="vocal-card-meta" data-vocal-meta>Pop ballad · Female · English</span></div>
     <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:08</time></div><audio preload="none"></audio>
   </article>
-<article class="vocal-card" data-inline-player="vocalBeWell">
+<article class="vocal-card" data-inline-player="vocalBeWell" data-vocal-position="-2" aria-hidden="false">
     <div class="vocal-artwork-wrap">
       <button class="vocal-card-button" type="button" data-vocal-select aria-pressed="false" aria-controls="vocal-details" aria-label="View lyrics for Be Well">
         <span class="vocal-artwork"><img src="./assets/vocal-covers/be-well.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" /></span>
@@ -431,15 +420,52 @@
     </div>
     <div class="vocal-card-caption"><strong data-vocal-title>Be Well</strong><span class="vocal-card-meta" data-vocal-meta>Slow ballad · Female · Chinese</span></div>
     <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:07</time></div><audio preload="none"></audio>
+  </article>
+<article class="vocal-card" data-inline-player="vocalOpera" data-vocal-position="-1" aria-hidden="false">
+    <div class="vocal-artwork-wrap">
+      <button class="vocal-card-button" type="button" data-vocal-select aria-pressed="false" aria-controls="vocal-details" aria-label="View lyrics for Aria of Fury">
+        <span class="vocal-artwork"><img src="./assets/vocal-covers/aria-of-fury.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" /></span>
+      </button>
+      <button class="vocal-card-control" type="button" data-player-toggle aria-label="Play Aria of Fury"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
+      <span class="vocal-card-status" data-vocal-status role="status"></span>
+    </div>
+    <div class="vocal-card-caption"><strong data-vocal-title>Aria of Fury</strong><span class="vocal-card-meta" data-vocal-meta>Opera · Male · Chinese</span></div>
+    <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:16</time></div><audio preload="none"></audio>
+  </article>
+<article class="vocal-card is-selected" data-inline-player="vocalNeon" data-vocal-position="0" aria-hidden="false">
+    <div class="vocal-artwork-wrap">
+      <button class="vocal-card-button" type="button" data-vocal-select aria-pressed="true" aria-controls="vocal-details" aria-label="View lyrics for Neon Afterglow">
+        <span class="vocal-artwork"><img src="./assets/vocal-covers/neon-afterglow.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" /></span>
+      </button>
+      <button class="vocal-card-control" type="button" data-player-toggle aria-label="Play Neon Afterglow"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
+      <span class="vocal-card-status" data-vocal-status role="status"></span>
+    </div>
+    <div class="vocal-card-caption"><strong data-vocal-title>Neon Afterglow</strong><span class="vocal-card-meta" data-vocal-meta>Pop · Male · Chinese</span></div>
+    <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:30</time></div><audio preload="none"></audio>
+  </article>
+<article class="vocal-card" data-inline-player="vocalBossa" data-vocal-position="1" aria-hidden="false">
+    <div class="vocal-artwork-wrap">
+      <button class="vocal-card-button" type="button" data-vocal-select aria-pressed="false" aria-controls="vocal-details" aria-label="View lyrics for Coconut Afternoon">
+        <span class="vocal-artwork"><img src="./assets/vocal-covers/coconut-afternoon.jpg" width="768" height="768" alt="" loading="lazy" decoding="async" /></span>
+      </button>
+      <button class="vocal-card-control" type="button" data-player-toggle aria-label="Play Coconut Afternoon"><img class="is-play" src="./assets/icons/play-fill.svg" alt="" /><img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" /></button>
+      <span class="vocal-card-status" data-vocal-status role="status"></span>
+    </div>
+    <div class="vocal-card-caption"><strong data-vocal-title>Coconut Afternoon</strong><span class="vocal-card-meta" data-vocal-meta>Bossa Nova · Female · English</span></div>
+    <div hidden><span data-player-waveform></span><time data-player-time>0:00 / 0:13</time></div><audio preload="none"></audio>
   </article></div>
+  <output class="visually-hidden" data-vocal-announcement aria-live="polite" aria-atomic="true">5 / 6 · Neon Afterglow</output>
   <div class="vocal-details" id="vocal-details" role="region" aria-labelledby="vocal-detail-title">
-    <h3 class="visually-hidden" id="vocal-detail-title" data-vocal-detail-title>The Warmth of Goodbye</h3>
-    <div class="vocal-prompt-column"><h4 data-vocal-prompt-label>Vocal prompt</h4><p data-vocal-prompt>A male voice in his mid-twenties, low and gentle with a hint of rasp and restrained delivery.
-A heartfelt pop ballad with a sincere tone and a relaxed, natural rhythm.</p></div>
-    <div class="vocal-lyrics-column"><h4 data-vocal-lyrics-label>Lyrics</h4><p data-vocal-lyrics lang="zh-CN">再见说了千百遍，
-这次终于是真的。
-你转过的那个弯，
-把我的春天也带走了。</p></div>
+    <h3 class="visually-hidden" id="vocal-detail-title" data-vocal-detail-title>Neon Afterglow</h3>
+    <div class="vocal-prompt-column"><h4 data-vocal-prompt-label>Vocal description</h4><p data-vocal-prompt>Male pop vocals, expressing longing for a past love against a city at night.</p></div>
+    <div class="vocal-lyrics-column"><h4 data-vocal-lyrics-label>Lyrics</h4><p data-vocal-lyrics lang="zh-CN">霓虹在窗台慢慢晕开
+像你上次没说完的对白
+地铁最后一班带走喧骸
+留我数着红灯发呆
+如果想念有形状
+该是这城市忽明忽暗的光
+我沿着晚风走回老地方
+假装你还没走还靠在我身旁</p></div>
   </div>
 </section>
 <section class="case-portal" aria-labelledby="case-portal-title">
@@ -1111,6 +1137,6 @@ A heartfelt pop ballad with a sincere tone and a relaxed, natural rhythm.</p></d
     <script>window.stepAudioProductCopy.applyInitial()</script>
     <script src="./vendor/gsap.min.js"></script>
     <script src="./vendor/ScrollTrigger.min.js"></script>
-    <script type="module" src="./product.js?v=20260912-tts-male-chinese-names-32"></script>
+    <script type="module" src="./product.js?v=20260912-vocal-no-arrows-38"></script>
   </body>
 </html>

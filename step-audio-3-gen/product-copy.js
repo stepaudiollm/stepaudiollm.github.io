@@ -216,6 +216,9 @@ const productCopy = Object.freeze({
   },
 })
 const presetCopy = Object.freeze({
+  vocalOpera: {"title": ["怒焰咏叹", "Aria of Fury"], "meta": ["歌剧 · 男声 · 中文", "Opera · Male · Chinese"]},
+  vocalNeon: {"title": ["霓虹未眠", "Neon Afterglow"], "meta": ["流行 · 男声 · 中文", "Pop · Male · Chinese"]},
+
   teahouseCrosstalk: {"title": ["茶馆相声", "Teahouse Crosstalk"], "detail": ["京味对白 / 现场掌声 / 茶馆氛围", "Beijing-style banter / Live applause / Teahouse ambience"]},
   vocalBeWell: {"title": ["你要好好的", "Be Well"], "meta": ["抒情慢歌 · 女声 · 中文", "Slow ballad · Female · Chinese"]},
   roommatePodcast: {"title": ["纽约室友播客", "New York Roommate Podcast"], "detail": ["美式闲聊 / 抢话与笑声 / 近场人声", "American banter / Interruptions and laughter / Close-mic voices"]},
@@ -264,6 +267,9 @@ const presetCopy = Object.freeze({
   wearyElder: {"title": ["疲惫独白", "Weary Monologue"], "orbHeading": ["疲惫独白", "Weary Monologue"], "orbDescription": ["沙哑低沉的英文老年男声，节奏拖慢，带着疲惫叹息。", "An older American English voice, slow and raspy, with weary sighs."], "card": ["音色设计", "VOICE DESIGN"], "detail": ["沙哑低沉的英文老年男声，节奏拖慢，带着疲惫叹息。", "An older American English voice, slow and raspy, with weary sighs."]},
 })
 const vocalDetails = {
+  "vocalOpera": {"prompt": ["明亮有力的青年男声，气息充沛，声线高亢激昂，带着愤怒控诉的情绪。\nD 大调咏叹调，快板，激昂澎湃。", "A bright, powerful young male voice with strong breath support and soaring intensity, charged with anger and accusation.\nAn impassioned aria in D major, at an allegro tempo."], "lyrics": "你怎能如此背叛我的信任！\n这火焰般的愤怒在我胸中燃烧。\n我要让全世界听见我的呐喊，\n让背叛者付出代价！", "lang": "zh-CN"},
+  "vocalNeon": {"prompt": ["男声流行，以城市夜色为背景，唱出对旧日恋人的思念。", "Male pop vocals, expressing longing for a past love against a city at night."], "lyrics": "霓虹在窗台慢慢晕开\n像你上次没说完的对白\n地铁最后一班带走喧骸\n留我数着红灯发呆\n如果想念有形状\n该是这城市忽明忽暗的光\n我沿着晚风走回老地方\n假装你还没走还靠在我身旁", "lang": "zh-CN"},
+
   "vocalFinalGoodbye": {
     "prompt": [
       "二十五六岁男生，音色低沉温柔带一点沙哑，唱得克制。\n抒情流行，满含倾诉感，语气真挚，节奏舒缓自然。",
@@ -304,15 +310,28 @@ const syncVocalDetails = () => {
   const cards = [...document.querySelectorAll('.vocal-card')]
   const selected = cards.find(card => card.classList.contains('is-selected')) || cards[0]
   const entry = vocalDetails[selected.dataset.inlinePlayer]
-  cards.forEach(card => {
+  const activeIndex = cards.indexOf(selected)
+  cards.forEach((card, cardIndex) => {
+    let offset = (cardIndex - activeIndex + cards.length) % cards.length
+    if (offset > cards.length / 2) offset -= cards.length
+    card.dataset.vocalPosition = Math.abs(offset) > 2 ? 'hidden' : String(offset)
+    card.inert = Math.abs(offset) > 2
+    card.setAttribute('aria-hidden', String(Math.abs(offset) > 2))
     const active = card === selected
+    card.querySelector('[data-player-toggle]').tabIndex = active ? 0 : -1
     card.classList.toggle('is-selected', active)
     const button = card.querySelector('[data-vocal-select]')
     button.setAttribute('aria-pressed', String(active))
     button.setAttribute('aria-label', (index === 0 ? '查看演唱描述与歌词：' : 'View vocal prompt and lyrics for ') + presetCopy[card.dataset.inlinePlayer].title[index])
   })
+  const previous = document.querySelector('[data-vocal-prev]')
+  const next = document.querySelector('[data-vocal-next]')
+  previous?.setAttribute('aria-label', index === 0 ? '上一个演唱案例' : 'Previous vocal example')
+  next?.setAttribute('aria-label', index === 0 ? '下一个演唱案例' : 'Next vocal example')
+  const announcement = document.querySelector('[data-vocal-announcement]')
+  if (announcement) announcement.textContent = `${activeIndex + 1} / ${cards.length} · ${presetCopy[selected.dataset.inlinePlayer].title[index]}`
   region.querySelector('[data-vocal-detail-title]').textContent = presetCopy[selected.dataset.inlinePlayer].title[index]
-  region.querySelector('[data-vocal-prompt-label]').textContent = index === 0 ? '演唱描述' : 'Vocal prompt'
+  region.querySelector('[data-vocal-prompt-label]').textContent = index === 0 ? '演唱描述' : 'Vocal description'
   region.querySelector('[data-vocal-lyrics-label]').textContent = index === 0 ? '歌词' : 'Lyrics'
   region.querySelector('[data-vocal-prompt]').textContent = entry.prompt[index]
   const lyrics = region.querySelector('[data-vocal-lyrics]')

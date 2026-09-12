@@ -8,6 +8,6 @@ The six scenes use the restored food-stall video, four stock videos credited in 
 
 ## Speech and vocals
 
-The TTS showcase presents 13 named voices (six Chinese and seven English) and generated speech; no reference-audio players are displayed. The separate Voice Design carousel contains five examples. Four Vocal cards present The Warmth of Goodbye (Chinese male), Coconut Afternoon (English female), Home Is Fine (English female), and Be Well (Chinese female). The vocal gallery uses original illustrated covers. The added Be Well recording is distributed without transcoding.
+The TTS showcase presents 13 named voices (six Chinese and seven English) and generated speech; no reference-audio players are displayed. The separate Voice Design carousel contains five examples. Six Vocal cards present The Warmth of Goodbye (Chinese male), Coconut Afternoon (English female), Home Is Fine (English female), Be Well (Chinese female), Aria of Fury (Chinese male opera), and Neon Afterglow (Chinese male pop). The vocal gallery uses original illustrated covers. The Be Well, Aria of Fury, and Neon Afterglow recordings are distributed without transcoding.
 
 `media-manifest.json` records current asset paths, byte sizes, and SHA-256 checksums, including retained legacy assets for existing URLs. Entries marked `legacy_not_in_full_scene_showcase` are not used in the current scene carousel. Internal source filenames and production records are not part of this distribution.

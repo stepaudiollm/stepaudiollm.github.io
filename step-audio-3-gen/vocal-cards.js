@@ -6,6 +6,21 @@ export const initVocalCards = ({ getCopy, playerController } = {}) => {
     cards.forEach(item => item.classList.toggle('is-selected', item === card))
     syncDetails()
   }
+  const stage = document.querySelector('.vocal-card-grid')
+  const move = direction => {
+    playerController.pauseAll()
+    const index = cards.findIndex(card => card.classList.contains('is-selected'))
+    select(cards[(index + direction + cards.length) % cards.length])
+  }
+  const onKey = event => {
+    if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return
+    event.preventDefault()
+    move(event.key === 'ArrowLeft' ? -1 : 1)
+    cards.find(card => card.classList.contains('is-selected')).querySelector('[data-vocal-select]').focus({ preventScroll: true })
+  }
+
+
+  stage.addEventListener('keydown', onKey)
   const cleanups = cards.map(card => {
     const status = card.querySelector('[data-vocal-status]')
     const onClick = event => {
@@ -35,6 +50,9 @@ export const initVocalCards = ({ getCopy, playerController } = {}) => {
   window.addEventListener('stepaudio3:product-language-change', syncDetails)
   syncDetails()
   window.addEventListener('pagehide', () => {
+
+
+    stage.removeEventListener('keydown', onKey)
     cleanups.forEach(cleanup => cleanup())
     window.removeEventListener('stepaudio3:product-language-change', syncDetails)
   }, { once: true })

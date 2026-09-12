@@ -8,7 +8,7 @@ Live page: https://stepaudiollm.github.io/step-audio-3-gen/
 
 - Text to speech: 13 voices (six Chinese and seven English), with voice names on the left and generated speech on the right.
 - Voice design: five examples in a voice carousel.
-- Vocal generation: four separately playable songs with illustrated album covers, immediately below Voice Design.
+- Vocal generation: six separately playable songs in a five-cover carousel, immediately below Voice Design. Neon Afterglow opens in the center; select a side cover or use the left and right arrow keys to browse. Playback starts only from the play button.
 - Full-scene audio: six scenes, including a synchronized teahouse crosstalk video.
 
 The page uses relative asset paths and JavaScript modules, with no build step. Serve this directory over HTTP. For video seeking, use a static server that supports HTTP byte-range requests (such as nginx or a current Node static-file server).
