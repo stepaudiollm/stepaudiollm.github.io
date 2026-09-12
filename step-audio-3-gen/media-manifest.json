@@ -433,5 +433,21 @@
     "sha256": "9105c18fdf3f7f0e9d59f5ddff9bd686d2fc83c3a8a3b446e26a7c9b04f985ba",
     "kind": "audio",
     "usage": "tts_showcase"
+  },
+  {
+    "new": "audio/tts-showcase/tts-natural-male-generated.wav",
+    "bytes": 1090604,
+    "sha256": "720bbd66b0e1ceb8c72bfdd4e0432622619d6dbab77e7a11eab51bf7ef4b9fc6",
+    "kind": "audio",
+    "duration": 22.72,
+    "updated": "2026-09-12"
+  },
+  {
+    "new": "audio/tts-showcase/tts-dorm-male-generated.wav",
+    "bytes": 833324,
+    "sha256": "7b8309679a6a3cb0aca1d25c3510e16379eb0a9d5e289a24741c140c6ee1c1ea",
+    "kind": "audio",
+    "duration": 17.36,
+    "updated": "2026-09-12"
   }
 ]

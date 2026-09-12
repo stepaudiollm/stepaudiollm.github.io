@@ -1,5 +1,5 @@
 import { initVocalCards } from './vocal-cards.js?v=20260912-vocal-details-27'
-import { initTtsShowcase } from './tts-showcase.js?v=20260912-tts-language-groups-25'
+import { initTtsShowcase } from './tts-showcase.js?v=20260912-tts-male-additions-31'
 import WaveSurfer from './vendor/wavesurfer.esm.js'
 import { vibePeaks } from './vibe-peaks.js?v=20260911-stacked-scenes-7'
 import { sceneMusicalPeaks } from './scene-musical-peaks.js?v=20260828-1'
@@ -15,6 +15,9 @@ if (gsap && ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
 document.body.classList.add('is-ready')
 
 const presets = {
+  ttsResult12: {"title": "自然男声", "kind": "TTS", "duration": "00:23", "src": "./audio/tts-showcase/tts-natural-male-generated.wav"},
+  ttsResult13: {"title": "宿舍男声", "kind": "TTS", "duration": "00:17", "src": "./audio/tts-showcase/tts-dorm-male-generated.wav"},
+
   teahouseCrosstalk: {"title": "茶馆相声", "kind": "全要素声场", "duration": "00:49", "src": "./audio/vibespeech/vibespeech-teahouse-crosstalk.wav?v=20260911-full-scene-6"},
   vocalBeWell: { title: '你要好好的', kind: '歌声 Vocal', duration: '00:07', src: './audio/vocal-showcase/vocal-be-well.mp3' },
   ttsResult3: {"title": "清朗男声", "kind": "TTS", "duration": "00:18", "src": "./audio/tts-showcase/tts-candid-generated.wav"},

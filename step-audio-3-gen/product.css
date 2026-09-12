@@ -4442,15 +4442,15 @@ body[data-language="en"] .hero-slogan {
 .benchmark-paper-figure img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
 
 /* Original VD aqua/ink/mist/mint palette, extended within the same cool family. */
-[data-orb-palette="teal"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#teal"); }
-[data-orb-palette="ink"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#ink"); }
-[data-orb-palette="mist"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#mist"); }
-[data-orb-palette="mint"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#mint"); }
-[data-orb-palette="lagoon"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#lagoon"); }
-[data-orb-palette="frost"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#frost"); }
-[data-orb-palette="sage"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#sage"); }
-[data-orb-palette="aqua"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#aqua"); }
-[data-orb-palette="slate"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#slate"); }
+[data-orb-palette="teal"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#teal"); }
+[data-orb-palette="ink"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#ink"); }
+[data-orb-palette="mist"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#mist"); }
+[data-orb-palette="mint"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#mint"); }
+[data-orb-palette="lagoon"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#lagoon"); }
+[data-orb-palette="frost"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#frost"); }
+[data-orb-palette="sage"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#sage"); }
+[data-orb-palette="aqua"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#aqua"); }
+[data-orb-palette="slate"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#slate"); }
 
 /* The bilingual overview has two full-width paragraphs. */
 .model-overview-summary { max-width: 1040px; }
@@ -4586,8 +4586,8 @@ body[data-language="zh"] .model-prose .model-lead {
 }
 
 /* Distinct TTS colors; SVG fallback and WebGL share the same ramps. */
-[data-orb-palette="amber"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#amber"); }
-[data-orb-palette="lilac"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260911-tts-distinct-colors-15#lilac"); }
+[data-orb-palette="amber"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#amber"); }
+[data-orb-palette="lilac"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#lilac"); }
 
 /* Keep the longer sound heading on two lines in narrow desktop windows. */
 @media (max-width: 1000px) { .sound-library-intro h2 { font-size: clamp(30px, 4vw, 40px); } }
@@ -4634,3 +4634,7 @@ body[data-language="zh"] .model-prose .model-lead {
   .vocal-lyrics-column { border: 0; padding-left: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .vocal-card-control { transition: none; } }
+
+/* Additional Chinese male voices use distinct, matching thumbnail/animated palettes. */
+[data-orb-palette="copper"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#copper"); }
+[data-orb-palette="rose"] { --voice-palette: url("./assets/voice-orbs/aqua-palette.svg?v=20260912-tts-male-additions-31#rose"); }

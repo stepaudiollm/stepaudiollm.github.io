@@ -1,6 +1,9 @@
 (() => {
 const productCopy = Object.freeze({
   zh: {
+    ttsVoice12: "自然男声",
+    ttsVoice13: "宿舍男声",
+
     ttsVoice3: "清朗男声",
     ttsVoice4: "温暖女声",
     ttsVoice11: "Mellow Lady",
@@ -105,6 +108,9 @@ const productCopy = Object.freeze({
 
   },
   en: {
+    ttsVoice12: "Natural Male",
+    ttsVoice13: "Dorm Male",
+
     ttsVoice3: "Bright Gentleman",
     ttsVoice4: "Warm Lady",
     ttsVoice11: "Mellow Lady",
@@ -223,6 +229,8 @@ const presetCopy = Object.freeze({
   ttsResult5: {"title": ["Lisa生成结果", "Lisa generated speech"]},
   ttsResult7: {"title": ["Nick生成结果", "Nick generated speech"]},
   ttsResult3: {"title": ["清朗男声生成结果", "Bright Gentleman generated speech"]},
+  ttsResult12: {"title": ["自然男声生成结果", "Natural Male generated speech"]},
+  ttsResult13: {"title": ["宿舍男声生成结果", "Dorm Male generated speech"]},
   ttsResult4: {"title": ["温暖女声生成结果", "Warm Lady generated speech"]},
   ttsResult11: {"title": ["Mellow Lady生成结果", "Mellow Lady generated speech"]},
   ttsResult10: {"title": ["Noble Cast生成结果", "Noble Cast generated speech"]},

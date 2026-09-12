@@ -1,4 +1,4 @@
-import { initVoiceOrbFlow } from './voice-orb-flow.js?v=20260911-tts-distinct-colors-15'
+import { initVoiceOrbFlow } from './voice-orb-flow.js?v=20260912-tts-male-additions-31'
 
 export function initTtsShowcase({ playerController, getCopy }) {
   const root = document.querySelector('#tts-showcase')
