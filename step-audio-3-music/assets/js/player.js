@@ -319,6 +319,11 @@ export function closeNP() {
   $('plExpand').focus();
 }
 
+// 收起详情时保留当前音频和底部播放栏，黑胶仍可再次展开详情。
+export function collapseNP() {
+  closeNP();
+}
+
 /* ── seek 交互 ─────────────────────────────────────────────────────────── */
 function wireSeek(cv) {
   if (!cv) return;
@@ -358,8 +363,10 @@ export function initPlayer() {
   $('npNext').onclick = () => A.step(1);
   $('plExpand').onclick = openNP;
   $('plTT').onclick = openNP;              // 点黑胶也展开
-  $('npClose').onclick = closeNP;
-  npScrim.onclick = closeNP;
+  $('npCollapse').onclick = collapseNP;
+  // 详情面板关闭会停止当前播放；底部胶囊关闭按钮也执行真正停止。
+  $('npClose').onclick = () => { closeNP(); A.stop(); };
+  npScrim.onclick = collapseNP;
 
   // 关闭播放栏：停止播放并收起整条
   $('plClose').onclick = () => {

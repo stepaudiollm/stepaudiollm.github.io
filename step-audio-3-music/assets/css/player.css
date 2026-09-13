@@ -340,6 +340,15 @@ body[data-playing] .player { transform: none; opacity: 1; pointer-events: auto; 
   transition: var(--d-micro) var(--ease);
 }
 .np-close:hover { color: var(--ink); background: var(--paper); }
+.np-collapse {
+  position: absolute; right: 58px; top: 20px; z-index: 4;
+  width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--ink-3); background: transparent;
+  transition: var(--d-fast) var(--ease);
+}
+.np-collapse:hover { color: var(--ink); background: var(--paper); }
+.np-collapse .icon-sm { width: 17px; height: 17px; }
 
 .np-title {
   font-size: 27px; font-weight: var(--fw-semi);

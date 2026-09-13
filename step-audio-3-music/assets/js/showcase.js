@@ -23,7 +23,7 @@ export function initShowcase() {
       card.setAttribute('aria-current', String(card.dataset.id === state.track?.id));
     });
     const labels = {
-      plTT: 'player.expand', plExpand: 'player.expand', npClose: 'player.close',
+      plTT: 'player.expand', plExpand: 'player.expand', npClose: 'player.close', npCollapse: 'player.collapse',
       plClose: 'player.close', plPrev: 'player.prev', npPrev: 'player.prev',
       plNext: 'player.next', npNext: 'player.next',
       plDownload: 'player.download', npDownload: 'player.download',
@@ -41,7 +41,8 @@ export function initShowcase() {
     const track = list.find(x => x.id === card.dataset.id);
     if (!track) return;
     playTrack(track, list);
-    if (event.target.closest('.card-ref')) openNP();
+    // 首次点击示例直接打开中央详细播放栏。
+    openNP();
   });
 
   initPlayer();
