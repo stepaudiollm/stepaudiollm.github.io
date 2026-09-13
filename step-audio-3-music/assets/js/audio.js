@@ -40,7 +40,10 @@ export function load(track, queue) {
   }
   el.load();
   emit('track');
-  getPeaks(track).then(() => emit('peaks'));
+  // 波形计算需要重新下载并解码整首音频。不要把它放在点击播放的关键路径上，
+  // 否则较大的示例曲目会让用户先等解码完成才听到声音；播放先启动，空闲时再补画波形。
+  const schedulePeaks = window.requestIdleCallback || (fn => setTimeout(fn, 120));
+  schedulePeaks(() => getPeaks(track).then(() => emit('peaks')), { timeout: 1200 });
 }
 
 export async function play() {

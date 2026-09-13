@@ -1192,6 +1192,8 @@ let embedStarted = false, embedUI = null;
 const EXPAND_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M3 16v5h5"/></svg>';
 const COMPRESS_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8V3H3M21 8V3h-5M16 21v-5h5M3 16h5v5"/></svg>';
 const PLAY_SVG = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>';
+const SOUND_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M17 9.5a4 4 0 0 1 0 5"/><path d="M19.5 7a7.5 7.5 0 0 1 0 10"/></svg>';
+const MUTE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="m18 9-5 6M13 9l5 6"/></svg>';
 
 function embedPlay() {
   if (!embedStarted) {                       // 第一次播放才真正开跑
@@ -1200,12 +1202,15 @@ function embedPlay() {
     run(0);
   }
   Clock.paused = false;
+  const music = $('promoMusic');
+  if (music) music.play().catch(() => {});
   embedUI.classList.remove('idle', 'paused');
   embedUI.classList.add('playing');
 }
 function embedPause() {
   if (!embedStarted) return;
   Clock.paused = true;
+  $('promoMusic')?.pause();
   embedUI.classList.remove('playing');
   embedUI.classList.add('paused');
 }
@@ -1228,16 +1233,26 @@ function initEmbed() {
       '<span class="embed-poster-cap">Feature walkthrough · click to play</span>' +
     '</div>' +
     '<button class="embed-center-play" aria-label="Play">' + PLAY_SVG + '</button>' +
+    '<button class="embed-mute" id="embedMute" aria-label="Mute">' + SOUND_SVG + '</button>' +
     '<button class="embed-expand" id="embedExpand" aria-label="Fullscreen">' + EXPAND_SVG + '</button>';
   document.body.appendChild(embedUI);
 
   // 点视频任意处：播放 / 暂停切换
   embedUI.addEventListener('click', e => {
-    if (e.target.closest('#embedExpand')) return;   // 展开按钮单独处理
+    if (e.target.closest('#embedExpand, #embedMute')) return;   // 控制按钮单独处理
     embedToggle();
   });
   // 右下角展开 / 收起全屏
   $('embedExpand').addEventListener('click', e => { e.stopPropagation(); toggleFull(); });
+  $('embedMute').addEventListener('click', e => {
+    e.stopPropagation();
+    const music = $('promoMusic');
+    if (!music) return;
+    music.muted = !music.muted;
+    $('embedMute').innerHTML = music.muted ? MUTE_SVG : SOUND_SVG;
+    $('embedMute').setAttribute('aria-label', music.muted ? 'Unmute' : 'Mute');
+    $('embedMute').classList.toggle('muted', music.muted);
+  });
 
   document.addEventListener('fullscreenchange', () => {
     const full = !!document.fullscreenElement;

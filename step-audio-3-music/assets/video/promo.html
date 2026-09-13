@@ -315,6 +315,9 @@ So let it ring, let it carry on</pre>
 </div>
 <div class="progress" id="progress" hidden><i id="progressFill"></i></div>
 
+<!-- Intro 宣传片背景音乐；用户点击播放后与动画同步，避免浏览器自动播放拦截。 -->
+<audio id="promoMusic" preload="auto" loop src="../intro-music.mp3" aria-label="Promo background music"></audio>
+
 <script src="promo/lib/abcjs-basic-6.7.0.js"></script>
 <script src="promo/lib/soundfont-acoustic-grand-piano.js"></script>
 <!-- 普通脚本兼容 file:// 离线打开；promo.js 不依赖 ES module import。 -->
