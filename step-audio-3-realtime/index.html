@@ -1102,76 +1102,7 @@ function initGalleryCarousel(demos){
   const total = demos.length;
   let swipeX = 0, swipeY = 0, swiped = false;
 
-  /* 笔记本触控板的横向滑动会以 wheel(deltaX) 事件到达，而不是 pointer 拖拽。
-     每个明确的横向事件只翻一页；翻页后固定冷却一小段时间，冷却期间的
-     惯性事件全部忽略，并从最后一枚惯性事件重新计算冷却，避免长滑动在
-     冷却结束后又被残余事件触发。这里不累计位移，也不判断速度或方向变化。 */
-  if (container.__trackpadWheelCleanup) container.__trackpadWheelCleanup();
-  let wheelLockedUntil = 0;
-  let wheelLastAt = null;
-  let wheelBurstActive = false;
-  let wheelBurstTimer = 0;
-  let wheelPageTimer = 0;
-  const wheelQueue = [];
-  // .gallery-card 的 transform 动画是 0.6s；翻页冷却设为 1.2s。
-  const WHEEL_PAGE_GAP = 1200;
-  // 横向 wheel 停顿超过这一时间，视为下一次独立滑动。只看事件间隔，
-  // 不看位移大小、速度或方向变化，避免把长惯性拆成多页。
-  const WHEEL_GESTURE_GAP = 180;
-  const endWheelBurst = () => {
-    wheelBurstActive = false;
-    wheelBurstTimer = 0;
-  };
-  const scheduleWheelPage = () => {
-    if (wheelPageTimer || !wheelQueue.length) return;
-    const delay = Math.max(0, wheelLockedUntil - performance.now());
-    wheelPageTimer = setTimeout(() => {
-      wheelPageTimer = 0;
-      if (!wheelQueue.length) return;
-      const direction = wheelQueue.shift();
-      goTo(current + direction);
-      wheelLockedUntil = performance.now() + WHEEL_PAGE_GAP;
-      scheduleWheelPage();
-    }, delay);
-  };
-  const requestWheelPage = (direction, now) => {
-    if (now < wheelLockedUntil || wheelQueue.length) {
-      wheelQueue.push(direction);
-      scheduleWheelPage();
-      return;
-    }
-    goTo(current + direction);
-    wheelLockedUntil = now + WHEEL_PAGE_GAP;
-  };
-  const onTrackpadWheel = event => {
-    if (event.ctrlKey) return;
-    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerWidth : 1;
-    const dx = event.deltaX * unit;
-    const dy = event.deltaY * unit;
-    if (!dx || Math.abs(dx) <= Math.abs(dy) * 1.12) return;
-
-    event.preventDefault();
-    const now = performance.now();
-    const gap = wheelLastAt == null ? Infinity : now - wheelLastAt;
-    const newBurst = !wheelBurstActive || gap > WHEEL_GESTURE_GAP;
-    wheelLastAt = now;
-    wheelBurstActive = true;
-    clearTimeout(wheelBurstTimer);
-    wheelBurstTimer = setTimeout(endWheelBurst, WHEEL_GESTURE_GAP);
-    if (!newBurst) return;
-
-    // 与鼠标/触摸拖拽保持同一方向：向左滑（负向 deltaX）切下一张，
-    // 向右滑（正向 deltaX）切回上一张。冷却中的新滑动排队，按 1.2s
-    // 间隔依次执行；同一轮连续惯性不会重复排队。
-    requestWheelPage(dx < 0 ? 1 : -1, now);
-  };
-  container.addEventListener("wheel", onTrackpadWheel, {passive:false});
-  container.__trackpadWheelCleanup = () => {
-    container.removeEventListener("wheel", onTrackpadWheel);
-    clearTimeout(wheelBurstTimer);
-    clearTimeout(wheelPageTimer);
-    delete container.__trackpadWheelCleanup;
-  };
+  // 触控板横向 wheel 切换已关闭；保留下面的鼠标/触摸拖拽切换。
 
   // Drag/swipe 翻页
   container.addEventListener("pointerdown", e => {
