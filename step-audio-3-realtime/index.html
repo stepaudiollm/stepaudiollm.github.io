@@ -1107,7 +1107,7 @@ function initGalleryCarousel(demos){
   let wheelLockedUntil = 0;
   // .gallery-card 的 transform 动画是 0.6s；冷却覆盖完整动画，避免动画
   // 尚未结束时又被下一帧惯性事件触发。
-  const WHEEL_PAGE_GAP = 600;
+  const WHEEL_PAGE_GAP = 1200;
   const onTrackpadWheel = event => {
     if (event.ctrlKey) return;
     const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerWidth : 1;
