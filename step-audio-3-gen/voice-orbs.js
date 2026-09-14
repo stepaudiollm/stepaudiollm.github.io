@@ -8,6 +8,7 @@ export const initVoiceOrbCarousel = ({
   getTitle,
   getCaption,
   syncPlayerLanguage,
+  syncScript,
 } = {}) => {
   const root = document.querySelector('[data-voice-orb-carousel]')
   const stage = root?.querySelector('[data-voice-orb-stage]')
@@ -138,6 +139,7 @@ export const initVoiceOrbCarousel = ({
     if (next) next.disabled = activeIndex === slides.length - 1
     if (announcement) announcement.textContent = getTitle?.(slides[activeIndex].dataset.inlinePlayer) || ''
     root.dataset.activeIndex = String(activeIndex)
+    syncScript?.(slides[activeIndex].dataset.inlinePlayer)
   }
 
   const goTo = (index, { focus = false, audition = false } = {}) => {

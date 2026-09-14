@@ -345,6 +345,43 @@ const syncVocalDetails = () => {
   lyrics.lang = entry.lang
   region.dataset.vocalDetail = selected.dataset.inlinePlayer
 }
+const vdScripts = Object.freeze({
+  "child": {
+    "text": "叮咚青哈基米，大东北库里库里嘎嘛尼尼，人宝宝and比公咕咕嘎嘎，真是黄极北极熊，转圈圈转圈圈，萝卜萝卜真棒真棒，阿姆拉斯科喵我的身材妙，欧耶。",
+    "lang": "zh-CN"
+  },
+  "elder": {
+    "text": "院子里的枣树……今年怕是结不了果了。去年这个时候，它还压弯了枝。你妈总爱拿竹竿去打，我说别打了，留给鸟吃。她不听……不听也好。",
+    "lang": "zh-CN"
+  },
+  "velvetFemale": {
+    "text": "I've drafted the email to j smith at orange.com with the proposal attached - shall I go ahead and send it?",
+    "lang": "en"
+  },
+  "nightRadio": {
+    "text": "有位听众留言说，她养了三年的猫上个月走了。她说现在每天回家还是会下意识喊它的名字，然后愣在玄关。我不知道怎么安慰她，我只想说，被好好爱过的生命，离开的时候一定也是带着暖意的。",
+    "lang": "zh-CN"
+  },
+  "englishBrightGirl": {
+    "text": "Guess what I just saw! A tiny squirrel was hiding in the blossom tree, holding a nut in its little paws.",
+    "lang": "en"
+  }
+})
+const syncVdScript = (voiceId) => {
+  const region = document.querySelector('[data-vd-script-region]')
+  const carousel = document.querySelector('[data-voice-orb-carousel]')
+  if (!region || !carousel) return
+  const slides = carousel.querySelectorAll('[data-voice-orb-slide]')
+  const index = Number(carousel.dataset.activeIndex ?? carousel.dataset.initialIndex) || 0
+  const id = voiceId || slides[index]?.dataset.inlinePlayer
+  const entry = vdScripts[id]
+  if (!entry) return
+  region.querySelector('[data-vd-script-label]').textContent = document.documentElement.lang.startsWith('zh') ? '台词' : 'Script'
+  const text = region.querySelector('[data-vd-script-text]')
+  text.textContent = entry.text
+  text.lang = entry.lang
+  region.dataset.vdScriptVoice = id
+}
 const preferLanguage = (items, getLanguage, language) => [...items].sort((a, b) =>
   Number(getLanguage(b) === language) - Number(getLanguage(a) === language))
 // Share sample-language filtering between the initial render and interactive player.
@@ -440,6 +477,7 @@ const applyInitial = () => {
     card.querySelector('[data-vocal-meta]').textContent = entry.meta[index]
   })
   syncVocalDetails()
+  syncVdScript()
   // Match the interactive default before deferred modules arrive.
   const list = document.querySelector('.tts-reference-list')
   const buttons = preferLanguage([...document.querySelectorAll('[data-tts-select]')], item => item.dataset.ttsLanguage, language)
@@ -512,5 +550,5 @@ const applyInitial = () => {
   window.addEventListener('scroll', syncHeader, { passive: true })
   stopInitialHeader = () => window.removeEventListener('scroll', syncHeader)
 }
-window.stepAudioProductCopy = Object.freeze({ productCopy, presetCopy, syncVocalDetails, preferLanguage, setTtsLanguageGroup, createSceneCover, applyInitial, finishInitial: () => stopInitialHeader() })
+window.stepAudioProductCopy = Object.freeze({ productCopy, presetCopy, syncVocalDetails, syncVdScript, preferLanguage, setTtsLanguageGroup, createSceneCover, applyInitial, finishInitial: () => stopInitialHeader() })
 })()

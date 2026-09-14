@@ -2215,7 +2215,7 @@ body::after,
   --voice-orb-step: clamp(260px, 26vw, 320px);
   position: relative;
   min-width: 0;
-  height: calc(396px + var(--voice-caption-height, 114px));
+  height: auto;
   overflow: visible;
   border: 1px solid rgb(23 25 29 / 8%);
   border-radius: 24px;
@@ -4637,7 +4637,8 @@ body[data-language="zh"] .model-prose .model-lead {
 /* Match the section description in both the prompt and lyric columns. */
 .vocal-showcase-copy > p:last-child,
 .vocal-prompt-column p,
-.vocal-lyrics-column p {
+.vocal-lyrics-column p,
+.vd-script-text {
   font-family: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 18px;
   font-weight: 400;
@@ -4658,3 +4659,24 @@ body[data-language="zh"] .model-prose .model-lead {
 /* Additional Chinese male voices use distinct, matching thumbnail/animated palettes. */
 [data-orb-palette="copper"] { --voice-palette: url("#voice-palette-copper"); }
 [data-orb-palette="rose"] { --voice-palette: url("#voice-palette-rose"); }
+
+/* One shared transcript beneath the selected voice's description. */
+.vd-script {
+  margin: calc(46px + var(--voice-caption-height, 114px)) 40px 0;
+  padding: 24px 0 30px;
+  border-top: 1px solid rgb(23 25 29 / 16%);
+}
+.vd-script h4 {
+  margin: 0 0 14px;
+  color: #176b73;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.vd-script-text {
+  max-width: 960px;
+  min-height: 97.2px;
+  margin: 0;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}

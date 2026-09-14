@@ -3,7 +3,7 @@ import { initTtsShowcase } from './tts-showcase.js?v=20260912-tts-male-additions
 import WaveSurfer from './vendor/wavesurfer.esm.js'
 import { vibePeaks } from './vibe-peaks.js?v=20260911-stacked-scenes-7'
 import { sceneMusicalPeaks } from './scene-musical-peaks.js?v=20260828-1'
-import { initVoiceOrbCarousel } from './voice-orbs.js?v=20260911-cool-orbs-1'
+import { initVoiceOrbCarousel } from './voice-orbs.js?v=20260914-vd-script-39'
 import { createSceneVideoPlayback } from './scene-video.js?v=20260909-case-video-recovery-1'
 
 const gsap = window.gsap
@@ -1298,6 +1298,7 @@ initVoiceOrbCarousel({
   getCopy: copyFor,
   getTitle: presetText,
   getCaption: (id) => ({ title: presetText(id, 'orbHeading'), description: presetText(id, 'orbDescription') }),
+  syncScript: window.stepAudioProductCopy.syncVdScript,
   syncPlayerLanguage,
 })
 initVibeCarousel(playerController)
