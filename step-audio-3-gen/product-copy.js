@@ -168,7 +168,7 @@ const productCopy = Object.freeze({
     pageTitle: 'StepAudio 3 Gen',
     pageDescription: 'StepAudio 3 Gen turns a single description into a complete soundscape with multi-character dialogue, ambience, sound effects, and music.',
     apiLabel: 'API',
-    apiHref: 'https://platform.stepfun.ai/docs/en/guides/models/stepduio-3-gen',
+    apiHref: 'https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen',
     startCreating: 'Voice Studio',
     experienceHref: '',
     experienceStatus: 'Coming Soon',

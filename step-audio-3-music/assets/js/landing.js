@@ -101,7 +101,7 @@ try {
 const t = k => DICT[lang][k] ?? DICT.zh[k] ?? '';
 const API_HREF = {
   zh: 'https://platform.stepfun.com/docs/zh/guides/models/stepaudio-3-music',
-  en: 'https://platform.stepfun.ai/docs/en/guides/models/stepduio-3-music',
+  en: 'https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-music',
 };
 const EXPERIENCE_HREF = 'https://www.stepfun.com/studio/audio';
 
