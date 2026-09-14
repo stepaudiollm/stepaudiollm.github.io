@@ -506,6 +506,9 @@
   .gallery-range{height:20px;margin:0;padding:0;border:0;background:transparent;cursor:pointer;
     accent-color:#fff;-webkit-appearance:none;appearance:none}
   .gallery-progress{min-width:80px;flex:1}
+  .gallery-time{min-width:76px;flex:none;color:rgba(255,255,255,.82);
+    font:400 10px/1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:center}
+  .gallery-time-sep{padding-inline:2px;color:rgba(255,255,255,.46)}
   .gallery-volume-range{width:68px;flex:none}
   .gallery-range::-webkit-slider-runnable-track{height:3px;border-radius:99px;background:rgba(255,255,255,.36)}
   .gallery-range::-webkit-slider-thumb{width:12px;height:12px;margin-top:-4.5px;border:0;
@@ -531,6 +534,7 @@
   @media (max-width:720px){
     .gallery-center-play{width:54px;height:54px}
     .gallery-video-controls{left:7px;right:7px;bottom:7px;height:38px;padding-inline:7px;gap:7px}
+    .gallery-time{min-width:68px;font-size:9px}
     .gallery-volume-range{display:none}
   }
 
@@ -1174,8 +1178,8 @@ function initGalleryCarousel(demos){
 
   // Render cards — poster 做占位，先取 metadata，开屏起播后再后台预缓冲。
   const controlLabels = lang === "zh"
-    ? {play:"播放",pause:"暂停",progress:"播放进度",mute:"静音",volume:"音量",fullscreen:"全屏",exitFullscreen:"退出全屏"}
-    : {play:"Play",pause:"Pause",progress:"Playback progress",mute:"Mute",volume:"Volume",fullscreen:"Fullscreen",exitFullscreen:"Exit fullscreen"};
+    ? {play:"播放",pause:"暂停",progress:"播放进度",time:"当前时间和总时长",mute:"静音",volume:"音量",fullscreen:"全屏",exitFullscreen:"退出全屏"}
+    : {play:"Play",pause:"Pause",progress:"Playback progress",time:"Current time and duration",mute:"Mute",volume:"Volume",fullscreen:"Fullscreen",exitFullscreen:"Exit fullscreen"};
   track.innerHTML = demos.map((item, i) => {
     const posterSrc = item.poster || item.src.replace(/\?.*$/, "").replace(/\.mp4$/, ".jpg");
     return `<div class="gallery-card" data-title="${item.t}" data-index="${i}">
@@ -1195,6 +1199,7 @@ function initGalleryCarousel(demos){
               <svg class="pause-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
            </button>
             <input class="gallery-range gallery-progress" type="range" min="0" max="100" step=".1" value="0" aria-label="${controlLabels.progress}">
+            <span class="gallery-time" aria-label="${controlLabels.time}"><span class="gallery-current-time">0:00</span><span class="gallery-time-sep">/</span><span class="gallery-duration">0:00</span></span>
             <button type="button" class="gallery-control gallery-volume" aria-label="${controlLabels.mute}">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M10.5 6 6.3 9.5H3.5v5h2.8l4.2 3.5V6Z" fill="currentColor"/>
@@ -1232,6 +1237,17 @@ function initGalleryCarousel(demos){
     if (p?.then) p.then(() => syncPlayer(video.closest(".gallery-card"))).catch(() => {});
   }
 
+  function formatGalleryTime(value){
+    if (!Number.isFinite(value) || value < 0) return "0:00";
+    const seconds = Math.floor(value);
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor(seconds % 3600 / 60);
+    const remainder = seconds % 60;
+    return hours
+      ? `${hours}:${String(minutes).padStart(2,"0")}:${String(remainder).padStart(2,"0")}`
+      : `${minutes}:${String(remainder).padStart(2,"0")}`;
+  }
+
   function syncPlayer(card){
     const v = card.querySelector("video");
     if (!v) return;
@@ -1239,6 +1255,8 @@ function initGalleryCarousel(demos){
     const centerPlay = card.querySelector(".gallery-center-play");
     const transportBtn = card.querySelector(".gallery-transport");
     const progress = card.querySelector(".gallery-progress");
+    const currentTime = card.querySelector(".gallery-current-time");
+    const duration = card.querySelector(".gallery-duration");
     const volumeBtn = card.querySelector(".gallery-volume");
     const volumeRange = card.querySelector(".gallery-volume-range");
     if (!paused) card.classList.add("has-started");
@@ -1250,6 +1268,8 @@ function initGalleryCarousel(demos){
     if (progress && Number.isFinite(v.duration) && v.duration > 0) {
       progress.value = String(v.currentTime / v.duration * 100);
     }
+    currentTime.textContent = formatGalleryTime(v.currentTime);
+    duration.textContent = formatGalleryTime(v.duration);
     const muted = v.muted || v.volume === 0;
     volumeBtn.classList.toggle("is-muted", muted);
     volumeBtn.setAttribute("aria-label", muted
@@ -1340,6 +1360,7 @@ function initGalleryCarousel(demos){
       progress.addEventListener("input", () => {
         if (!Number.isFinite(v.duration) || v.duration <= 0) return;
         v.currentTime = Number(progress.value) / 100 * v.duration;
+        syncPlayer(card);
       });
       volumeBtn.addEventListener("click", () => {
         if (v.muted || v.volume === 0) {
