@@ -473,6 +473,8 @@
   .gallery-card-media{position:relative;background:#111417;overflow:hidden;flex:1 1 auto;
     border-radius:15px;clip-path:inset(0 round 15px);contain:paint;isolation:isolate}
   .gallery-card-video{width:100%;aspect-ratio:16/9;display:block;background:#111417;object-fit:cover;cursor:pointer}
+  /* 侧边卡片只负责被点击切换；原生播放控件仅在中间卡片启用。 */
+  .gallery-card:not(.is-center) .gallery-card-video{pointer-events:none}
 
   .gallery-card-media .play-overlay{position:absolute;z-index:2;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity .3s ease}
   .gallery-card-media .play-overlay.hidden{visibility:hidden;opacity:0}
@@ -1121,8 +1123,8 @@ function initGalleryCarousel(demos){
     return `<div class="gallery-card" data-title="${item.t}" data-index="${i}">
       <div class="gallery-card-frame">
         <div class="gallery-card-media">
-          <video class="gallery-card-video" loop playsinline preload="none"
-            poster="${posterSrc}" data-src="${item.src}" aria-label="${item.t}">
+          <video class="gallery-card-video" loop playsinline controls preload="none"
+            src="${item.src}" poster="${posterSrc}" data-src="${item.src}" aria-label="${item.t}">
           </video>
           <div class="play-overlay">
             <div class="play-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg></div>
@@ -1144,7 +1146,7 @@ function initGalleryCarousel(demos){
   }
   const dots = dotsContainer.querySelectorAll(".gallery-dot");
 
-  /* 只响应用户点击。play() 必须留在点击调用栈里，Safari 才会允许带声音播放。 */
+  /* 视频使用浏览器原生控件：播放/暂停、进度、音量和全屏均由原生控件处理。 */
   function loadAndPlay(video){
     if (!video) return;
     if (!video.src && video.dataset.src) {
@@ -1201,6 +1203,8 @@ function initGalleryCarousel(demos){
     });
     const v = card.querySelector("video");
     if (v){
+      // 原生控件的点击不能冒泡到卡片，否则会被误判成一次卡片点击。
+      v.addEventListener("click", e => e.stopPropagation());
       v.addEventListener("play",  () => syncOverlay(card));
       v.addEventListener("pause", () => syncOverlay(card));
       v.addEventListener("ended", () => syncOverlay(card));
