@@ -310,31 +310,65 @@ const Notes = {
 
 const COPY = {
   s2a: {
-    desc: 'Dreamy synth-pop, female vocal, warm analog pads over a brushed kit, nostalgic and wide, C minor, 92 BPM.',
-    lyrics: '[Verse]\nCity lights bleed through the rain\nI keep your name inside a song\n\n[Chorus]\nSo let it ring, let it carry on',
-    title: 'Neon Rain',
-    tags: 'Synth-pop · Female · 92 BPM · Cm',
+    desc: 'A warm, raspy male vocal folk-pop song in D major, soft and unhurried, with gentle orchestral elements and a nostalgic, tender, bittersweet mood.',
+    lyrics: '[Intro]\n\n[Verse 1]\n\nThe iron gate stands tall and cold\nWhere stories of my childhood were told\nYour calloused palm, it finds my own\nA warmth that I have always known',
+    title: 'Start Fresh Today',
+    tags: 'Folk-pop · Male ·  D major',
     cover: '../covers/cover-s04-retrofuture-02.webp',
-    dur: '3:12'
+    dur: '3:12', audio: '../audio/tracks/t-03.mp3', clip: [14, 25]
   },
   s2b: {
-    desc: 'Rebuild it as a late-night jazz ballad — upright bass, brushed drums, warm Rhodes, male vocal.',
-    lyrics: '[Verse]\nCity lights bleed through the rain\nI keep your name inside a song\n\n[Chorus]\nSo let it ring, let it carry on',
-    title: 'Neon Rain (Midnight Cut)',
-    tags: 'Jazz ballad · Male · 78 BPM · Eb',
+    desc: 'Soul，温柔男声，抒情，心碎',
+    lyrics: '[Chorus 1]\n\n你背影没收 黄昏的温柔\n风把余温都吹成 冷的褶皱\n我在河堤这头 把沉默当朋友\n以为藏得住 却湿透 了眼眸',
+    title: '漏不掉你回眸-cover',
+    tags: 'Soul · Male · Ballad',
     cover: '../covers/cover-s03-collage-02.webp',
-    dur: '3:41'
+    dur: '3:10', refAudio: '../audio/refs/ref-song-03.mp3', audio: '../audio/tracks/t-18.mp3', refClip: [18, 27], clip: [7, 25]
   },
   s3: {
-    desc: 'Cinematic indie-folk, female vocal, fingerpicked nylon guitar with strings, hopeful, C minor, 92 BPM.',
-    lyrics: '[Verse]\nI counted every quiet street\n\n[Chorus]\nAnd every road leads back to you',
-    title: 'Every Road',
-    chat: 'Make the chorus feel a little brighter and more uplifting.',
+    desc: '温暖细腻的民谣流行，男声轻柔演唱，D大调，加入管弦乐元素，整体舒缓自然，带有怀旧、温柔而略带忧伤的氛围。',
+    lyrics: '[Intro, soft guzheng arpeggio with distant rain sound]\n青石板 又漫过一层浅寒\n旧伞沿 还沾着去年的云烟\n檐下风铃 晃过三两句闲谈\n我数着 瓦当上的雨痕慢慢\n[Verse 1, soft groove with guzheng and bamboo flute accents, gentle vocal delivery]\n你走后 茶盏总温到半晚\n窗外的 芭蕉叶又绿了一盏\n纸鸢断了线 飞过了山南\n我还停在 初遇的那扇门环',
+    title: '檐下听雨',
+    chat: '把这首歌改成一首舒缓、忧郁的东方抒情曲，D小调，72 BPM。以古筝、笛子为主，加入柔和弦乐、钢琴和轻打击乐。旋律流畅舒缓，节奏简单，适当加入长音和留白，营造安静、细腻、略带悲伤的电影感。',
     cover1: '../covers/cover-s01-minimal-01.webp',
     cover2: '../covers/cover-abstract-03.jpg',
     cover3: '../covers/cover-dawn-02.jpg'
   }
 };
+
+/* 宣传片中的真实示例音频：播放指定片段，切入时压低背景音乐，结束后恢复。 */
+let demoToken = 0;
+function stopDemoAudio() {
+  demoToken++;
+  const a = $('promoDemoAudio');
+  if (a) { a.pause(); a.removeAttribute('src'); a.load(); }
+}
+let demoAudioUnlocked = false;
+function unlockDemoAudio() {
+  if (demoAudioUnlocked) return;
+  const a = $('promoDemoAudio'); if (!a) return;
+  // 在首次播放按钮的真实用户手势中解锁该 audio 元素，后续 Create 动画
+  // 即使经过 await 也能正常切换片段播放。
+  a.src = '../audio/tracks/t-03.mp3';
+  a.muted = true;
+  const p = a.play();
+  if (p?.then) p.then(() => { a.pause(); a.currentTime = 0; a.muted = false; demoAudioUnlocked = true; }).catch(() => {});
+}
+function playDemoSegment(src, range) {
+  const a = $('promoDemoAudio'); if (!a || !src || !range) return;
+  const token = ++demoToken, [start, end] = range;
+  // 功能演示音频独立播放，宣传片整体背景音乐已移除。
+  a.src = src;
+  const finish = () => {
+    if (token !== demoToken) return;
+    a.pause(); a.removeEventListener('timeupdate', check);
+  };
+  const check = () => { if (a.currentTime >= end) finish(); };
+  a.addEventListener('timeupdate', check);
+  a.addEventListener('ended', finish, { once: true });
+  const begin = () => { if (token !== demoToken) return; a.currentTime = start; a.play().catch(() => {}); };
+  if (a.readyState >= 1) begin(); else a.addEventListener('loadedmetadata', begin, { once: true });
+}
 
 // 提前解码所有会出现在黑胶唱片中心的封面。只设置 src 会把解码推迟到
 // 播放栏出现之后，造成短暂的黑色唱片；decode() 完成后再展示播放栏。
@@ -359,60 +393,14 @@ for (const src of [COPY.s2a.cover, COPY.s2b.cover, COPY.s3.cover1, COPY.s3.cover
    格式与真实推理产物一致：header + % 段落注释 + 带和弦标记的旋律。
    为了在一屏里读得清，这里是 12 小节的精简版。                            */
 
-const ABC_HEAD = [
-  'X:1',
-  'Q: 1/4=92',
-  'L: 1/16',
-  'M: 4/4',
-  'K: Cm',
-  '% Language: English',
-  '% Duration: 41.0s | Total bars: 12',
-];
+const ABC_V1 = ["X:1", "Q: 1/4=98", "L: 1/16", "M: 4/4", "K: Am", "% Language: 中文", "% Duration: 275.7s | Total bars: 113", "% Instruments: [guzheng, guitar, harp, acoustic_guitar]", "z8 z8 | z16 | z16 | z16 |", "% Vocal", "\"Am7\" z8 G4 E4 | \"Fmaj7/A\" A,12 C4- | \"C/E\" C16 | z16 |", "\"Dm7\" D12 G4- | \"Em7\" G12 z4 | \"Fmaj7\" E8- ED3-D2B,2- |", "% Instrumental", "\"Fmaj7\" B,4- \"G6\" B,8 z4 | \"Dm7\" z4 DCDC DE3-E2GE | \"Em7\" DCDEDCA,G, CDEGAcAG |", "% Instruments: [bass, drums, acoustic_guitar, electric_guitar]", "% Vocal", "\"Am\" z2 EEE2DD D2CCD2E2 | \"Fmaj7\" A,4 z12 | \"Dm7\" z2 DCD2DC D2EED2C2 | \"Cmaj7\" E4 z12 |", "\"Am\" z2 EEG2AA A2GAE2G2 | \"Fmaj7\" C4 z2 D2 A,2 z2 A,B,C2 | \"Dm7\" D2DDD2E2 \"Em7\" D2 z4 G,2 | \"Am\" A,4 z12 |", "% Instruments: [acoustic_guitar, bass, piano, synth_pad, flute, keyboard]", "% Vocal", "\"Am\" z2 CCC2CB,- \"G6\" B,B,A,A,B,2C2 | \"F#m7b5\" A,4 z12 | \"F\" z2 DDDCDC \"G7sus4\" DDDE3G2 | \"Cmaj7\" E4 z8 z2 EG |", "\"Dm7\" A4 A2c2 \"G7/D\" B2A2G2A2 | \"Am\" A,4 z2 D2 A,2 z2 A,2C2 | \"Dm7\" DD2CDD2E \"Em7\" D4 z2 G,2 | \"Am7\" A,4 z8 z2 CD |", "% Instruments: [drums, bass, acoustic_guitar, synthesizer, organ, piano]", "% Vocal", "\"Fmaj7\" E2A2A2e2 \"G\" d2d2G2E2 | \"Am7\" E4 z8 z2 CD | \"Fmaj7\" E2A2A2e2 \"G\" dddee2G2 | \"Cmaj7\" e6 c4 z2 GAcd |", "\"Dm7\" e4 A2c2 \"G7sus4\" d2cc3G2 | \"Am7\" c2dc3A2 \"F#m7b5\" E2 z2 EE2E | \"Fmaj7\" D2CD3E2 \"Em7\" G3AD2A,2 | \"Am7\" A,8 z4 EA3 |", "% Instruments: [acoustic_guitar, piano, bass, drums, synthesizer]", "% Vocal", "\"Fmaj7\" AGAGA2e2 \"G7\" d4 c2e2- | \"Am7\" e8 z4 EA3 | \"Fmaj7\" AGAGA2e2 \"G7\" d4 g2e2 | \"Cmaj7\" e8 z2 dega2g |", "\"Dm7\" e2dd3cd \"G7\" d3ec3B | \"Am\" A6 D4 A2AB2c | \"Fmaj7\" c3A z2 cd \"Em7\" d2edG2G2 | \"Am\" A8 z8 |", "% Instruments: [drums, bass, electric_piano, piano, electric_guitar, acoustic_guitar]", "% Vocal", "\"Am\" z CDCD2DC \"Am7/G\" D2DCD2E2 |", "% Instrumental", "\"F#m7b5\" A,2 z4 CA, CE3D2C2 |", "% Vocal", "\"Fmaj7\" z2 DCD2DC \"G7\" DDDEA2G2 |", "% Instrumental", "\"C\" E2 z4 GE GD3ED3 |", "% Vocal", "\"Dm7\" z2 DEGA2G \"G\" A2GGGED2 | \"Am\" E4- ECA,G, C2 z4 CB, | \"Fmaj7\" A,D2CD2CE \"Em7\" D2 z2 G,2A,2 | \"Am\" A,6 z8 CD |", "% Instruments: [bass, piano, drums, acoustic_guitar, organ, synth_pad]", "% Vocal", "\"Fmaj7\" E2A2A2c2 \"G\" BBBA3G2 | \"Am\" E6 z8 CD | \"Fmaj7\" E2AAA2d2 \"G7\" ddde3G2 | \"C\" e6 c4 z2 GAcd |", "\"Dm7\" e4 A2d2 \"G7\" d2cdc2B2 | \"Am\" A6 E2- \"Am7/G\" E2 z2 EEEE | \"Fmaj7\" D2CDD2 z2 \"G7\" G2G2 z2 G,2 | \"Am\" A,8 z4 EA3 |", "% Instruments: [electric_guitar, drums, bass, keyboard, synth_pad]", "% Vocal", "\"Fmaj7\" AGAGA2e2 \"G\" d4 c2e2- | \"Am7\" e6 A4 z2 EA3 | \"Fmaj7\" AGAGA2e2 \"G7\" d4 g2f2 | \"C\" e6 A4 degaag |", "\"Dm7\" e2dd3ce \"G\" d3ec3B | \"Am\" A8 \"F#m7b5\" z4 AB2c | \"Fmaj7\" c3A3e2 \"G6\" d2ed3G2 | \"Am7\" A12 z2 A2 |", "% Instruments: [strings, bass, piano, mallet_percussion, flute]", "% Vocal", "\"Fmaj7\" A2 e4 ee \"G\" dedee2G2 | \"Am\" A12 z4 | \"Fmaj7\" z4 A2A2 A4 A2A2 | \"G6\" G8 c4 G4 |", "\"Am\" A16- | \"Am\" A12 z4 | z16 |", "% Instruments: [drums, bass, electric_guitar, piano, acoustic_guitar, organ]", "% Vocal", "\"Fmaj7\" z8 E2 A6 | \"Fmaj7\" A2G2A2G2 A4 e4 | \"G\" d8 c4 e4- | \"Am7\" e16 |", "\"Am7\" z8 E2 A6 | \"Fmaj7\" A2G2A2G2 A4 e4 | \"G\" d8 g4 e4 | \"C\" e12- e2d2 |", "\"C\" z4 e4 g4 a4 | \"Dm7\" e4 d2 d6 c2e2 | \"G\" d6 c6 B4 | \"Am\" A12 E4- |", "\"Am\" E4 z4 B4 c4 | \"F\" c4 A2 A6 e4 | \"G\" d4 e2 d6 G4 | \"Am\" A16 |", "\"Am\" z8 A2B2 c4 | \"F\" c4 A2 A6 e4 | \"G\" d8 G4 G4- | \"G\" G4 z8 z2 G2- |", "\"G\" G2 A6- A4- A4- |", "% Instrumental", "\"Am\" A8 z4  E4- | \"Am\" E4 z12 | \"Fmaj7\" A8 A4 c4 | \"G\" B8 G8 |", "\"Am\" E8 E8 | \"Am\" z8 C4 E4 | \"Fmaj7\" F8 A4 c4 | \"G\" B8 G8 |", "\"Am\" A8 A8 | \"Am\" z8 C4 E4 | \"Fmaj7\" A8 A4 c4 | \"G6\" B8 G8 |", "\"Am\" A8 A8 | z16 |"];
 
-const ABC_V1 = [
-  ...ABC_HEAD,
-  '% Instruments: [nylon_guitar, bass, strings]',
-  '% Intro | Instrumental',
-  '"Cm" z8 G,2C2 E2G2 | "Ab" z8 A,2C2 F2A2 |',
-  '% Verse | Vocal',
-  '"Cm" G4 z2 G2 c2B2G2E2 | "Ab" A4 z2 A2 c2A2G2F2 |',
-  '"Eb" G4 z4 B2c2d2B2 | "Bb" F4 z2 F2 A2G2F2D2 |',
-  '% Chorus | Vocal',
-  '"Cm" c4 z2 c2 e2d2c2G2 | "Ab" A4 z2 c2 f2e2d2c2 |',
-  '"Eb" B4 z2 B2 d2c2B2G2 | "Bb" F4 z2 A2 c2B2A2F2 |',
-  '% Outro | Instrumental',
-  '"Cm" G8 z4 G,2C2 | "Cm" C16 |',
-];
+const ABC_V2 = ["X:1", "Q: 1/4=72", "L: 1/16", "M: 4/4", "K: Dm", "% Language: Chinese", "% Duration: 320s | Total bars: 96", "% Instruments: [guzheng, dizi, strings, piano, softpercussion]", "% Vocals", "\"Dm\" D,2 A,2 D2 F2 A4 G2 F2 | \"C\" C2 D2 F4 G2 A2 c4 | \"Bb\" B,2 D2 F2 G2 A4 F4 | \"Am\" E4 G2 A2 c4 A4 |", "\"Dm\" {G}A6 G2 F4 D4 | \"Gm\" G4 A2 c2 d4 c2 A2 | \"A7\" G4 E4 ^C4 E2 G2 | \"Dm\" F4 D8 z4 |", "% Instruments: [guzheng, dizi, softpercussion]", "\"Dm\" z2 D2 F4 A3 G1 F4 | \"C\" G4 A2 G2 E4 D4 | \"Bb\" F6 G2 A4 c2 A2 | \"Dm\" G4 F4 D6 z2 |", "\"Gm\" D4 G2 A2 c4 A2 G2 | \"Dm\" F4 A4 G2 F2 D4 | \"Bb\" F2 G2 A4 c4 A2 G2 | \"C\" G8 E4 z4 |", "\"Dm\" A4 G2 F2 D4 F4 | \"Bb\" G2 A2 c4 A6 G2 | \"A7\" E4 G4 A2 G2 E2 ^C2 | \"Dm\" D10 z2 D2 F2 |", "% Instruments: [guzheng, dizi, strings, softpercussion]", "\"Bb\" F4 G2 A2 c6 A2 | \"C\" G4 A4 c4 d4 | \"Dm\" A6 c2 d4 c2 A2 | \"Am\" G4 E4 A6 z2 |", "\"Gm\" G4 A2 c2 d4 c4 | \"Bb\" A4 c4 d6 c2 | \"A7\" e4 d2 c2 A4 G4 | \"A7\" E4 ^C4 E4 A4 |", "% Instruments: [guzheng, dizi, strings, piano, softpercussion]", "\"Dm\" d6 c2 A2 G2 A4 | \"Bb\" c4 A2 G2 F6 G2 | \"F\" A4 c2 d2 c4 A4 | \"C\" G8 E4 z4 |", "\"Dm\" A2 c2 d4 f4 e2 d2 | \"Bb\" c6 A2 G4 F4 | \"Gm\" G4 A2 c2 d4 c2 A2 | \"A7\" G4 E4 ^C6 z2 |", "\"Bb\" F4 A4 c6 A2 | \"C\" G4 c4 d4 c2 A2 | \"A7\" G4 E4 ^C4 E4 | \"Dm\" D12 z4 |", "% Instruments: [guzheng, softpercussion]", "\"Dm\" z2 A,2 D4 F3 G1 A4 | \"C\" G6 E2 D4 E4 | \"Bb\" F4 A2 G2 F4 D2 F2 | \"Dm\" A8 F4 z4 |", "\"Gm\" G2 A2 c4 A4 G4 | \"Dm\" F6 D2 A,4 D4 | \"Bb\" F4 G2 A2 c4 d2 c2 | \"C\" A4 G4 E6 z2 |", "\"Dm\" D4 F2 A2 G4 F4 | \"Bb\" A4 c2 d2 c6 A2 | \"A7\" G2 E2 ^C4 E4 G4 | \"Dm\" F4 D8 z4 |", "% Instruments: [guzheng, dizi, strings, softpercussion]", "\"Bb\" F2 G2 A4 c4 d4 | \"C\" c6 A2 G4 c4 | \"Dm\" d4 c2 A2 d4 e4 | \"Am\" c8 A6 z2 |", "\"Gm\" G4 c2 d2 f4 d4 | \"Bb\" d6 c2 A4 c4 | \"A7\" e4 d4 c2 A2 G4 | \"A7\" E4 G4 A6 z2 |", "% Instruments: [guzheng, dizi, strings, piano, softpercussion]", "\"Dm\" d6 c2 A2 G2 A4 | \"Bb\" c4 A2 G2 F4 G2 A2 | \"F\" c4 d2 f2 e4 d4 | \"C\" c8 G4 z4 |", "\"Dm\" A2 c2 d4 f6 e2 | \"Bb\" d4 c4 A4 G2 F2 | \"Gm\" G4 A2 c2 d6 c2 | \"A7\" A4 G2 E2 ^C6 z2 |", "\"Bb\" F4 A4 c4 d4 | \"C\" e4 d2 c2 G4 A4 | \"A7\" G6 E2 ^C4 E4 | \"Dm\" D12 z4 |", "% Instruments: [piano, guzheng]", "\"Bb\" z4 F4 A4 G2 F2 | \"Dm\" D8 A,4 z4 | \"Gm\" D4 F2 G2 A4 G4 | \"A7\" E6 ^C2 A,4 z4 |", "% Instruments: [guzheng, dizi, strings, piano, softpercussion]", "\"Dm\" d6 c2 A2 G2 A4 | \"Bb\" c4 A2 G2 F4 A4 | \"F\" c4 d2 f2 e4 d4 | \"C\" c8 G4 A2 c2 |", "\"Dm\" d4 f4 e2 d2 c4 | \"Bb\" d6 c2 A4 F4 | \"Gm\" G4 A2 c2 d4 c2 A2 | \"A7\" G4 E4 ^C4 z4 |", "\"Bb\" F4 A4 c6 A2 | \"C\" G4 c4 A4 G4 | \"A7\" E4 G2 E2 ^C4 E4 | \"Dm\" D12 z4 |", "% Instruments: [guzheng, dizi, strings]", "\"Dm\" A4 G2 F2 D4 A,4 | \"C\" C2 D2 F4 G4 E4 | \"Bb\" F4 G2 A2 c4 A4 | \"Gm\" G6 F2 D4 z4 |", "% Instruments: [guzheng, dizi]", "\"Dm\" D2 F2 A4 G2 F2 D4 | \"Bb\" B,4 D4 F4 D4 | \"A7\" E4 ^C4 A,4 E4 | \"Dm\" D16 |]"];
 
-/* 改写版：副歌抬高四度并转到关系大调，速度提到 100 */
-const ABC_V2 = [
-  'X:1',
-  'Q: 1/4=100',
-  'L: 1/16',
-  'M: 4/4',
-  'K: Cm',
-  '% Language: English',
-  '% Duration: 38.6s | Total bars: 12',
-  '% Instruments: [nylon_guitar, bass, strings]',
-  '% Intro | Instrumental',
-  '"Cm" z8 G,2C2 E2G2 | "Ab" z8 A,2C2 F2A2 |',
-  '% Verse | Vocal',
-  '"Cm" G4 z2 G2 c2B2G2E2 | "Ab" A4 z2 A2 c2A2G2F2 |',
-  '"Eb" G4 z4 B2c2d2B2 | "Bb" F4 z2 F2 A2G2F2D2 |',
-  '% Chorus | Vocal | lifted a 4th, relative major',
-  '"Eb" f4 z2 f2 a2g2f2c2 | "Ab" c\'4 z2 f2 b2a2g2f2 |',
-  '"Bb" e4 z2 e2 g2f2e2c2 | "Bb7" c4 z2 e2 f2e2d2B2 |',
-  '% Outro | Instrumental',
-  '"Cm" g8 z4 G,2C2 | "Cm" C16 |',
-];
-
-/* 手动微调版：用户自己把尾奏改成一句下行落回主音（演示可手动继续编辑 ABC） */
+/* 手动微调版：保留 round2 内容，演示最后一行的手动编辑。 */
 const ABC_V3 = ABC_V2.map(l => l);
-const V3_OUTRO_LINE = 17;
-const V3_OUTRO_TEXT = '"Cm" g8 f2e2 d2c2 | "Cm" c8 G4 C4 |';
-ABC_V3[V3_OUTRO_LINE] = V3_OUTRO_TEXT;
-
-/** 改写版相对 v1 变化的行号（用于高亮） */
+const V3_OUTRO_LINE = Math.max(0, ABC_V3.length - 1);
+const V3_OUTRO_TEXT = ABC_V3[V3_OUTRO_LINE];
 const V2_CHANGED = [1, 6, 14, 15, 16, 17];
 const V3_CHANGED = [V3_OUTRO_LINE];
 
@@ -457,6 +445,17 @@ async function typeABCLine(baseLines, idx, newText, { cps = 24 } = {}) {
   const line = host.querySelector(`.abc-l[data-i="${idx}"]`);
   if (!line) return;
   line.classList.add('man');
+  await click(line);
+  await wait(260);
+  // 明确模拟删除：逐步删掉原行字符，再开始输入新内容，而不是瞬间替换。
+  const oldText = baseLines[idx] || '';
+  const deleteStep = Math.max(1, Math.ceil(oldText.length / 34));
+  for (let i = oldText.length; i >= 0; i -= deleteStep) {
+    line.innerHTML = (abcLineHTML(oldText.slice(0, i)) || '') + '<i class="caret"></i>';
+    await wait(70);
+  }
+  line.innerHTML = '<i class="caret"></i>';
+  await wait(420);
 
   const base = 1000 / (cps * 1.25);
   const times = [];
@@ -467,25 +466,18 @@ async function typeABCLine(baseLines, idx, newText, { cps = 24 } = {}) {
     if (Math.random() < .06) d += base * 4;
     acc += d; times.push(acc);
   }
-  const s = session;
-  await new Promise((res, rej) => {
-    let t = 0, i = 0;
-    const stop = Ticker.add(dt => {
-      if (!alive(s)) { stop(); rej(ABORT); return; }
-      t += dt;
-      const was = i;
-      while (i < times.length && times[i] <= t) i++;
-      if (i !== was) {
-        line.innerHTML = (abcLineHTML(newText.slice(0, i)) || '') + '<i class="caret"></i>';
-        const ch = newText[i - 1];
-        if (ch && ch !== ' ' && Math.random() < .55) {
-          const p = stagePos(line, Math.min(.95, i / newText.length), .3);
-          Notes.spawn(p.x, p.y, 1);
-        }
-      }
-      if (i >= times.length) { stop(); res(); }
-    });
-  });
+  // 使用确定性的逐字符循环，避免 Ticker 在暂停/切幕边界丢失更新，
+  // 确保用户一定能看到每个字符被输入。
+  for (let i = 0; i <= newText.length; i++) {
+    if (!alive(session)) throw ABORT;
+    line.innerHTML = (abcLineHTML(newText.slice(0, i)) || '') + '<i class="caret"></i>';
+    const ch = newText[i - 1];
+    if (ch && ch !== ' ' && Math.random() < .55) {
+      const p = stagePos(line, Math.min(.95, i / Math.max(1, newText.length)), .3);
+      Notes.spawn(p.x, p.y, 1);
+    }
+    await wait(Math.max(24, base * .8));
+  }
   line.innerHTML = abcLineHTML(newText) || '&nbsp;';
 }
 
@@ -621,14 +613,16 @@ const Score = {
           eventCallback: ev => {
             if (!ev || !alive(mySession)) return;
             const now = performance.now();
-            const gap = lastWall ? Math.max(60, Math.min(700, now - lastWall)) : 150;
+            // ABCJS 的回调可能成批到达；给每个小节留出连续过渡时间，
+            // 让光标像沿谱面滑动，而不是在相邻小节之间瞬移。
+            const gap = lastWall ? Math.max(140, Math.min(900, now - lastWall)) : 180;
             lastWall = now;
             const top = ev.top - 4, height = ev.height + 8;
             // 换行（top 变了）时不要横向长距离滑动，直接跳到新行行首
             const sameLine = lastTop !== null && Math.abs(top - lastTop) < 4;
             lastTop = top;
             cur.style.transition = sameLine
-              ? `opacity 200ms var(--ease), left ${gap}ms linear, top 200ms var(--ease-soft), height 200ms var(--ease-soft)`
+              ? `opacity 200ms var(--ease), left ${gap}ms linear, top 220ms var(--ease-soft), height 220ms var(--ease-soft)`
               : `opacity 200ms var(--ease), left 0ms, top 220ms var(--ease-soft), height 220ms var(--ease-soft)`;
             cur.style.left   = (ev.left - 1) + 'px';
             cur.style.top    = top + 'px';
@@ -694,6 +688,7 @@ let pcTicker = null;
 /** 把所有元素恢复到"什么都还没发生"的状态 */
 function resetAll() {
   Score.stop();
+  stopDemoAudio();
   ['sc1', 'sc2', 'sc3', 'sc4'].forEach(id => $(id).classList.remove('on'));
   ['wm1', 'wm4', 'slogan1', 'slogan4', 'sweep1', 'sweep4', 'hl2', 'hl3',
    'compose2', 'compose3', 'playerCard', 'abcwrap3'].forEach(id => {
@@ -845,14 +840,17 @@ async function scene2() {
   on($('playerCard'), 'in');
   await wait(760);
   startPlayer(COPY.s2a);
+  playDemoSegment(COPY.s2a.audio, COPY.s2a.clip);
   beat('s2-player1');
-  await wait(3600);
+  // 真实播放 14–25s 片段，黑胶保持转动直到音频完整结束。
+  await wait(11400);
 
   // ── 切到「歌曲翻唱」：左侧播放栏消失 ──────────────────────────────────
   cursorShow();
   await tap($('tabs2').querySelector('[data-mode="cover"]'));
   setTab('cover');
   stopPlayer();
+  playDemoSegment(COPY.s2b.refAudio, COPY.s2b.refClip);
   off($('playerCard'), 'in'); on($('playerCard'), 'out');
   cursorHide();
 
@@ -873,6 +871,9 @@ async function scene2() {
     { desc: 'desc2', count: 'descCount2', lyrics: 'lyrics2', title: 'title2' },
     COPY.s2b, { descBox: $('descBox2') });
 
+  // 确保 source song 参考片段 18–27s 播放完整后再点击 Create。
+  await wait(2200);
+
   cursorShow();
   await tap($('create2'));
   $('create2').classList.add('busy');
@@ -887,8 +888,10 @@ async function scene2() {
   on($('playerCard'), 'in');
   await wait(760);
   startPlayer(COPY.s2b);
+  playDemoSegment(COPY.s2b.audio, COPY.s2b.clip);
   beat('s2-player2');
-  await wait(3800);
+  // 真实播放 Cover 成品 7–25s 片段，延长黑胶停留时间。
+  await wait(18400);
 
   // 退场
   stopPlayer();
@@ -961,6 +964,7 @@ async function playCard(card, ms) {
   card.dataset.state = 'playing';
   card.icon.setAttribute('href', '#i-pause');
   card.wave.play();
+  if (card.audio) playDemoSegment(card.audio, [0, card.audioEnd]);
   await wait(ms);
   card.dataset.state = '';
   card.icon.setAttribute('href', '#i-play');
@@ -992,9 +996,10 @@ async function scene3() {
 
   // 作品条 + ABC 区一起出现
   const card1 = workCard({
-    cover: COPY.s3.cover1, title: 'Every Road', ver: 'v1',
+    cover: COPY.s3.cover1, title: '檐下听雨', ver: 'v1',
     meta: 'Indie-folk · Female · 92 BPM · Cm', dur: '0:41', seed: 7
   });
+  card1.audio = 'promo-round1-128k.mp3'; card1.audioEnd = 24;
   await wait(40);
   on(card1, 'in');
   on($('abcwrap3'), 'in');
@@ -1010,7 +1015,7 @@ async function scene3() {
   await wait(600);
 
   // 听一遍生成的歌
-  await playCard(card1, 3400);
+  await playCard(card1, 24000);
   beat('s3-card1-played');
 
   // 听一遍谱子：MIDI + 游标跟随
@@ -1051,28 +1056,29 @@ async function scene3() {
   await tap($('create3'));
   $('create3').classList.add('busy');
   const card2 = workCard({
-    cover: COPY.s3.cover2, title: 'Every Road', ver: 'v2',
+    cover: COPY.s3.cover2, title: '檐下听雨', ver: 'v2',
     meta: 'Indie-folk · Female · 100 BPM · Cm → Eb', dur: '0:39', seed: 23
   });
+  card2.audio = 'promo-round2-128k.mp3'; card2.audioEnd = 28;
   card2.classList.add('gen', 'in');
   await wait(2100);
   card2.classList.remove('gen');
   $('create3').classList.remove('busy');
   await wait(400);
 
-  // 二次倾听
+  // 二次倾听：0–12s 先保持光标不动，让用户完整听一会儿 Round 2。
+  const round2StartedAt = performance.now();
   beat('s3-card2');
-  await playCard(card2, 3400);
-
-  // ── 手动再微调一下：用户自己在 ABC 里打字改尾奏 ──────────────────────
+  playCard(card2, 28000).catch(() => {});
+  await wait(12000);
+  // 12–25s：光标移动到 ABC 区，逐字删除旧内容并逐字输入新内容。
   await moveTo($('abcCode'), { ax: .5, ay: .84 });
-  await click($('abcCode'));
   $('abcBadge').textContent = 'v3 · editing…';
   $('abcBadge').classList.add('hot');
   await typeABCLine(ABC_V2, V3_OUTRO_LINE, V3_OUTRO_TEXT, { cps: 22 });
   await wait(500);
 
-  // 定稿：高亮改动行，乐谱同步
+  // 定稿并更新乐谱；Round 2 音频仍在播放。
   paintABC(ABC_V3, V3_CHANGED, 'man');
   scrollABCTo(V3_OUTRO_LINE);
   $('abcBadge').textContent = 'v3 · hand-tuned';
@@ -1081,35 +1087,35 @@ async function scene3() {
   await wait(380);
   Score.render(ABC_V3);
   $('scorePaper').classList.remove('swap');
-  await wait(1400);
-  scrollABCTo(0);
-  await wait(500);
+  await wait(900);
 
-  // 用手改后的 ABC 再生成一首 → v3 音频出现在右上
+  // 把 Create 固定在 Round 2 播放的第 25 秒，最后 3 秒展示 Round 3。
+  const beforeCreate = 25000 - (performance.now() - round2StartedAt);
+  if (beforeCreate > 0) await wait(beforeCreate);
+
+  // 用户点击 Create 生成 Round 3；此时结束 Round 2 播放。
   cursorShow();
   await tap($('create3'));
+  stopDemoAudio();
   $('create3').classList.add('busy');
   const card3 = workCard({
-    cover: COPY.s3.cover3, title: 'Every Road', ver: 'v3',
-    meta: 'Indie-folk · Female · 100 BPM · hand-tuned outro', dur: '0:39', seed: 41
+    cover: COPY.s3.cover3, title: '檐下听雨', ver: 'v3',
+    meta: '东方抒情 · D minor · 72 BPM · hand-tuned', dur: '0:39', seed: 41
   });
   card3.classList.add('gen', 'in');
-  await wait(2100);
+  await wait(0);
   card3.classList.remove('gen');
   $('create3').classList.remove('busy');
-  await wait(400);
-
-  // 三次倾听
   beat('s3-card3');
-  await playCard(card3, 3200);
+  // Round 3 出现后展示 3 秒，正好覆盖 Round 2 播放的第 25–28 秒。
+  await wait(3000);
   cursorHide();
-  await wait(700);
 
   // 退场
   off($('abcwrap3'), 'in');
   off(c3, 'in'); on(c3, 'out');
   [...$('worklist3').children].forEach(el => off(el, 'in'));
-  await wait(900);
+  await wait(0);
   $('sc3').classList.remove('on');
 }
 
@@ -1202,15 +1208,14 @@ function embedPlay() {
     run(0);
   }
   Clock.paused = false;
-  const music = $('promoMusic');
-  if (music) music.play().catch(() => {});
+  unlockDemoAudio();
   embedUI.classList.remove('idle', 'paused');
   embedUI.classList.add('playing');
 }
 function embedPause() {
   if (!embedStarted) return;
   Clock.paused = true;
-  $('promoMusic')?.pause();
+  $('promoDemoAudio')?.pause();
   embedUI.classList.remove('playing');
   embedUI.classList.add('paused');
 }
@@ -1246,7 +1251,7 @@ function initEmbed() {
   $('embedExpand').addEventListener('click', e => { e.stopPropagation(); toggleFull(); });
   $('embedMute').addEventListener('click', e => {
     e.stopPropagation();
-    const music = $('promoMusic');
+    const music = $('promoDemoAudio');
     if (!music) return;
     music.muted = !music.muted;
     $('embedMute').innerHTML = music.muted ? MUTE_SVG : SOUND_SVG;
