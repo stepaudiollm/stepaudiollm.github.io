@@ -473,8 +473,61 @@
   .gallery-card-media{position:relative;background:#111417;overflow:hidden;flex:1 1 auto;
     border-radius:15px;clip-path:inset(0 round 15px);contain:paint;isolation:isolate}
   .gallery-card-video{width:100%;aspect-ratio:16/9;display:block;background:#111417;object-fit:cover;cursor:pointer}
-  /* 侧边卡片只负责被点击切换；原生播放控件仅在中间卡片启用。 */
+  /* 侧边卡片只负责被点击切换；播放器控件仅在中间卡片启用。 */
   .gallery-card:not(.is-center) .gallery-card-video{pointer-events:none}
+  .gallery-card-video::-webkit-media-controls-start-playback-button,
+  .gallery-card-video::-webkit-media-controls-overlay-play-button{display:none!important}
+  .gallery-center-play{position:absolute;left:50%;top:50%;z-index:5;width:64px;height:64px;
+    display:grid;place-items:center;padding:0;border:1px solid rgba(255,255,255,.42);
+    border-radius:50%;background:rgba(14,16,19,.68);color:#fff;cursor:pointer;
+    transform:translate(-50%,-50%);box-shadow:0 10px 30px rgba(0,0,0,.24);
+    transition:opacity .2s ease,transform .22s ease,background .2s ease}
+  .gallery-center-play:hover{background:rgba(14,16,19,.82);transform:translate(-50%,-50%) scale(1.06)}
+  .gallery-center-play.hidden{opacity:0;pointer-events:none;transform:translate(-50%,-50%) scale(.9)}
+  .gallery-center-play svg{width:25px;height:25px;margin-left:3px}
+  .gallery-video-controls{position:absolute;left:12px;right:12px;bottom:10px;z-index:6;
+    min-width:0;height:42px;padding:0 10px;display:flex;align-items:center;gap:10px;
+    border:1px solid rgba(255,255,255,.16);border-radius:11px;
+    background:rgba(13,15,18,.76);color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.2);
+    opacity:0;pointer-events:none;transform:translateY(5px);
+    transition:opacity .2s ease,transform .2s ease}
+  .gallery-card.is-center.is-paused .gallery-video-controls,
+  .gallery-card.is-center .gallery-card-media:hover .gallery-video-controls,
+  .gallery-card.is-center .gallery-video-controls:focus-within{opacity:1;pointer-events:auto;transform:none}
+  .gallery-card:not(.is-center) :is(.gallery-center-play,.gallery-video-controls){display:none}
+  .gallery-control{width:28px;height:28px;flex:none;display:grid;place-items:center;padding:0;
+    border:0;border-radius:7px;background:transparent;color:inherit;cursor:pointer}
+  .gallery-control:hover{background:rgba(255,255,255,.12)}
+  .gallery-control svg{width:18px;height:18px}
+  .gallery-transport .play-glyph{display:none}
+  .gallery-card.is-paused .gallery-transport .pause-glyph{display:none}
+  .gallery-card.is-paused .gallery-transport .play-glyph{display:block}
+  .gallery-card:not(.has-started) .gallery-transport{display:none}
+  .gallery-range{height:20px;margin:0;padding:0;border:0;background:transparent;cursor:pointer;
+    accent-color:#fff;-webkit-appearance:none;appearance:none}
+  .gallery-progress{min-width:80px;flex:1}
+  .gallery-volume-range{width:68px;flex:none}
+  .gallery-range::-webkit-slider-runnable-track{height:3px;border-radius:99px;background:rgba(255,255,255,.36)}
+  .gallery-range::-webkit-slider-thumb{width:12px;height:12px;margin-top:-4.5px;border:0;
+    border-radius:50%;background:#fff;-webkit-appearance:none}
+  .gallery-range::-moz-range-track{height:3px;border-radius:99px;background:rgba(255,255,255,.36)}
+  .gallery-range::-moz-range-progress{height:3px;border-radius:99px;background:#fff}
+  .gallery-range::-moz-range-thumb{width:12px;height:12px;border:0;border-radius:50%;background:#fff}
+  .gallery-volume .mute-slash{display:none}
+  .gallery-volume.is-muted .sound-wave{display:none}
+  .gallery-volume.is-muted .mute-slash{display:block}
+  .gallery-card-media:fullscreen,.gallery-card-media:-webkit-full-screen{
+    width:100vw;height:100vh;border-radius:0;clip-path:none;background:#000}
+  .gallery-card-media:fullscreen .gallery-card-video,
+  .gallery-card-media:-webkit-full-screen .gallery-card-video{
+    width:100%;height:100%;aspect-ratio:auto;object-fit:contain}
+  .gallery-card-media:fullscreen .gallery-video-controls,
+  .gallery-card-media:-webkit-full-screen .gallery-video-controls{bottom:20px}
+  @media (max-width:720px){
+    .gallery-center-play{width:54px;height:54px}
+    .gallery-video-controls{left:7px;right:7px;bottom:7px;height:38px;padding-inline:7px;gap:7px}
+    .gallery-volume-range{display:none}
+  }
 
 
   .gallery-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;
@@ -854,10 +907,10 @@ const COPY = {
     galleryTitle:["自然交谈，","应该毫不费力。"],
     galleryLede:"聊起日常小事，它接话自然、语气松弛；话题热起来，你也可以随时附和、补充或打断。极低的响应延迟和丝滑的全双工交互，让每一次停顿、接话和话轮转换都自然流畅，仿佛在和真人交谈。",
     galleryDemos:[
-      {no:"01",src:"assets/demo/realtime-01-1080.mp4?v=20260914-hd1",mobileSrc:"assets/demo/realtime-01.mp4?v=20260914-1",poster:"assets/demo/realtime-01-cover.jpg?v=20260914-mid1",t:"自然对话 · 中文双人",d:"多人交谈中的自然接话与低延迟响应。"},
-      {no:"02",src:"assets/demo/realtime-02-1080.mp4?v=20260914-hd2",mobileSrc:"assets/demo/realtime-02.mp4?v=20260914-2",poster:"assets/demo/realtime-02-cover.jpg?v=20260914-mid2",t:"自然对话 · 英文多人",d:"多人交流中的自然节奏与自由接话。"},
-      {no:"03",src:"assets/demo/realtime-03-1080.mp4?v=20260914-hd3",mobileSrc:"assets/demo/realtime-03.mp4?v=20260914-3",poster:"assets/demo/realtime-03-cover.jpg?v=20260914-mid3",t:"实时对话 · 中文交互",d:"实时语音交互中的回应与话轮衔接。"},
-      {no:"04",src:"assets/demo/realtime-04-1080.mp4?v=20260914-hd4",mobileSrc:"assets/demo/realtime-04.mp4?v=20260914-4",poster:"assets/demo/realtime-04-cover.jpg?v=20260914-mid4",t:"实时对话 · 英文演示",d:"自然表达、及时回应与顺畅交流。"},
+      {no:"01",src:"assets/demo/realtime-01-1080.mp4?v=20260914-hd1",mobileSrc:"assets/demo/realtime-01.mp4?v=20260914-1",poster:"assets/demo/realtime-01-cover.jpg?v=20260914-top1",t:"自然对话 · 中文双人",d:"多人交谈中的自然接话与低延迟响应。"},
+      {no:"02",src:"assets/demo/realtime-02-1080.mp4?v=20260914-hd2",mobileSrc:"assets/demo/realtime-02.mp4?v=20260914-2",poster:"assets/demo/realtime-02-cover.jpg?v=20260914-top2",t:"自然对话 · 英文多人",d:"多人交流中的自然节奏与自由接话。"},
+      {no:"03",src:"assets/demo/realtime-03-1080.mp4?v=20260914-hd3",mobileSrc:"assets/demo/realtime-03.mp4?v=20260914-3",poster:"assets/demo/realtime-03-cover.jpg?v=20260914-top3",t:"实时对话 · 中文交互",d:"实时语音交互中的回应与话轮衔接。"},
+      {no:"04",src:"assets/demo/realtime-04-1080.mp4?v=20260914-hd4",mobileSrc:"assets/demo/realtime-04.mp4?v=20260914-4",poster:"assets/demo/realtime-04-cover.jpg?v=20260914-top4",t:"实时对话 · 英文演示",d:"自然表达、及时回应与顺畅交流。"},
     ],
     benchmarkKicker:"模型评测",
     benchmarkTitle:["从听懂，到实时协作，","关键能力放在同一张图上。"],
@@ -897,10 +950,10 @@ const COPY = {
     galleryTitle:["Natural conversation","should feel effortless."],
     galleryLede:"In everyday conversation, it picks up naturally and responds with a relaxed, human cadence. When the exchange gets lively, you can chime in, add a thought, or interrupt whenever you want. Extremely low latency and smooth full-duplex interaction make every pause, response, and turn feel fluid and natural, more like talking with another person.",
     galleryDemos:[
-      {no:"01",src:"assets/demo/realtime-02-1080.mp4?v=20260914-hd2",mobileSrc:"assets/demo/realtime-02.mp4?v=20260914-2",poster:"assets/demo/realtime-02-cover.jpg?v=20260914-mid2",t:"Natural conversation · Group talk",d:"A relaxed rhythm and free-flowing exchange between several speakers."},
-      {no:"02",src:"assets/demo/realtime-01-1080.mp4?v=20260914-hd1",mobileSrc:"assets/demo/realtime-01.mp4?v=20260914-1",poster:"assets/demo/realtime-01-cover.jpg?v=20260914-mid1",t:"Natural conversation · Two speakers",d:"Natural turn-taking and low-latency response in a shared conversation."},
-      {no:"03",src:"assets/demo/realtime-04-1080.mp4?v=20260914-hd4",mobileSrc:"assets/demo/realtime-04.mp4?v=20260914-4",poster:"assets/demo/realtime-04-cover.jpg?v=20260914-mid4",t:"Live conversation · English demo",d:"Natural delivery, timely responses, and an easy-flowing exchange."},
-      {no:"04",src:"assets/demo/realtime-03-1080.mp4?v=20260914-hd3",mobileSrc:"assets/demo/realtime-03.mp4?v=20260914-3",poster:"assets/demo/realtime-03-cover.jpg?v=20260914-mid3",t:"Live conversation · Chinese demo",d:"Responsive voice interaction with smooth turn-taking."},
+      {no:"01",src:"assets/demo/realtime-02-1080.mp4?v=20260914-hd2",mobileSrc:"assets/demo/realtime-02.mp4?v=20260914-2",poster:"assets/demo/realtime-02-cover.jpg?v=20260914-top2",t:"Natural conversation · Group talk",d:"A relaxed rhythm and free-flowing exchange between several speakers."},
+      {no:"02",src:"assets/demo/realtime-01-1080.mp4?v=20260914-hd1",mobileSrc:"assets/demo/realtime-01.mp4?v=20260914-1",poster:"assets/demo/realtime-01-cover.jpg?v=20260914-top1",t:"Natural conversation · Two speakers",d:"Natural turn-taking and low-latency response in a shared conversation."},
+      {no:"03",src:"assets/demo/realtime-04-1080.mp4?v=20260914-hd4",mobileSrc:"assets/demo/realtime-04.mp4?v=20260914-4",poster:"assets/demo/realtime-04-cover.jpg?v=20260914-top4",t:"Live conversation · English demo",d:"Natural delivery, timely responses, and an easy-flowing exchange."},
+      {no:"04",src:"assets/demo/realtime-03-1080.mp4?v=20260914-hd3",mobileSrc:"assets/demo/realtime-03.mp4?v=20260914-3",poster:"assets/demo/realtime-03-cover.jpg?v=20260914-top3",t:"Live conversation · Chinese demo",d:"Responsive voice interaction with smooth turn-taking."},
     ],
     benchmarkKicker:"Model evaluation",
     benchmarkTitle:["From understanding to live collaboration,","the core capabilities on one canvas."],
@@ -1113,18 +1166,42 @@ function initGalleryCarousel(demos){
     }
   });
 
-  // Render cards — poster 做占位，preload=none 懒加载（参考 stepaudio3-gen-demo 模式）
-  track.innerHTML = demos.map((item, i) => {
+  // Render cards — poster 做占位，先取 metadata，开屏起播后再后台预缓冲。
+  const controlLabels = lang === "zh"
+    ? {play:"播放",pause:"暂停",progress:"播放进度",mute:"静音",volume:"音量",fullscreen:"全屏"}
+    : {play:"Play",pause:"Pause",progress:"Playback progress",mute:"Mute",volume:"Volume",fullscreen:"Fullscreen"};
+ track.innerHTML = demos.map((item, i) => {
     const posterSrc = item.poster || item.src.replace(/\?.*$/, "").replace(/\.mp4$/, ".jpg");
     return `<div class="gallery-card" data-title="${item.t}" data-index="${i}">
      <div class="gallery-card-frame">
        <div class="gallery-card-media">
-          <video class="gallery-card-video" loop playsinline controls preload="metadata"
+          <video class="gallery-card-video" loop playsinline preload="metadata" tabindex="0"
             poster="${posterSrc}" aria-label="${item.t}">
-            ${item.mobileSrc ? `<source src="${item.mobileSrc}" type="video/mp4" media="(max-width: 720px)">` : ""}
-            <source src="${item.src}" type="video/mp4">
+           ${item.mobileSrc ? `<source src="${item.mobileSrc}" type="video/mp4" media="(max-width: 720px)">` : ""}
+           <source src="${item.src}" type="video/mp4">
          </video>
-        </div>
+          <button type="button" class="gallery-center-play" aria-label="${controlLabels.play}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 4.8v14.4L19.5 12 7.5 4.8Z" fill="currentColor"/></svg>
+          </button>
+          <div class="gallery-video-controls">
+            <button type="button" class="gallery-control gallery-transport" aria-label="${controlLabels.pause}">
+              <svg class="play-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 4.8v14.4L19.5 12 7.5 4.8Z" fill="currentColor"/></svg>
+              <svg class="pause-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+           </button>
+            <input class="gallery-range gallery-progress" type="range" min="0" max="100" step=".1" value="0" aria-label="${controlLabels.progress}">
+            <button type="button" class="gallery-control gallery-volume" aria-label="${controlLabels.mute}">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M10.5 6 6.3 9.5H3.5v5h2.8l4.2 3.5V6Z" fill="currentColor"/>
+                <path class="sound-wave" d="M14.5 9a4.3 4.3 0 0 1 0 6M17.2 6.8a7.4 7.4 0 0 1 0 10.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                <path class="mute-slash" d="m14.5 9 5 6M19.5 9l-5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <input class="gallery-range gallery-volume-range" type="range" min="0" max="1" step=".05" value="1" aria-label="${controlLabels.volume}">
+            <button type="button" class="gallery-control gallery-fullscreen" aria-label="${controlLabels.fullscreen}">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M8 20H4v-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+       </div>
       </div>
     </div>`;
   }).join("");
@@ -1141,11 +1218,42 @@ function initGalleryCarousel(demos){
   }
   const dots = dotsContainer.querySelectorAll(".gallery-dot");
 
-  /* 视频使用浏览器原生控件：播放/暂停、进度、音量和全屏均由原生控件处理。 */
- function loadAndPlay(video){
-   if (!video) return;
-   const p = video.play();
-    if (p && p.catch) p.catch(() => {});
+  /* 页面统一控制播放按钮位置；底部保留暂停、进度、音量和全屏。 */
+  function loadAndPlay(video){
+    if (!video) return;
+    const p = video.play();
+    if (p?.then) p.then(() => syncPlayer(video.closest(".gallery-card"))).catch(() => {});
+  }
+
+  function syncPlayer(card){
+    const v = card.querySelector("video");
+    if (!v) return;
+    const paused = v.paused || v.ended;
+    const centerPlay = card.querySelector(".gallery-center-play");
+    const transportBtn = card.querySelector(".gallery-transport");
+    const progress = card.querySelector(".gallery-progress");
+    const volumeBtn = card.querySelector(".gallery-volume");
+    const volumeRange = card.querySelector(".gallery-volume-range");
+    if (!paused) card.classList.add("has-started");
+    card.classList.toggle("is-paused", paused);
+    const showCenterPlay = paused && !card.classList.contains("has-started");
+    centerPlay.classList.toggle("hidden", !showCenterPlay);
+    centerPlay.disabled = !showCenterPlay;
+    transportBtn.setAttribute("aria-label", paused ? controlLabels.play : controlLabels.pause);
+    if (progress && Number.isFinite(v.duration) && v.duration > 0) {
+      progress.value = String(v.currentTime / v.duration * 100);
+    }
+    const muted = v.muted || v.volume === 0;
+    volumeBtn.classList.toggle("is-muted", muted);
+    volumeBtn.setAttribute("aria-label", muted
+      ? (lang === "zh" ? "取消静音" : "Unmute")
+      : controlLabels.mute);
+    if (volumeRange) volumeRange.value = String(muted ? 0 : v.volume);
+  }
+
+  function togglePlayback(video){
+    if (video.paused || video.ended) loadAndPlay(video);
+    else video.pause();
   }
 
   function goTo(index){
@@ -1168,6 +1276,7 @@ function initGalleryCarousel(demos){
     });
 
     dots.forEach((d, i) => d.classList.toggle("active", i === current));
+    cards.forEach(syncPlayer);
   }
 
 
@@ -1180,13 +1289,63 @@ function initGalleryCarousel(demos){
       if (card.classList.contains("is-center")){
         const v = card.querySelector("video");
         if (!v) return;
-        if (v.paused) { loadAndPlay(v); } else { v.pause(); }
+        togglePlayback(v);
       }
     });
     const v = card.querySelector("video");
     if (v){
-      // 原生控件的点击不能冒泡到卡片，否则会被误判成一次卡片点击。
-      v.addEventListener("click", e => e.stopPropagation());
+      const centerPlay = card.querySelector(".gallery-center-play");
+      const controls = card.querySelector(".gallery-video-controls");
+      const transportBtn = card.querySelector(".gallery-transport");
+      const progress = card.querySelector(".gallery-progress");
+      const volumeBtn = card.querySelector(".gallery-volume");
+      const volumeRange = card.querySelector(".gallery-volume-range");
+      const fullscreenBtn = card.querySelector(".gallery-fullscreen");
+
+      v.addEventListener("click", e => {
+        e.stopPropagation();
+        togglePlayback(v);
+      });
+      v.addEventListener("keydown", e => {
+        if (e.key !== " " && e.key !== "Enter") return;
+        e.preventDefault();
+        e.stopPropagation();
+        togglePlayback(v);
+      });
+      [centerPlay, controls].forEach(node => {
+        ["click","pointerdown","pointerup","keydown"].forEach(type => {
+          node.addEventListener(type, e => e.stopPropagation());
+        });
+      });
+      centerPlay.addEventListener("click", () => loadAndPlay(v));
+      transportBtn.addEventListener("click", () => togglePlayback(v));
+      progress.addEventListener("input", () => {
+        if (!Number.isFinite(v.duration) || v.duration <= 0) return;
+        v.currentTime = Number(progress.value) / 100 * v.duration;
+      });
+      volumeBtn.addEventListener("click", () => {
+        if (v.muted || v.volume === 0) {
+          if (v.volume === 0) v.volume = .7;
+          v.muted = false;
+        } else {
+          v.muted = true;
+        }
+      });
+      volumeRange.addEventListener("input", () => {
+        v.volume = Number(volumeRange.value);
+        v.muted = v.volume === 0;
+      });
+      fullscreenBtn.addEventListener("click", () => {
+        const media = card.querySelector(".gallery-card-media");
+        let request;
+        if (media.requestFullscreen) request = media.requestFullscreen();
+        else if (media.webkitRequestFullscreen) request = media.webkitRequestFullscreen();
+        else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+        if (request?.catch) request.catch(() => {});
+      });
+      ["play","playing","pause","ended","loadedmetadata","durationchange","timeupdate","volumechange"].forEach(type => {
+        v.addEventListener(type, () => syncPlayer(card));
+      });
     }
   });
 
@@ -1195,6 +1354,7 @@ function initGalleryCarousel(demos){
 
   container.tabIndex = 0;
   container.addEventListener("keydown", e => {
+    if (e.target !== container) return;
     if (e.key === "ArrowLeft")  goTo(current - 1);
     if (e.key === "ArrowRight") goTo(current + 1);
   });
@@ -1208,7 +1368,7 @@ function initGalleryCarousel(demos){
   }
 }
 
-/* 三个播放器互斥播放，避免两条演示音轨同时发声。 */
+/* 演示播放器互斥播放，避免两条演示音轨同时发声。 */
 function initDemoVideos(){
   document.addEventListener("play", e => {
     if (e.target.tagName !== "VIDEO") return;
