@@ -277,8 +277,27 @@
                 <p data-product-i18n="voiceDescription">设定音色、语气与情绪，塑造鲜明的角色声音。</p>
               </div>
 
-              <div class="voice-design-gallery" data-voice-orb-carousel data-initial-index="1" aria-label="音色设计试听样例">
+              <div class="voice-design-gallery" data-voice-orb-carousel data-initial-index="2" aria-label="音色设计试听样例">
                 <div class="voice-orb-stage" data-voice-orb-stage aria-label="五个音色设计试听案例">
+
+                  <article class="voice-design-sample voice-orb-slide inline-player is-far-prev" style="--voice-slide-x: calc(var(--voice-orb-step) * -1.719298245614035)" data-inline-player="englishBrightGirl" data-orb-palette="aqua" data-voice-orb-slide data-orb-state="loading">
+                    <button class="voice-design-toggle" type="button" data-player-toggle aria-label="播放元气少女">
+                      <span class="voice-orb-material" aria-hidden="true">
+                        <img class="voice-orb-texture" data-voice-orb-texture src="./assets/voice-orbs/orange.png?v=20260907-restored-1" width="512" height="512" alt="" loading="eager" decoding="async" />
+                        <span class="voice-orb-grain-layer"><span class="voice-orb-grain"></span></span>
+                      </span>
+                      <span class="voice-orb-status" data-voice-orb-status aria-live="polite"></span>
+                      <span class="voice-design-toggle-control" aria-hidden="true">
+                        <img class="is-play" src="./assets/icons/play-fill.svg" alt="" />
+                        <img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" />
+                      </span>
+                    </button>
+                    <div class="voice-design-player-line" hidden>
+                      <div class="voice-design-wave" data-player-waveform aria-label="元气少女音频波形"></div>
+                      <time data-player-time>00:00 / 00:06</time>
+                    </div>
+                    <audio preload="metadata"></audio>
+                  </article>
 
                   <article class="voice-design-sample voice-orb-slide inline-player is-prev" style="--voice-slide-x: calc(var(--voice-orb-step) * -1)" data-inline-player="child" data-orb-palette="teal" data-voice-orb-slide data-orb-state="loading">
                     <button class="voice-design-toggle" type="button" data-player-toggle aria-label="播放童真男孩">
@@ -352,25 +371,6 @@
                     <div class="voice-design-player-line" hidden>
                       <div class="voice-design-wave" data-player-waveform aria-label="深夜电台音频波形"></div>
                       <time data-player-time>00:00 / 00:27</time>
-                    </div>
-                    <audio preload="metadata"></audio>
-                  </article>
-
-                  <article class="voice-design-sample voice-orb-slide inline-player is-away" style="--voice-slide-x: calc(var(--voice-orb-step) * 2.2222222222222223)" data-inline-player="englishBrightGirl" data-orb-palette="aqua" data-voice-orb-slide data-orb-state="loading">
-                    <button class="voice-design-toggle" type="button" data-player-toggle aria-label="播放元气少女">
-                      <span class="voice-orb-material" aria-hidden="true">
-                        <img class="voice-orb-texture" data-voice-orb-texture src="./assets/voice-orbs/orange.png?v=20260907-restored-1" width="512" height="512" alt="" loading="eager" decoding="async" />
-                        <span class="voice-orb-grain-layer"><span class="voice-orb-grain"></span></span>
-                      </span>
-                      <span class="voice-orb-status" data-voice-orb-status aria-live="polite"></span>
-                      <span class="voice-design-toggle-control" aria-hidden="true">
-                        <img class="is-play" src="./assets/icons/play-fill.svg" alt="" />
-                        <img class="is-pause" src="./assets/icons/pause-fill.svg" alt="" />
-                      </span>
-                    </button>
-                    <div class="voice-design-player-line" hidden>
-                      <div class="voice-design-wave" data-player-waveform aria-label="元气少女音频波形"></div>
-                      <time data-player-time>00:00 / 00:06</time>
                     </div>
                     <audio preload="metadata"></audio>
                   </article>
@@ -1142,6 +1142,6 @@
     <script>window.stepAudioProductCopy.applyInitial()</script>
     <script src="./vendor/gsap.min.js"></script>
     <script src="./vendor/ScrollTrigger.min.js"></script>
-    <script type="module" src="./product.js?v=20260914-vd-script-39"></script>
+    <script type="module" src="./product.js?v=20260914-vd-balanced-40"></script>
   </body>
 </html>
