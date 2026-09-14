@@ -516,6 +516,11 @@
   .gallery-volume .mute-slash{display:none}
   .gallery-volume.is-muted .sound-wave{display:none}
   .gallery-volume.is-muted .mute-slash{display:block}
+  .gallery-fullscreen .exit-glyph{display:none}
+  .gallery-card.is-fullscreen .gallery-fullscreen .enter-glyph{display:none}
+  .gallery-card.is-fullscreen .gallery-fullscreen .exit-glyph{display:block}
+  .gallery-card.is-fullscreen .gallery-video-controls{
+    opacity:1;pointer-events:auto;transform:none}
   .gallery-card-media:fullscreen,.gallery-card-media:-webkit-full-screen{
     width:100vw;height:100vh;border-radius:0;clip-path:none;background:#000}
   .gallery-card-media:fullscreen .gallery-card-video,
@@ -1143,6 +1148,7 @@ function renderCopy(){
 function initGalleryCarousel(demos){
   const container = document.getElementById("demoGalleryCarousel");
   if (!container) return;
+  if (container.__galleryFullscreenCleanup) container.__galleryFullscreenCleanup();
   const track = container.querySelector(".gallery-carousel-track");
   const prevBtn = container.querySelector(".gallery-nav-prev");
   const nextBtn = container.querySelector(".gallery-nav-next");
@@ -1168,9 +1174,9 @@ function initGalleryCarousel(demos){
 
   // Render cards — poster 做占位，先取 metadata，开屏起播后再后台预缓冲。
   const controlLabels = lang === "zh"
-    ? {play:"播放",pause:"暂停",progress:"播放进度",mute:"静音",volume:"音量",fullscreen:"全屏"}
-    : {play:"Play",pause:"Pause",progress:"Playback progress",mute:"Mute",volume:"Volume",fullscreen:"Fullscreen"};
- track.innerHTML = demos.map((item, i) => {
+    ? {play:"播放",pause:"暂停",progress:"播放进度",mute:"静音",volume:"音量",fullscreen:"全屏",exitFullscreen:"退出全屏"}
+    : {play:"Play",pause:"Pause",progress:"Playback progress",mute:"Mute",volume:"Volume",fullscreen:"Fullscreen",exitFullscreen:"Exit fullscreen"};
+  track.innerHTML = demos.map((item, i) => {
     const posterSrc = item.poster || item.src.replace(/\?.*$/, "").replace(/\.mp4$/, ".jpg");
     return `<div class="gallery-card" data-title="${item.t}" data-index="${i}">
      <div class="gallery-card-frame">
@@ -1198,7 +1204,8 @@ function initGalleryCarousel(demos){
             </button>
             <input class="gallery-range gallery-volume-range" type="range" min="0" max="1" step=".05" value="1" aria-label="${controlLabels.volume}">
             <button type="button" class="gallery-control gallery-fullscreen" aria-label="${controlLabels.fullscreen}">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M8 20H4v-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg class="enter-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M8 20H4v-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg class="exit-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M20 15h-5v5M4 15h5v5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
           </div>
        </div>
@@ -1254,6 +1261,17 @@ function initGalleryCarousel(demos){
   function togglePlayback(video){
     if (video.paused || video.ended) loadAndPlay(video);
     else video.pause();
+  }
+
+  function syncFullscreenState(card){
+    const media = card.querySelector(".gallery-card-media");
+    const v = card.querySelector("video");
+    const fullscreenBtn = card.querySelector(".gallery-fullscreen");
+    const activeElement = document.fullscreenElement || document.webkitFullscreenElement;
+    const active = activeElement === media || Boolean(v?.webkitDisplayingFullscreen);
+    card.classList.toggle("is-fullscreen", active);
+    fullscreenBtn.setAttribute("aria-label",
+      active ? controlLabels.exitFullscreen : controlLabels.fullscreen);
   }
 
   function goTo(index){
@@ -1337,11 +1355,24 @@ function initGalleryCarousel(demos){
       });
       fullscreenBtn.addEventListener("click", () => {
         const media = card.querySelector(".gallery-card-media");
+        const activeElement = document.fullscreenElement || document.webkitFullscreenElement;
         let request;
-        if (media.requestFullscreen) request = media.requestFullscreen();
-        else if (media.webkitRequestFullscreen) request = media.webkitRequestFullscreen();
-        else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+        if (activeElement === media || v.webkitDisplayingFullscreen) {
+          if (document.exitFullscreen) request = document.exitFullscreen();
+          else if (document.webkitExitFullscreen) request = document.webkitExitFullscreen();
+          else if (document.webkitCancelFullScreen) request = document.webkitCancelFullScreen();
+          else if (v.webkitExitFullscreen) v.webkitExitFullscreen();
+        } else if (media.requestFullscreen) {
+          request = media.requestFullscreen();
+        } else if (media.webkitRequestFullscreen) {
+          request = media.webkitRequestFullscreen();
+        } else if (v.webkitEnterFullscreen) {
+          v.webkitEnterFullscreen();
+        }
         if (request?.catch) request.catch(() => {});
+      });
+      ["webkitbeginfullscreen","webkitendfullscreen"].forEach(type => {
+        v.addEventListener(type, () => syncFullscreenState(card));
       });
       ["play","playing","pause","ended","loadedmetadata","durationchange","timeupdate","volumechange"].forEach(type => {
         v.addEventListener(type, () => syncPlayer(card));
@@ -1358,6 +1389,15 @@ function initGalleryCarousel(demos){
     if (e.key === "ArrowLeft")  goTo(current - 1);
     if (e.key === "ArrowRight") goTo(current + 1);
   });
+
+  const onFullscreenChange = () => cards.forEach(syncFullscreenState);
+  document.addEventListener("fullscreenchange", onFullscreenChange);
+  document.addEventListener("webkitfullscreenchange", onFullscreenChange);
+  container.__galleryFullscreenCleanup = () => {
+    document.removeEventListener("fullscreenchange", onFullscreenChange);
+    document.removeEventListener("webkitfullscreenchange", onFullscreenChange);
+    delete container.__galleryFullscreenCleanup;
+  };
 
   // 初始和翻页都只显示 poster；必须点击中间卡片才播放。
   goTo(0);
