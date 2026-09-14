@@ -1119,7 +1119,7 @@ function initGalleryCarousel(demos){
     return `<div class="gallery-card" data-title="${item.t}" data-index="${i}">
      <div class="gallery-card-frame">
        <div class="gallery-card-media">
-          <video class="gallery-card-video" loop playsinline controls preload="none"
+          <video class="gallery-card-video" loop playsinline controls preload="metadata"
             poster="${posterSrc}" aria-label="${item.t}">
             ${item.mobileSrc ? `<source src="${item.mobileSrc}" type="video/mp4" media="(max-width: 720px)">` : ""}
             <source src="${item.src}" type="video/mp4">
@@ -1357,7 +1357,25 @@ function start(){
 // 第一次播完 → 进最终态；之后每次播完 → 回到三段轮播的第一段继续
 video.addEventListener("ended", () => { looping ? loopBack() : finish(); });
 video.addEventListener("error", () => setTimeout(finish, 600));
-video.addEventListener("playing", () => revealMark(), {once:true});
+let galleryPreloadStarted = false;
+function preloadGalleryVideos(){
+  if (galleryPreloadStarted || navigator.connection?.saveData) return;
+  galleryPreloadStarted = true;
+  document.querySelectorAll(".gallery-card-video").forEach((galleryVideo, index) => {
+    // 错开启动请求，避免四条 1080p 视频与开屏视频在同一帧争抢连接。
+    setTimeout(() => {
+      if (!galleryVideo.isConnected) return;
+      galleryVideo.preload = "auto";
+      galleryVideo.load();
+    }, index * 350);
+  });
+}
+video.addEventListener("playing", () => {
+  revealMark();
+  preloadGalleryVideos();
+}, {once:true});
+// 开屏视频异常时仍预热卡片，但把首屏关键资源优先级留到 window.load 之后。
+addEventListener("load", () => setTimeout(preloadGalleryVideos, 1000), {once:true});
 // Safari 从后台恢复或通过前进/后退缓存回到页面时可能保留 paused 状态；
 // 页面重新可见时补一次静音 play，不重置 currentTime，也不破坏回环位置。
 function resumeHero(){
