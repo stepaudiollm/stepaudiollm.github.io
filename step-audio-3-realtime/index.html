@@ -1102,7 +1102,8 @@ function initGalleryCarousel(demos){
 
   /* 笔记本触控板的横向滑动会以 wheel(deltaX) 事件到达，而不是 pointer 拖拽。
      每个明确的横向事件只翻一页；翻页后固定冷却一小段时间，冷却期间的
-     惯性事件全部忽略。这里不累计位移，也不判断连续事件是否属于同一手势。 */
+     惯性事件全部忽略，并从最后一枚惯性事件重新计算冷却，避免长滑动在
+     冷却结束后又被残余事件触发。这里不累计位移，也不判断速度或方向变化。 */
   if (container.__trackpadWheelCleanup) container.__trackpadWheelCleanup();
   let wheelLockedUntil = 0;
   // .gallery-card 的 transform 动画是 0.6s；冷却覆盖完整动画，避免动画
@@ -1117,7 +1118,12 @@ function initGalleryCarousel(demos){
 
     event.preventDefault();
     const now = performance.now();
-    if (now < wheelLockedUntil) return;
+    if (now < wheelLockedUntil) {
+      // 惯性还在继续：顺延冷却截止时间。这样长滑动结束后不会因为
+      // 1200ms 已到而把最后几枚残余事件误判成下一次翻页。
+      wheelLockedUntil = now + WHEEL_PAGE_GAP;
+      return;
+    }
 
     // 与鼠标/触摸拖拽保持同一方向：向左滑（负向 deltaX）切下一张，
     // 向右滑（正向 deltaX）切回上一张。
