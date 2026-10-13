@@ -1,0 +1,1030 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="StepAudio 3 Realtime 的评测配置、评测口径与判分方法。" />
+    <title>评测与方法 · StepAudio 3 Realtime</title>
+    <link rel="icon" type="image/svg+xml" href="assets/brand/step-favicon.svg" />
+    <style>
+      @font-face {
+        font-family: MiSans;
+        font-style: normal;
+        font-weight: 200;
+        font-display: swap;
+        src: url(assets/fonts/MiSans-ExtraLight.woff2) format("woff2");
+      }
+      @font-face {
+        font-family: MiSans;
+        font-style: normal;
+        font-weight: 300;
+        font-display: swap;
+        src: url(assets/fonts/MiSans-Light.woff2) format("woff2");
+      }
+      @font-face {
+        font-family: MiSans;
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url(assets/fonts/MiSans-Regular.woff2) format("woff2");
+      }
+      @font-face {
+        font-family: MiSans;
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url(assets/fonts/MiSans-Bold.woff2) format("woff2");
+      }
+
+      :root {
+        --ink: #15171c;
+        --muted: rgba(21, 23, 28, 0.63);
+        --soft: rgba(21, 23, 28, 0.46);
+        --line: rgba(21, 23, 28, 0.13);
+        --line-strong: rgba(21, 23, 28, 0.2);
+        --paper: #efefec;
+        --paper-alt: #e7e8e5;
+        --card: #ffffff;
+        --accent: #176c70;
+        --accent-bright: #1e9aae;
+        --dark: #07070c;
+        --dark-2: #11101a;
+        --dark-line: rgba(255, 255, 255, 0.13);
+        --dark-muted: rgba(255, 255, 255, 0.68);
+        --max: 1180px;
+        --font: MiSans, "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        background: var(--dark);
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: var(--font);
+        font-weight: 300;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .topbar {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 18px 32px;
+        color: #ffffff;
+        background: rgba(7, 7, 12, 0.68);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(18px);
+      }
+
+      .brand-lockup,
+      .top-actions,
+      .top-nav {
+        display: flex;
+        align-items: center;
+      }
+
+      .brand-lockup {
+        gap: 12px;
+      }
+
+      .brand {
+        display: block;
+        color: #ffffff;
+        opacity: 0.94;
+      }
+
+      .brand img {
+        display: block;
+        width: auto;
+        height: 22px;
+        filter: invert(1);
+      }
+
+      .brand-divider {
+        color: rgba(255, 255, 255, 0.38);
+        font: 400 13px/1 var(--mono);
+      }
+
+      .brand-title {
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0;
+      }
+
+      .top-nav {
+        gap: 4px;
+        margin-left: 12px;
+      }
+
+      .top-nav a,
+      .top-actions a {
+        padding: 7px 10px;
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 12px;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: color 0.2s ease, background 0.2s ease;
+      }
+
+      .top-nav a:hover,
+      .top-actions a:hover {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .top-actions {
+        gap: 7px;
+      }
+
+      .language-toggle {
+        display: inline-flex;
+        gap: 2px;
+        padding: 2px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .language-toggle a {
+        padding: 6px 8px;
+        color: rgba(255, 255, 255, 0.62);
+        font: 500 10px/1 var(--font);
+        text-decoration: none;
+        border-radius: 999px;
+      }
+
+      .language-toggle a[aria-current="page"] {
+        color: var(--dark);
+        background: #ffffff;
+      }
+
+      .top-actions .solid {
+        color: var(--dark);
+        background: #ffffff;
+        font-weight: 600;
+      }
+
+      .top-actions .solid:hover {
+        color: var(--dark);
+        background: #ffffff;
+      }
+
+      .hero {
+        position: relative;
+        min-height: 570px;
+        padding: 170px 32px 110px;
+        overflow: hidden;
+        color: #ffffff;
+        background:
+          radial-gradient(80% 90% at 18% 12%, rgba(30, 154, 174, 0.34), transparent 54%),
+          radial-gradient(70% 90% at 88% 86%, rgba(99, 102, 241, 0.34), transparent 56%),
+          linear-gradient(135deg, var(--dark), var(--dark-2));
+      }
+
+      .hero::before,
+      .hero::after {
+        position: absolute;
+        content: "";
+        pointer-events: none;
+      }
+
+      .hero::before {
+        inset: 0;
+        opacity: 0.28;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+        background-size: 84px 84px;
+        mask-image: linear-gradient(115deg, black, transparent 68%);
+      }
+
+      .hero::after {
+        right: 7%;
+        bottom: -210px;
+        width: 490px;
+        height: 490px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        box-shadow:
+          0 0 0 38px rgba(255, 255, 255, 0.035),
+          0 0 0 76px rgba(255, 255, 255, 0.025);
+      }
+
+      .hero-inner,
+      .content,
+      .footer-inner {
+        position: relative;
+        z-index: 1;
+        width: min(var(--max), calc(100% - 64px));
+        margin: 0 auto;
+      }
+
+      .eyebrow,
+      .section-kicker {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 24px;
+        color: var(--accent-bright);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before,
+      .section-kicker::before {
+        width: 18px;
+        height: 18px;
+        flex: none;
+        content: "";
+        border: 1px solid currentColor;
+        border-radius: 50%;
+        background: linear-gradient(
+          90deg,
+          transparent 25%,
+          currentColor 25% 31%,
+          transparent 31% 47%,
+          currentColor 47% 53%,
+          transparent 53% 69%,
+          currentColor 69% 75%,
+          transparent 75%
+        );
+        opacity: 0.7;
+      }
+
+      .hero h1 {
+        max-width: 800px;
+        margin: 0;
+        font-size: clamp(54px, 8vw, 104px);
+        font-weight: 300;
+        line-height: 0.98;
+        letter-spacing: -0.03em;
+      }
+
+      .hero h1 span {
+        display: block;
+        color: transparent;
+        background: linear-gradient(92deg, #63e6f2, #8b9cff 58%, #c084fc);
+        background-clip: text;
+        -webkit-background-clip: text;
+      }
+
+      html[lang="zh-CN"] .hero h1 {
+        max-width: none;
+        font-size: clamp(52px, 7vw, 88px);
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+
+      html[lang="zh-CN"] .hero h1 span {
+        display: inline;
+        margin-left: 0.16em;
+      }
+
+      html[lang="zh-CN"] .content h2 br {
+        display: none;
+      }
+
+      html[lang="zh-CN"] .content h2 span {
+        margin-left: 0.15em;
+      }
+
+      .hero-lede {
+        max-width: 650px;
+        margin: 34px 0 0;
+        color: var(--dark-muted);
+        font-size: 18px;
+        line-height: 1.75;
+      }
+
+      .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 42px;
+      }
+
+      .hero-meta span {
+        padding: 9px 13px;
+        color: rgba(255, 255, 255, 0.82);
+        font: 400 11px/1 var(--mono);
+        border: 1px solid var(--dark-line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .content {
+        padding: 96px 0 130px;
+      }
+
+      .content > section + section {
+        margin-top: 112px;
+      }
+
+      .content section[id] {
+        scroll-margin-top: 94px;
+      }
+
+      .section-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.55fr);
+        gap: 80px;
+        align-items: end;
+        margin-bottom: 44px;
+      }
+
+      .section-kicker {
+        margin-bottom: 20px;
+        color: var(--accent);
+      }
+
+      h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(38px, 5vw, 64px);
+        font-weight: 500;
+        line-height: 1.04;
+        letter-spacing: -0.025em;
+      }
+
+      h2 span {
+        color: var(--accent-bright);
+      }
+
+      .section-lede {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.8;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+
+      .summary-card {
+        min-height: 148px;
+        padding: 23px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+
+      .summary-card .value {
+        display: block;
+        margin-bottom: 19px;
+        color: var(--accent);
+        font: 600 17px/1.25 var(--mono);
+        overflow-wrap: anywhere;
+      }
+
+      .summary-card strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 650;
+      }
+
+      .summary-card p {
+        margin: 0;
+        color: var(--soft);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .method-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .method-card,
+      .judge-card,
+      .resource-card {
+        padding: 28px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+
+      .method-card h3,
+      .judge-card h3,
+      .resource-card h3 {
+        margin: 0 0 13px;
+        font-size: 19px;
+        font-weight: 600;
+      }
+
+      .method-card p,
+      .judge-card p,
+      .resource-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.75;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+        margin-top: 24px;
+      }
+
+      .flow-step {
+        position: relative;
+        min-height: 106px;
+        padding: 15px 12px;
+        background: #f5f5f1;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+      }
+
+      .flow-step:not(:last-child)::after {
+        position: absolute;
+        top: 50%;
+        right: -10px;
+        width: 12px;
+        height: 1px;
+        content: "";
+        background: var(--accent);
+        opacity: 0.58;
+      }
+
+      .flow-step .num {
+        display: block;
+        margin-bottom: 12px;
+        color: var(--accent);
+        font: 500 10px/1 var(--mono);
+      }
+
+      .flow-step strong {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.45;
+      }
+
+      .flow-step span {
+        display: block;
+        margin-top: 6px;
+        color: var(--soft);
+        font-size: 11px;
+        line-height: 1.45;
+      }
+
+      .code-card {
+        overflow: hidden;
+        color: #eef5f5;
+        background: #10141b;
+        border: 1px solid rgba(22, 108, 112, 0.45);
+        border-radius: 12px;
+      }
+
+      .code-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .code-head span {
+        color: rgba(255, 255, 255, 0.62);
+        font: 500 11px/1 var(--mono);
+      }
+
+      .copy-btn {
+        padding: 7px 10px;
+        color: #c9ffff;
+        font: 500 11px/1 var(--font);
+        cursor: pointer;
+        border: 1px solid rgba(123, 238, 244, 0.35);
+        border-radius: 999px;
+        background: rgba(123, 238, 244, 0.08);
+      }
+
+      .copy-btn:hover {
+        background: rgba(123, 238, 244, 0.16);
+      }
+
+      pre {
+        margin: 0;
+        padding: 21px 19px 24px;
+        overflow-x: auto;
+        font: 12px/1.72 var(--mono);
+        tab-size: 2;
+      }
+
+      .table-shell {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--card);
+      }
+
+      table {
+        width: 100%;
+        min-width: 900px;
+        border-collapse: collapse;
+        text-align: left;
+      }
+
+      th,
+      td {
+        padding: 17px 18px;
+        vertical-align: top;
+        border-bottom: 1px solid var(--line);
+      }
+
+      th {
+        color: var(--soft);
+        font: 600 11px/1.3 var(--mono);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        background: #f6f6f3;
+      }
+
+      td {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      td:first-child,
+      td strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 5px 8px;
+        color: var(--accent);
+        font: 500 10px/1 var(--mono);
+        border: 1px solid rgba(23, 108, 112, 0.26);
+        border-radius: 999px;
+        background: rgba(23, 108, 112, 0.07);
+        white-space: nowrap;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .resource-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+
+      .resource-card {
+        min-height: 145px;
+        text-decoration: none;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      a.resource-card:hover {
+        border-color: rgba(23, 108, 112, 0.48);
+        transform: translateY(-2px);
+      }
+
+      .resource-card .arrow {
+        display: block;
+        margin-top: 24px;
+        color: var(--accent);
+        font: 500 12px/1 var(--mono);
+      }
+
+      footer {
+        padding: 38px 32px;
+        color: rgba(255, 255, 255, 0.58);
+        background: var(--dark);
+      }
+
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #ffffff;
+        font-size: 13px;
+        text-decoration: none;
+      }
+
+      .footer-brand img {
+        width: auto;
+        height: 20px;
+        filter: invert(1);
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 17px;
+      }
+
+      .footer-links a {
+        color: inherit;
+        font-size: 12px;
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        color: #ffffff;
+      }
+
+      @media (max-width: 980px) {
+        .top-nav {
+          display: none;
+        }
+
+        .summary-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .method-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .section-head {
+          grid-template-columns: 1fr;
+          gap: 22px;
+        }
+
+        .resource-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .topbar {
+          padding: 15px 18px;
+        }
+
+        .top-actions a:not(.solid) {
+          display: none;
+        }
+
+        .language-toggle {
+          order: -1;
+        }
+
+        .brand-title {
+          font-size: 12px;
+        }
+
+        .brand-divider,
+        .brand-title {
+          display: none;
+        }
+
+        .hero {
+          min-height: 590px;
+          padding: 150px 20px 82px;
+        }
+
+        .hero-inner,
+        .content,
+        .footer-inner {
+          width: min(100% - 40px, var(--max));
+        }
+
+        .hero-lede {
+          font-size: 16px;
+        }
+
+        .content {
+          padding: 70px 0 90px;
+        }
+
+        .content > section + section {
+          margin-top: 82px;
+        }
+
+        .summary-grid,
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+
+        .flow {
+          grid-template-columns: 1fr;
+        }
+
+        .flow-step {
+          min-height: auto;
+        }
+
+        .flow-step:not(:last-child)::after {
+          top: auto;
+          right: auto;
+          bottom: -8px;
+          left: 50%;
+          width: 1px;
+          height: 9px;
+        }
+
+        .method-card,
+        .judge-card,
+        .resource-card {
+          padding: 22px;
+        }
+
+        .footer-inner {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .footer-links {
+          justify-content: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-lockup">
+        <a class="brand" href="./" aria-label="返回 StepAudio 3 Realtime 产品主页">
+          <img src="assets/brand/stepfun-logo-currentcolor.svg" alt="阶跃星辰" />
+        </a>
+        <span class="brand-divider">|</span>
+        <span class="brand-title">StepAudio 3 Realtime</span>
+      </div>
+      <nav class="top-nav" aria-label="页面导航">
+        <a href="#overview">概览</a>
+        <a href="#request">请求配置</a>
+        <a href="#benchmarks">评测口径</a>
+        <a href="#scoring">判分方法</a>
+        <a href="#resources">相关资料</a>
+      </nav>
+      <div class="top-actions">
+        <div class="language-toggle" role="group" aria-label="语言切换">
+          <a href="evaluation.html">EN</a>
+          <a href="evaluation.zh.html" aria-current="page">中文</a>
+        </div>
+        <a href="https://platform.stepfun.com/docs/zh/api-reference/chat/chat-completion-create" target="_blank" rel="noopener">API</a>
+        <a class="solid" href="./">产品主页</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="overview">
+        <div class="hero-inner">
+          <p class="eyebrow">StepAudio 3 Realtime</p>
+          <h1>评测与方法</h1>
+          <p class="hero-lede">
+            本页说明 StepAudio 3 Realtime 音频理解评测的实际做法，包括模型请求如何构造、各评测集采用什么输入和上下文、开放式回答由谁判分，以及最终分数如何汇总。
+          </p>
+          <div class="hero-meta" aria-label="评测配置摘要">
+            <span>音频输入，文本输出</span>
+            <span>stepaudio-3-chat-preview</span>
+            <span>采样温度 0.7</span>
+            <span>最大输出长度 32,000</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="content">
+        <section id="request">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">请求配置</p>
+              <h2>所有评测均使用同一套基础请求</h2>
+            </div>
+            <p class="section-lede">
+              模型统一通过公开的对话补全接口调用。不同评测集只会根据任务需要调整题目、选项和历史上下文的组织方式，不改变模型名称、采样温度和最大输出长度。
+            </p>
+          </div>
+
+          <div class="summary-grid">
+            <article class="summary-card">
+              <span class="value">POST</span>
+              <strong>接口地址</strong>
+              <p>api.stepfun.com/v1/chat/completions</p>
+            </article>
+            <article class="summary-card">
+              <span class="value">stepaudio-3-chat-preview</span>
+              <strong>模型</strong>
+              <p><code>stepaudio-3-chat-preview</code></p>
+            </article>
+            <article class="summary-card">
+              <span class="value">0.7</span>
+              <strong>采样温度</strong>
+              <p>所有评测集使用相同的生成温度。</p>
+            </article>
+            <article class="summary-card">
+              <span class="value">32,000</span>
+              <strong>最大输出长度</strong>
+              <p>该上限同时覆盖模型的推理过程与最终回答。</p>
+            </article>
+          </div>
+
+          <div class="method-grid" style="margin-top: 18px">
+            <article class="method-card">
+              <h3>音频如何进入模型</h3>
+              <p>
+                音频以 Base64 编码写入 <code>input_audio</code> 内容块，并显式声明文件格式。评测程序随后按照具体任务补充题目、选项或多轮历史。模型始终输出文本，判分阶段只使用最终回答，不把音频再次交给文本判官。
+              </p>
+              <div class="flow" aria-label="评测流程">
+                <div class="flow-step"><span class="num">01</span><strong>准备音频</strong><span>读取并编码波形</span></div>
+                <div class="flow-step"><span class="num">02</span><strong>组织输入</strong><span>加入题目与上下文</span></div>
+                <div class="flow-step"><span class="num">03</span><strong>模型推理</strong><span>生成文本回复</span></div>
+                <div class="flow-step"><span class="num">04</span><strong>提取回答</strong><span>仅保留最终文本</span></div>
+                <div class="flow-step"><span class="num">05</span><strong>完成判分</strong><span>规则或文本判官</span></div>
+              </div>
+            </article>
+
+            <article class="code-card">
+              <div class="code-head">
+                <span>chat-completions.json</span>
+                <button class="copy-btn" type="button" data-copy="request-code">复制</button>
+              </div>
+              <pre id="request-code"><code>{
+  "model": "stepaudio-3-chat-preview",
+  "temperature": 0.7,
+  "max_tokens": 32000,
+  "messages": [{
+    "role": "user",
+    "content": [
+      {"type": "text", "text": "请描述这段音频。"},
+      {
+        "type": "input_audio",
+        "input_audio": {
+          "data": "&lt;base64-audio&gt;",
+          "format": "wav"
+        }
+      }
+    ]
+  }]
+}</code></pre>
+            </article>
+          </div>
+        </section>
+
+        <section id="benchmarks">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">评测口径</p>
+              <h2>逐项说明任务输入、上下文和判分方式</h2>
+            </div>
+            <p class="section-lede">
+              各评测集保留自身的任务定义和主指标。下表重点说明模型实际收到什么内容、是否需要多轮历史，以及最终使用哪一种判分方式。
+            </p>
+          </div>
+
+          <div class="table-shell">
+            <table>
+              <thead><tr><th>评测集</th><th>模型需要完成的任务</th><th>上下文形式</th><th>判分模型</th><th>主指标</th></tr></thead>
+              <tbody>
+                <tr><td>MMSU</td><td>根据音频、题目和选项回答多选题</td><td><span class="tag">单轮</span></td><td>gpt-oss-120b</td><td>准确率</td></tr>
+                <tr><td>MMAR</td><td>结合音频信息完成推理型多选题</td><td><span class="tag">单轮</span></td><td>gpt-oss-120b</td><td>准确率</td></tr>
+                <tr><td>MMAU mini</td><td>根据音频与题目选择正确答案</td><td><span class="tag">单轮</span></td><td>gpt-oss-120b</td><td>准确率</td></tr>
+                <tr><td>Big Bench Audio</td><td>听取音频中给出的问题并作答</td><td><span class="tag">单轮</span></td><td>gpt-oss-120b</td><td>准确率</td></tr>
+                <tr><td>Audio Multi-Challenge</td><td>在多轮音频对话中生成符合评分点要求的回复</td><td><span class="tag">多轮</span></td><td>o4-mini</td><td>APR / ARS</td></tr>
+                <tr><td>WildSpeech-Bench</td><td>理解长音频中的开放式问题并给出文本回答</td><td><span class="tag">问题在音频中</span></td><td>gpt-oss-120b</td><td>0–100 分制平均分</td></tr>
+                <tr><td>Step-Caption</td><td>对语音内容、说话方式和背景声音作完整描述</td><td><span class="tag">单轮</span></td><td>gpt-oss-120b</td><td>总体得分</td></tr>
+                <tr><td>MTalk-Bench</td><td>结合当前音频和历史对话生成下一轮文本回复</td><td><span class="tag">多轮</span></td><td>gpt-oss-120b</td><td>宏平均通过率</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="scoring">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">判分方法</p>
+              <h2>判分只使用最终文本回答</h2>
+            </div>
+            <p class="section-lede">
+              模型的音频理解发生在推理阶段。进入判分阶段后，文本判官只接收题目、标准答案或评分规则，以及模型的最终文本回复，不会再次读取原始音频。
+            </p>
+          </div>
+
+          <div class="two-col">
+            <article class="judge-card">
+              <h3>文本判官如何使用</h3>
+              <p>
+                通用开放式任务由 gpt-oss-120b 判分，Audio Multi-Challenge 使用 o4-mini。判分请求的采样温度为 0.8，top_p 为 0.9，频率惩罚和存在惩罚均为 0.1。如果判官请求失败、返回为空或结果无法解析，该条结果会先重试补齐，再进入最终汇总。
+              </p>
+            </article>
+            <article class="judge-card">
+              <h3>最终分数如何汇总</h3>
+              <p>
+                每个评测集继续报告自己的原生主指标。多选题统计准确率；Audio Multi-Challenge 报告 APR 和 ARS；WildSpeech-Bench 将 1–10 分的判官结果线性换算到 0–100；MTalk-Bench 先在每条样本内平均各个评分点，再对全部样本等权平均。如需跨评测集合并，先统一到 0–100 分制，再做宏平均，不按样本量加权。
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section aria-labelledby="adaptation-title">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">逐集适配</p>
+              <h2 id="adaptation-title">公开接口与各评测集的具体衔接方式</h2>
+            </div>
+            <p class="section-lede">
+              这些处理只用于把公开的音频输入、文本输出接口接入不同任务，不改变评测集提供的标准答案、评分点或核心任务要求。
+            </p>
+          </div>
+
+          <div class="table-shell">
+            <table>
+              <thead><tr><th>评测集</th><th>请求如何构造</th><th>回答如何判分</th></tr></thead>
+              <tbody>
+                <tr><td>MMSU / MMAR / MMAU mini</td><td>输入官方题目、选项和音频，并补充一句简洁的作答格式要求。</td><td>根据官方答案判断语义上是否作答正确。</td></tr>
+                <tr><td>Big Bench Audio</td><td>问题本身已经包含在录音中，请求只在音频后补充固定作答要求。</td><td>将模型的开放式文本回答与任务答案进行比对。</td></tr>
+                <tr><td>Audio Multi-Challenge</td><td>保留多轮音频和文本历史，由模型生成最后一轮回复。</td><td>沿用评测集的评分点结构，使用 o4-mini 计算 APR 和 ARS。</td></tr>
+                <tr><td>WildSpeech-Bench</td><td>模型直接读取长音频并输出文本，不再额外合成语音。</td><td>按评测集检查清单给出 1–10 分，再线性换算到 0–100。</td></tr>
+                <tr><td>Step-Caption</td><td>音频后附加完整描述指令，引导模型用自然语言覆盖所需维度。</td><td>文本判官逐项检查描述中是否包含对应信息。</td></tr>
+                <tr><td>MTalk-Bench</td><td>当前轮只输入音频；历史轮使用官方转写文本，并保留模型之前的回复。</td><td>语义、副语言和环境音三个子集使用同一套文本评分点判定流程。</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <article class="method-card" style="margin-top: 18px">
+            <h3>MTalk-Bench 的多轮上下文</h3>
+            <p>
+              MTalk-Bench 的当前轮参考转写不会提供给模型，模型只能从当前轮音频中理解用户表达。此前轮次则使用官方转写文本作为历史，其中保留数据集提供的副语言和环境音标注，同时继续带上模型自己在前几轮生成的文本回复。这样既保留多轮对话关系，也避免把当前轮答案直接泄露给模型。语义、副语言和环境音三个子集都采用这一处理方式。
+            </p>
+          </article>
+        </section>
+
+        <section id="resources">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">相关资料</p>
+              <h2>查看接口说明、技术报告与产品演示</h2>
+            </div>
+            <p class="section-lede">
+              产品主页主要展示模型能力、演示和核心结果；接口文档与技术报告则提供更完整的调用字段、模型架构和实验背景。
+            </p>
+          </div>
+          <div class="resource-grid">
+            <a class="resource-card" href="./"><h3>产品主页</h3><p>查看模型介绍、交互演示和核心评测结果。</p><span class="arrow">打开产品主页 ↗</span></a>
+            <a class="resource-card" href="https://platform.stepfun.com/docs/zh/api-reference/chat/chat-completion-create" target="_blank" rel="noopener"><h3>接口说明</h3><p>查看音频输入和文本回复的公开接口字段。</p><span class="arrow">打开接口文档 ↗</span></a>
+            <a class="resource-card" href="https://arxiv.org/abs/2609.14005" target="_blank" rel="noopener"><h3>技术报告</h3><p>了解模型架构、训练方法和完整实验结果。</p><span class="arrow">阅读技术报告 ↗</span></a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <a class="footer-brand" href="https://www.stepfun.com" target="_blank" rel="noopener"><img src="assets/brand/stepfun-logo-currentcolor.svg" alt="阶跃星辰" /><span>StepAudio 3 Realtime</span></a>
+        <div class="footer-links"><a href="./">产品主页</a><a href="https://platform.stepfun.com/docs/zh/api-reference/chat/chat-completion-create" target="_blank" rel="noopener">接口文档</a><a href="https://arxiv.org/abs/2609.14005" target="_blank" rel="noopener">技术报告</a></div>
+      </div>
+    </footer>
+
+    <script>
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const target = document.getElementById(button.dataset.copy);
+          if (!target) return;
+          try {
+            await navigator.clipboard.writeText(target.innerText);
+            button.textContent = "已复制";
+            setTimeout(() => (button.textContent = "复制"), 1300);
+          } catch {
+            button.textContent = "请手动选择";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

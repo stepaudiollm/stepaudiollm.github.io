@@ -1,0 +1,1192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="StepAudio 3 Realtime evaluation configuration and methodology."
+    />
+    <title>Evaluation & Method · StepAudio 3 Realtime</title>
+    <link rel="icon" type="image/svg+xml" href="assets/brand/step-favicon.svg" />
+    <script>
+      if (new URLSearchParams(location.search).get("lang") === "zh") {
+        location.replace(`evaluation.zh.html${location.hash}`);
+      }
+    </script>
+    <style>
+      @font-face {
+        font-family: MiSans;
+        font-style: normal;
+        font-weight: 200;
+        font-display: swap;
+        src: url(assets/fonts/MiSans-ExtraLight.woff2) format("woff2");
+      }
+      @font-face {
+        font-family: MiSans;
+        font-style: normal;
+        font-weight: 300;
+        font-display: swap;
+        src: url(assets/fonts/MiSans-Light.woff2) format("woff2");
+      }
+      @font-face {
+        font-family: MiSans;
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url(assets/fonts/MiSans-Regular.woff2) format("woff2");
+      }
+      @font-face {
+        font-family: MiSans;
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url(assets/fonts/MiSans-Bold.woff2) format("woff2");
+      }
+
+      :root {
+        --ink: #15171c;
+        --muted: rgba(21, 23, 28, 0.63);
+        --soft: rgba(21, 23, 28, 0.46);
+        --line: rgba(21, 23, 28, 0.13);
+        --line-strong: rgba(21, 23, 28, 0.2);
+        --paper: #efefec;
+        --paper-alt: #e7e8e5;
+        --card: #ffffff;
+        --accent: #176c70;
+        --accent-bright: #1e9aae;
+        --dark: #07070c;
+        --dark-2: #11101a;
+        --dark-line: rgba(255, 255, 255, 0.13);
+        --dark-muted: rgba(255, 255, 255, 0.68);
+        --max: 1180px;
+        --font: MiSans, "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        background: var(--dark);
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: var(--font);
+        font-weight: 300;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .topbar {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 18px 32px;
+        color: #ffffff;
+        background: rgba(7, 7, 12, 0.68);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(18px);
+      }
+
+      .brand-lockup,
+      .top-actions,
+      .top-nav {
+        display: flex;
+        align-items: center;
+      }
+
+      .brand-lockup {
+        gap: 12px;
+      }
+
+      .brand {
+        display: block;
+        color: #ffffff;
+        opacity: 0.94;
+      }
+
+      .brand img {
+        display: block;
+        width: auto;
+        height: 22px;
+        filter: invert(1);
+      }
+
+      .brand-divider {
+        color: rgba(255, 255, 255, 0.38);
+        font: 400 13px/1 var(--mono);
+      }
+
+      .brand-title {
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0;
+      }
+
+      .top-nav {
+        gap: 4px;
+        margin-left: 12px;
+      }
+
+      .top-nav a,
+      .top-actions a {
+        padding: 7px 10px;
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 12px;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: color 0.2s ease, background 0.2s ease;
+      }
+
+      .top-nav a:hover,
+      .top-actions a:hover {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .top-actions {
+        gap: 7px;
+      }
+
+      .language-toggle {
+        display: inline-flex;
+        gap: 2px;
+        padding: 2px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .language-toggle a {
+        padding: 6px 8px;
+        color: rgba(255, 255, 255, 0.62);
+        font: 500 10px/1 var(--font);
+        text-decoration: none;
+        border-radius: 999px;
+      }
+
+      .language-toggle a[aria-current="page"] {
+        color: var(--dark);
+        background: #ffffff;
+      }
+
+      .top-actions .solid {
+        color: var(--dark);
+        background: #ffffff;
+        font-weight: 600;
+      }
+
+      .top-actions .solid:hover {
+        color: var(--dark);
+        background: #ffffff;
+      }
+
+      .hero {
+        position: relative;
+        min-height: 570px;
+        padding: 170px 32px 110px;
+        overflow: hidden;
+        color: #ffffff;
+        background:
+          radial-gradient(80% 90% at 18% 12%, rgba(30, 154, 174, 0.34), transparent 54%),
+          radial-gradient(70% 90% at 88% 86%, rgba(99, 102, 241, 0.34), transparent 56%),
+          linear-gradient(135deg, var(--dark), var(--dark-2));
+      }
+
+      .hero::before,
+      .hero::after {
+        position: absolute;
+        content: "";
+        pointer-events: none;
+      }
+
+      .hero::before {
+        inset: 0;
+        opacity: 0.28;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+        background-size: 84px 84px;
+        mask-image: linear-gradient(115deg, black, transparent 68%);
+      }
+
+      .hero::after {
+        right: 7%;
+        bottom: -210px;
+        width: 490px;
+        height: 490px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        box-shadow:
+          0 0 0 38px rgba(255, 255, 255, 0.035),
+          0 0 0 76px rgba(255, 255, 255, 0.025);
+      }
+
+      .hero-inner,
+      .content,
+      .footer-inner {
+        position: relative;
+        z-index: 1;
+        width: min(var(--max), calc(100% - 64px));
+        margin: 0 auto;
+      }
+
+      .eyebrow,
+      .section-kicker {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 24px;
+        color: var(--accent-bright);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before,
+      .section-kicker::before {
+        width: 18px;
+        height: 18px;
+        flex: none;
+        content: "";
+        border: 1px solid currentColor;
+        border-radius: 50%;
+        background: linear-gradient(
+          90deg,
+          transparent 25%,
+          currentColor 25% 31%,
+          transparent 31% 47%,
+          currentColor 47% 53%,
+          transparent 53% 69%,
+          currentColor 69% 75%,
+          transparent 75%
+        );
+        opacity: 0.7;
+      }
+
+      .hero h1 {
+        max-width: 800px;
+        margin: 0;
+        font-size: clamp(54px, 8vw, 104px);
+        font-weight: 300;
+        line-height: 0.98;
+        letter-spacing: -0.03em;
+      }
+
+      .hero h1 span {
+        display: block;
+        color: transparent;
+        background: linear-gradient(92deg, #63e6f2, #8b9cff 58%, #c084fc);
+        background-clip: text;
+        -webkit-background-clip: text;
+      }
+
+      html[lang="zh-CN"] .hero h1 {
+        max-width: none;
+        font-size: clamp(52px, 7vw, 88px);
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+
+      html[lang="zh-CN"] .hero h1 span {
+        display: inline;
+        margin-left: 0.16em;
+      }
+
+      html[lang="zh-CN"] .content h2 br {
+        display: none;
+      }
+
+      html[lang="zh-CN"] .content h2 span {
+        margin-left: 0.15em;
+      }
+
+      .hero-lede {
+        max-width: 650px;
+        margin: 34px 0 0;
+        color: var(--dark-muted);
+        font-size: 18px;
+        line-height: 1.75;
+      }
+
+      .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 42px;
+      }
+
+      .hero-meta span {
+        padding: 9px 13px;
+        color: rgba(255, 255, 255, 0.82);
+        font: 400 11px/1 var(--mono);
+        border: 1px solid var(--dark-line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .content {
+        padding: 96px 0 130px;
+      }
+
+      .content > section + section {
+        margin-top: 112px;
+      }
+
+      .content section[id] {
+        scroll-margin-top: 94px;
+      }
+
+      .section-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.55fr);
+        gap: 80px;
+        align-items: end;
+        margin-bottom: 44px;
+      }
+
+      .section-kicker {
+        margin-bottom: 20px;
+        color: var(--accent);
+      }
+
+      h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(38px, 5vw, 64px);
+        font-weight: 500;
+        line-height: 1.04;
+        letter-spacing: -0.025em;
+      }
+
+      h2 span {
+        color: var(--accent-bright);
+      }
+
+      .section-lede {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.8;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+
+      .summary-card {
+        min-height: 148px;
+        padding: 23px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+
+      .summary-card .value {
+        display: block;
+        margin-bottom: 19px;
+        color: var(--accent);
+        font: 600 17px/1.25 var(--mono);
+        overflow-wrap: anywhere;
+      }
+
+      .summary-card strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 650;
+      }
+
+      .summary-card p {
+        margin: 0;
+        color: var(--soft);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .method-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .method-card,
+      .judge-card,
+      .resource-card {
+        padding: 28px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+
+      .method-card h3,
+      .judge-card h3,
+      .resource-card h3 {
+        margin: 0 0 13px;
+        font-size: 19px;
+        font-weight: 600;
+      }
+
+      .method-card p,
+      .judge-card p,
+      .resource-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.75;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+        margin-top: 24px;
+      }
+
+      .flow-step {
+        position: relative;
+        min-height: 106px;
+        padding: 15px 12px;
+        background: #f5f5f1;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+      }
+
+      .flow-step:not(:last-child)::after {
+        position: absolute;
+        top: 50%;
+        right: -10px;
+        width: 12px;
+        height: 1px;
+        content: "";
+        background: var(--accent);
+        opacity: 0.58;
+      }
+
+      .flow-step .num {
+        display: block;
+        margin-bottom: 12px;
+        color: var(--accent);
+        font: 500 10px/1 var(--mono);
+      }
+
+      .flow-step strong {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.45;
+      }
+
+      .flow-step span {
+        display: block;
+        margin-top: 6px;
+        color: var(--soft);
+        font-size: 11px;
+        line-height: 1.45;
+      }
+
+      .code-card {
+        overflow: hidden;
+        color: #eef5f5;
+        background: #10141b;
+        border: 1px solid rgba(22, 108, 112, 0.45);
+        border-radius: 12px;
+      }
+
+      .code-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .code-head span {
+        color: rgba(255, 255, 255, 0.62);
+        font: 500 11px/1 var(--mono);
+      }
+
+      .copy-btn {
+        padding: 7px 10px;
+        color: #c9ffff;
+        font: 500 11px/1 var(--font);
+        cursor: pointer;
+        border: 1px solid rgba(123, 238, 244, 0.35);
+        border-radius: 999px;
+        background: rgba(123, 238, 244, 0.08);
+      }
+
+      .copy-btn:hover {
+        background: rgba(123, 238, 244, 0.16);
+      }
+
+      pre {
+        margin: 0;
+        padding: 21px 19px 24px;
+        overflow-x: auto;
+        font: 12px/1.72 var(--mono);
+        tab-size: 2;
+      }
+
+      .table-shell {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--card);
+      }
+
+      table {
+        width: 100%;
+        min-width: 900px;
+        border-collapse: collapse;
+        text-align: left;
+      }
+
+      th,
+      td {
+        padding: 17px 18px;
+        vertical-align: top;
+        border-bottom: 1px solid var(--line);
+      }
+
+      th {
+        color: var(--soft);
+        font: 600 11px/1.3 var(--mono);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        background: #f6f6f3;
+      }
+
+      td {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      td:first-child,
+      td strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 5px 8px;
+        color: var(--accent);
+        font: 500 10px/1 var(--mono);
+        border: 1px solid rgba(23, 108, 112, 0.26);
+        border-radius: 999px;
+        background: rgba(23, 108, 112, 0.07);
+        white-space: nowrap;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .resource-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+
+      .resource-card {
+        min-height: 145px;
+        text-decoration: none;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      a.resource-card:hover {
+        border-color: rgba(23, 108, 112, 0.48);
+        transform: translateY(-2px);
+      }
+
+      .resource-card .arrow {
+        display: block;
+        margin-top: 24px;
+        color: var(--accent);
+        font: 500 12px/1 var(--mono);
+      }
+
+      footer {
+        padding: 38px 32px;
+        color: rgba(255, 255, 255, 0.58);
+        background: var(--dark);
+      }
+
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #ffffff;
+        font-size: 13px;
+        text-decoration: none;
+      }
+
+      .footer-brand img {
+        width: auto;
+        height: 20px;
+        filter: invert(1);
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 17px;
+      }
+
+      .footer-links a {
+        color: inherit;
+        font-size: 12px;
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        color: #ffffff;
+      }
+
+      @media (max-width: 980px) {
+        .top-nav {
+          display: none;
+        }
+
+        .summary-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .method-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .section-head {
+          grid-template-columns: 1fr;
+          gap: 22px;
+        }
+
+        .resource-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .topbar {
+          padding: 15px 18px;
+        }
+
+        .top-actions a:not(.solid) {
+          display: none;
+        }
+
+        .language-toggle {
+          order: -1;
+        }
+
+        .brand-title {
+          font-size: 12px;
+        }
+
+        .brand-divider,
+        .brand-title {
+          display: none;
+        }
+
+        .hero {
+          min-height: 590px;
+          padding: 150px 20px 82px;
+        }
+
+        .hero-inner,
+        .content,
+        .footer-inner {
+          width: min(100% - 40px, var(--max));
+        }
+
+        .hero-lede {
+          font-size: 16px;
+        }
+
+        .content {
+          padding: 70px 0 90px;
+        }
+
+        .content > section + section {
+          margin-top: 82px;
+        }
+
+        .summary-grid,
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+
+        .flow {
+          grid-template-columns: 1fr;
+        }
+
+        .flow-step {
+          min-height: auto;
+        }
+
+        .flow-step:not(:last-child)::after {
+          top: auto;
+          right: auto;
+          bottom: -8px;
+          left: 50%;
+          width: 1px;
+          height: 9px;
+        }
+
+        .method-card,
+        .judge-card,
+        .resource-card {
+          padding: 22px;
+        }
+
+        .footer-inner {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .footer-links {
+          justify-content: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-lockup">
+        <a class="brand" href="./" aria-label="Back to StepAudio 3 Realtime">
+          <img src="assets/brand/stepfun-logo-currentcolor.svg" alt="StepFun" />
+        </a>
+        <span class="brand-divider">|</span>
+        <span class="brand-title">StepAudio 3 Realtime</span>
+      </div>
+      <nav class="top-nav" aria-label="Page sections">
+        <a href="#overview">Overview</a>
+        <a href="#request">Request</a>
+        <a href="#benchmarks">Benchmarks</a>
+        <a href="#scoring">Scoring</a>
+        <a href="#resources">Resources</a>
+      </nav>
+      <div class="top-actions">
+        <div class="language-toggle" role="group" aria-label="Language">
+          <a href="evaluation.html" aria-current="page">EN</a>
+          <a href="evaluation.zh.html">中文</a>
+        </div>
+        <a href="https://platform.stepfun.com/docs/zh/api-reference/chat/chat-completion-create" target="_blank" rel="noopener">API</a>
+        <a class="solid" href="./" data-i18n="product-page">Product page</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="overview">
+        <div class="hero-inner">
+          <p class="eyebrow">StepAudio 3 Realtime</p>
+          <h1>Evaluation <span>&amp; Method</span></h1>
+          <p class="hero-lede">
+            A clear view of the request configuration, benchmark protocols,
+            scoring conventions, and text-based evaluation used for the
+            StepAudio 3 Realtime audio-understanding results.
+          </p>
+          <div class="hero-meta" aria-label="Evaluation summary">
+            <span>Audio in · Text out</span>
+            <span>stepaudio-3-chat-preview</span>
+            <span>temperature 0.7</span>
+            <span>max_tokens 32000</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="content">
+        <section id="request">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Request configuration</p>
+              <h2>One request shape.<br /><span>Every benchmark.</span></h2>
+            </div>
+            <p class="section-lede">
+              The reported audio-understanding results use the public Chat
+              Completions interface. Benchmark-specific prompts and context
+              are assembled around the same model request.
+            </p>
+          </div>
+
+          <div class="summary-grid">
+            <article class="summary-card">
+              <span class="value">POST</span>
+              <strong>Endpoint</strong>
+              <p>api.stepfun.com/v1/chat/completions</p>
+            </article>
+            <article class="summary-card">
+              <span class="value">S3 Realtime</span>
+              <strong>Model</strong>
+              <p><code>stepaudio-3-chat-preview</code></p>
+            </article>
+            <article class="summary-card">
+              <span class="value">0.7</span>
+              <strong>Temperature</strong>
+              <p>The same generation temperature is used across the benchmark requests.</p>
+            </article>
+            <article class="summary-card">
+              <span class="value">32,000</span>
+              <strong>Max tokens</strong>
+              <p>The output budget covers the model's reasoning and final text response.</p>
+            </article>
+          </div>
+
+          <div class="method-grid" style="margin-top: 18px">
+            <article class="method-card">
+              <h3>Audio input</h3>
+              <p>
+                Audio is sent as a base64-encoded <code>input_audio</code>
+                content block. The benchmark runner declares the audio format
+                explicitly and applies the task-specific audio preparation
+                required by each dataset.
+              </p>
+              <div class="flow" aria-label="Evaluation flow">
+                <div class="flow-step">
+                  <span class="num">01</span>
+                  <strong>Audio</strong>
+                  <span>Waveform input</span>
+                </div>
+                <div class="flow-step">
+                  <span class="num">02</span>
+                  <strong>Context</strong>
+                  <span>Prompt and history</span>
+                </div>
+                <div class="flow-step">
+                  <span class="num">03</span>
+                  <strong>Model</strong>
+                  <span>Audio-language response</span>
+                </div>
+                <div class="flow-step">
+                  <span class="num">04</span>
+                  <strong>Text</strong>
+                  <span>Final answer</span>
+                </div>
+                <div class="flow-step">
+                  <span class="num">05</span>
+                  <strong>Score</strong>
+                  <span>Metric or judge</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="code-card">
+              <div class="code-head">
+                <span>chat-completions.json</span>
+                <button class="copy-btn" type="button" data-copy="request-code">Copy</button>
+              </div>
+              <pre id="request-code"><code>{
+  "model": "stepaudio-3-chat-preview",
+  "temperature": 0.7,
+  "max_tokens": 32000,
+  "messages": [{
+    "role": "user",
+    "content": [
+      {"type": "text", "text": "Please describe this audio."},
+      {
+        "type": "input_audio",
+        "input_audio": {
+          "data": "&lt;base64-audio&gt;",
+          "format": "wav"
+        }
+      }
+    ]
+  }]
+}</code></pre>
+            </article>
+          </div>
+        </section>
+
+        <section id="benchmarks">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Benchmark protocols</p>
+              <h2>Eight benchmarks.<br /><span>One readable map.</span></h2>
+            </div>
+            <p class="section-lede">
+              Each benchmark keeps its own task structure and primary metric.
+              The table below summarizes the input/output mode, context,
+              judge, and reported score.
+            </p>
+          </div>
+
+          <div class="table-shell">
+            <table>
+              <thead>
+                <tr>
+                  <th>Benchmark</th>
+                  <th>Task</th>
+                  <th>Context</th>
+                  <th>Judge</th>
+                  <th>Primary metric</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MMSU</td>
+                  <td>Audio multiple-choice</td>
+                  <td><span class="tag">Single turn</span></td>
+                  <td>gpt-oss-120b</td>
+                  <td>Accuracy</td>
+                </tr>
+                <tr>
+                  <td>MMAR</td>
+                  <td>Audio reasoning multiple-choice</td>
+                  <td><span class="tag">Single turn</span></td>
+                  <td>gpt-oss-120b</td>
+                  <td>Accuracy</td>
+                </tr>
+                <tr>
+                  <td>MMAU mini</td>
+                  <td>Audio multiple-choice</td>
+                  <td><span class="tag">Single turn</span></td>
+                  <td>gpt-oss-120b</td>
+                  <td>Accuracy</td>
+                </tr>
+                <tr>
+                  <td>Big Bench Audio</td>
+                  <td>Audio-grounded reasoning</td>
+                  <td><span class="tag">Single turn</span></td>
+                  <td>gpt-oss-120b</td>
+                  <td>Accuracy</td>
+                </tr>
+                <tr>
+                  <td>Audio Multi-Challenge</td>
+                  <td>Multi-turn interaction with rubrics</td>
+                  <td><span class="tag">Multi-turn</span></td>
+                  <td>o4-mini</td>
+                  <td>APR / ARS</td>
+                </tr>
+                <tr>
+                  <td>WildSpeech-Bench</td>
+                  <td>Long-audio open-ended questions</td>
+                  <td><span class="tag">Question in audio</span></td>
+                  <td>gpt-oss-120b</td>
+                  <td>Mean score on 0–100 scale</td>
+                </tr>
+                <tr>
+                  <td>Step-Caption</td>
+                  <td>Structured audio description</td>
+                  <td><span class="tag">Single turn</span></td>
+                  <td>gpt-oss-120b</td>
+                  <td>Overall score</td>
+                </tr>
+                <tr>
+                  <td>MTalk-Bench</td>
+                  <td>Multi-turn spoken dialogue in S2T format</td>
+                  <td><span class="tag">Multi-turn</span></td>
+                  <td>gpt-oss-120b</td>
+                  <td>Macro-averaged pass rate</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
+        <section id="scoring">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Scoring and adaptation</p>
+              <h2>Keep the task intact.<br /><span>Make the output comparable.</span></h2>
+            </div>
+            <p class="section-lede">
+              The benchmark answer keys and rubrics remain the basis for
+              scoring. Adaptations are limited to the audio-to-text interface,
+              multi-turn context, and output format needed by the public Chat
+              Completions endpoint.
+            </p>
+          </div>
+
+          <div class="two-col">
+            <article class="judge-card">
+              <h3>Text-only LLM judges</h3>
+              <p>
+                Open-ended responses are evaluated with a text-only judge. The
+                judge receives the task text, answer key or rubric, and the
+                model's final text response; it does not receive the audio.
+                The general text-based tasks use <strong>gpt-oss-120b</strong>,
+                while Audio Multi-Challenge uses <strong>o4-mini</strong>.
+                Where supported, judge requests use temperature 0.8, top_p
+                0.9, frequency penalty 0.1, and presence penalty 0.1. Empty,
+                failed, or unparsable judge responses are retried before
+                aggregation.
+              </p>
+            </article>
+
+            <article class="judge-card">
+              <h3>Metric aggregation</h3>
+              <p>
+                Each benchmark keeps its native primary metric. For rubric
+                tasks, rubric items are averaged within a case before cases are
+                averaged with equal weight. If a cross-benchmark summary is
+                needed, metrics are first expressed on a 0–100 scale and then
+                macro-averaged without sample-count weighting. Multiple-choice
+                tasks report accuracy, Audio Multi-Challenge reports APR and
+                ARS, WildSpeech-Bench maps its 1–10 judge score to 0–100, and
+                MTalk-Bench reports a case-level macro pass rate.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section aria-labelledby="adaptation-title">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Dataset-specific method</p>
+              <h2 id="adaptation-title">Where the request<br /><span>meets the benchmark.</span></h2>
+            </div>
+            <p class="section-lede">
+              The following adaptations make the public audio-to-text
+              interface usable while keeping the benchmark's task evidence
+              and scoring structure visible.
+            </p>
+          </div>
+
+          <div class="table-shell">
+            <table>
+              <thead>
+                <tr>
+                  <th>Benchmark family</th>
+                  <th>Request construction</th>
+                  <th>Scoring treatment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MMSU / MMAR / MMAU mini</td>
+                  <td>Official question and options are sent with an output-format instruction and audio input.</td>
+                  <td>Answer correctness is judged against the official answer structure.</td>
+                </tr>
+                <tr>
+                  <td>Big Bench Audio</td>
+                  <td>The question is contained in the recording; audio is followed by the fixed answer instruction.</td>
+                  <td>Open-ended text answers are evaluated against the task answer.</td>
+                </tr>
+                <tr>
+                  <td>Audio Multi-Challenge</td>
+                  <td>Multi-turn audio and text history are preserved for the final response.</td>
+                  <td>Official rubric structure with APR / ARS and the o4-mini judge.</td>
+                </tr>
+                <tr>
+                  <td>WildSpeech-Bench</td>
+                  <td>The model receives audio and returns text directly instead of synthesizing a voice response.</td>
+                  <td>The checklist-based 1–10 score is mapped linearly to 0–100.</td>
+                </tr>
+                <tr>
+                  <td>Step-Caption</td>
+                  <td>Audio is followed by a natural-language description instruction.</td>
+                  <td>The structured description dimensions are assessed by the text judge.</td>
+                </tr>
+                <tr>
+                  <td>MTalk-Bench</td>
+                  <td>Current-turn audio is combined with official text history and previous model replies.</td>
+                  <td>Semantic, paralinguistic, and ambient subsets use the same S2T text-rubric process.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="resources">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Resources</p>
+              <h2>Read the details.<br /><span>Try the model.</span></h2>
+            </div>
+            <p class="section-lede">
+              The product page remains the home for demos and headline
+              results. These links provide the public API, report, and
+              evaluation references.
+            </p>
+          </div>
+          <div class="resource-grid">
+            <a class="resource-card" href="./" >
+              <h3>Realtime product page</h3>
+              <p>Explore the model story, demos, and headline benchmark results.</p>
+              <span class="arrow">Open product page ↗</span>
+            </a>
+            <a class="resource-card" href="https://platform.stepfun.com/docs/zh/api-reference/chat/chat-completion-create" target="_blank" rel="noopener">
+              <h3>Chat Completions API</h3>
+              <p>Read the public API reference for audio input and text responses.</p>
+              <span class="arrow">Open API reference ↗</span>
+            </a>
+            <a class="resource-card" href="https://arxiv.org/abs/2609.14005" target="_blank" rel="noopener">
+              <h3>Technical report</h3>
+              <p>Read the architecture, training approach, and complete reported results.</p>
+              <span class="arrow">Read the report ↗</span>
+            </a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <a class="footer-brand" href="https://www.stepfun.com" target="_blank" rel="noopener">
+          <img src="assets/brand/stepfun-logo-currentcolor.svg" alt="StepFun" />
+          <span>StepAudio 3 Realtime</span>
+        </a>
+        <div class="footer-links">
+          <a href="./">Product page</a>
+          <a href="https://platform.stepfun.com/docs/zh/api-reference/chat/chat-completion-create" target="_blank" rel="noopener">API</a>
+          <a href="https://arxiv.org/abs/2609.14005" target="_blank" rel="noopener">Technical report</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const target = document.getElementById(button.dataset.copy);
+          if (!target) return;
+          try {
+            await navigator.clipboard.writeText(target.innerText);
+            const original = button.textContent;
+            button.textContent = "Copied";
+            setTimeout(() => {
+              button.textContent = original;
+            }, 1300);
+          } catch {
+            button.textContent = "Select to copy";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
