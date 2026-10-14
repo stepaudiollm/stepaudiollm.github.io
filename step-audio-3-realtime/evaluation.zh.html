@@ -367,6 +367,17 @@
         letter-spacing: -0.025em;
       }
 
+      .section-head > div {
+        min-width: 0;
+        container-type: inline-size;
+      }
+      h2.single-line-title {
+        font-size: min(32px, 5.4cqw);
+        line-height: 1.35;
+        letter-spacing: -0.025em;
+        white-space: nowrap;
+      }
+
       h2 span {
         color: var(--accent-bright);
       }
@@ -825,7 +836,7 @@
           <div class="section-head">
             <div>
               <p class="section-kicker">请求配置</p>
-              <h2>所有评测均使用同一套基础请求</h2>
+              <h2 class="single-line-title">所有评测均使用同一套基础请求</h2>
             </div>
             <p class="section-lede">
               模型统一通过公开的对话补全接口调用。不同评测集只会根据任务需要调整题目、选项和历史上下文的组织方式，不改变模型名称、采样温度和最大输出长度。
@@ -901,7 +912,7 @@
           <div class="section-head">
             <div>
               <p class="section-kicker">评测口径</p>
-              <h2>逐项说明任务输入、上下文和判分方式</h2>
+              <h2 class="single-line-title">任务输入、上下文和判分方式</h2>
             </div>
             <p class="section-lede">
               各评测集保留自身的任务定义和主指标。下表重点说明模型实际收到什么内容、是否需要多轮历史，以及最终使用哪一种判分方式。
@@ -956,7 +967,7 @@
           <div class="section-head">
             <div>
               <p class="section-kicker">逐集适配</p>
-              <h2 id="adaptation-title">公开接口与各评测集的具体衔接方式</h2>
+              <h2 class="single-line-title" id="adaptation-title">公开接口与各评测集的具体衔接方式</h2>
             </div>
             <p class="section-lede">
               这些处理只用于把公开的音频输入、文本输出接口接入不同任务，不改变评测集提供的标准答案、评分点或核心任务要求。
@@ -989,7 +1000,7 @@
           <div class="section-head">
             <div>
               <p class="section-kicker">相关资料</p>
-              <h2>查看接口说明、技术报告与产品演示</h2>
+              <h2 class="single-line-title">接口说明、技术报告与产品演示</h2>
             </div>
             <p class="section-lede">
               产品主页主要展示模型能力、演示和核心结果；接口文档与技术报告则提供更完整的调用字段、模型架构和实验背景。

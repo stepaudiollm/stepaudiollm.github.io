@@ -358,6 +358,10 @@
   /* 滚进浅色正文后顶栏翻白，白底按钮在白底上就没对比了 —— 反转成深底白字 */
   .topbar.solid .chip.nav{background:#15171C;color:#FFFFFF}
   .topbar.solid .chip.nav:hover{background:#15171C;color:#FFFFFF}
+  .chip.nav.evaluation-entry,.topbar.solid .chip.nav.evaluation-entry{background:#635bff;color:#fff;font-weight:650;box-shadow:0 4px 20px rgba(99,91,255,.3)}
+  .chip.nav.evaluation-entry:hover{background:#5148e8}
+  @media (max-width:1100px){ .chip.nav.evaluation-entry{position:absolute;top:calc(100% + 12px);right:0;height:40px} }
+  @media (max-width:640px){ .chip.nav.evaluation-entry{position:fixed;top:76px;right:18px} }
   .chip.nav.hint{animation:nudge .5s ease}
   .lang b{color:var(--text);font-weight:400}
   /* **语言切换：右下角固定，且开屏时不出现、下滑之后才显现。**
@@ -774,6 +778,9 @@
     </nav>
   </div>
   <div class="ctrls">
+    <a class="chip nav evaluation-entry" id="evaluationBtn" href="evaluation.html">
+      <span>Evaluation &amp; Method</span><span aria-hidden="true">↗</span>
+    </a>
     <div class="llang" id="langBtn" role="group" aria-label="语言 / Language">
       <button type="button" data-lang="zh" aria-pressed="true"><span>中文</span></button>
       <button type="button" data-lang="en" aria-pressed="false"><span>EN</span></button>
@@ -930,6 +937,8 @@ const COPY = {
       {no:"03",src:"assets/demo/realtime-03-1080.mp4?v=20260914-hd3",mobileSrc:"assets/demo/realtime-03.mp4?v=20260914-3",poster:"assets/demo/realtime-03-cover.jpg?v=20260915-face12-text2",t:"实时对话 · 中文交互",d:"实时语音交互中的回应与话轮衔接。"},
       {no:"04",src:"assets/demo/realtime-04-1080.mp4?v=20260914-hd4",mobileSrc:"assets/demo/realtime-04.mp4?v=20260914-4",poster:"assets/demo/realtime-04-cover.jpg?v=20260915-shadow3-clean",t:"实时对话 · 英文演示",d:"自然表达、及时回应与顺畅交流。"},
     ],
+    evaluationNav:"评测与方法",
+    evaluationHref:"evaluation.zh.html",
     evaluationLabel:"音频理解评测方法",
     benchmarkKicker:"模型评测",
     benchmarkTitle:["从听懂，到实时协作，","关键能力放在同一张图上。"],
@@ -974,6 +983,8 @@ const COPY = {
       {no:"03",src:"assets/demo/realtime-04-1080.mp4?v=20260914-hd4",mobileSrc:"assets/demo/realtime-04.mp4?v=20260914-4",poster:"assets/demo/realtime-04-cover.jpg?v=20260915-shadow3-clean",t:"Live conversation · English demo",d:"Natural delivery, timely responses, and an easy-flowing exchange."},
       {no:"04",src:"assets/demo/realtime-03-1080.mp4?v=20260914-hd3",mobileSrc:"assets/demo/realtime-03.mp4?v=20260914-3",poster:"assets/demo/realtime-03-cover.jpg?v=20260915-face12-text2",t:"Live conversation · Chinese demo",d:"Responsive voice interaction with smooth turn-taking."},
     ],
+    evaluationNav:"Evaluation & Method",
+    evaluationHref:"evaluation.html",
     evaluationLabel:"Audio understanding: evaluation & method",
     benchmarkKicker:"Model evaluation",
     benchmarkTitle:["From understanding to live collaboration,","the core capabilities on one canvas."],
@@ -1143,6 +1154,8 @@ function renderCopy(){
   $("benchmarkLede").textContent = c.benchmarkLede;
   $("benchmarkStatus").textContent = c.benchmarkStatus;
   $("evaluationLabel").textContent = c.evaluationLabel;
+  $("evaluationBtn").querySelector("span").textContent = c.evaluationNav;
+  $("evaluationBtn").href = c.evaluationHref;
   renderBenchmarks(c);
 
   $("ey3").textContent = c.ey3;  $("h2c").textContent = c.h2c;
