@@ -1,0 +1,5 @@
+description: "StepAudio3 Chat API request with an explicit empty system message"
+model: "stepaudio-3-chat-preview"
+temperature: 0.7
+max_tokens: 32000
+system_prompt: ""
