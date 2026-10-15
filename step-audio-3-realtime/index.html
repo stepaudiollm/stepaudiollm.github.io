@@ -778,7 +778,7 @@
     </nav>
   </div>
   <div class="ctrls">
-    <a class="chip nav evaluation-entry" id="evaluationBtn" href="evaluation.html">
+    <a class="chip nav evaluation-entry" id="evaluationBtn" href="https://github.com/stepaudiollm/stepaudiollm.github.io/tree/main/step-audio-3-realtime/realtime" target="_blank" rel="noopener">
       <span>Evaluation &amp; Method</span><span aria-hidden="true">↗</span>
     </a>
     <div class="llang" id="langBtn" role="group" aria-label="语言 / Language">
@@ -938,7 +938,7 @@ const COPY = {
       {no:"04",src:"assets/demo/realtime-04-1080.mp4?v=20260914-hd4",mobileSrc:"assets/demo/realtime-04.mp4?v=20260914-4",poster:"assets/demo/realtime-04-cover.jpg?v=20260915-shadow3-clean",t:"实时对话 · 英文演示",d:"自然表达、及时回应与顺畅交流。"},
     ],
     evaluationNav:"评测与方法",
-    evaluationHref:"evaluation.zh.html",
+    evaluationHref:"https://github.com/stepaudiollm/stepaudiollm.github.io/tree/main/step-audio-3-realtime/realtime",
     evaluationLabel:"音频理解评测方法",
     benchmarkKicker:"模型评测",
     benchmarkTitle:["从听懂，到实时协作，","关键能力放在同一张图上。"],
@@ -956,8 +956,6 @@ const COPY = {
     apiHref:"https://platform.stepfun.com/docs/zh/guides/models/stepaudio-3-realtime",
     expNav:"体验中心",
     expHref:"https://www.stepfun.com/studio/audio?tab=voice-chat",
-    docsNav:"模型与代码",
-    docsHref:"https://github.com/stepaudiollm/stepaudiollm.github.io/tree/main/step-audio-3-realtime/realtime",
     legal:"Copyright © 2026 上海阶跃星辰智能科技股份有限公司",
   },
   en: {
@@ -986,7 +984,7 @@ const COPY = {
       {no:"04",src:"assets/demo/realtime-03-1080.mp4?v=20260914-hd3",mobileSrc:"assets/demo/realtime-03.mp4?v=20260914-3",poster:"assets/demo/realtime-03-cover.jpg?v=20260915-face12-text2",t:"Live conversation · Chinese demo",d:"Responsive voice interaction with smooth turn-taking."},
     ],
     evaluationNav:"Evaluation & Method",
-    evaluationHref:"evaluation.html",
+    evaluationHref:"https://github.com/stepaudiollm/stepaudiollm.github.io/tree/main/step-audio-3-realtime/realtime",
     evaluationLabel:"Audio understanding: evaluation & method",
     benchmarkKicker:"Model evaluation",
     benchmarkTitle:["From understanding to live collaboration,","the core capabilities on one canvas."],
@@ -1004,8 +1002,6 @@ const COPY = {
     apiHref:"https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-realtime",
     expNav:"Voice Studio",
     expHref:"https://audio.stepfun.ai/",
-    docsNav:"Model & Code",
-    docsHref:"https://github.com/stepaudiollm/stepaudiollm.github.io/tree/main/step-audio-3-realtime/realtime",
     legal:"Copyright © 2026 StepFun Intelligence Co., Ltd.",
   }
 };
@@ -1171,10 +1167,6 @@ function renderCopy(){
   $("cta").innerHTML = `
     <a class="btn solid" id="ctaExp" href="${c.expHref}" target="_blank" rel="noopener"><span>${c.expNav}</span><svg
      class="arw-ne" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.6 8.4 8.4 3.6M8.4 3.6H4.9M8.4 3.6V7.1"
-     stroke="currentColor" stroke-width="1.5" fill="none"
-      stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-    <a class="btn ghost" id="ctaDocs" href="${c.docsHref}" target="_blank" rel="noopener"><span>${c.docsNav}</span><svg
-     class="arw-ne" width="13" height="13" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.6 8.4 8.4 3.6M8.4 3.6H4.9M8.4 3.6V7.1"
      stroke="currentColor" stroke-width="1.5" fill="none"
       stroke-linecap="round" stroke-linejoin="round"/></svg></a>`;
 
