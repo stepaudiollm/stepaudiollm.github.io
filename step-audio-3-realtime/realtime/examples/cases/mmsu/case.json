@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "benchmark": "mmsu",
+  "case_id": "volume_comparison_62f4a21c-c7dc-42b1-8841-9a4171423654",
+  "mode": "single_turn",
+  "audio_preparation": "decoded_wav_preserve_rate_channels_29.9s",
+  "source_audio": [
+    {
+      "file_name": "volume_comparison_62f4a21c-c7dc-42b1-8841-9a4171423654.wav"
+    }
+  ],
+  "question": "Which volume pattern best matches the audio?",
+  "choices": [
+    "medium-low-high",
+    "high-low-medium",
+    "low-high-medium",
+    "low-medium-high"
+  ],
+  "turns": [],
+  "audio": [
+    {
+      "sample_rate_hz": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 215514,
+      "duration_seconds": 13.469625,
+      "file": "audio/turn01_chunk01.wav",
+      "sha256": "a00cc68e4d1bb9c8fb820dd6d3d689f94c20cc1a6f0b65cc71c47c973265eceb",
+      "bytes": 431072,
+      "turn": 1,
+      "chunk": 1
+    }
+  ],
+  "request_files": [
+    "request.json"
+  ],
+  "provenance": {
+    "prediction_model": "stepaudio-3-chat-preview",
+    "source_metadata_file": "mmsu.jsonl",
+    "source_record_fields": [
+      "id",
+      "task_name",
+      "audio_path",
+      "question",
+      "choice_a",
+      "choice_b",
+      "choice_c",
+      "choice_d",
+      "answer_gt",
+      "category",
+      "sub-category",
+      "sub-sub-category",
+      "linguistics_sub_discipline"
+    ],
+    "request_origin": "Reconstructed offline with the evaluation request builder from the matching dataset record; audio placeholders replace Base64 payloads. Not a saved HTTP wire log.",
+    "response_origin": "Saved successful inference record for this case ID; only answer text is included, not reasoning metadata.",
+    "run_configuration_date": "2026-09-21"
+  }
+}

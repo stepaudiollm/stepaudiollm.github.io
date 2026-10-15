@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "benchmark": "step_caption",
+  "case_id": "test_0005",
+  "mode": "single_turn",
+  "audio_preparation": "decoded_wav_preserve_rate_channels_29.9s",
+  "source_audio": [
+    {
+      "file_name": "test_0005.mp3"
+    }
+  ],
+  "question": "",
+  "choices": [],
+  "turns": [],
+  "audio": [
+    {
+      "sample_rate_hz": 24000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 50401,
+      "duration_seconds": 2.100041666666667,
+      "file": "audio/turn01_chunk01.wav",
+      "sha256": "b484ede0ef9e0ea8a4f2cf6b204c5a8152b2f1382097ddae0041db1204fb9d95",
+      "bytes": 100846,
+      "turn": 1,
+      "chunk": 1
+    }
+  ],
+  "request_files": [
+    "request.json"
+  ],
+  "provenance": {
+    "prediction_model": "stepaudio-3-chat-preview",
+    "source_metadata_file": "r1_caption_labelled.jsonl",
+    "source_record_fields": [
+      "test_id",
+      "response_content",
+      "audio",
+      "is_multi_speakers",
+      "speakers"
+    ],
+    "request_origin": "Reconstructed offline with the evaluation request builder from the matching dataset record; audio placeholders replace Base64 payloads. Not a saved HTTP wire log.",
+    "response_origin": "Saved successful inference record for this case ID; only answer text is included, not reasoning metadata.",
+    "run_configuration_date": "2026-09-21"
+  }
+}

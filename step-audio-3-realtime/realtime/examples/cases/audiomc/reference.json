@@ -1,0 +1,4 @@
+{
+  "rubric": "[\n  \"Uses exactly ten words. \",\n  \"Excludes the word \\\"cheap\\\". \"\n]",
+  "axis": "INSTRUCTION_RETENTION"
+}

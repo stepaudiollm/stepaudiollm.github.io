@@ -31,6 +31,18 @@ bash examples/chat_explicit_empty_system.sh ./audio.wav
 
 Both examples use `temperature=0.7` and `max_tokens=32000`. Audio is sent as an `input_audio` content block with base64-encoded data. The scripts do not contain credentials.
 
+## Benchmark Inference Examples
+
+The [benchmark examples](./examples/README.md) provide one actual case for each of eight audio-understanding benchmarks, including prepared audio blocks, the full request structure, saved answer text, and an executable API runner. They distinguish Audio Multi-Challenge’s fixed-history/final-turn generation from MTalk-Bench’s sequential generation with text history.
+
+```bash
+# Inspect a benchmark-specific request without calling the API.
+python3 examples/run_benchmark.py mmsu
+
+# Run a complete multi-turn case with your own API key.
+python3 examples/run_benchmark.py mtalk_bench --run --output-dir ./outputs/mtalk_bench
+```
+
 ## Model
 
 ### Deep Perception
@@ -95,6 +107,8 @@ The benchmark-specific request construction and evaluation methods are documente
 
 ## Files
 
+- [`examples/README.md`](./examples/README.md): eight benchmark-specific case examples and request construction.
+- [`examples/run_benchmark.py`](./examples/run_benchmark.py): inspect requests or run bundled cases with the public API.
 - [`examples/chat_no_system.sh`](./examples/chat_no_system.sh): request without a system message.
 - [`examples/chat_explicit_empty_system.sh`](./examples/chat_explicit_empty_system.sh): request with an explicitly empty system message.
 - [`configs/`](./configs/): equivalent YAML request settings.

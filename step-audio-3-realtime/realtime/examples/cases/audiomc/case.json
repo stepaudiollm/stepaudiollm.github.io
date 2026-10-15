@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "benchmark": "audiomc",
+  "case_id": "aptei3ykho74yxb5",
+  "mode": "audiomc_final_turn",
+  "audio_preparation": "mono_pcm16_16000hz_29.9s",
+  "source_audio": [
+    {
+      "container": "test-00000-of-00001.parquet",
+      "row_id": "aptei3ykho74yxb5",
+      "field": "user_turn_1_audio"
+    },
+    {
+      "container": "test-00000-of-00001.parquet",
+      "row_id": "aptei3ykho74yxb5",
+      "field": "user_turn_2_audio"
+    },
+    {
+      "container": "test-00000-of-00001.parquet",
+      "row_id": "aptei3ykho74yxb5",
+      "field": "user_turn_3_audio"
+    }
+  ],
+  "question": null,
+  "choices": [],
+  "turns": [
+    {
+      "turn": 1,
+      "user_transcription": "OK, I am going to be a tourist shopping for um places to visit in Italy. You, um, cannot say the word cheap. And all your answers must be exactly 10 words. OK, first question is, what are ballpark figure, ballpark figure, the rates to get a flight from New York to Rome, Italy.",
+      "assistant_history": "Round-trip flights to Rome often range around eight hundred dollars.",
+      "audio_files": [
+        "audio/turn01_chunk01.wav",
+        "audio/turn01_chunk02.wav"
+      ]
+    },
+    {
+      "turn": 2,
+      "user_transcription": "OK, and I just wanna confirm because I'm an ignorant American. The, the Colosseum, right? That's in Rome, right? I'm, I'm assuming I'm going to the right place. I wanna visit the Colosseum over there.",
+      "assistant_history": "Yes, the iconic Colosseum is located right in Rome, Italy.",
+      "audio_files": [
+        "audio/turn02_chunk01.wav"
+      ]
+    },
+    {
+      "turn": 3,
+      "user_transcription": "OK, and there is um. Is there other ancient Roman Empire buildings or ancient places I could see. I just love like the ancient world. So I'm just wondering, other than the, excuse me, other than the Colosseum that is.",
+      "assistant_history": null,
+      "audio_files": [
+        "audio/turn03_chunk01.wav"
+      ]
+    }
+  ],
+  "audio": [
+    {
+      "sample_rate_hz": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 478400,
+      "duration_seconds": 29.9,
+      "file": "audio/turn01_chunk01.wav",
+      "sha256": "1cb43ade3a85c4003bd924b55106e8192c744004e852ee6c6c7716e0ae61da5f",
+      "bytes": 956844,
+      "turn": 1,
+      "chunk": 1
+    },
+    {
+      "sample_rate_hz": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 37008,
+      "duration_seconds": 2.313,
+      "file": "audio/turn01_chunk02.wav",
+      "sha256": "41dc227fc524694c72cffa06687e270658b2f08b3809df43fa735344b0a8ca9c",
+      "bytes": 74060,
+      "turn": 1,
+      "chunk": 2
+    },
+    {
+      "sample_rate_hz": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 232106,
+      "duration_seconds": 14.506625,
+      "file": "audio/turn02_chunk01.wav",
+      "sha256": "850018d840585444f6910a785cdaa6e560f6a5357f5a36d76eb7a64921ad6156",
+      "bytes": 464256,
+      "turn": 2,
+      "chunk": 1
+    },
+    {
+      "sample_rate_hz": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 314026,
+      "duration_seconds": 19.626625,
+      "file": "audio/turn03_chunk01.wav",
+      "sha256": "b05e9004f13d60dfb56688c581164aee2a35d1fa991d390abd0b43df9aad0f87",
+      "bytes": 628096,
+      "turn": 3,
+      "chunk": 1
+    }
+  ],
+  "request_files": [
+    "request.json"
+  ],
+  "provenance": {
+    "prediction_model": "stepaudio-3-chat-preview",
+    "source_metadata_file": "test-00000-of-00001.parquet",
+    "source_record_fields": [
+      "id",
+      "axis",
+      "user_turn_1_audio",
+      "user_turn_1_transcript",
+      "assistant_turn_1_transcript",
+      "user_turn_2_audio",
+      "user_turn_2_transcript",
+      "assistant_turn_2_transcript",
+      "user_turn_3_audio",
+      "user_turn_3_transcript",
+      "assistant_turn_3_transcript",
+      "user_turn_4_audio",
+      "user_turn_4_transcript",
+      "assistant_turn_4_transcript",
+      "user_turn_5_audio",
+      "user_turn_5_transcript",
+      "assistant_turn_5_transcript",
+      "user_turn_6_audio",
+      "user_turn_6_transcript",
+      "assistant_turn_6_transcript",
+      "user_turn_7_audio",
+      "user_turn_7_transcript",
+      "assistant_turn_7_transcript",
+      "user_turn_8_audio",
+      "user_turn_8_transcript",
+      "rubric"
+    ],
+    "request_origin": "Reconstructed offline with the evaluation request builder from the matching dataset record; audio placeholders replace Base64 payloads. Not a saved HTTP wire log.",
+    "response_origin": "Saved successful inference record for this case ID; only answer text is included, not reasoning metadata.",
+    "run_configuration_date": "2026-09-21"
+  }
+}

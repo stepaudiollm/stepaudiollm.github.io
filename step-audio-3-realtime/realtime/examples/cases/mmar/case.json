@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "benchmark": "mmar",
+  "case_id": "UgPbbpEQ1B0_00-00-00_00-00-13",
+  "mode": "single_turn",
+  "audio_preparation": "decoded_wav_preserve_rate_channels_29.9s",
+  "source_audio": [
+    {
+      "file_name": "UgPbbpEQ1B0_00-00-00_00-00-13.wav"
+    }
+  ],
+  "question": "What would the female anchor do if there was no sudden scream",
+  "choices": [
+    "The female anchor would immediately end the report",
+    "The female anchor would continue with the live report",
+    "The female anchor would begin discussing the cause of the scream",
+    "The female anchor would switch to an advertisement break"
+  ],
+  "turns": [],
+  "audio": [
+    {
+      "sample_rate_hz": 48000,
+      "channels": 2,
+      "sample_width_bytes": 2,
+      "frames": 624000,
+      "duration_seconds": 13.0,
+      "file": "audio/turn01_chunk01.wav",
+      "sha256": "5975986501b7b614ac9e6f8afd69f83a82d187d7f0d07e1ac824a8ad22e6fe6d",
+      "bytes": 2496044,
+      "turn": 1,
+      "chunk": 1
+    }
+  ],
+  "request_files": [
+    "request.json"
+  ],
+  "provenance": {
+    "prediction_model": "stepaudio-3-chat-preview",
+    "source_metadata_file": "MMAR-meta.jsonl",
+    "source_record_fields": [
+      "id",
+      "source_wav",
+      "text_question",
+      "choices",
+      "target_text"
+    ],
+    "request_origin": "Reconstructed offline with the evaluation request builder from the matching dataset record; audio placeholders replace Base64 payloads. Not a saved HTTP wire log.",
+    "response_origin": "Saved successful inference record for this case ID; only answer text is included, not reasoning metadata.",
+    "run_configuration_date": "2026-09-21"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "reference_answer": "",
+  "user_query": "Please tell me what the following two sentences mean: 'The beer, barrels, and the wine glasses were gone.'/'The beer barrels and the wine glasses were gone.'",
+  "checklist": "- First sentence: Three items are missing: The beer, barrels, and the wine glasses; Second sentence: Two items are missing: The beer barrels and the wine glasses.\n- Note that the AI ​​response needs to recognize that the first sentence mentions three items and the second sentence mentions two items. This is the core of sentence understanding. If the understanding is wrong, the response is of no value."
+}

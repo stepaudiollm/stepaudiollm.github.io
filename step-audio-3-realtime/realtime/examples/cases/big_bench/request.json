@@ -1,0 +1,23 @@
+{
+  "model": "stepaudio-3-chat-preview",
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_audio",
+          "input_audio": {
+            "data": "${audio:audio/turn01_chunk01.wav}",
+            "format": "wav"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Answer the question above using only \"valid\" or \"invalid\", \"yes\" or \"no\", or a number. Do not add any other description."
+        }
+      ]
+    }
+  ],
+  "max_tokens": 32000,
+  "temperature": 0.7
+}

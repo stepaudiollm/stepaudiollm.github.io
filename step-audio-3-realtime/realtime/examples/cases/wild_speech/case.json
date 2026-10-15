@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "benchmark": "wild_speech",
+  "case_id": "ea2e3f2de374689fb10c26d67076b0b4",
+  "mode": "single_turn",
+  "audio_preparation": "decoded_wav_preserve_rate_channels_29.9s",
+  "source_audio": [
+    {
+      "file_name": "audio_00008.wav"
+    }
+  ],
+  "question": "Please tell me what the following two sentences mean: 'The beer, barrels, and the wine glasses were gone.'/'The beer barrels and the wine glasses were gone.'",
+  "choices": [],
+  "turns": [],
+  "audio": [
+    {
+      "sample_rate_hz": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 191808,
+      "duration_seconds": 11.988,
+      "file": "audio/turn01_chunk01.wav",
+      "sha256": "eb0bc08072c4c16e782719a4e5372aebfedaa5e7374b2b90035566dcf96f00ab",
+      "bytes": 383660,
+      "turn": 1,
+      "chunk": 1
+    }
+  ],
+  "request_files": [
+    "request.json"
+  ],
+  "provenance": {
+    "prediction_model": "stepaudio-3-chat-preview",
+    "source_metadata_file": "metadata.jsonl",
+    "source_record_fields": [
+      "index",
+      "audio_filename",
+      "user_query",
+      "taskType",
+      "checklist",
+      "conversation_hash",
+      "modification_type",
+      "additional_info"
+    ],
+    "request_origin": "Reconstructed offline with the evaluation request builder from the matching dataset record; audio placeholders replace Base64 payloads. Not a saved HTTP wire log.",
+    "response_origin": "Saved successful inference record for this case ID; only answer text is included, not reasoning metadata.",
+    "run_configuration_date": "2026-09-21"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "benchmark": "mmau",
+  "case_id": "ff7bff97-342e-4285-bbb9-15841364b072",
+  "mode": "single_turn",
+  "audio_preparation": "decoded_wav_preserve_rate_channels_29.9s",
+  "source_audio": [
+    {
+      "file_name": "ff7bff97-342e-4285-bbb9-15841364b072.wav"
+    }
+  ],
+  "question": "Based on the given audio, identify the source of the flowing water.",
+  "choices": [
+    "Bathtub",
+    "River",
+    "Fountain",
+    "Rain"
+  ],
+  "turns": [],
+  "audio": [
+    {
+      "sample_rate_hz": 32000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 320000,
+      "duration_seconds": 10.0,
+      "file": "audio/turn01_chunk01.wav",
+      "sha256": "324dc664633b7abc5f13bc54b18cca810e7f0b84c93061654784fe04042842a6",
+      "bytes": 640044,
+      "turn": 1,
+      "chunk": 1
+    }
+  ],
+  "request_files": [
+    "request.json"
+  ],
+  "provenance": {
+    "prediction_model": "stepaudio-3-chat-preview",
+    "source_metadata_file": "mmau-test-mini.json",
+    "source_record_fields": [
+      "id",
+      "audio_id",
+      "question",
+      "choices",
+      "answer",
+      "dataset",
+      "task",
+      "split",
+      "category",
+      "sub-category",
+      "difficulty"
+    ],
+    "request_origin": "Reconstructed offline with the evaluation request builder from the matching dataset record; audio placeholders replace Base64 payloads. Not a saved HTTP wire log.",
+    "response_origin": "Saved successful inference record for this case ID; only answer text is included, not reasoning metadata.",
+    "run_configuration_date": "2026-09-21"
+  }
+}

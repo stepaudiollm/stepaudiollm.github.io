@@ -1,0 +1,58 @@
+{
+  "model": "stepaudio-3-chat-preview",
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_audio",
+          "input_audio": {
+            "data": "${audio:audio/turn01_chunk01.wav}",
+            "format": "wav"
+          }
+        },
+        {
+          "type": "input_audio",
+          "input_audio": {
+            "data": "${audio:audio/turn01_chunk02.wav}",
+            "format": "wav"
+          }
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": "Round-trip flights to Rome often range around eight hundred dollars."
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_audio",
+          "input_audio": {
+            "data": "${audio:audio/turn02_chunk01.wav}",
+            "format": "wav"
+          }
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": "Yes, the iconic Colosseum is located right in Rome, Italy."
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_audio",
+          "input_audio": {
+            "data": "${audio:audio/turn03_chunk01.wav}",
+            "format": "wav"
+          }
+        }
+      ]
+    }
+  ],
+  "max_tokens": 32000,
+  "temperature": 0.7
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "benchmark": "mtalk_bench_s2t_para",
+  "case_id": "para_1-11",
+  "mode": "mtalk_sequential",
+  "audio_preparation": "original_wav_bytes",
+  "source_audio": [
+    {
+      "file_name": "para_1-11_turn1.wav"
+    },
+    {
+      "file_name": "para_1-11_turn2.wav"
+    }
+  ],
+  "question": "",
+  "choices": [],
+  "turns": [
+    {
+      "turn": 1,
+      "user_transcription": "The washing machine had problems again today. It got stuck when I started washing the sheets. (Angry emotion)",
+      "audio_files": [
+        "audio/turn01_chunk01.wav"
+      ]
+    },
+    {
+      "turn": 2,
+      "user_transcription": "It sounds like a good idea to try it out. It's also a good idea to find a maintenance worker. Hope it works. The market seems a bit turbulent recently. What do you think of index funds?",
+      "audio_files": [
+        "audio/turn02_chunk01.wav"
+      ]
+    }
+  ],
+  "audio": [
+    {
+      "sample_rate_hz": 24000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 175680,
+      "duration_seconds": 7.32,
+      "file": "audio/turn01_chunk01.wav",
+      "sha256": "3e16151a1ac67f6321e0ebd62ab3bc60a09315d767950ae8505a8845874c1772",
+      "bytes": 351438,
+      "turn": 1,
+      "chunk": 1
+    },
+    {
+      "sample_rate_hz": 24000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 319680,
+      "duration_seconds": 13.32,
+      "file": "audio/turn02_chunk01.wav",
+      "sha256": "2c22c3614c4e1cadd401b00f6b64d767160327a54694d4d9de2501b8699db32a",
+      "bytes": 639438,
+      "turn": 2,
+      "chunk": 1
+    }
+  ],
+  "request_files": [
+    "request_turn01.json",
+    "request_turn02.json"
+  ],
+  "provenance": {
+    "prediction_model": "stepaudio-3-chat-preview",
+    "source_metadata_file": "mtalk_s2t_para.jsonl",
+    "source_record_fields": [
+      "id",
+      "type",
+      "number",
+      "turns",
+      "rubric_prompt_general",
+      "rubric_prompt_specific"
+    ],
+    "request_origin": "Reconstructed offline with the evaluation request builder from the matching dataset record; audio placeholders replace Base64 payloads. Not a saved HTTP wire log.",
+    "response_origin": "Saved successful inference record for this case ID; only answer text is included, not reasoning metadata.",
+    "run_configuration_date": "2026-09-22"
+  }
+}

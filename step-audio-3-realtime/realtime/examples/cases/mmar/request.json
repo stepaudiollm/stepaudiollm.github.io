@@ -1,0 +1,23 @@
+{
+  "model": "stepaudio-3-chat-preview",
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "\nWhat would the female anchor do if there was no sudden scream\nPlease choose the answer from the following options, do not provide any additional explanations or content: \nA. The female anchor would immediately end the report\nB. The female anchor would continue with the live report\nC. The female anchor would begin discussing the cause of the scream\nD. The female anchor would switch to an advertisement break\n"
+        },
+        {
+          "type": "input_audio",
+          "input_audio": {
+            "data": "${audio:audio/turn01_chunk01.wav}",
+            "format": "wav"
+          }
+        }
+      ]
+    }
+  ],
+  "max_tokens": 32000,
+  "temperature": 0.7
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "benchmark": "big_bench",
+  "case_id": "1",
+  "mode": "single_turn",
+  "audio_preparation": "decoded_wav_preserve_rate_channels_29.9s",
+  "source_audio": [
+    {
+      "file_name": "question_1.mp3"
+    }
+  ],
+  "question": null,
+  "choices": [],
+  "turns": [],
+  "audio": [
+    {
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 502188,
+      "duration_seconds": 22.77496598639456,
+      "file": "audio/turn01_chunk01.wav",
+      "sha256": "a9fd2aaadc6e072e59d686c6afe196268faabb3f4fbfa64c97425b9c1e707e2c",
+      "bytes": 1004420,
+      "turn": 1,
+      "chunk": 1
+    }
+  ],
+  "request_files": [
+    "request.json"
+  ],
+  "provenance": {
+    "prediction_model": "stepaudio-3-chat-preview",
+    "source_metadata_file": "metadata.jsonl",
+    "source_record_fields": [
+      "category",
+      "official_answer",
+      "file_name",
+      "id"
+    ],
+    "request_origin": "Reconstructed offline with the evaluation request builder from the matching dataset record; audio placeholders replace Base64 payloads. Not a saved HTTP wire log.",
+    "response_origin": "Saved successful inference record for this case ID; only answer text is included, not reasoning metadata.",
+    "run_configuration_date": "2026-09-21"
+  }
+}

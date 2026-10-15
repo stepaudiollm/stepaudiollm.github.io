@@ -1,0 +1,23 @@
+{
+  "model": "stepaudio-3-chat-preview",
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "\nWhich volume pattern best matches the audio?\nPlease choose the answer from the following options, do not provide any additional explanations or content: \nA. medium-low-high\nB. high-low-medium\nC. low-high-medium\nD. low-medium-high\n"
+        },
+        {
+          "type": "input_audio",
+          "input_audio": {
+            "data": "${audio:audio/turn01_chunk01.wav}",
+            "format": "wav"
+          }
+        }
+      ]
+    }
+  ],
+  "max_tokens": 32000,
+  "temperature": 0.7
+}

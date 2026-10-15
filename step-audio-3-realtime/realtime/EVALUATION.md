@@ -12,6 +12,8 @@ This document describes the public request configuration and scoring conventions
 | Max tokens | `32000` |
 | Main system-message setting | No system message |
 
+Concrete cases, prepared audio, complete request templates, and an executable runner are in [the benchmark inference examples](./examples/README.md).
+
 The equivalent request examples are:
 
 - [`configs/chat_no_system.yaml`](./configs/chat_no_system.yaml)
@@ -35,6 +37,8 @@ Audio is sent as a base64-encoded `input_audio` content block:
 
 The request client sends the base64 payload without a data-URL prefix and declares the audio format explicitly. Audio longer than 29.9 seconds is split into segments no longer than 29.9 seconds when required by the benchmark request format.
 
+The common file-based loader preserves the decoded sample rate and channels. Audio Multi-Challenge prepares each user turn as 16 kHz mono PCM WAV blocks. MTalk-Bench reads each current-turn WAV directly rather than applying the common splitter. The [examples guide](./examples/README.md#audio-preparation) records the preparation details.
+
 The content order follows each benchmark's task definition:
 
 | Benchmark | Request content |
@@ -44,7 +48,7 @@ The content order follows each benchmark's task definition:
 | Step-Caption | Audio followed by the description instruction |
 | WildSpeech-Bench | Audio; the spoken question is contained in the recording |
 | MTalk-Bench | Current-turn audio plus text history from previous turns |
-| Audio Multi-Challenge | Audio and text history for the multi-turn task |
+| Audio Multi-Challenge | All user audio turns interleaved with dataset-provided assistant history; generate only the last reply |
 
 ## Scoring
 
@@ -83,6 +87,10 @@ MTalk-Bench contains `semantic`, `paralinguistic`, and `ambient` subsets. This r
 - The text reply is judged against the official rubric.
 
 The primary score is the macro average of case-level pass rates: rubric items are averaged within each case, and cases are then averaged with equal weight.
+
+## Audio Multi-Challenge
+
+Each case supplies a conversation with recorded user audio and fixed assistant history. All user turns are passed as audio, interleaved with the dataset-provided earlier assistant replies. A single API request generates only the final assistant reply. The user transcripts and scoring rubric are not model inputs. This differs from MTalk-Bench, which generates each turn and reuses the model's own earlier replies.
 
 ## WildSpeech-Bench
 
